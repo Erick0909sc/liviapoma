@@ -87,9 +87,6 @@ export default [
         "discount": 0,
         "categoryId": 2
     },
-
-
-    ////////////////////
     {
         "code": "0102007",
         "name": "VARILLA CORRUGADA 1/4\" (6MM)",
@@ -189,8 +186,6 @@ export default [
         "discount": 0,
         "categoryId": 4
     },
-
-    //////////////////////////////////////
     {
         "code": "0104002",
         "name": "ALAMBRE NEGRO #16",
@@ -301,11 +296,6 @@ export default [
         "discount": 0,
         "categoryId": 5
     },
-
-
-    ///////////////////////////////////////////
-
-
     {
         "code": "0201010",
         "name": "CLAVO P/MADERA 7\"",
