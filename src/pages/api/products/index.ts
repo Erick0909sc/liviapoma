@@ -11,7 +11,7 @@ export default async function handler(
   switch (method) {
     case 'GET':
       try {
-        const { name } = req.query
+        const { name, category } = req.query
         if (name) {
           const products = await prisma.product.findMany({
             where: {
@@ -19,6 +19,21 @@ export default async function handler(
                 contains: name as string,
                 mode: 'insensitive',
               },
+            },
+            include: {
+              category: true,
+            }
+          })
+          return products.length ? res.status(200).json(products) : res.status(400).json({ message: 'products not found' })
+        }
+        if (category) {
+          const products = await prisma.product.findMany({
+            where: {
+              category: {
+                name: {
+                  contains: category as string,
+                },
+              }
             },
             include: {
               category: true,

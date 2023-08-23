@@ -29,7 +29,7 @@ export default async function handler(
           const products = await prisma.product.createMany({
             data: productsData
           })
-          res.status(200).json({ products, categories })
+          return res.status(200).json({ products, categories })
         }
         res.status(400).json({ message: 'The data already exists' })
       } catch (error) {
