@@ -1,59 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@/components/card";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  cleanUpProducts,
+  getAllProducts,
+  selectAllProducts,
+  selectAllProductsStatus,
+} from "@/states/products/productsSlice";
+import { EStateGeneric, IProduct } from "@/shared/types";
+import { useAppDispatch } from "@/states/store";
+import Paginate from "@/components/pagination";
 
-type Props = {};
 
 const Cards: React.FC = () => {
-  const products = [
-    {
-      name: "Martillo de Garra",
-      description:
-        "Martillo de garra resistente para trabajos de carpintería y construcción.dadasdasdasdadasdasdasdasdkñlasmdsnmaskdmasldaslkdas",
-      price: 15.99,
-      brand: "HerramientaMax",
-    },
-    {
-      name: "Destornillador Kit",
-      description:
-        "Juego de destornilladores con diversas puntas para todo tipo de tareas.",
-      price: 24.95,
-      brand: "ProTool",
-    },
-    {
-      name: "Sierra Circular",
-      description:
-        "Sierra circular potente para cortes precisos en madera y materiales similares.",
-      price: 89.99,
-      brand: "CutMaster",
-    },
-    {
-      name: "Cinta Métrica",
-      description:
-        "Cinta métrica de 5 metros con marcas claras para mediciones precisas.",
-      price: 9.49,
-      brand: "MeasurePro",
-    },
-    {
-      name: "Pistola de Calor",
-      description:
-        "Pistola de calor para trabajos de secado, remoción de pintura y moldeado.",
-      price: 32.75,
-      brand: "HeatMaster",
-    },
-  ];
+  const dispatch = useAppDispatch();
+  const productsStatus = useSelector(selectAllProductsStatus);
+  const products = useSelector(selectAllProducts);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (productsStatus === EStateGeneric.IDLE) {
+        await dispatch(getAllProducts());
+      }
+    };
+
+    fetchData();
+
+    // La función de retorno se ejecuta al desmontar el componente
+  });
+  
+
   return (
-    <div className="flex flex-col justify-center">
-      {products.map((product, index) => (
-        <Card
-          key={index}
-          title={product.name}
-          description={product.description}
-          price={product.price}
-          brand={product.brand}
-        />
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col justify-center">
+        {productsStatus === EStateGeneric.PENDING ? (
+          <p>Loading...</p>
+        ) : productsStatus === EStateGeneric.FAILED ? (
+          <p>Failed to load products</p>
+        ) : (
+          products.map((product:any, index) => (
+            <Card
+              key={index}
+              title={product.name}
+              description={product.description}
+              price={product.price}
+              brand={product.marca}
+              image={product.image}
+              category={product.category.name}
+            />
+          ))
+        )}
+      </div>
+      <Paginate items={products} itemsPerPage={5} />
+      
+    </>
   );
 };
 
 export default Cards;
+

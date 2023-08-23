@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type Props = {
@@ -5,23 +6,26 @@ type Props = {
   description: string;
   price: number;
   brand: string;
+  image: string;
+  category: string;
+  
 };
 
-const Card: React.FC<Props> = ({ title, description, price }) => {
+const Card: React.FC<Props> = ({ title, description, price, image,brand,category}) => {
   return (
-    <div className="relative h-80 mt-6 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
+    <div className="relative h-80 mt-8 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
       <div className="w-full md:w-1/3 bg-white grid place-items-center">
-        {/* <Image
-          src="https://images.pexels.com/photos/4381392/pexels-photo-4381392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        <Image
+          src={image}
           alt="tailwind logo"
           className="rounded-xl"
           width={500}
           height={500}
-        /> */}
+        />
       </div>
       <div className="w-full md:w-2/3 bg-white flex flex-col space-y-5 p-3">
         <div className="flex justify-between items-center">
-          <p className="text-gray-500 font-medium hidden md:block">CATEGORIA</p>
+          <p className="text-gray-500 font-medium hidden md:block">{category}</p>
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,14 +54,14 @@ const Card: React.FC<Props> = ({ title, description, price }) => {
             </svg>
           </div>
           <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-            Marca
+            {brand}
           </div>
         </div>
         <h3 className="font-black text-gray-800 md:text-3xl text-xl">
           {title}
         </h3>
         <p className="md:text-lg text-gray-500 text-base">{description}</p>
-        <p className="text-xl font-black text-gray-800">${price}</p>
+        <p className="text-xl font-black text-gray-800">S/.{price}</p>
       </div>
       <div className="flex flex-col justify-center">
         <button className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold">

@@ -4,6 +4,7 @@ import type { RootState } from '../store'
 import { EStateGeneric, IProduct } from '@/shared/types'
 import { getProductsByApi } from './productsApi';
 
+
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (_, { rejectWithValue }) => {
@@ -17,6 +18,7 @@ export const getAllProducts = createAsyncThunk(
 );
 
 interface IProductsState {
+  
   products: IProduct[]
   allProductsStatus: EStateGeneric
 }
