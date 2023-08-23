@@ -9,8 +9,7 @@ import {
 } from "@/states/products/productsSlice";
 import { EStateGeneric, IProduct } from "@/shared/types";
 import { useAppDispatch } from "@/states/store";
-import Paginate from "@/components/pagination";
-
+import Layout from "@/components/Layout/Layout";
 
 const Cards: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,34 +27,32 @@ const Cards: React.FC = () => {
 
     // La función de retorno se ejecuta al desmontar el componente
   });
-  
 
   return (
     <>
-      <div className="flex flex-col justify-center">
-        {productsStatus === EStateGeneric.PENDING ? (
-          <p>Loading...</p>
-        ) : productsStatus === EStateGeneric.FAILED ? (
-          <p>Failed to load products</p>
-        ) : (
-          products.map((product:any, index) => (
-            <Card
-              key={index}
-              title={product.name}
-              description={product.description}
-              price={product.price}
-              brand={product.marca}
-              image={product.image}
-              category={product.category.name}
-            />
-          ))
-        )}
-      </div>
-      <Paginate items={products} itemsPerPage={5} />
-      
+      <Layout>
+        <div className="flex flex-col justify-center">
+          {productsStatus === EStateGeneric.PENDING ? (
+            <p>Loading...</p>
+          ) : productsStatus === EStateGeneric.FAILED ? (
+            <p>Failed to load products</p>
+          ) : (
+            products.map((product: any, index) => (
+              <Card
+                key={index}
+                title={product.name}
+                description={product.description}
+                price={product.price}
+                brand={product.marca}
+                image={product.image}
+                category={product.category.name}
+              />
+            ))
+          )}
+        </div>
+      </Layout>
     </>
   );
 };
 
 export default Cards;
-
