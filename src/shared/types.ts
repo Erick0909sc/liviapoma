@@ -15,4 +15,11 @@ export interface IProduct {
   rating: number;
   discount: number;
   categoryId: number;
+  category: Category;
+
+}
+
+export interface Category {
+  id: number;
+  name: string;
 }
