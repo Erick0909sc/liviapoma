@@ -9,8 +9,8 @@ type Props = {}
 
 const Nadvar = (props: Props) => {
   return (
-    <nav className='CONTAINER  flex-wrap flex-col  h-16'>
-      <div className='bg-blue-950 flex text-white h-[100%] w-ful'>
+    <nav className=''>
+      <div className='bg-blue-950 flex text-white h-16 w-ful'>
         <div className='title flex items-center font-serif w-[32%] justify-start pl-4 text-[25px] font-bold'>
           <Link href={'#'}><h2 className='cursor-pointer'>Ferreteria Liviapoma</h2></Link>
         </div>
@@ -25,10 +25,6 @@ const Nadvar = (props: Props) => {
           <FaUserCircle />
         </div>
       </div>
-      <div>
-
-      </div>
-
       <div className='  h-10 w-full  flex justify-end '>
         <div className='bg-slate-300  w-[50%] flex    rounded-bl-[100px] text-[18px] items-center text-center font-semibold'>
 
@@ -50,7 +46,6 @@ const Nadvar = (props: Props) => {
 
         </div>
       </div>
-
     </nav>
   )
 }
