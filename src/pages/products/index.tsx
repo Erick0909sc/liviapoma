@@ -14,7 +14,7 @@ import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
 
-const Cards: React.FC = () => {
+const Products: React.FC = () => {
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts);
@@ -67,4 +67,4 @@ const Cards: React.FC = () => {
   );
 };
 
-export default Cards;
+export default Products;
