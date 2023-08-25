@@ -15,15 +15,18 @@ type Props = {
 const Card: React.FC<Props> = ({ title, description, price, image, brand, category }) => {
   return (
     <div className="relative h-80 mt-8 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
-      <div className="w-full md:w-1/3 bg-white grid place-items-center">
+      <div className="w-full md:w-1/3 bg-white grid place-items-center ">
         <Image
           src={image}
           alt="tailwind logo"
           className="rounded-xl"
           width={500}
-          height={500}
+          height={480}
+          
         />
       </div>
+  
+
       <div className="w-full md:w-2/3 bg-white flex flex-col space-y-5 p-3">
         <div className="flex justify-between items-center">
           <p className="text-gray-500 font-medium hidden md:block">{category}</p>
