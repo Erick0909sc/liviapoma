@@ -1,3 +1,4 @@
+import { formatPrice } from "@/shared/ultis";
 import Image from "next/image";
 import React from "react";
 
@@ -8,10 +9,10 @@ type Props = {
   brand: string;
   image: string;
   category: string;
-  
+
 };
 
-const Card: React.FC<Props> = ({ title, description, price, image,brand,category}) => {
+const Card: React.FC<Props> = ({ title, description, price, image, brand, category }) => {
   return (
     <div className="relative h-80 mt-8 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
       <div className="w-full md:w-1/3 bg-white grid place-items-center">
@@ -61,7 +62,7 @@ const Card: React.FC<Props> = ({ title, description, price, image,brand,category
           {title}
         </h3>
         <p className="md:text-lg text-gray-500 text-base">{description}</p>
-        <p className="text-xl font-black text-gray-800">S/.{price}</p>
+        <p className="text-xl font-black text-gray-800">{formatPrice(price)}</p>
       </div>
       <div className="flex flex-col justify-center">
         <button className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold">

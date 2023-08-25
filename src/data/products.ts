@@ -1,4 +1,4 @@
-export default [
+const productsData = [
     {
         "code": "0101001",
         "name": "CEMENTO PACAS ROJO EXTRAFORTE 42.5 KG",
@@ -386,3 +386,5 @@ export default [
     }
 
 ]
+
+export default productsData

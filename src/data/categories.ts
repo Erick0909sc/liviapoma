@@ -1,4 +1,4 @@
-export default [
+const categoriesData = [
     { "name": "Cementos" },
     { "name": "Varillas" },
     { "name": "Estribos" },
@@ -7,3 +7,5 @@ export default [
     { "name": "Eternits" },
     { "name": "Cumbreras" },
 ]
+
+export default categoriesData;
