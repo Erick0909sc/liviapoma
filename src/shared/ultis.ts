@@ -1,3 +1,4 @@
+import axios from "axios";
 export const itemsPerPage = 5;
 
 export const formatPrice = (price: number) => {
@@ -10,3 +11,13 @@ export const formatPrice = (price: number) => {
   //   currency: "USD", 
   // });
 }
+
+export const processImage = (
+  image: File
+) => {
+  const formData = new FormData();
+  formData.append("image", image);
+  return axios.post(`/api/picture`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
