@@ -36,7 +36,6 @@ export const getAllCategories = createAsyncThunk(
 
 
 interface IProductsState {
-
   products: IProduct[]
   topRatedProducts: IProduct[]
   categories: ICategory[]
@@ -47,9 +46,7 @@ interface IProductsState {
 const initialState: IProductsState = {
   products: [],
   categories: [],
-
   topRatedProducts: [],
-
   allProductsStatus: EStateGeneric.IDLE,
   allCategoryStatus: EStateGeneric.IDLE
 }
@@ -65,30 +62,19 @@ export const productsSlice = createSlice({
         allProductsStatus: EStateGeneric.IDLE,
       };
     },
-
-
-
-
     selectTopRatedProducts: (state) => {
       const topRatedProducts = [...state.products].sort((a, b) => b.rating - a.rating);
-      const orderbyratin= topRatedProducts.slice(0,5)
+      const orderbyratin = topRatedProducts.slice(0, 5)
       return {
         ...state,
         topRatedProducts: orderbyratin
       }
     }
-
-
-
   },
   extraReducers(builder) {
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       state.products = action.payload;
       state.allProductsStatus = EStateGeneric.SUCCEEDED;
-
-
-      // state.topRatedProducts = state.products.slice().sort((a, b) => b.rating - a.rating).slice(0, 6);
-
     });
     builder.addCase(getAllProducts.pending, (state, action) => {
       state.allProductsStatus = EStateGeneric.PENDING;
@@ -96,9 +82,6 @@ export const productsSlice = createSlice({
     builder.addCase(getAllProducts.rejected, (state, action) => {
       state.allProductsStatus = EStateGeneric.FAILED;
     });
-
-
-
 
     builder.addCase(getAllCategories.fulfilled, (state, action) => {
       state.categories = action.payload;
@@ -113,16 +96,13 @@ export const productsSlice = createSlice({
       state.allCategoryStatus = EStateGeneric.FAILED;
     });
 
-
-
-
   },
 
 
 })
 
 
-export const { cleanUpProducts,selectTopRatedProducts } = productsSlice.actions
+export const { cleanUpProducts, selectTopRatedProducts } = productsSlice.actions
 
 
 export const selectAllProducts = (state: RootState) => state.products.products
