@@ -14,12 +14,10 @@ import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
 
-
 const Cards: React.FC = () => {
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts);
-
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
@@ -39,9 +37,7 @@ const Cards: React.FC = () => {
     fetchData();
 
     // La función de retorno se ejecuta al desmontar el componente
-  });
-
-
+  },[]);
   return (
     <Layout>
       <>
@@ -65,11 +61,9 @@ const Cards: React.FC = () => {
           )}
         </div>
         <Paginate currentPage={currentPage} setCurrentPage={setCurrentPageRedux} items={products.length} itemsPerPage={itemsPerPage} />
-
       </>
     </Layout>
   );
 };
 
 export default Cards;
-
