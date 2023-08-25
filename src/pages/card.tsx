@@ -37,28 +37,29 @@ const Cards: React.FC = () => {
     fetchData();
 
     // La función de retorno se ejecuta al desmontar el componente
-  },[]);
+  }, []);
   return (
     <Layout>
       <>
         <div className="flex flex-col justify-center">
-          {productsStatus === EStateGeneric.PENDING ? (
-            <p>Loading...</p>
-          ) : productsStatus === EStateGeneric.FAILED ? (
-            <p>Failed to load products</p>
-          ) : (
-            items.map((product, index) => (
-              <Card
-                key={index}
-                title={product.name}
-                description={product.description}
-                price={product.price}
-                brand={product.marca}
-                image={product.image}
-                category={product.category.name}
-              />
-            ))
-          )}
+          {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
+          {productsStatus === EStateGeneric.FAILED && <p>Failed to load products</p>}
+          {productsStatus === EStateGeneric.SUCCEEDED &&
+            <div>
+              {
+                items.map((product, index) => (
+                  <Card
+                    key={index}
+                    title={product.name}
+                    description={product.description}
+                    price={product.price}
+                    brand={product.marca}
+                    image={product.image}
+                    category={product.category.name}
+                  />))
+              }
+            </div>
+          }
         </div>
         <Paginate currentPage={currentPage} setCurrentPage={setCurrentPageRedux} items={products.length} itemsPerPage={itemsPerPage} />
       </>
