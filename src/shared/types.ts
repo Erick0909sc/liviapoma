@@ -16,3 +16,9 @@ export interface IProduct {
   discount: number;
   categoryId: number;
 }
+
+export interface ICategory{
+  name: string;
+}
+
+
