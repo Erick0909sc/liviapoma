@@ -9,7 +9,7 @@ type Props = {}
 
 const Nadvar = (props: Props) => {
   return (
-    <nav className=''>
+    <nav >
       <div className='bg-blue-950 flex text-white h-16 w-ful'>
         <div className='title flex items-center font-serif w-[32%] justify-start pl-4 text-[25px] font-bold'>
           <Link href={'#'}><h2 className='cursor-pointer'>Ferreteria Liviapoma</h2></Link>
@@ -25,27 +25,27 @@ const Nadvar = (props: Props) => {
           <FaUserCircle />
         </div>
       </div>
-      <div className='  h-10 w-full  flex justify-end '>
-        <div className='bg-slate-300  w-[50%] flex    rounded-bl-[100px] text-[18px] items-center text-center font-semibold'>
-
+      <div className='  h-10 w-full  flex justify-end absolute z-10 '>
+        <div className='bg-slate-300 bg-opacity-70 w-[40%] flex    rounded-bl-[100px] text-[18px] items-center text-center font-semibold font-serif'>
           <div className='w-[22%] '>
             <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Inicio</h2></Link>
           </div>
 
           <div className='w-[22%]'>
-            <Link href={'#'}><h2>Productos</h2></Link>
+            <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Productos</h2></Link>
           </div>
 
           <div className='w-[22%]'>
-            <Link href={'#'}><h2>Carrito</h2></Link>
+            <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Carrito</h2></Link>
           </div>
 
           <div className='w-[22%]'>
-            <Link href={'#'}><h2>Contacto</h2></Link>
+            <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Contacto</h2></Link>
           </div>
 
         </div>
       </div>
+
     </nav>
   )
 }

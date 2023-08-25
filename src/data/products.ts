@@ -6,7 +6,7 @@ export default [
         "price": 30.40,
         "marca": "PACASMAYO",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
-        "rating": 0,
+        "rating": 5,
         "discount": 0,
         "categoryId": 1
     },
@@ -17,7 +17,7 @@ export default [
         "price": 33.70,
         "marca": "PACASMAYO",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/02.webp",
-        "rating": 0,
+        "rating": 3,
         "discount": 0,
         "categoryId": 1
     },
@@ -28,7 +28,7 @@ export default [
         "price": 38.00,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/03.webp",
-        "rating": 0,
+        "rating": 2,
         "discount": 0,
         "categoryId": 2
     },
@@ -39,7 +39,7 @@ export default [
         "price": 21.20,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
-        "rating": 0,
+        "rating": 4,
         "discount": 0,
         "categoryId": 2
     },
@@ -50,7 +50,7 @@ export default [
         "price": 34.00,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/05.webp",
-        "rating": 0,
+        "rating": 4.5,
         "discount": 0,
         "categoryId": 2
     },
@@ -61,7 +61,7 @@ export default [
         "price": 58.80,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/06.webp",
-        "rating": 0,
+        "rating": 3.5,
         "discount": 0,
         "categoryId": 2
     },
@@ -72,7 +72,7 @@ export default [
         "price": 87.00,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/07.webp",
-        "rating": 0,
+        "rating": 4,
         "discount": 0,
         "categoryId": 2
     },
@@ -83,7 +83,7 @@ export default [
         "price": 15.40,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/08.webp",
-        "rating": 0,
+        "rating": 1,
         "discount": 0,
         "categoryId": 2
     },
@@ -94,7 +94,7 @@ export default [
         "price": 8.60,
         "marca": "SIDERPERU",
         "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/09.webp",
-        "rating": 0,
+        "rating": 3,
         "discount": 0,
         "categoryId": 2
     },

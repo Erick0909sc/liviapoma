@@ -15,6 +15,7 @@ const Cards: React.FC = () => {
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts);
+  // console.log(products);
 
   useEffect(() => {
     const fetchData = async () => {
