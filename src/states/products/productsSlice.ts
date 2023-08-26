@@ -10,7 +10,6 @@ export const getAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getProductsByApi();
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -27,7 +26,6 @@ export const getAllCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getcategoriesByApi();
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
