@@ -25,9 +25,6 @@ export default function Home() {
   const dispatch = useAppDispatch()
 
   const topRatedProducts = useSelector(selectProductByrating);
-  console.log(topRatedProducts)
-
-
   const categoryStatus = useSelector(selectAllCategoriesStatus)
   const [slidesPerView, setSlidesPerView] = useState(1);
 
@@ -43,7 +40,7 @@ export default function Home() {
 
 
     fetchData();
-  }, []);
+  }, [dispatch, categoryStatus]);
 
   return (
     <Layout>
@@ -58,8 +55,8 @@ export default function Home() {
           ) : categoryStatus === EStateGeneric.FAILED ? (
             <p>Failed to load Categories</p>
           ) : (
-            categories.map((category: any, Index) => (
-              <Card key={Index} name={category.name} />
+            categories.map((category: any, index) => (
+              <Card key={index} name={category.name} />
             ))
           )}
         </div>
@@ -84,8 +81,8 @@ export default function Home() {
           >
 
             {topRatedProducts.map((product, index) => (
-              <SwiperSlide >
-                <CardRating key={index} name={product.name} image={product.image} rating={product.rating} description={product.description} />
+              <SwiperSlide key={index}>
+                <CardRating name={product.name} image={product.image} rating={product.rating} description={product.description} />
               </SwiperSlide>
             ))}
           </Swiper>

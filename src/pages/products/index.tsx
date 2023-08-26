@@ -37,7 +37,7 @@ const Products: React.FC = () => {
     fetchData();
 
     // La función de retorno se ejecuta al desmontar el componente
-  }, []);
+  }, [dispatch, productsStatus]);
   return (
     <Layout>
       <>

@@ -3,8 +3,11 @@ import Foto from "@/assets/pictures/profile.png"
 import Image from 'next/image';
 import { useAppDispatch } from '@/states/store';
 import { postUser } from '@/states/users/usersSlice';
+import { useSession, signIn, signOut } from "next-auth/react"
+
 type Props = {}
 const BasicForm = (props: Props) => {
+  const { data: session } = useSession()
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState({
@@ -37,10 +40,20 @@ const BasicForm = (props: Props) => {
 
   // Vista previa de la foto
   const photoPreview = formData.photo ? URL.createObjectURL(formData.photo) : Foto;
-
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    )
+  }
   return (
     <div>
       <h1>Formulario Básico</h1>
+
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Nombre:</label>
