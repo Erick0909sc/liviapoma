@@ -21,7 +21,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/register">
+                        <Link href="/login">
                             <a onClick={onClose}>Iniciar Sesión</a>
                         </Link>
                     </li>

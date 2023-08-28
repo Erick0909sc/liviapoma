@@ -45,7 +45,7 @@ const Nadvar = (props: Props) => {
           </div>
 
           <div className='w-[22%]'>
-            <Link href={'/card'}><h2 className='cursor-pointer hover:text-red-500'>Productos</h2></Link>
+            <Link href={'/products'}><h2 className='cursor-pointer hover:text-red-500'>Productos</h2></Link>
           </div>
 
           <div className='w-[22%]'>
