@@ -9,7 +9,10 @@ export default async function handler(
   switch (method) {
     case 'GET':
       try {
-        const cart = await prisma.cart.findMany({
+        const cart = await prisma.cart.findUnique({
+          where: {
+            userId: "cllwjus0k0000t3zkujmxt2uk"
+          },
           include: {
             products: {
               include: {
@@ -18,7 +21,7 @@ export default async function handler(
             },
           }
         })
-        cart.length ? res.status(200).json(cart) : res.status(400).json({ message: 'cart is empty' })
+        cart ? res.status(200).json(cart) : res.status(400).json({ message: 'cart is empty' })
       } catch (error) {
         res.status(500).json(error)
       }
