@@ -9,9 +9,13 @@ export default async function handler(
   switch (method) {
     case 'GET':
       try {
+        const { userId } = req.query;
+        if (!userId) {
+          return res.status(400).json({ message: 'userId is requerid' })
+        }
         const cart = await prisma.cart.findUnique({
           where: {
-            userId: "cllwjus0k0000t3zkujmxt2uk"
+            userId: userId as string // Se puede hacer con nexthuath sin necesidad de pedir user
           },
           include: {
             products: {
@@ -28,7 +32,7 @@ export default async function handler(
       break;
     case 'POST':
       try {
-        const { productCode, quantity, userId }: { productCode: string, quantity: number, userId: string } = req.body;
+        const { productCode, userId }: { productCode: string, userId: string } = req.body;
         const cart = await prisma.cart.upsert({
           where: {
             userId: userId,
@@ -44,7 +48,7 @@ export default async function handler(
           },
         });
         if (!product) {
-          res.status(400).json({ message: 'product not found' })
+          return res.status(400).json({ message: 'product not found' })
         }
         const cartItem = await prisma.cartItem.upsert({
           where: {
@@ -54,7 +58,7 @@ export default async function handler(
             },
           },
           update: {
-            quantity: { increment: quantity },
+            quantity: { increment: 1 },
           },
           create: {
             product: {
@@ -67,7 +71,7 @@ export default async function handler(
                 id: cart.id,
               },
             },
-            quantity: quantity,
+            quantity: 1,
           },
         });
         res.status(201).json(cartItem)
@@ -75,9 +79,69 @@ export default async function handler(
         res.status(500).json(error)
       }
       break;
+    case 'PATCH':
+      try {
+        const { productCode, quantity, userId }: { productCode: string, quantity: number, userId: string } = req.body;
+        const cart = await prisma.cart.findUnique({
+          where: {
+            userId: userId,
+          }
+        });
+        if (!cart) {
+          return res.status(400).json({ message: 'cart not found' })
+        }
+        const cartItem = await prisma.cartItem.findUnique({
+          where: {
+            productCode_cartId: {
+              cartId: cart.id,
+              productCode: productCode,
+            },
+          },
+        });
+        if (!cartItem) {
+          return res.status(400).json({ message: 'product not found in the cart' })
+        }
+        const updateCartItem = await prisma.cartItem.update({
+          where: {
+            id: cartItem.id
+          },
+          data: {
+            quantity: quantity,
+          }
+        });
+        res.status(201).json(updateCartItem)
+      } catch (error) {
+        res.status(500).json(error)
+      }
+      break;
     case 'DELETE':
       try {
-        res.status(404).json({ message: 'route in process' })
+        const { productCode, quantity, userId }: { productCode: string, quantity: number, userId: string } = req.body;
+        const cart = await prisma.cart.findUnique({
+          where: {
+            userId: userId,
+          }
+        });
+        if (!cart) {
+          return res.status(400).json({ message: 'cart not found' })
+        }
+        const cartItem = await prisma.cartItem.findUnique({
+          where: {
+            productCode_cartId: {
+              cartId: cart.id,
+              productCode: productCode,
+            },
+          },
+        });
+        if (!cartItem) {
+          return res.status(400).json({ message: 'product not found in the cart' })
+        }
+        const deleteCartItem = await prisma.cartItem.delete({
+          where: {
+            id: cartItem.id
+          },
+        });
+        res.status(201).json(deleteCartItem)
       } catch (error) {
         res.status(500).json(error)
       }
