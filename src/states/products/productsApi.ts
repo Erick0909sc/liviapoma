@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const getProductsByApi = () => axios.get(`/api/products`);
-export const getProductByApi = (code: string) => axios.get(`/api/products/${code}`);
-export const getcategoriesByApi = () => axios.get(`/api/categories`);
+export const getProductsByApi = () => axios.get(`/api/v1/products`);
+export const getProductByApi = (code: string) => axios.get(`/api/v1/products/${code}`);
+export const getcategoriesByApi = () => axios.get(`/api/v1/categories`);

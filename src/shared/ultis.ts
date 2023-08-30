@@ -17,7 +17,7 @@ export const processImage = (
 ) => {
   const formData = new FormData();
   formData.append("image", image);
-  return axios.post(`/api/picture`, formData, {
+  return axios.post(`/api/v1/picture`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
