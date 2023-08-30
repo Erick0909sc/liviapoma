@@ -5,13 +5,18 @@ import { FaSearch } from "react-icons/fa";
 import { BsFillBookmarkStarFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import UserModal from '@/components/Modals/users';
+import { signOut, useSession } from 'next-auth/react';
 
 
-type Props = {}
+type Props = {
+
+}
 
 const Nadvar = (props: Props) => {
 
   const [userModalOpen, setUserModalOpen] = useState(false);
+
+  const { data: session } = useSession();
 
   const toggleUserModal = () => {
     setUserModalOpen(!userModalOpen);
@@ -34,7 +39,9 @@ const Nadvar = (props: Props) => {
 
         <div className='w-[38%] flex justify-end items-center gap-7 pr-6 text-[35px]'>
           <button><BsFillBookmarkStarFill /></button>
-          <button onClick={toggleUserModal}><FaUserCircle /></button>
+          {session?.user?.image ? (
+           <button onClick={toggleUserModal}><img src={session.user.image} alt="User" className="w-[35px] h-[35px] rounded-full" /></button> 
+          ) : <button onClick={toggleUserModal}><FaUserCircle /></button>}
           <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
       </div>

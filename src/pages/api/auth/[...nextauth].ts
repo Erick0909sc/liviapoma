@@ -15,10 +15,12 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       async authorize(credentials, req): Promise<User> {
         const user = await prisma.user.findFirst({
+          
           where: {
             email: credentials?.email
           },
         });
+        console.log(user);
         if (!user) {
           throw new Error("No user was found with that email. please register");
         }
@@ -27,6 +29,7 @@ export const authOptions: NextAuthOptions = {
           credentials?.password ?? "",
           user.password ?? ""
         );
+        console.log(checkPassword);
 
         if (!checkPassword) {
           throw new Error("Username or password does not match");
@@ -56,6 +59,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+   
     async session({
       session,
       token,
