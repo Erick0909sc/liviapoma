@@ -60,7 +60,7 @@ const Index: React.FC = () => {
       };
 
       // dispatch message to other users
-      const resp = await fetch("/api/v1/chat", {
+      const resp = await fetch(`${BASE_URL}/api/v1/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const Index: React.FC = () => {
     // focus after click
     // inputRef?.current?.focus();
   };
-
+  console.log("BASE_URL", BASE_URL)
   return (
     <div>
       <div>
