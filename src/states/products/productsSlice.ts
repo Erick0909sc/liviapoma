@@ -62,7 +62,6 @@ const initialState: IProductsState = {
   oneProductStatus: EStateGeneric.IDLE,
   allCategoryStatus: EStateGeneric.IDLE
 }
-
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -72,6 +71,13 @@ export const productsSlice = createSlice({
         ...state,
         products: [],
         allProductsStatus: EStateGeneric.IDLE,
+      };
+    },
+    cleanUpProduct: (state) => {
+      return {
+        ...state,
+        product: {} as IProduct,
+        oneProductStatus: EStateGeneric.IDLE 
       };
     },
     selectTopRatedProducts: (state) => {
@@ -123,7 +129,7 @@ export const productsSlice = createSlice({
 })
 
 
-export const { cleanUpProducts, selectTopRatedProducts } = productsSlice.actions
+export const { cleanUpProducts, selectTopRatedProducts, cleanUpProduct } = productsSlice.actions
 
 
 export const selectAllProducts = (state: RootState) => state.products.products

@@ -13,6 +13,7 @@ import Paginate from "@/components/pagination";
 import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
+import Link from "next/link";
 
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,8 @@ const Products: React.FC = () => {
   const maxItems = currentPage * itemsPerPage;
   const items = products.slice(minItems, maxItems);
   const setCurrentPageRedux = (page: number) => {
-    dispatch(setCurrentPage(page))
-  }
+    dispatch(setCurrentPage(page));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,25 +44,38 @@ const Products: React.FC = () => {
       <>
         <div className="flex flex-col justify-center">
           {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
-          {productsStatus === EStateGeneric.FAILED && <p>Failed to load products</p>}
-          {productsStatus === EStateGeneric.SUCCEEDED &&
+          {productsStatus === EStateGeneric.FAILED && (
+            <p>Failed to load products</p>
+          )}
+          {productsStatus === EStateGeneric.SUCCEEDED && (
             <div>
-              {
-                items.map((product, index) => (
-                  <Card
-                    key={index}
-                    title={product.name}
-                    description={product.description}
-                    price={product.price}
-                    brand={product.marca}
-                    image={product.image}
-                    category={product.category.name}
-                  />))
-              }
+              {items.map((product, index) => (
+                <Link
+                  key={index}
+                  href={`/products/${product.code}`} 
+                >
+                  <a>
+                    <Card
+                      key={index}
+                      title={product.name}
+                      description={product.description}
+                      price={product.price}
+                      brand={product.marca}
+                      image={product.image}
+                      category={product.category.name}
+                    />
+                  </a>
+                </Link>
+              ))}
             </div>
-          }
+          )}
         </div>
-        <Paginate currentPage={currentPage} setCurrentPage={setCurrentPageRedux} items={products.length} itemsPerPage={itemsPerPage} />
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPageRedux}
+          items={products.length}
+          itemsPerPage={itemsPerPage}
+        />
       </>
     </Layout>
   );
