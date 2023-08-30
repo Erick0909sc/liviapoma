@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from "@/lib/prismadb";
+import { addItemToCart, getAllCartByUser } from '@/controllers/cartController';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,19 +14,12 @@ export default async function handler(
         if (!userId) {
           return res.status(400).json({ message: 'userId is requerid' })
         }
-        const cart = await prisma.cart.findUnique({
-          where: {
-            userId: userId as string // Se puede hacer con nexthuath sin necesidad de pedir user
-          },
-          include: {
-            products: {
-              include: {
-                product: true
-              }
-            },
-          }
-        })
-        cart ? res.status(200).json(cart) : res.status(400).json({ message: 'cart is empty' })
+        const result = await getAllCartByUser({ userId: userId as string })
+        if (result.success) {
+          return res.status(201).json(result.data);
+        } else {
+          return res.status(400).json({ message: result.error });
+        }
       } catch (error) {
         res.status(500).json(error)
       }
@@ -33,48 +27,12 @@ export default async function handler(
     case 'POST':
       try {
         const { productCode, userId }: { productCode: string, userId: string } = req.body;
-        const cart = await prisma.cart.upsert({
-          where: {
-            userId: userId,
-          },
-          update: {},
-          create: {
-            userId: userId,
-          },
-        });
-        const product = await prisma.product.findUnique({
-          where: {
-            code: productCode,
-          },
-        });
-        if (!product) {
-          return res.status(400).json({ message: 'product not found' })
+        const result = await addItemToCart({ productCode, userId })
+        if (result.success) {
+          return res.status(201).json(result.data);
+        } else {
+          return res.status(400).json({ message: result.error });
         }
-        const cartItem = await prisma.cartItem.upsert({
-          where: {
-            productCode_cartId: {
-              cartId: cart.id,
-              productCode: productCode,
-            },
-          },
-          update: {
-            quantity: { increment: 1 },
-          },
-          create: {
-            product: {
-              connect: {
-                code: productCode,
-              },
-            },
-            cart: {
-              connect: {
-                id: cart.id,
-              },
-            },
-            quantity: 1,
-          },
-        });
-        res.status(201).json(cartItem)
       } catch (error) {
         res.status(500).json(error)
       }

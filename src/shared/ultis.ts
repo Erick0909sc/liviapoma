@@ -1,4 +1,6 @@
 import axios from "axios";
+export const BASE_URL = process.env.NODE_ENV !== 'production' ? "http://localhost:3000" : "https://liviapoma.vercel.app"
+
 export const itemsPerPage = 5;
 
 export const formatPrice = (price: number) => {

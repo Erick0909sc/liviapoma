@@ -164,5 +164,4 @@ export const getServerSideProps = async (context: any) => {
   };
 };
 
-// Hola
 export default Login;
