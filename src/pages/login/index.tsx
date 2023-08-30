@@ -1,5 +1,5 @@
 import Google from "@/components/BTN/Google";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 // import { RiArrowLeftLine } from "react-icons/ri";
@@ -143,6 +143,25 @@ const Login = (props: Props) => {
       </section>
     </div>
   );
+};
+
+export const getServerSideProps = async (context: any) => {
+  const { callbackUrl } = context.query;
+  const referer = callbackUrl || "/";
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: referer,
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      session,
+    },
+  };
 };
 
 export default Login;
