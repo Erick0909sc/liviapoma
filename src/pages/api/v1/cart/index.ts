@@ -16,7 +16,7 @@ export default async function handler(
         }
         const result = await getAllCartByUser({ userId: userId as string })
         if (result.success) {
-          return res.status(201).json(result.data);
+          return res.status(200).json(result.data);
         } else {
           return res.status(400).json({ message: result.error });
         }
@@ -67,17 +67,17 @@ export default async function handler(
             quantity: quantity,
           }
         });
-        res.status(201).json(updateCartItem)
+        res.status(200).json(updateCartItem)
       } catch (error) {
         res.status(500).json(error)
       }
       break;
     case 'DELETE':
       try {
-        const { productCode, userId }: { productCode: string, quantity: number, userId: string } = req.body;
+        const { productCode, userId } = req.query;
         const cart = await prisma.cart.findUnique({
           where: {
-            userId: userId,
+            userId: userId as string,
           }
         });
         if (!cart) {
@@ -87,7 +87,7 @@ export default async function handler(
           where: {
             productCode_cartId: {
               cartId: cart.id,
-              productCode: productCode,
+              productCode: productCode as string,
             },
           },
         });
@@ -99,7 +99,7 @@ export default async function handler(
             id: cartItem.id
           },
         });
-        res.status(201).json(deleteCartItem)
+        res.status(200).json(deleteCartItem)
       } catch (error) {
         res.status(500).json(error)
       }

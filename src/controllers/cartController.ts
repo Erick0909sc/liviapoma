@@ -4,7 +4,7 @@ export const getAllCartByUser = async ({ userId }: { userId: string }) => {
   try {
     const cart = await prisma.cart.findUnique({
       where: {
-        userId: userId // Se puede hacer con nexthuath sin necesidad de pedir user
+        userId: userId
       },
       include: {
         products: {
@@ -14,10 +14,14 @@ export const getAllCartByUser = async ({ userId }: { userId: string }) => {
                 category: true
               }
             }
+          },
+          orderBy: {
+            createdAt: 'desc' // Ordenar en orden descendente basado en updatedAt
           }
         },
       }
-    })
+    });
+
     return cart ? {
       success: true,
       data: cart,

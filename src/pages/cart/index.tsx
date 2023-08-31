@@ -32,7 +32,7 @@ const Cart = (props: Props) => {
                 <h2 className="text-2xl font-bold p-4">Carrito de Compras</h2>
                 <hr />
                 <div className="flex-1 flex flex-col">
-                  {cart.products.map((product) => <Card {...product} />)}
+                  {cart.products.map((product) => <Card session={session} {...product} />)}
                 </div>
               </div>
               <div className="md:w-1/4 relative">
