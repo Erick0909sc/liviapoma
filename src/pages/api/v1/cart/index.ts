@@ -74,7 +74,7 @@ export default async function handler(
       break;
     case 'DELETE':
       try {
-        const { productCode, quantity, userId }: { productCode: string, quantity: number, userId: string } = req.body;
+        const { productCode, userId }: { productCode: string, quantity: number, userId: string } = req.body;
         const cart = await prisma.cart.findUnique({
           where: {
             userId: userId,

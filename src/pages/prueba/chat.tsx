@@ -22,7 +22,7 @@ const Index: React.FC = () => {
   const [chat, setChat] = useState<IMsg[]>([]);
   const [msg, setMsg] = useState<string>("");
 
-  useEffect((): any => {
+  useEffect(() => {
     // connect to socket server
     // const socket = SocketIOClient.connect(process.env.BASE_URL, {
     //   path: "/api/socketio",
@@ -44,12 +44,11 @@ const Index: React.FC = () => {
     });
 
     // socket disconnet onUnmount if exists
-    // return () => {
-    //   if (socket) {
-    //     socket.disconnect();
-    //   }
-    // };
-    if (socket) return () => socket.disconnect();
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, []);
 
   const sendMessage = async () => {
@@ -68,16 +67,9 @@ const Index: React.FC = () => {
         },
         body: JSON.stringify(message),
       });
-
-      // reset field if OK
       if (resp.ok) setMsg("");
     }
-
-    // focus after click
-    // inputRef?.current?.focus();
   };
-  console.log("BASE_URL", BASE_URL)
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV)
   return (
     <div>
       <div>

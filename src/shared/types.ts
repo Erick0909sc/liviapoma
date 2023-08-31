@@ -46,3 +46,19 @@ export interface ICategory {
 }
 
 
+export interface ICart {
+  id:        number;
+  userId:    string;
+  createdAt: Date;
+  updatedAt: Date;
+  products:  IProductCart[];
+}
+
+export interface IProductCart {
+  id:          number;
+  quantity:    number;
+  productCode: string;
+  cartId:      number;
+  product:     IProduct;
+}
+

@@ -1,68 +1,66 @@
+import Card from "@/components/Cart/Card";
 import Layout from "@/components/Layout/Layout";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { FormEvent, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { EStateGeneric } from "@/shared/types";
+import { selectAllCartStatus, selectAllCart, getCartUser } from "@/states/cart/cartSlice";
+import { useAppDispatch } from "@/states/store";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {}
 
-let socket: Socket;
 const Cart = (props: Props) => {
   const { data: session } = useSession()
-  const [carrito, setCarrito] = useState<any | null>(null);
-  const [input, setInput] = useState("");
+  const dispatch = useAppDispatch();
+  const cartStatus = useSelector(selectAllCartStatus);
+  const cart = useSelector(selectAllCart);
   useEffect(() => {
     (async () => {
-      try {
-        if (session) {
-          await fetch('/api/v1/socket/cart');
-          socket = io();
-          socket.on('connect', () => {
-            console.log('connected');
-          });
-          socket.on("update-cart", (cart: any) => {
-            setCarrito(cart);
-          });
-          socket.emit('cart-get');
-        }
-      } catch (error) {
-        console.error('Error during socket connection:', error);
+      if (cartStatus === EStateGeneric.IDLE) {
+        if (session) dispatch(getCartUser(session.user.id))
       }
     })();
-
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
   }, [session]);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // console.log(input)
-    socket.emit('add-to-cart', input)
-  }
   return (
     <Layout>
       {session &&
-        <div>
-          <h2>Carrito de Compras</h2>
-          <ul>
-            {carrito?.products.map((product: any) => (
-              <li key={product.id}>
-                {product.product.name} - Cantidad: {product.quantity} - {product.product.code}
-              </li>
-            ))}
-          </ul>
-          <form onSubmit={handleSubmit}>
-            <input
-              placeholder="Type something"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <button type="submit">Code</button>
-          </form>
+        <div className="p-10 max-w-screen-2xl">
+          {cartStatus === EStateGeneric.SUCCEEDED &&
+            <div className="flex gap-4">
+              <div className="flex-1 bg-white">
+                <h2 className="text-2xl font-bold p-4">Carrito de Compras</h2>
+                <hr />
+                <div className="flex-1 flex flex-col">
+                  {cart.products.map((product) => <Card {...product} />)}
+                </div>
+              </div>
+              <div className="md:w-1/4 relative">
+                <div className="flex flex-col gap-y-8 sticky top-12">
+                  <div className="bg-white p-6">
+                    <div className="grid grid-cols-1 gap-y-6">
+                      {/* <CartTotals cart={cart} /> */}
+                      <Link href="/checkout">
+                        <Link href="/checkout">Go to checkout</Link>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          {cartStatus === EStateGeneric.PENDING &&
+            <div>
+              ...PENDING
+            </div>
+          }
+          {cartStatus === EStateGeneric.FAILED &&
+            <div>
+              ...FAILED
+            </div>
+          }
         </div>
       }
-
       {!session &&
         <div>
           <h2>Carrito de Compras</h2>

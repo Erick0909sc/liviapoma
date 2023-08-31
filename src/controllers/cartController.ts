@@ -9,7 +9,11 @@ export const getAllCartByUser = async ({ userId }: { userId: string }) => {
       include: {
         products: {
           include: {
-            product: true
+            product: {
+              include: {
+                category: true
+              }
+            }
           }
         },
       }
