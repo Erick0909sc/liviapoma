@@ -104,7 +104,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    // signIn: "/login",
+    signIn: "/login",
     // signOut: '/auth/SignOut',
     error: "/wrong", // Error code passed in query string as ?error=
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)

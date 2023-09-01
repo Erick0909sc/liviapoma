@@ -88,6 +88,8 @@ CREATE TABLE "CartItem" (
     "quantity" INTEGER NOT NULL,
     "productCode" TEXT NOT NULL,
     "cartId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );

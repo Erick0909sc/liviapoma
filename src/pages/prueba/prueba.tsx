@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/shared/ultis';
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -8,7 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      await fetch('/api/v1/socket');
+      await fetch(`${BASE_URL}/api/v1/socket`);
       socket = io();
 
       socket.on('connect', () => {
@@ -25,6 +26,7 @@ const Home = () => {
     setInput(e.target.value);
     socket.emit('input-change', e.target.value);
   };
+  console.log(BASE_URL)
   return (
     <div>
       <input
