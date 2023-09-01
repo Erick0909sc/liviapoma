@@ -32,14 +32,13 @@ const Cart = (props: Props) => {
                 <h2 className="text-2xl font-bold p-4">Carrito de Compras</h2>
                 <hr />
                 <div className="flex-1 flex flex-col">
-                  {cart.products.map((product) => <Card session={session} {...product} />)}
+                  {cart.products.map((product, index) => <Card key={index} session={session} {...product} />)}
                 </div>
               </div>
               <div className="md:w-1/4 relative">
                 <div className="flex flex-col gap-y-8 sticky top-12">
                   <div className="bg-white p-6">
                     <div className="grid grid-cols-1 gap-y-6">
-                      {/* <CartTotals cart={cart} /> */}
                       <Link href="/checkout">
                         <Link href="/checkout">Go to checkout</Link>
                       </Link>
