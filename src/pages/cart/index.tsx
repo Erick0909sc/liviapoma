@@ -21,7 +21,7 @@ const Cart = (props: Props) => {
         if (session) dispatch(getCartUser(session.user.id))
       }
     })();
-  }, [session]);
+  }, [session, dispatch, cartStatus]);
   return (
     <Layout>
       {session &&
@@ -48,23 +48,15 @@ const Cart = (props: Props) => {
               </div>
             </div>
           }
-          {cartStatus === EStateGeneric.PENDING &&
-            <div>
-              ...PENDING
-            </div>
-          }
-          {cartStatus === EStateGeneric.FAILED &&
-            <div>
-              ...FAILED
-            </div>
-          }
         </div>
       }
       {!session &&
-        <div>
-          <h2>Carrito de Compras</h2>
-          Not signed in <br />
-          <button onClick={() => signIn()}>Sign in</button>
+        <div className="p-10 flex justify-center items-center max-w-screen-2xl">
+          <div className="">
+            <h2 className="text-2xl font-bold">Carrito de Compras</h2>
+            <p className="text-lg text-gray-600 mb-4">Inicia sesión para ver y completar tu carrito de compras.</p>
+            <button className="bg-blue-950 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded shadow" onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
         </div>
       }
     </Layout>

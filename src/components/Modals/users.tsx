@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 interface UserModalProps {
     isOpen: boolean;
@@ -17,7 +17,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
 
     const renderUserName = () => {
         if (session?.user) {
-            const names = session.user.name.split(' '); 
+            const names = session.user.name.split(' ');
             if (names.length >= 2) {
                 return `Welcome, ${names[0]} ${names[1]}`;
             } else {
@@ -56,11 +56,12 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                         </Link>
                     </li>
                     <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                        <Link href="/login">
-                            <a onClick={onClose}>Iniciar Sesión</a>
-                        </Link>
+                        <button onClick={() => {
+                            onClose()
+                            signIn()
+                        }}>Iniciar Sesión</button>
                     </li>
-                </ul>
+                </ul >
             );
         }
     };
