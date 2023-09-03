@@ -1,8 +1,13 @@
 import { formatPrice } from "@/shared/ultis";
+import { addOneProductToCart } from "@/states/cart/cartApi";
+import { Session } from "next-auth";
 import Image from "next/image";
-import React from "react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 type Props = {
+  session: Session | null
+  code: string;
   title: string;
   description: string;
   price: number;
@@ -12,7 +17,32 @@ type Props = {
 
 };
 
-const Card: React.FC<Props> = ({ title, description, price, image, brand, category }) => {
+const Card: React.FC<Props> = ({ session, code, title, description, price, image, brand, category }) => {
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
+  const hanldeItemCart = async () => {
+    if (isProcessing) {
+      return;
+    }
+    setIsProcessing(true);
+    try {
+      if (!session) {
+        return toast.error("Necesita estar logeado");
+      }
+      const response = await addOneProductToCart({
+        userId: session.user.id,
+        productCode: code,
+      });
+      if (response.status === 201) {
+        toast.error("Item agreado al carro correctamente");
+      }
+    } catch (error) {
+      toast.error("Ocurrio un error, intente nuevamente.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="relative h-80 mt-8 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
       <div className="w-full md:w-1/3 bg-white grid place-items-center ">
@@ -22,10 +52,10 @@ const Card: React.FC<Props> = ({ title, description, price, image, brand, catego
           className="rounded-xl"
           width={500}
           height={480}
-          
+
         />
       </div>
-  
+
 
       <div className="w-full md:w-2/3 bg-white flex flex-col space-y-5 p-3">
         <div className="flex justify-between items-center">
@@ -68,7 +98,8 @@ const Card: React.FC<Props> = ({ title, description, price, image, brand, catego
         <p className="text-xl font-black text-gray-800">{formatPrice(price)}</p>
       </div>
       <div className="flex flex-col justify-center">
-        <button className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold">
+        <button type="button" className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
+          onClick={hanldeItemCart}>
           <i className="mdi mdi-cart -ml-2 mr-2"></i> BUY NOW
         </button>
       </div>

@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Foto from "@/assets/pictures/avatar.webp";
@@ -79,7 +79,6 @@ const Register = (props: Props) => {
 
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
       <section className="bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
         <div className="flex justify-center min-h-screen">
           <div
