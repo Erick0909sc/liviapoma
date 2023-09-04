@@ -10,6 +10,7 @@ import Image from 'next/image'
 import img from 'public/portada02.jpg'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useSession } from "next-auth/react";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -22,6 +23,7 @@ import { Pagination, Autoplay } from 'swiper/modules';
 
 
 export default function Home() {
+  const { data: session } = useSession()
   const dispatch = useAppDispatch()
 
   const topRatedProducts = useSelector(selectProductByrating);
@@ -40,7 +42,7 @@ export default function Home() {
 
 
     fetchData();
-  }, [dispatch, categoryStatus]);
+  }, [dispatch, categoryStatus, session]);
 
   return (
     <Layout>
@@ -55,7 +57,7 @@ export default function Home() {
           ) : categoryStatus === EStateGeneric.FAILED ? (
             <p>Failed to load Categories</p>
           ) : (
-            categories.map((category: any, index) => (
+            categories.map((category, index) => (
               <Card key={index} name={category.name} />
             ))
           )}
@@ -82,7 +84,7 @@ export default function Home() {
 
             {topRatedProducts.map((product, index) => (
               <SwiperSlide key={index}>
-                <CardRating name={product.name} image={product.image} rating={product.rating} description={product.description} />
+                <CardRating session={session} code={product.code} name={product.name} image={product.image} rating={product.rating} description={product.description} />
               </SwiperSlide>
             ))}
           </Swiper>

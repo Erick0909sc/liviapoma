@@ -52,24 +52,17 @@ const Products: React.FC = () => {
           {productsStatus === EStateGeneric.SUCCEEDED && (
             <div>
               {items.map((product, index) => (
-                <Link
+                <Card
                   key={index}
-                  href={`/products/${product.code}`}
-                >
-                  <a>
-                    <Card
-                      key={index}
-                      session={session}
-                      code={product.code}
-                      title={product.name}
-                      description={product.description}
-                      price={product.price}
-                      brand={product.marca}
-                      image={product.image}
-                      category={product.category.name}
-                    />
-                  </a>
-                </Link>
+                  session={session}
+                  code={product.code}
+                  title={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.marca}
+                  image={product.image}
+                  category={product.category.name}
+                />
               ))}
             </div>
           )}

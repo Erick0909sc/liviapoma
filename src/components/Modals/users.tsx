@@ -9,7 +9,7 @@ interface UserModalProps {
 }
 
 const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const handleLogout = async () => {
         await signOut();
@@ -19,9 +19,9 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
         if (session?.user) {
             const names = session.user.name.split(' ');
             if (names.length >= 2) {
-                return `Welcome, ${names[0]} ${names[1]}`;
+                return `${names[0]} ${names[1]}`;
             } else {
-                return `Welcome, ${session.user.name}`;
+                return `${session.user.name}`;
             }
         } else {
             return null;
@@ -34,12 +34,12 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                 <>
                     <h2 className="text-lg font-bold mb-2">{renderUserName()}</h2>
                     <ul className="space-y-3 text-center font-semibold">
-                        <li className='hover:bg-blue-950 p-2 hover:text-white'>
+                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                             <Link href="#">
                                 <a onClick={onClose}>Perfil de Usuario</a>
                             </Link>
                         </li>
-                        <li className='hover:bg-blue-950 p-2  hover:text-white'>
+                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                             <Link href="/">
                                 <a onClick={handleLogout}>Cerrar Sesión</a>
                             </Link>

@@ -4,9 +4,10 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import LoaderBtn from "./Cart/LoaderBtn";
 
 type Props = {
-  session: Session | null
+  session: Session | null;
   code: string;
   title: string;
   description: string;
@@ -27,21 +28,22 @@ const Card: React.FC<Props> = ({ session, code, title, description, price, image
     setIsProcessing(true);
     try {
       if (!session) {
-        return toast.error("Necesita estar logeado");
+        return toast.error("Por favor, inicie sesión para continuar.");
       }
       const response = await addOneProductToCart({
         userId: session.user.id,
         productCode: code,
       });
       if (response.status === 201) {
-        toast.error("Item agreado al carro correctamente");
+        toast.success("El artículo se ha añadido al carro con éxito.");
       }
     } catch (error) {
-      toast.error("Ocurrio un error, intente nuevamente.");
+      toast.error("Ocurrió un error, por favor intente nuevamente.");
     } finally {
       setIsProcessing(false);
     }
   };
+
 
   return (
     <div className="relative h-80 mt-8 flex flex-col md:flex-row md:space-x-70 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
@@ -98,9 +100,9 @@ const Card: React.FC<Props> = ({ session, code, title, description, price, image
         <p className="text-xl font-black text-gray-800">{formatPrice(price)}</p>
       </div>
       <div className="flex flex-col justify-center">
-        <button type="button" className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
+        <button type="button" className="w-32 bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
           onClick={hanldeItemCart}>
-          <i className="mdi mdi-cart -ml-2 mr-2"></i> BUY NOW
+          {isProcessing ? <LoaderBtn /> : "Comprar"}
         </button>
       </div>
     </div>
