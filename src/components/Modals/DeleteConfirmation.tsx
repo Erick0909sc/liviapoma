@@ -34,6 +34,7 @@ const DeleteConfirmation = ({
                 setIsIn(false);
                 setTimeout(() => {
                   onConfirm()
+                  onCancel()
                 }, 500);
               }}
             >

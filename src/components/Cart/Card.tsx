@@ -5,7 +5,7 @@ import { getCartUser } from "@/states/cart/cartSlice"
 import { useAppDispatch } from "@/states/store"
 import { Session } from "next-auth"
 import Image from "next/image"
-import { FocusEvent, useState } from "react"
+import { useEffect, useState } from "react"
 import { BsFillTrash3Fill } from "react-icons/bs"
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import LoaderBtn from "./LoaderBtn"
@@ -67,6 +67,7 @@ const Card = ({ session, ...props }: Props) => {
         userId: session.user.id,
         productCode: props.product.code,
       });
+      console.log(response)
       if (response.status === 200) { dispatch(getCartUser(session.user.id)) }
     } catch (error) {
       toast.error("Ocurrió un error, por favor intente nuevamente.");
@@ -74,6 +75,11 @@ const Card = ({ session, ...props }: Props) => {
       setIsProcessing(false);
     }
   };
+
+  useEffect(() => {
+    setInput(props.quantity)
+  }, [props.quantity])
+
   return (
     <div className="flex p-2 md:p-4 gap-4 bg-white">
       <div className="relative w-[150px] aspect-square">
