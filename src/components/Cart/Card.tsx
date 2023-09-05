@@ -101,7 +101,7 @@ const Card = ({ session, ...props }: Props) => {
           >
             <AiOutlineMinus className="text-2xl" />
           </button>
-          {isProcessing ? <div className="bg-black/20 p-2"><LoaderBtn /></div> :
+          {isProcessing ? <div className="bg-black/20 flex justify-center p-2 max-w-[80px] w-[80px]"><LoaderBtn /></div> :
             <input className="text-center p-2 w-full max-w-[80px]"
               type="text"
               onChange={(e) => {
