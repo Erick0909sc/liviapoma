@@ -52,7 +52,7 @@ const Login = (props: Props) => {
       if (response?.ok) {
         resetForm();
         toast.loading("Redirigiendo...", { duration: 4000 })
-        router.push(router.query.callbackUrl as string);
+        router.push(router.query.callbackUrl as string || "/");
       } else {
         toast.error(response?.error as string)
       }

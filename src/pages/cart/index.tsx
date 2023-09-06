@@ -26,55 +26,57 @@ const Cart = (props: Props) => {
 
   return (
     <Layout>
-      {session &&
-        <div className="md:p-10 max-w-screen-2xl">
-          {cartStatus === EStateGeneric.SUCCEEDED &&
-            <div className="md:flex gap-4">
-              <div className="flex-1 bg-white">
-                <h2 className="text-2xl font-bold p-4">Carrito de Compras</h2>
-                <hr />
-                <div className="flex-1 flex flex-col">
-                  {cart.products.map((product, index) => <Card key={index} session={session} {...product} />)}
+      <div className="flex flex-col items-center">
+        {session &&
+          <div className="md:p-10 max-w-screen-2xl w-full">
+            {cartStatus === EStateGeneric.SUCCEEDED &&
+              <div className="md:flex gap-4">
+                <div className="flex-1 bg-white">
+                  <h2 className="text-2xl font-bold p-4">Carrito de Compras</h2>
+                  <hr />
+                  <div className="flex-1 flex flex-col">
+                    {cart.products.map((product, index) => <Card key={index} session={session} {...product} />)}
+                  </div>
+                </div>
+                <div className="md:w-1/4 relative">
+                  <div className="flex flex-col gap-y-8 sticky top-0">
+                    <Summary cart={cart.products} />
+                  </div>
                 </div>
               </div>
-              <div className="md:w-1/4 relative">
-                <div className="flex flex-col gap-y-8 sticky top-0">
-                  <Summary cart={cart.products} />
+            }
+            {cartStatus === EStateGeneric.FAILED &&
+              <div className="md:flex gap-4">
+                <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
+                  <h2 className="text-2xl font-bold">Carrito de Compras</h2>
+                  <hr className="my-2" />
+                  <p className="text-gray-600">
+                    Tu carrito de compras está vacío en este momento.
+                  </p>
+                  <Link
+                    href="/products"
+                  >
+                    <span className="text-blue-800 font-bold underline underline-offset-8 mt-4 inline-block hover:cursor-pointer">Ver productos disponibles</span>
+                  </Link>
                 </div>
               </div>
-            </div>
-          }
-          {cartStatus === EStateGeneric.FAILED &&
-            <div className="md:flex gap-4">
+            }
+          </div>
+        }
+        {!session &&
+          <div className="md:p-10 max-w-screen-2xl w-full">
+            <div className="md:flex">
               <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold">Carrito de Compras</h2>
                 <hr className="my-2" />
-                <p className="text-gray-600">
-                  Tu carrito de compras está vacío en este momento.
-                </p>
-                <Link
-                  href="/products"
-                >
-                  <span className="text-blue-800 font-bold underline underline-offset-8 mt-4 inline-block hover:cursor-pointer">Ver productos disponibles</span>
-                </Link>
+                <p className="text-gray-600 text-base my-4">Inicia sesión para ver y completar tu carrito de compras.</p>
+                <button className="bg-blue-950 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded shadow" onClick={() => signIn()}>Iniciar sesión</button>
               </div>
             </div>
-          }
-        </div>
-      }
-      {!session &&
-        <div className="md:p-10 max-w-screen-2xl">
-          <div className="md:flex">
-            <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
-              <h2 className="text-2xl font-bold">Carrito de Compras</h2>
-              <hr className="my-2" />
-              <p className="text-gray-600 text-base my-4">Inicia sesión para ver y completar tu carrito de compras.</p>
-              <button className="bg-blue-950 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded shadow" onClick={() => signIn()}>Iniciar sesión</button>
-            </div>
           </div>
-        </div>
-      }
-    </Layout >
+        }
+      </div>
+    </Layout>
   )
 
 }
