@@ -12,17 +12,17 @@ type Props = {
 
 const CardRating = ({ name, image, rating, description }: Props) => {
     return (
-        <div className=' flex  w-full  '>
+        <div className=' flex  w-full items-center  '>
             <div className='relative  h-[100%] w-[50%]'>
                 <Image src={image} alt={image} height={500} width={500} className='w-full' />
             </div>
             <div className=' flex flex-col  w-[50%] gap-6 justify-center'>
 
-                <div className='h-28 flex items-center justify-center text-[22px] font-bold font-serif'>
+                <div className='md:h-28 lg:h-28  flex items-center justify-center  text-[15px]  md:text-[22px] lg:text-[22px]  font-bold font-serif'>
                     <h2>{name} </h2>
                 </div>
 
-                <div className='flex flex-col gap-5 items-center'>
+                <div className='flex flex-col gap-5 items-center text-[10px] font-bold lg:text-[18px] pb-9'>
                     <p>{description}</p>
                     {/* <h2>{rating}</h2> */}
                     <Rating name="size-large" defaultValue={2} size="large" />
@@ -30,9 +30,6 @@ const CardRating = ({ name, image, rating, description }: Props) => {
                 </div>
 
             </div>
-
-
-
 
         </div>
     )
