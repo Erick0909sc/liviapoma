@@ -94,14 +94,33 @@ export default async function handler(
         if (!cartItem) {
           return res.status(400).json({ message: 'product not found in the cart' })
         }
-        const deleteCartItem = await prisma.cartItem.delete({
+
+        // Eliminar el CartItem
+        const deletedCartItem = await prisma.cartItem.delete({
           where: {
             id: cartItem.id
           },
         });
-        res.status(200).json(deleteCartItem)
+
+        // Verificar si el carro está vacío
+        const remainingCartItems = await prisma.cartItem.count({
+          where: {
+            cartId: cart.id,
+          },
+        });
+
+        if (remainingCartItems === 0) {
+          // Si no hay más CartItems en el carro, eliminar el carro
+          await prisma.cart.delete({
+            where: {
+              id: cart.id,
+            },
+          });
+        }
+
+        res.status(200).json(deletedCartItem);
       } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error);
       }
       break;
     default:

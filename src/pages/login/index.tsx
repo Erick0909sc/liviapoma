@@ -23,8 +23,7 @@ const Login = (props: Props) => {
       await signIn("credentials", {
         email: email,
         password: password,
-        callbackUrl: "/",
-      });
+      })
     } catch (error) {
       console.log(error);
     }

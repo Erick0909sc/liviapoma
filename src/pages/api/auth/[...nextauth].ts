@@ -20,17 +20,13 @@ export const authOptions: NextAuthOptions = {
             email: credentials?.email
           },
         });
-        console.log(user);
         if (!user) {
           throw new Error("No user was found with that email. please register");
         }
-        // compare()
         const checkPassword = await compare(
           credentials?.password ?? "",
           user.password ?? ""
         );
-        console.log(checkPassword);
-
         if (!checkPassword) {
           throw new Error("Username or password does not match");
         }

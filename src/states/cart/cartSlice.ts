@@ -28,14 +28,19 @@ const initialState: IUsersState = {
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanUpCart: (state) => {
+      return {
+        ...state,
+        cart: {} as ICart,
+        cartStatus: EStateGeneric.IDLE,
+      };
+    },
+  },
   extraReducers(builder) {
     builder.addCase(getCartUser.fulfilled, (state, action) => {
       state.cart = action.payload;
       state.cartStatus = EStateGeneric.SUCCEEDED;
-    });
-    builder.addCase(getCartUser.pending, (state, action) => {
-      state.cartStatus = EStateGeneric.PENDING;
     });
     builder.addCase(getCartUser.rejected, (state, action) => {
       state.cartStatus = EStateGeneric.FAILED;
@@ -44,7 +49,7 @@ export const cartSlice = createSlice({
 })
 
 
-// export const {  } = cartSlice.actions
+export const { cleanUpCart } = cartSlice.actions
 
 export const selectAllCart = (state: RootState) => state.cart.cart
 
