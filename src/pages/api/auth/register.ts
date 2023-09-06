@@ -51,7 +51,7 @@ export default async function handle(
           //   user: name,
           //   email: email,
           // });
-          res.status(201).json({ message: "User created successfully", email });
+          res.status(201).json({ message: "User created successfully", email ,status: 201});
         }
       } catch (error) {
         res.status(500).json({ error });

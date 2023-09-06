@@ -4,21 +4,18 @@ import Link from "next/link";
 import React, { useState } from "react";
 // import { RiArrowLeftLine } from "react-icons/ri";
 
-
 type Props = {
   style: string;
 };
 
 const Login = (props: Props) => {
-
-  const [email, setemail] = useState("")
-  const [password, setpassword] = useState("")
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
   const backgroundImageStyle: React.CSSProperties = {
     backgroundImage:
       "url(https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg)",
   };
-
 
   const handledLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,8 +27,7 @@ const Login = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   return (
     <div>
@@ -69,7 +65,10 @@ const Login = (props: Props) => {
             <Link href="/register">
               <p className="text-gray-100 cursor-pointer">o Resgistrate aqui</p>
             </Link>
-            <form onSubmit={handledLogin} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+            <form
+              onSubmit={handledLogin}
+              className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
+            >
               <div className="pb-2 pt-4">
                 <input
                   type="email"
