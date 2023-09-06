@@ -13,12 +13,23 @@ export const postUser = createAsyncThunk(
         responseImage = await processImage(photo);
       }
       const response = await postUserApi({ name, email, password, image: responseImage?.data });
-      return response.data;
+
+    const statusCode = response.status;
+
+      // Realiza acciones basadas en el código de estado
+      if (statusCode === 201) {
+        // El registro se completó con éxito
+        return response.data;
+      } else {
+        // Puedes manejar otros códigos de estado aquí si es necesario
+        return rejectWithValue(response.data); // Rechaza con el cuerpo de la respuesta
+      }
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
+
 
 interface IUsersState {
   userStatus: EStateGeneric,
