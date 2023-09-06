@@ -14,8 +14,10 @@ import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Products: React.FC = () => {
+  const { data: session } = useSession()
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts);
@@ -38,7 +40,7 @@ const Products: React.FC = () => {
     fetchData();
 
     // La función de retorno se ejecuta al desmontar el componente
-  }, [dispatch, productsStatus]);
+  }, [dispatch, productsStatus, session]);
   return (
     <Layout>
       <>
@@ -50,22 +52,17 @@ const Products: React.FC = () => {
           {productsStatus === EStateGeneric.SUCCEEDED && (
             <div>
               {items.map((product, index) => (
-                <Link
+                <Card
                   key={index}
-                  href={`/products/${product.code}`} 
-                >
-                  <a>
-                    <Card
-                      key={index}
-                      title={product.name}
-                      description={product.description}
-                      price={product.price}
-                      brand={product.marca}
-                      image={product.image}
-                      category={product.category.name}
-                    />
-                  </a>
-                </Link>
+                  session={session}
+                  code={product.code}
+                  title={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.marca}
+                  image={product.image}
+                  category={product.category.name}
+                />
               ))}
             </div>
           )}

@@ -1,10 +1,12 @@
 import React from 'react'
 
-type Props = {}
+type FooterAdminProps  = {
+  className?: string;
+}
 
-const FooterAdmin = (props: Props) => {
+const FooterAdmin: React.FC<FooterAdminProps> = ({ className }) => {
   return (
-    <div className='bg-teal-600  h-10 text-white flex items-center justify-center'>
+    <div className= {` bg-teal-600  h-10 text-white flex items-center justify-center ${className}`}>
         <h2>Liviapoma corporation <b>2023 - derechos reservados</b></h2>
     </div>
   )

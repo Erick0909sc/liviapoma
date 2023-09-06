@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Foto from "@/assets/pictures/avatar.webp";
@@ -36,30 +36,6 @@ const Register = (props: Props) => {
       .min(8, "La contraseña debe tener minimo 8 caracteres")
       .required("Contraseña es requerida"),
   });
-
-  const formik = useFormik({
-    initialValues: { name: "", email: "", password: "", photo: null },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const data = await dispatch(postUser({ ...values }));
-        if (data.payload.response.status === 201) {
-          router.push("/login");
-          toast.success("Usuario registrado correctamente.");
-          setInput({
-            name: "",
-            email: "",
-            password: "",
-            photo: null,
-          });
-        } else {
-          toast.error("correo ya registrado.");
-        }
-      } catch (error) {
-        toast.error("Ocurrio un error, intente nuevamente.");
-      }
-    },
-  });
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -67,19 +43,56 @@ const Register = (props: Props) => {
     photo: null as File | null,
   });
 
+  const formik = useFormik({
+    initialValues: input,
+    validationSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const data = await dispatch(postUser({ ...values }));
+        console.log(data);
+        if (data.payload.status === 201) {
+          console.log(data);
+          toast.success("Usuario registrado correctamente.");
+          setInput({
+            name: "",
+            email: "",
+            password: "",
+            photo: null,
+          });
+  
+          // Retrasa la redirección durante 2 segundos (ajusta el tiempo según tus necesidades)
+          setTimeout(() => {
+            router.push("/login");
+          }, 1000);
+        } else {
+          toast.error("Correo ya registrado.");
+        }
+      } catch (error) {
+        toast.error("Ocurrió un error, inténtelo nuevamente.");
+        console.log(error);
+      } finally {
+        setSubmitting(false); // Asegura que el formulario se pueda enviar nuevamente si es necesario
+      }
+    },
+  });
+  
+
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+    console.log("File selected:", file);
     setInput((prevData) => ({
       ...prevData,
       photo: file,
     }));
+    formik.setFieldValue('photo', file);
   };
 
   const photoPreview = input.photo ? URL.createObjectURL(input.photo) : Foto;
+  console.log("Form data:", input); // Verifica si la propiedad "photo" tiene el valor del archivo seleccionado
+
 
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
       <section className="bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
         <div className="flex justify-center min-h-screen">
           <div
@@ -96,6 +109,7 @@ const Register = (props: Props) => {
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid  flex-wrap gap-6 mt-8"
+                encType="multipart/form-data"
               >
                 <div className=" flex justify-center">
                   <div className="relative w-44 h-44 rounded-full overflow-hidden cursor-pointer transition duration-300 group  ">

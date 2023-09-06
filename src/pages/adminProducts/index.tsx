@@ -6,7 +6,7 @@ type Props = {}
 const index = (props: Props) => {
     return (
         <LayaoutAdmin>
-       
+            <h2>hola</h2>
         </LayaoutAdmin>
     )
 }
