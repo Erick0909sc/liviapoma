@@ -17,6 +17,7 @@ export default async function handler(
                 contains: name as string,
                 mode: 'insensitive',
               },
+              deletedAt: null
             },
             include: {
               category: true,
@@ -31,7 +32,8 @@ export default async function handler(
                 name: {
                   contains: category as string,
                 },
-              }
+              },
+              deletedAt: null
             },
             include: {
               category: true,
@@ -40,6 +42,9 @@ export default async function handler(
           return products.length ? res.status(200).json(products) : res.status(400).json({ message: 'products not found' })
         }
         const products = await prisma.product.findMany({
+          where: {
+            deletedAt: null
+          },
           include: {
             category: true,
           }

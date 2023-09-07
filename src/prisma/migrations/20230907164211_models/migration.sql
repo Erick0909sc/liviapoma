@@ -68,6 +68,7 @@ CREATE TABLE "Product" (
     "rating" DOUBLE PRECISION NOT NULL,
     "discount" DOUBLE PRECISION NOT NULL,
     "categoryId" INTEGER NOT NULL,
+    "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("code")
 );
