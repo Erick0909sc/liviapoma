@@ -54,7 +54,7 @@ const Footer = (props: Props) => {
         </div>
 
       </div>
-      <div className=' w-full text-white flex justify-center md:p-4 lg:p-4'>
+      {/* <div className=' w-full text-white flex justify-center md:p-4 lg:p-4'>
         <div className='flex flex-col items-center w-[39%] text-center'>
           <h2 className='text-[18px] md:text-[23px] lg:text-[23px] font-bold'>Ferreteria Liviapoma</h2>
           <p>
@@ -62,26 +62,28 @@ const Footer = (props: Props) => {
           </p>
         </div>
 
-        <div className='w-[32%] flex flex-col  items-center gap-3 text-center'>
+        <div className='w-[50%] flex   items-center gap-3 text-center'>
           <h2 className='font-bold  text-[18px] md:text-[23px] lg:text-[23px] '>Encuentranos Rapido</h2>
-          <Link href={'#'}><h2 className='hover:text-red-500 cursor-pointer font-semibold'>Contacto</h2></Link>
+          <div className='flex flex-col'>
+            <Link href={'#'}><h2 className='hover:text-red-500 cursor-pointer font-semibold'>Contacto</h2></Link>
 
-          <div className='hover:text-red-600 font-semibold w-[100%] flex items-center justify-center gap-1'>
-            <span className='ml-2 '>
-              <FaMapMarkerAlt />
-            </span>
-            <span>
-              <Link href={'#'}><h2 >Ubicanos</h2></Link>
-            </span>
+            <div className='hover:text-red-600 font-semibold w-[100%] flex items-center justify-center gap-1'>
+              <span className='ml-2 '>
+                <FaMapMarkerAlt />
+              </span>
+              <span>
+                <Link href={'#'}><h2 >Ubicanos</h2></Link>
+              </span>
+            </div>
           </div>
 
         </div>
 
 
-        <div className='w-[30%] flex flex-col  items-center justify-center gap-3'>
+        <div className='w-[50%] flex flex-col  items-center justify-center gap-3'>
           <Link href={'#'}><h2 className='hover:text-red-500 cursor-pointer font-semibold'>Novedades</h2></Link>
         </div>
-      </div>
+      </div> */}
 
 
     </div>
