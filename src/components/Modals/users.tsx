@@ -71,7 +71,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className="fixed top-16 right-0 z-50">
+        <div className="absolute top-16 right-0 z-50">
             <div className="bg-white rounded-lg p-4 text-black text-[15px]">
                 {renderContent()}
             </div>

@@ -23,10 +23,12 @@ const Nadvar = (props: Props) => {
   const { data: session } = useSession();
 
   const toggleMenuModal = () => {
+    setUserModalOpen(false);
     setMenuModalOpen(!menuModalOpen);
   };
 
   const toggleUserModal = () => {
+    setMenuModalOpen(false);
     setUserModalOpen(!userModalOpen);
   };
 
@@ -35,18 +37,17 @@ const Nadvar = (props: Props) => {
 
   return (
     <nav >
-      <div className='bg-blue-950 flex text-white h-16 w-ful'>
-        <div className='title flex items-center font-serif w-[32%] md:w-[33%] lg:w-[32%] text-[15px] pl-1 justify-start md:pl-4 lg:pl-4  md:text-[20px] font-bold'>
+      <div className='bg-blue-950 flex text-white h-16 w-ful '>
+        <div className='title flex items-center font-serif w-[32%] sm:w-[20%] lg:w-[32%] text-[15px] pl-1 justify-start md:pl-4 lg:pl-4  sm:text-[20px] font-bold'>
           <Link href={'#'}><h2 className='cursor-pointer'>Ferreteria Liviapoma</h2></Link>
         </div>
 
-        <div className='NAVEGACION  w-[53%]   md:w-[30%]  lg:w-[30%] flex justify-center items-center gap-2'>
-          <input type="text" placeholder='¿Que Buscas?' className='p-1 rounded-2xl w-[80%] text-center text-black' />
+        <div className='NAVEGACION  w-[53%]   sm:w-[38%]  lg:w-[30%] flex justify-center items-center gap-2'>
+          <input type="text" placeholder='¿Que Buscas?' className='p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black' />
           <button><FaSearch className='text-[20px]' /></button>
         </div>
 
-        <div className=' flex md:hidden lg:hidden w-[38%]  justify-end items-center gap-7 pr-6 text-[25px] lg:text-[35px]'>
-
+        <div className=' flex sm:hidden w-[38%]  justify-end items-center gap-5 pr-6 text-[25px] lg:text-[35px]'>
           <button onClick={toggleMenuModal}><ImMenu /></button>
           <MenuModal isOpen={menuModalOpen} onClose={toggleMenuModal} />
 
@@ -56,7 +57,7 @@ const Nadvar = (props: Props) => {
           <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
 
-        <div className='hidden sm:flex w-[40%] justify-end items-center md:gap-3 md:pr-1  lg:gap-7 lg:pr-6 text-[25px] md:text-[13px] lg:text-[18px]'>
+        <div className='hidden sm:flex w-[40%]  sm:w-[50%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]'>
           <Link href={'/'}>
             <div className='flex gap-2 items-center cursor-pointer hover:text-red-500'>
               <AiFillHome />
@@ -89,27 +90,6 @@ const Nadvar = (props: Props) => {
 
 
       </div>
-
-      {/* <div className='  h-10 w-full  flex justify-end absolute z-10 '>
-        <div className='bg-slate-300 bg-opacity-70 w-[40%] flex    rounded-bl-[100px] text-[18px] items-center text-center font-semibold font-serif'>
-          <div className='w-[22%] '>
-            <Link href={'/'}><h2 className='cursor-pointer hover:text-red-500'>Inicio</h2></Link>
-          </div>
-
-          <div className='w-[22%]'>
-            <Link href={'/products'}><h2 className='cursor-pointer hover:text-red-500'>Productos</h2></Link>
-          </div>
-
-          <div className='w-[22%]'>
-            <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Carrito</h2></Link>
-          </div>
-
-          <div className='w-[22%]'>
-            <Link href={'#'}><h2 className='cursor-pointer hover:text-red-500'>Contacto</h2></Link>
-          </div>
-
-        </div>
-      </div> */}
 
     </nav>
   )

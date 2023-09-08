@@ -14,7 +14,7 @@ const MenuModal: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className="fixed top-16 right-15 z-50 ">
+        <div className="absolute top-16 right-15 z-50 ">
             <div className="bg-white rounded-lg p-4 text-black text-[15px]">
                 <ul className="space-y-2 text-center font-semibold">
                     <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>

@@ -13,7 +13,7 @@ import Paginate from "@/components/pagination";
 import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
-import Link from "next/link";
+
 import { useSession } from "next-auth/react";
 
 const Products: React.FC = () => {
@@ -39,7 +39,7 @@ const Products: React.FC = () => {
 
     fetchData();
 
-    // La función de retorno se ejecuta al desmontar el componente
+    // La función de retorno se ejecuta al desmontar el componenteasadasddadasdsaffdegkfdjkgfdkgfjlkgfdñklglkjgfdklfdgfjldgjdgñksdgsdklgjdgsdñlgdsgjsdjksd
   }, [dispatch, productsStatus, session]);
   return (
     <Layout>
