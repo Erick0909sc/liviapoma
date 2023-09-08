@@ -39,7 +39,7 @@ const Products: React.FC = () => {
 
     fetchData();
 
-    // La función de retorno se ejecuta al desmontar el componente
+    // La función de retorno se ejecuta al desmontar el componenteasadasddadasdsaffdegkfdjkgfdkgfjlkgfdñklglkjgfdklfdgfjldgjdgñksdgsdklgjdgsdñlgdsgjsdjksd
   }, [dispatch, productsStatus, session]);
   return (
     <Layout>
