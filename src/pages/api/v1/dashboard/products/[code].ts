@@ -11,7 +11,10 @@ export default async function handler(
       try {
         const { code } = req.query
         const product = await prisma.product.findUnique({
-          where: { code: code as string },
+          where: {
+            code: code as string,
+            deletedAt: null
+          },
           include: { category: true }
         })
         res.status(200).json(product)

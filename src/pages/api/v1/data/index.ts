@@ -12,7 +12,11 @@ export default async function handler(
     case 'GET':
       try {
         const categories = await prisma.category.findMany()
-        const products = await prisma.product.findMany()
+        const products = await prisma.product.findMany({
+          where: {
+            deletedAt: null
+          }
+        })
         res.status(200).json({ products: products.length, categories: categories.length })
       } catch (error) {
         res.status(500).json(error)

@@ -50,6 +50,7 @@ export const addItemToCart = async ({ productCode, userId }: { productCode: stri
     const product = await prisma.product.findUnique({
       where: {
         code: productCode,
+        deletedAt: null
       },
     });
     if (!product) {

@@ -15,20 +15,19 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       async authorize(credentials, req): Promise<User> {
         const user = await prisma.user.findFirst({
-          
           where: {
             email: credentials?.email
           },
         });
         if (!user) {
-          throw new Error("No user was found with that email. please register");
+          throw new Error("No se encontró ningún usuario con ese correo. Por favor, regístrese.");
         }
         const checkPassword = await compare(
           credentials?.password ?? "",
           user.password ?? ""
         );
         if (!checkPassword) {
-          throw new Error("Username or password does not match");
+          throw new Error("La contraseña no coincide con esta cuenta.");
         }
         return user;
       },
@@ -41,21 +40,13 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
     })
-    // GitHubProvider({
-    //   clientId: process.env.GITHUB_ID,
-    //   clientSecret: process.env.GITHUB_SECRET,
-    // }),
-    // SpotifyProvider({
-    //   clientId: process.env.SPOTIFY_CLIENT_ID,
-    //   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    // }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   callbacks: {
-   
+
     async session({
       session,
       token,
@@ -101,9 +92,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
-    // signOut: '/auth/SignOut',
-    error: "/wrong", // Error code passed in query string as ?error=
-    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
 

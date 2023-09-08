@@ -81,8 +81,8 @@ const Card = ({ session, ...props }: Props) => {
   }, [props.quantity])
 
   return (
-    <div className="flex p-2 md:p-4 gap-4 bg-white">
-      <div className="relative w-[150px] aspect-square">
+    <div className="flex flex-wrap max-[365px]:h-[480px] max-[365px]:border-b-2 border-black p-2 md:p-4 gap-4 bg-white">
+      <div className="relative max-[365px]:w-full w-[150px] max-[365px]:aspect-video aspect-square">
         <Image layout="fill" src={props.product.image} alt={props.product.name} />
       </div>
       <div className="flex-1 relative">

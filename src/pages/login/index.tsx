@@ -2,32 +2,64 @@ import Google from "@/components/BTN/Google";
 import { getSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 // import { RiArrowLeftLine } from "react-icons/ri";
 
 type Props = {
   style: string;
 };
+interface FormValues {
+  [key: string]: string
+};
 
 const Login = (props: Props) => {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-
+  const router = useRouter();
   const backgroundImageStyle: React.CSSProperties = {
     backgroundImage:
       "url(https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg)",
   };
 
-  const handledLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const initialValues = {
+    email: "",
+    password: "",
+  }
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Ingrese un correo válido")
+      .required("El correo es requerido"),
+    password: Yup.string()
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .required("La contraseña es requerida"),
+  });
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+  async function onSubmit(
+    values: FormValues,
+    { resetForm }: { resetForm: () => void }
+  ) {
     try {
-      await signIn("credentials", {
-        email: email,
-        password: password,
+      const response = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
       })
+      if (response?.ok) {
+        resetForm();
+        toast.loading("Redirigiendo...", { duration: 4000 })
+        router.push(router.query.callbackUrl as string || "/");
+      } else {
+        toast.error(response?.error as string)
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("Ocurrió un error, por favor intente nuevamente.");
     }
-  };
+  }
 
   return (
     <div>
@@ -66,29 +98,33 @@ const Login = (props: Props) => {
               <p className="text-gray-100 cursor-pointer">o Resgistrate aqui</p>
             </Link>
             <form
-              onSubmit={handledLogin}
+              onSubmit={formik.handleSubmit}
               className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
             >
               <div className="pb-2 pt-4">
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Correo"
-                  className="block w-full p-4 text-lg rounded-sm bg-black"
-                  value={email}
-                  onChange={(e) => setemail(e.target.value)}
+                  className={`block w-full p-4 text-lg rounded-sm bg-black ${formik.touched.email && formik.errors.email
+                    ? "border-2 border-red-500 placeholder:text-red-500" : ""}`}
+                  placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : "Example123@gmail.com"}
+                  type="text"
+                  {...formik.getFieldProps("email")}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                    if (formik.touched.email && formik.errors.email) return toast.error(formik.errors.email)
+                  }}
                 />
               </div>
               <div className="pb-2 pt-4">
                 <input
-                  className="block w-full p-4 text-lg rounded-sm bg-black"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Contraseña"
-                  value={password}
-                  onChange={(e) => setpassword(e.target.value)}
+                  className={`block w-full p-4 text-lg rounded-sm bg-black ${formik.touched.password && formik.errors.password
+                    ? "border-2 border-red-500 placeholder:text-red-500" : ""}`}
+                  placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
+                  type="text"
+                  {...formik.getFieldProps("password")}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                    if (formik.touched.password && formik.errors.password) return toast.error(formik.errors.password)
+                  }}
                 />
               </div>
               <div className="text-right text-gray-100 hover:underline hover:text-gray-100">

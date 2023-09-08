@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Foto from "@/assets/pictures/avatar.webp";
 import { useAppDispatch } from "@/states/store";
 import { postUser } from "@/states/users/usersSlice";
@@ -13,84 +13,63 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 type Props = {};
 
 const Register = (props: Props) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña
+  
   const handleTogglePassword = () => {
     setShowPassword(!showPassword); // Cambia el estado para alternar entre mostrar y ocultar
   };
+
   const backgroundImageStyle: React.CSSProperties = {
     backgroundImage:
       "url(https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg)",
   };
 
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .matches(/^[A-Za-z\s]+$/, "Only letters are allowed")
-      .required("Nombre es requerido"),
-    email: Yup.string()
-      .email("Ingrese un Email valido")
-      .required("Email es requerido"),
-    password: Yup.string()
-      .min(8, "La contraseña debe tener minimo 8 caracteres")
-      .required("Contraseña es requerida"),
-  });
-  const [input, setInput] = useState({
+  const initialValues = {
     name: "",
     email: "",
     password: "",
     photo: null as File | null,
+  }
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .matches(/^[A-Za-z\s]+$/, "Solo se permiten letras")
+      .required("El nombre es requerido"),
+    email: Yup.string()
+      .email("Ingrese un correo válido")
+      .required("El correo es requerido"),
+    password: Yup.string()
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .required("La contraseña es requerida"),
   });
 
   const formik = useFormik({
-    initialValues: input,
+    initialValues,
     validationSchema,
-    onSubmit: async (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const data = await dispatch(postUser({ ...values }));
-        console.log(data);
         if (data.payload.status === 201) {
-          console.log(data);
+          resetForm()
           toast.success("Usuario registrado correctamente.");
-          setInput({
-            name: "",
-            email: "",
-            password: "",
-            photo: null,
-          });
-  
-          // Retrasa la redirección durante 2 segundos (ajusta el tiempo según tus necesidades)
-          setTimeout(() => {
-            router.push("/login");
-          }, 1000);
+          router.push("/login");
         } else {
           toast.error("Correo ya registrado.");
         }
       } catch (error) {
         toast.error("Ocurrió un error, inténtelo nuevamente.");
-        console.log(error);
       } finally {
         setSubmitting(false); // Asegura que el formulario se pueda enviar nuevamente si es necesario
       }
     },
   });
-  
 
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
-    console.log("File selected:", file);
-    setInput((prevData) => ({
-      ...prevData,
-      photo: file,
-    }));
     formik.setFieldValue('photo', file);
   };
-
-  const photoPreview = input.photo ? URL.createObjectURL(input.photo) : Foto;
-  console.log("Form data:", input); // Verifica si la propiedad "photo" tiene el valor del archivo seleccionado
-
-
+  const photoPreview = formik.values.photo ? URL.createObjectURL(formik.values.photo) : Foto;
   return (
     <div>
       <section className="bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
@@ -176,17 +155,16 @@ const Register = (props: Props) => {
                     Nombre Completo
                   </label>
                   <input
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.name && formik.errors.name
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                    placeholder={formik.touched.name && formik.errors.name ? formik.errors.name : "Example name"}
                     type="text"
-                    placeholder="Ejemplo"
-                    name="name"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="block w-full px-5 py-3 mt-2 text-black placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-400  dark:text-black font-semibold dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40"
+                    {...formik.getFieldProps("name")}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                      if (formik.touched.name && formik.errors.name) return toast.error(formik.errors.name)
+                    }}
                   />
-                  {formik.touched.name && formik.errors.name && (
-                    <div className="text-red-600">{formik.errors.name}</div>
-                  )}
                 </div>
 
                 <div>
@@ -194,16 +172,16 @@ const Register = (props: Props) => {
                     Correo Electronico
                   </label>
                   <input
-                    name="email"
-                    placeholder="Ejemplo@ejemplo.com"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="block w-full px-5 py-3 mt-2 text-black placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-400  dark:text-black font-semibold dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.email && formik.errors.email
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                    placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : "Example123@gmail.com"}
+                    type="text"
+                    {...formik.getFieldProps("email")}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                      if (formik.touched.email && formik.errors.email) return toast.error(formik.errors.email)
+                    }}
                   />
-                  {formik.touched.email && formik.errors.email && (
-                    <div className="text-red-600">{formik.errors.email}</div>
-                  )}
                 </div>
 
                 <div className="relative">
@@ -211,13 +189,15 @@ const Register = (props: Props) => {
                     Contraseña
                   </label>
                   <input
-                    type={showPassword ? "text" : "password"} //
-                    placeholder="Ingrese Contraseña"
-                    name="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="block w-full px-5 py-3 mt-2 text-black placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-400  dark:text-black font-semibold dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.password && formik.errors.password
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                    placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
+                    type={showPassword ? "text" : "password"}
+                    {...formik.getFieldProps("password")}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                      if (formik.touched.password && formik.errors.password) return toast.error(formik.errors.password)
+                    }}
                   />
                   <span
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
@@ -227,9 +207,6 @@ const Register = (props: Props) => {
                     {showPassword ? <FaEye /> : <FaEyeSlash />}{" "}
                     {/* Alterna entre los íconos */}
                   </span>
-                  {formik.touched.password && formik.errors.password && (
-                    <div className="text-red-600">{formik.errors.password}</div>
-                  )}
                 </div>
 
                 <button
