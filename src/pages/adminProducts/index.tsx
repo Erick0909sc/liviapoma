@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 type Props = {}
 
-const index = (props: Props) => {
+const Index = (props: Props) => {
 
     const products = useSelector(selectAllProducts);
     const productsStatus = useSelector(selectAllProductsStatus);
@@ -73,4 +73,4 @@ const index = (props: Props) => {
     )
 }
 
-export default index
+export default Index
