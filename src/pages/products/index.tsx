@@ -13,7 +13,7 @@ import Paginate from "@/components/pagination";
 import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { itemsPerPage } from "@/shared/ultis";
-import Link from "next/link";
+
 import { useSession } from "next-auth/react";
 
 const Products: React.FC = () => {
