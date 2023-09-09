@@ -1,9 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
-import { EStateGeneric, ICategory, IProduct } from '@/shared/types'
-import { getProductByApi, getProductsByApi, getcategoriesByApi, } from './productsApi';
-
+import type { RootState } from "../store";
+import { EStateGeneric, ICategory, IProduct } from "@/shared/types";
+import {
+  getProductByApi,
+  getProductsByApi,
+  getcategoriesByApi,
+} from "./productsApi";
 
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
@@ -38,17 +41,17 @@ export const getAllCategories = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  })
-
+  }
+);
 
 interface IProductsState {
-  products: IProduct[]
-  product: IProduct
-  topRatedProducts: IProduct[]
-  categories: ICategory[]
-  allProductsStatus: EStateGeneric
-  oneProductStatus: EStateGeneric
-  allCategoryStatus: EStateGeneric
+  products: IProduct[];
+  product: IProduct;
+  topRatedProducts: IProduct[];
+  categories: ICategory[];
+  allProductsStatus: EStateGeneric;
+  oneProductStatus: EStateGeneric;
+  allCategoryStatus: EStateGeneric;
 }
 
 const initialState: IProductsState = {
@@ -58,10 +61,10 @@ const initialState: IProductsState = {
   topRatedProducts: [],
   allProductsStatus: EStateGeneric.IDLE,
   oneProductStatus: EStateGeneric.IDLE,
-  allCategoryStatus: EStateGeneric.IDLE
-}
+  allCategoryStatus: EStateGeneric.IDLE,
+};
 export const productsSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
   reducers: {
     cleanUpProducts: (state) => {
@@ -75,17 +78,19 @@ export const productsSlice = createSlice({
       return {
         ...state,
         product: {} as IProduct,
-        oneProductStatus: EStateGeneric.IDLE 
+        oneProductStatus: EStateGeneric.IDLE,
       };
     },
     selectTopRatedProducts: (state) => {
-      const topRatedProducts = [...state.products].sort((a, b) => b.rating - a.rating);
-      const orderbyratin = topRatedProducts.slice(0, 5)
+      const topRatedProducts = [...state.products].sort(
+        (a, b) => b.rating - a.rating
+      );
+      const orderbyratin = topRatedProducts.slice(0, 5);
       return {
         ...state,
-        topRatedProducts: orderbyratin
-      }
-    }
+        topRatedProducts: orderbyratin,
+      };
+    },
   },
   extraReducers(builder) {
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
@@ -120,24 +125,24 @@ export const productsSlice = createSlice({
     builder.addCase(getAllCategories.rejected, (state, action) => {
       state.allCategoryStatus = EStateGeneric.FAILED;
     });
-
   },
+});
 
+export const { cleanUpProducts, selectTopRatedProducts, cleanUpProduct } =
+  productsSlice.actions;
 
-})
+export const selectAllProducts = (state: RootState) => state.products.products;
+export const selectOneProduct = (state: RootState) => state.products.product;
+export const selectProductByrating = (state: RootState) =>
+  state.products.topRatedProducts;
+export const selectAllCategory = (state: RootState) =>
+  state.products.categories;
 
+export const selectAllCategoriesStatus = (state: RootState) =>
+  state.products.allCategoryStatus;
+export const selectAllProductsStatus = (state: RootState) =>
+  state.products.allProductsStatus;
+export const selectOneProductStatus = (state: RootState) =>
+  state.products.oneProductStatus;
 
-export const { cleanUpProducts, selectTopRatedProducts, cleanUpProduct } = productsSlice.actions
-
-
-export const selectAllProducts = (state: RootState) => state.products.products
-export const selectOneProduct = (state: RootState) => state.products.product
-export const selectProductByrating = (state: RootState) => state.products.topRatedProducts
-export const selectAllCategory = (state: RootState) => state.products.categories
-
-
-export const selectAllCategoriesStatus = (state: RootState) => state.products.allCategoryStatus
-export const selectAllProductsStatus = (state: RootState) => state.products.allProductsStatus
-export const selectOneProductStatus = (state: RootState) => state.products.oneProductStatus
-
-export default productsSlice.reducer
+export default productsSlice.reducer;
