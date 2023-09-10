@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import { EStateGeneric } from "@/shared/types";
+import { hanldeItemCart } from "@/shared/ultis";
 import {
   cleanUpProduct,
   getOneProduct,
@@ -8,15 +9,18 @@ import {
 } from "@/states/products/productsSlice";
 import { useAppDispatch } from "@/states/store";
 import { Rating } from "@mui/material";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 type Props = {};
 
 const Detail = (props: Props) => {
   const router = useRouter();
+  const { data: session } = useSession()
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const status = useSelector(selectOneProductStatus);
   const product = useSelector(selectOneProduct);
   const dispatch = useAppDispatch();
@@ -32,7 +36,7 @@ const Detail = (props: Props) => {
     return () => {
       dispatch(cleanUpProduct());
     };
-  }, [router.query.code]);
+  }, [router.query.code, session]);
 
   return (
     <Layout>
@@ -200,7 +204,12 @@ const Detail = (props: Props) => {
                           </div>
                         </div>
                         <div className="mb-4 mr-4 lg:mb-0">
-                          <button className="w-full h-10 p-2 mr-4 bg-blue-500 text-gray-50 hover:bg-blue-600">
+                          <button onClick={() => hanldeItemCart({
+                            code: product.code,
+                            session,
+                            isProcessing,
+                            setIsProcessing,
+                          })} type="button" className="w-full h-10 p-2 mr-4 bg-blue-500 text-gray-50 hover:bg-blue-600">
                             Buy Now
                           </button>
                         </div>
