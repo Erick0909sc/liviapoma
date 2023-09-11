@@ -2,12 +2,12 @@ import axios from "axios";
 import { IProductCart } from "./types";
 import { Session } from "next-auth";
 import toast from "react-hot-toast";
-import { addOneProductToCart } from "@/states/cart/cartApi";
-export const BASE_URL =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:3000"
-    : "https://liviapoma-git-junior-juniorhuanca.vercel.app";
-// export const BASE_URL = process.env.NODE_ENV !== 'production' ? "http://localhost:3000" : "https://liviapoma.vercel.app"
+import {
+  addOneProductToCart,
+  deleteOneProductToCart,
+  patchOneProductToCart,
+} from "@/states/cart/cartApi";
+import { getCartUser } from "@/states/cart/cartSlice";
 
 export const itemsPerPage = 5;
 
@@ -84,6 +84,110 @@ export const hanldeItemCart = async ({
     });
     if (response.status === 201) {
       toast.success("El artículo se ha añadido al carro con éxito.");
+    }
+  } catch (error) {
+    toast.error("Ocurrió un error, por favor intente nuevamente.");
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+export const handleItemsCart = async ({
+  code,
+  session,
+  isProcessing,
+  setIsProcessing,
+  value,
+  getCart,
+}: {
+  code: string;
+  session: Session;
+  isProcessing: boolean;
+  setIsProcessing: (value: boolean) => void;
+  value: number;
+  getCart: () => void;
+}) => {
+  if (isProcessing) {
+    return;
+  }
+  setIsProcessing(true);
+  try {
+    const response = await patchOneProductToCart({
+      userId: session.user.id,
+      productCode: code,
+      quantity: value,
+    });
+    if (response.status === 200) {
+      // dispatch(getCartUser(session.user.id));
+      getCart();
+    }
+  } catch (error) {
+    toast.error("Ocurrió un error, por favor intente nuevamente.");
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+export const handleInputChange = async ({
+  code,
+  session,
+  isProcessing,
+  setIsProcessing,
+  value,
+  getCart,
+}: {
+  code: string;
+  session: Session;
+  isProcessing: boolean;
+  setIsProcessing: (value: boolean) => void;
+  value: number | null;
+  getCart: () => void;
+}) => {
+  if (isProcessing) {
+    return;
+  }
+  setIsProcessing(true);
+  try {
+    const response = await patchOneProductToCart({
+      userId: session.user.id,
+      productCode: code,
+      quantity: value !== null ? value : 1,
+    });
+    if (response.status === 200) {
+      // dispatch(getCartUser(session.user.id));
+      getCart();
+    }
+  } catch (error) {
+    toast.error("Ocurrió un error, por favor intente nuevamente.");
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+export const handleDelete = async ({
+  code,
+  session,
+  isProcessing,
+  setIsProcessing,
+  getCart,
+}: {
+  code: string;
+  session: Session;
+  isProcessing: boolean;
+  setIsProcessing: (value: boolean) => void;
+  getCart: () => void;
+}) => {
+  if (isProcessing) {
+    return;
+  }
+  setIsProcessing(true);
+  try {
+    const response = await deleteOneProductToCart({
+      userId: session.user.id,
+      productCode: code,
+    });
+    if (response.status === 200) {
+      getCart();
     }
   } catch (error) {
     toast.error("Ocurrió un error, por favor intente nuevamente.");
