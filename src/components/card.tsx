@@ -16,12 +16,19 @@ type Props = {
   brand: string;
   image: string;
   category: string;
-
 };
 
-const Card: React.FC<Props> = ({ session, code, title, description, price, image, brand, category }) => {
+const Card: React.FC<Props> = ({
+  session,
+  code,
+  title,
+  description,
+  price,
+  image,
+  brand,
+  category,
+}) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-
   return (
     <div className="relative mt-8 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
       <Link href={`products/${code}`}>
@@ -35,7 +42,7 @@ const Card: React.FC<Props> = ({ session, code, title, description, price, image
               height={480}
             />
           </div>
-          <div className="w-full md:w-2/3 md:ml-1 bg-white p-3">
+          <div className="w-full sm:w-2/3 sm:ml-1 bg-white p-3">
             <div className="flex justify-between items-center">
               <p className="text-gray-500 font-medium">{category}</p>
               <div className="flex items-center">
@@ -54,18 +61,18 @@ const Card: React.FC<Props> = ({ session, code, title, description, price, image
                   </span>
                 </p>
               </div>
-              <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
+              <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden sm:block">
                 {brand}
               </div>
             </div>
-            <h3 className="font-black text-gray-800 md:text-3xl text-xl">
+            <h3 className="font-black text-gray-800 sm:text-3xl text-xl">
               {title}
             </h3>
             <p className="md:text-lg text-gray-500 text-base">{description}</p>
             <p className="text-xl font-black text-gray-800">
               {formatPrice(price)}
             </p>
-            <div className="md:flex justify-end">
+            <div className="sm:flex justify-end">
               <button
                 type="button"
                 className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-4 py-2 font-semibold"
@@ -83,7 +90,6 @@ const Card: React.FC<Props> = ({ session, code, title, description, price, image
         </div>
       </Link>
     </div>
-
   );
 };
 
