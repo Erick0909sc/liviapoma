@@ -4,39 +4,47 @@ export const getAllCartByUser = async ({ userId }: { userId: string }) => {
   try {
     const cart = await prisma.cart.findUnique({
       where: {
-        userId: userId
+        userId: userId,
       },
       include: {
         products: {
           include: {
             product: {
               include: {
-                category: true
-              }
-            }
+                category: true,
+              },
+            },
           },
           orderBy: {
-            createdAt: 'desc' // Ordenar en orden descendente basado en updatedAt
-          }
+            createdAt: "desc", // Ordenar en orden descendente basado en updatedAt
+          },
         },
-      }
+      },
     });
 
-    return cart ? {
-      success: true,
-      data: cart,
-    } : {
-      success: false,
-      error: "cart is empty",
-    }
+    return cart
+      ? {
+          success: true,
+          data: cart,
+        }
+      : {
+          success: false,
+          error: "cart is empty",
+        };
   } catch (error) {
     return {
       success: false,
       error: error,
     };
   }
-}
-export const addItemToCart = async ({ productCode, userId }: { productCode: string, userId: string }) => {
+};
+export const addItemToCart = async ({
+  productCode,
+  userId,
+}: {
+  productCode: string;
+  userId: string;
+}) => {
   try {
     const cart = await prisma.cart.upsert({
       where: {
@@ -50,13 +58,13 @@ export const addItemToCart = async ({ productCode, userId }: { productCode: stri
     const product = await prisma.product.findUnique({
       where: {
         code: productCode,
-        deletedAt: null
+        deletedAt: null,
       },
     });
     if (!product) {
       return {
         success: false,
-        error: 'product not found',
+        error: "product not found",
       };
     }
     const cartItem = await prisma.cartItem.upsert({
@@ -93,4 +101,4 @@ export const addItemToCart = async ({ productCode, userId }: { productCode: stri
       error: error,
     };
   }
-}
+};

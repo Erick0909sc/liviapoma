@@ -1,4 +1,4 @@
-import { formatPrice } from "@/shared/ultis";
+import { formatPrice, hanldeItemCart } from "@/shared/ultis";
 import { addOneProductToCart } from "@/states/cart/cartApi";
 import { Session } from "next-auth";
 import Image from "next/image";
@@ -29,35 +29,11 @@ const Card: React.FC<Props> = ({
   category,
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-
-  const hanldeItemCart = async () => {
-    if (isProcessing) {
-      return;
-    }
-    setIsProcessing(true);
-    try {
-      if (!session) {
-        return toast.error("Por favor, inicie sesión para continuar.");
-      }
-      const response = await addOneProductToCart({
-        userId: session.user.id,
-        productCode: code,
-      });
-      if (response.status === 201) {
-        toast.success("El artículo se ha añadido al carro con éxito.");
-      }
-    } catch (error) {
-      toast.error("Ocurrió un error, por favor intente nuevamente.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   return (
-    <div className="relative mt-8 rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl mx-auto border border-white bg-white">
+    <div className="relative mt-8 rounded-xl shadow-lg p-3 max-w-full md:max-w-6xl mx-auto border border-white bg-white">
       <Link href={`products/${code}`}>
-        <div className="cursor-pointer w-full sm:flex">
-          <div className="w-full sm:w-1/3 bg-white flex justify-center">
+        <div className="cursor-pointer w-full md:flex ">
+          <div className="w-full md:w-1/3 bg-white  flex justify-center">
             <Image
               src={image}
               alt="tailwind logo"
@@ -92,7 +68,7 @@ const Card: React.FC<Props> = ({
             <h3 className="font-black text-gray-800 sm:text-3xl text-xl">
               {title}
             </h3>
-            <p className="sm:text-lg text-gray-500 text-base">{description}</p>
+            <p className="md:text-lg text-gray-500 text-base">{description}</p>
             <p className="text-xl font-black text-gray-800">
               {formatPrice(price)}
             </p>
@@ -100,7 +76,12 @@ const Card: React.FC<Props> = ({
               <button
                 type="button"
                 className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-4 py-2 font-semibold"
-                onClick={hanldeItemCart}
+                onClick={() => hanldeItemCart({
+                  code,
+                  session,
+                  isProcessing,
+                  setIsProcessing,
+                })}
               >
                 {isProcessing ? <LoaderBtn /> : "Comprar"}
               </button>

@@ -1,6 +1,16 @@
 import Layout from "@/components/Layout/Layout";
 import { EStateGeneric } from "@/shared/types";
 import {
+  handleInputChange,
+  handleItemsCart,
+  hanldeItemCart,
+} from "@/shared/ultis";
+import {
+  getCartUser,
+  selectAllCart,
+  selectAllCartStatus,
+} from "@/states/cart/cartSlice";
+import {
   cleanUpProduct,
   getOneProduct,
   selectOneProduct,
@@ -8,17 +18,38 @@ import {
 } from "@/states/products/productsSlice";
 import { useAppDispatch } from "@/states/store";
 import { Rating } from "@mui/material";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 type Props = {};
 
 const Detail = (props: Props) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const status = useSelector(selectOneProductStatus);
   const product = useSelector(selectOneProduct);
+  const cartStatus = useSelector(selectAllCartStatus);
+  const cart = useSelector(selectAllCart);
+  const productFind = cart.products?.find(
+    (item) => item.productCode === product.code
+  );
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [input, setInput] = useState<number | null>(null);
+
+  const propsForFunctions = {
+    code: product.code,
+    session: session as Session,
+    isProcessing,
+    setIsProcessing,
+    value: productFind?.quantity,
+    getCart: () => dispatch(getCartUser(session?.user.id as string)),
+  };
   const dispatch = useAppDispatch();
   useEffect(() => {
     (async () => {
@@ -27,13 +58,27 @@ const Detail = (props: Props) => {
         if (status === EStateGeneric.IDLE) {
           dispatch(getOneProduct(code as string));
         }
+        if (cartStatus === EStateGeneric.IDLE && session) {
+          dispatch(getCartUser(session.user.id));
+        }
       }
     })();
     return () => {
-      dispatch(cleanUpProduct());
+      // dispatch(cleanUpProduct());
     };
-  }, [router.query.code]);
+  }, [router.query.code, session]);
 
+  useEffect(() => {
+    if (productFind) {
+      setInput(productFind.quantity);
+    }
+  }, [productFind]);
+
+  const handleBtns = async () => {
+    if (!session) {
+      return toast.error("Por favor, inicie sesión para continuar.");
+    }
+  };
   return (
     <Layout>
       <div>
@@ -89,26 +134,110 @@ const Detail = (props: Props) => {
                         <div className="mb-4 mr-4 lg:mb-0">
                           <div className="w-28">
                             <div className="relative flex flex-row w-full h-10 bg-transparent rounded-lg">
-                              <button className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 hover:text-gray-700 hover:bg-gray-300">
-                                <span className="m-auto text-2xl font-thin">
-                                  -
-                                </span>
-                              </button>
-                              <input
-                                type="number"
-                                className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none focus:outline-none text-md hover:text-black"
-                                placeholder="1"
-                              />
-                              <button className="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300">
-                                <span className="m-auto text-2xl font-thin">
-                                  +
-                                </span>
-                              </button>
+                              {session ? (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={
+                                      productFind && productFind.quantity > 1
+                                        ? () =>
+                                            handleItemsCart({
+                                              ...propsForFunctions,
+                                              value: productFind.quantity - 1,
+                                            })
+                                        : () => setDeleteConfirmation(true)
+                                    }
+                                    disabled={isProcessing}
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 hover:text-gray-700 hover:bg-gray-300"
+                                  >
+                                    <span className="m-auto text-2xl font-thin">
+                                      -
+                                    </span>
+                                  </button>
+                                  <input
+                                    className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none focus:outline-none text-md hover:text-black"
+                                    type="text"
+                                    onChange={(e) => {
+                                      const inputValue = e.target.value;
+                                      if (inputValue === "") {
+                                        setInput(null);
+                                      } else if (
+                                        !Number.isNaN(parseInt(inputValue))
+                                      ) {
+                                        setInput(parseInt(inputValue));
+                                      }
+                                    }}
+                                    value={input === null ? "" : input}
+                                    onBlur={(e) => {
+                                      if (e.target.value === "") {
+                                        setInput(1);
+                                      }
+                                      handleInputChange({
+                                        ...propsForFunctions,
+                                        value: input,
+                                      });
+                                    }}
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      productFind && productFind.quantity
+                                        ? handleItemsCart({
+                                            ...propsForFunctions,
+                                            value: productFind.quantity + 1,
+                                          })
+                                        : null
+                                    }
+                                    disabled={isProcessing}
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300"
+                                  >
+                                    <span className="m-auto text-2xl font-thin">
+                                      +
+                                    </span>
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    onClick={handleBtns}
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 hover:text-gray-700 hover:bg-gray-300"
+                                  >
+                                    <span className="m-auto text-2xl font-thin">
+                                      -
+                                    </span>
+                                  </button>
+                                  <input
+                                    type="text"
+                                    className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none focus:outline-none text-md hover:text-black"
+                                    placeholder="1"
+                                    onChange={handleBtns}
+                                  />
+                                  <button
+                                    onClick={handleBtns}
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300"
+                                  >
+                                    <span className="m-auto text-2xl font-thin">
+                                      +
+                                    </span>
+                                  </button>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
                         <div className="mb-4 mr-4 lg:mb-0">
-                          <button className="w-full h-10 p-2 mr-4 bg-blue-500 text-gray-50 hover:bg-blue-600">
+                          <button
+                            onClick={() =>
+                              hanldeItemCart({
+                                code: product.code,
+                                session,
+                                isProcessing,
+                                setIsProcessing,
+                              })
+                            }
+                            type="button"
+                            className="w-full h-10 p-2 mr-4 bg-blue-500 text-gray-50 hover:bg-blue-600"
+                          >
                             Buy Now
                           </button>
                         </div>
