@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout/Layout";
+import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import { EStateGeneric } from "@/shared/types";
 import {
+  handleDelete,
   handleInputChange,
   handleItemsCart,
   hanldeItemCart,
@@ -40,6 +42,7 @@ const Detail = (props: Props) => {
   );
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [checkout, setCheckout] = useState(false);
   const [input, setInput] = useState<number | null>(null);
 
   const propsForFunctions = {
@@ -64,7 +67,7 @@ const Detail = (props: Props) => {
       }
     })();
     return () => {
-      // dispatch(cleanUpProduct());
+      dispatch(cleanUpProduct());
     };
   }, [router.query.code, session]);
 
@@ -72,12 +75,24 @@ const Detail = (props: Props) => {
     if (productFind) {
       setInput(productFind.quantity);
     }
+    if (!productFind) {
+      setInput(null);
+    }
   }, [productFind]);
 
   const handleBtns = async () => {
     if (!session) {
       return toast.error("Por favor, inicie sesión para continuar.");
     }
+  };
+  const handleFirstItem = async () => {
+    await hanldeItemCart({
+      code: product.code,
+      session,
+      isProcessing,
+      setIsProcessing,
+    });
+    if (session) dispatch(getCartUser(session.user.id));
   };
   return (
     <Layout>
@@ -147,8 +162,8 @@ const Detail = (props: Props) => {
                                             })
                                         : () => setDeleteConfirmation(true)
                                     }
-                                    disabled={isProcessing}
-                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 hover:text-gray-700 hover:bg-gray-300"
+                                    disabled={isProcessing || !productFind}
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300"
                                   >
                                     <span className="m-auto text-2xl font-thin">
                                       -
@@ -159,7 +174,10 @@ const Detail = (props: Props) => {
                                     type="text"
                                     onChange={(e) => {
                                       const inputValue = e.target.value;
-                                      if (inputValue === "") {
+                                      if (
+                                        inputValue === "" ||
+                                        inputValue === "0"
+                                      ) {
                                         setInput(null);
                                       } else if (
                                         !Number.isNaN(parseInt(inputValue))
@@ -167,15 +185,17 @@ const Detail = (props: Props) => {
                                         setInput(parseInt(inputValue));
                                       }
                                     }}
-                                    value={input === null ? "" : input}
+                                    value={input === null ? "0" : input}
                                     onBlur={(e) => {
                                       if (e.target.value === "") {
                                         setInput(1);
                                       }
-                                      handleInputChange({
-                                        ...propsForFunctions,
-                                        value: input,
-                                      });
+                                      productFind && productFind.quantity
+                                        ? handleInputChange({
+                                            ...propsForFunctions,
+                                            value: input,
+                                          })
+                                        : handleFirstItem();
                                     }}
                                   />
                                   <button
@@ -200,7 +220,7 @@ const Detail = (props: Props) => {
                                 <>
                                   <button
                                     onClick={handleBtns}
-                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 hover:text-gray-700 hover:bg-gray-300"
+                                    className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300"
                                   >
                                     <span className="m-auto text-2xl font-thin">
                                       -
@@ -209,7 +229,7 @@ const Detail = (props: Props) => {
                                   <input
                                     type="text"
                                     className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none focus:outline-none text-md hover:text-black"
-                                    placeholder="1"
+                                    placeholder="0"
                                     onChange={handleBtns}
                                   />
                                   <button
@@ -227,22 +247,26 @@ const Detail = (props: Props) => {
                         </div>
                         <div className="mb-4 mr-4 lg:mb-0">
                           <button
-                            onClick={() =>
-                              hanldeItemCart({
-                                code: product.code,
-                                session,
-                                isProcessing,
-                                setIsProcessing,
-                              })
-                            }
+                            onClick={() => setCheckout(true)}
                             type="button"
                             className="w-full h-10 p-2 mr-4 bg-blue-500 text-gray-50 hover:bg-blue-600"
                           >
-                            Buy Now
+                            Comprar ahora
                           </button>
                         </div>
                         <div className="mb-4 mr-4 lg:mb-0">
-                          <button className="flex items-center justify-center w-full h-10 p-2 text-gray-400 border border-gray-300 lg:w-11 hover:text-gray-700">
+                          <button
+                            onClick={() =>
+                              productFind && productFind.quantity
+                                ? handleItemsCart({
+                                    ...propsForFunctions,
+                                    value: productFind.quantity + 1,
+                                  })
+                                : handleFirstItem()
+                            }
+                            type="button"
+                            className="flex items-center justify-center w-full h-10 p-2 text-gray-400 border border-gray-300 lg:w-11 hover:text-gray-700"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -278,6 +302,30 @@ const Detail = (props: Props) => {
           </section>
         )}
       </div>
+      {deleteConfirmation && (
+        <DeleteConfirmation
+          title="Eliminar Producto"
+          message="¿Estás seguro de que deseas eliminar este producto de tu carrito de compras? Ten en cuenta que este producto se eliminará del carrito, pero aún puedes agregarlo nuevamente en el futuro si lo necesitas."
+          confirmText="Eliminar"
+          cancelText="Cancelar"
+          onConfirm={() =>
+            handleDelete({
+              ...propsForFunctions,
+            })
+          }
+          onCancel={() => setDeleteConfirmation(false)}
+        />
+      )}
+      {checkout && (
+        <DeleteConfirmation
+          title="Finalizar Compra"
+          message="¿Estás seguro de que deseas confirmar tu compra? Una vez que confirmes, tu pedido será procesado y enviado. Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en contactarnos. ¡Gracias por tu compra!"
+          confirmText="Confirmar Compra"
+          cancelText="Cancelar Compra"
+          onConfirm={() => setCheckout(false)}
+          onCancel={() => setCheckout(false)}
+        />
+      )}
     </Layout>
   );
 };

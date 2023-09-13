@@ -82,7 +82,7 @@ const Card = ({ session, ...props }: Props) => {
               type="text"
               onChange={(e) => {
                 const inputValue = e.target.value;
-                if (inputValue === "") {
+                if (inputValue === "" || inputValue === "0") {
                   setInput(null);
                 } else if (!Number.isNaN(parseInt(inputValue))) {
                   setInput(parseInt(inputValue));
