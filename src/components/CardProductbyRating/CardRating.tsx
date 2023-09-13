@@ -6,6 +6,7 @@ import { Session } from "next-auth";
 import toast from "react-hot-toast";
 import { addOneProductToCart } from '@/states/cart/cartApi';
 import LoaderBtn from '../Cart/LoaderBtn';
+import { hanldeItemCart } from '@/shared/ultis';
 
 type Props = {
     session: Session | null,
@@ -18,29 +19,6 @@ type Props = {
 
 const CardRating = ({ code, session, name, image, rating, description }: Props) => {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
-
-    const hanldeItemCart = async () => {
-        if (isProcessing) {
-            return;
-        }
-        setIsProcessing(true);
-        try {
-            if (!session) {
-                return toast.error("Por favor, inicie sesión para continuar.");
-            }
-            const response = await addOneProductToCart({
-                userId: session.user.id,
-                productCode: code,
-            });
-            if (response.status === 201) {
-                toast.success("El artículo se ha añadido al carro con éxito.");
-            }
-        } catch (error) {
-            toast.error("Ocurrió un error, por favor intente nuevamente.");
-        } finally {
-            setIsProcessing(false);
-        }
-    };
 
     return (
         <div className=' flex  w-full items-center  '>
@@ -57,7 +35,12 @@ const CardRating = ({ code, session, name, image, rating, description }: Props) 
                     <p>{description}</p>
                     {/* <h2>{rating}</h2> */}
                     <Rating name="size-large" defaultValue={2} size="large" />
-                    <button onClick={hanldeItemCart} type='button'><h2 className='border border-black w-32 cursor-pointer bg-red-600 text-white rounded-[10px] p-1 hover:scale-110 hover:transition-transform duration-300 flex justify-center'>{isProcessing ? <LoaderBtn /> : "Comprar"}</h2></button>
+                    <button onClick={() => hanldeItemCart({
+                        code,
+                        session,
+                        isProcessing,
+                        setIsProcessing,
+                    })} type='button'><h2 className='border border-black w-32 cursor-pointer bg-red-600 text-white rounded-[10px] p-1 hover:scale-110 hover:transition-transform duration-300 flex justify-center'>{isProcessing ? <LoaderBtn /> : "Comprar"}</h2></button>
                 </div>
 
             </div>
