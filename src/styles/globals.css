@@ -31,18 +31,12 @@ body {
   padding: 0;
 }
 
-/* .swiper {
-  width: 80%;
-  height: 100%;
-} */
-
 .swiper-slide {
   text-align: center;
   font-size: 18px;
   background: #fff;
 
-  /* Center slide text vertically */
-  /* display: flex; */
+
   justify-content: center;
   align-items: center;
 }
@@ -54,25 +48,3 @@ body {
   object-fit: cover;
 }
 
-/* .swiper-v {
-  background: #eee;
-} */
-
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
