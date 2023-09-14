@@ -30,7 +30,7 @@ const Cart = (props: Props) => {
   }, [session, dispatch]);
 
   return (
-    <Layout>
+    <Layout title="Carro de compras">
       <div className="flex flex-col items-center">
         {session && (
           <div className="md:p-10 max-w-screen-2xl w-full">
