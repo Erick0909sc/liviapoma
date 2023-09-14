@@ -76,7 +76,7 @@ const Nadvar = (props: Props) => {
             </div>
           </Link>
 
-          <Link href={"#"}>
+          <Link href={"/cart"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-red-500">
               <FaShoppingCart />
               <h2>Carrito</h2>
