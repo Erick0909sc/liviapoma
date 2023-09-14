@@ -17,7 +17,7 @@ import { itemsPerPage } from "@/shared/ultis";
 import { useSession } from "next-auth/react";
 
 const Products: React.FC = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts);
@@ -42,7 +42,7 @@ const Products: React.FC = () => {
     // La función de retorno se ejecuta al desmontar el componenteasadasddadasdsaffdegkfdjkgfdkgfjlkgfdñklglkjgfdklfdgfjldgjdgñksdgsdklgjdgsdñlgdsgjsdjksd
   }, [dispatch, productsStatus, session]);
   return (
-    <Layout>
+    <Layout title="Productos">
       <>
         <div className="flex flex-col justify-center">
           {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}

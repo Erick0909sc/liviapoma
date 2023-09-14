@@ -1,34 +1,38 @@
-
-import Card from '@/components/CardCategory/Card'
-import CardRating from '@/components/CardProductbyRating/CardRating'
-import Layout from '@/components/Layout/Layout'
-import categories from '@/data/categories'
-import { EStateGeneric } from '@/shared/types'
-import { getAllCategories, getAllProducts, selectAllCategoriesStatus, selectAllCategory, selectProductByrating, selectTopRatedProducts } from '@/states/products/productsSlice'
-import { useAppDispatch } from '@/states/store'
-import Image from 'next/image'
-import img from 'public/portada02.jpg'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import Card from "@/components/CardCategory/Card";
+import CardRating from "@/components/CardProductbyRating/CardRating";
+import Layout from "@/components/Layout/Layout";
+import categories from "@/data/categories";
+import { EStateGeneric } from "@/shared/types";
+import {
+  getAllCategories,
+  getAllProducts,
+  selectAllCategoriesStatus,
+  selectAllCategory,
+  selectProductByrating,
+  selectTopRatedProducts,
+} from "@/states/products/productsSlice";
+import { useAppDispatch } from "@/states/store";
+import Image from "next/image";
+import img from "public/portada02.jpg";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useSession } from "next-auth/react";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 // import './styles.css';
-import { Pagination, Autoplay } from 'swiper/modules';
-
-
+import { Pagination, Autoplay } from "swiper/modules";
 
 export default function Home() {
-  const { data: session } = useSession()
-  const dispatch = useAppDispatch()
+  const { data: session } = useSession();
+  const dispatch = useAppDispatch();
 
   const topRatedProducts = useSelector(selectProductByrating);
-  const categoriesProducts = useSelector(selectAllCategory)
-  const categoryStatus = useSelector(selectAllCategoriesStatus)
+  const categoriesProducts = useSelector(selectAllCategory);
+  const categoryStatus = useSelector(selectAllCategoriesStatus);
   const [slidesPerView, setSlidesPerView] = useState(1);
 
   useEffect(() => {
@@ -40,20 +44,17 @@ export default function Home() {
       }
     };
 
-
-
     fetchData();
   }, [dispatch, categoryStatus, session]);
 
   return (
-    <Layout>
-      <div className='w-full flex flex-col bg-slate-100'>
-        <div className='relative flex flex-col w-full h-[15rem]  md:h-[30rem] lg:h-[30rem]'>
-          <Image src={img} alt='img' className='aspect-video ' />
+    <Layout title="Inicio">
+      <div className="w-full flex flex-col bg-slate-100">
+        <div className="relative flex flex-col w-full h-[15rem]  md:h-[30rem] lg:h-[30rem]">
+          <Image src={img} alt="img" className="aspect-video " />
         </div>
 
-        <div className=' gap-2 w-full justify-center h-14 items-center hidden sm:flex '>
-
+        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
           {categoryStatus === EStateGeneric.PENDING ? (
             <p>Loading...</p>
           ) : categoryStatus === EStateGeneric.FAILED ? (
@@ -63,7 +64,6 @@ export default function Home() {
               <Card key={index} name={category.name} />
             ))
           )}
-
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
           <Swiper
@@ -82,16 +82,16 @@ export default function Home() {
             }}
           >
             {categoriesProducts.map((category, index) => (
-              <SwiperSlide key={index} className='w-full '>
-                <div className="flex justify-center h-full items-center text-[15px]"> 
+              <SwiperSlide key={index} className="w-full ">
+                <div className="flex justify-center h-full items-center text-[15px]">
                   <Card name={category.name} />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
-        <div className=' flex flex-col h-[30rem]  md:h-[30rem] lg:h-[40rem] pb-8'>
-          <div className='w-full h-20 flex items-center justify-center p-5 text-[20px] font-bold'>
+        <div className=" flex flex-col h-[30rem]  md:h-[30rem] lg:h-[40rem] pb-8">
+          <div className="w-full h-20 flex items-center justify-center p-5 text-[20px] font-bold">
             <h2>PRODUCTOS MAS VENDIDOS</h2>
           </div>
           <Swiper
@@ -109,16 +109,21 @@ export default function Home() {
               disableOnInteraction: false,
             }}
           >
-
             {topRatedProducts.map((product, index) => (
               <SwiperSlide key={index}>
-                <CardRating session={session} code={product.code} name={product.name} image={product.image} rating={product.rating} description={product.description} />
+                <CardRating
+                  session={session}
+                  code={product.code}
+                  name={product.name}
+                  image={product.image}
+                  rating={product.rating}
+                  description={product.description}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
-
         </div>
       </div>
     </Layout>
-  )
+  );
 }

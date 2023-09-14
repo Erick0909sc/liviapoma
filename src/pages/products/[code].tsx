@@ -95,7 +95,7 @@ const Detail = (props: Props) => {
     if (session) dispatch(getCartUser(session.user.id));
   };
   return (
-    <Layout>
+    <Layout title={product.name || "Product not found"}>
       <div>
         {status === EStateGeneric.SUCCEEDED && (
           <section className="py-20 overflow-hidden bg-white font-poppins ">
