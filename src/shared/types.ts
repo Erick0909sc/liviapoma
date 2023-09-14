@@ -19,6 +19,19 @@ export interface IProduct {
 
 }
 
+export interface Phidden{
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  marca: string;
+  category: Category;
+  discount: number;
+  image: string;
+}
+
+
+
 export interface Category {
   id: number;
   name: string;

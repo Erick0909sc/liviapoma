@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import NadvarAmin from '../NadvarAdmin/NadvarAmin'
 import FooterAdmin from '../FooterAdmin/FooterAdmin'
 import Sidebar from '@/components/Sidebar/Sidebar';
+import Head from 'next/head';
 
 type Props = {
     children: ReactNode;
@@ -18,16 +19,24 @@ const LayaoutAdmin = ({ children }: Props) => {
 
     return (
         <div className={`flex min-h-screen ${containerClass}`}>
+
+            {/* realizar tarea de head , que sea dinamico y que reciba un title */}
+            <Head>
+                <title>Hola</title>
+            </Head>
+
+
+
             {visibleSidebar && (
-                <div className="w-[250px]">
+                <div className=" h-full">
                     <Sidebar />
                 </div>
             )}
-            <div className="flex-grow flex flex-col">
-                <div className="flex-grow">
-                    <NadvarAmin toggleSidebar={toggleSidebar} />
-                    <div className="p-4 flex-grow">{children}</div>
-                </div>
+            <div className="flex-grow flex flex-col ">
+
+                <NadvarAmin toggleSidebar={toggleSidebar} />
+                <div className=" flex-grow ">{children}</div>
+
                 <FooterAdmin />
             </div>
         </div>
