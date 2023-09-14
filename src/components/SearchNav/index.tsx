@@ -1,0 +1,113 @@
+import {
+  cleanUpProduct,
+  selectAllProducts,
+} from "@/states/products/productsSlice";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef } from "react";
+import { FaSearch } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+
+type Props = {};
+
+const SearchNav = (props: Props) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const allProducts = useSelector(selectAllProducts);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [searching, setSearching] = useState(false);
+
+
+  const filteredProducts = allProducts.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const noResults = filteredProducts.length === 0 && searchQuery !== "";
+
+  const searchRef = useRef<HTMLDivElement | null>(null); //  tipo q ni sabia q existia
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      searchRef.current &&
+      !searchRef.current.contains(event.target as Node)
+    ) {
+      setShowSearch(false);
+    }
+  };
+  const handleProductClick = (productCode: string) => {
+    // Limpia el estado del producto antes de la redirección
+    dispatch(cleanUpProduct());
+  
+    // Establece "searching" en "true" cuando se realiza una búsqueda
+    setSearching(true);
+  
+    // Realiza la redirección al detalle del producto
+    router.push(`/products/${productCode}`);
+  
+    // Oculta el componente de búsqueda
+    setShowSearch(false);
+  
+    // Limpia el campo de búsqueda
+    setSearchQuery("");
+  };
+  
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  return (
+    <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[30%] flex justify-center items-center gap-2 relative">
+      <input
+        type="text"
+        placeholder="¿Qué Buscas?"
+        className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black "
+        value={searchQuery}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          setShowSearch(e.target.value.length > 0);
+        }}
+        onFocus={() => setShowSearch(searchQuery.length > 0)}
+      />
+      <button>
+        <FaSearch className="text-[20px]" />
+      </button>
+
+      {showSearch && (
+        <div
+          ref={searchRef}
+          className="search-dropdown absolute z-20 bg-white top-full w-full border border-orange-400"
+        >
+          {noResults ? (
+            <p className="text-red-500">No se encontraron resultados</p>
+          ) : (
+            <div className="product-list max-h-[300px] overflow-y-auto w-full">
+              {filteredProducts.map((product, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleProductClick(product.code)}
+                  className="product-item flex items-center p-2 text-gray-700"
+                >
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={50}
+                    height={50}
+                    className="mr-2"
+                  />
+                  {product.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchNav;
