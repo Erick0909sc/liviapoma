@@ -1,9 +1,10 @@
-import { disableProducts, restoreProducts, selecthiddenproducts } from '@/states/dashboard/products/productsSlice';
+import { deleteProducts, disableProducts, restoreProducts, selecthiddenproducts } from '@/states/dashboard/products/productsSlice';
 import { useAppDispatch } from '@/states/store';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { AiFillDelete, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+
 
 type Props = {
     code: string;
@@ -14,26 +15,26 @@ type Props = {
     image: string;
     discount: number;
     category: string;
-
 }
 
-function ProductsAdmin({ code,
+function ProductsHidden({ code,
     name,
     description,
     price,
     marca,
     image,
+
     discount,
     category }: Props) {
 
-    const [view, setView] = useState(true);
+    const [view, setView] = useState(false);
     const dispatch = useAppDispatch();
     const hiddenProducts = useSelector(selecthiddenproducts);
 
-
+    
 
     useEffect(() => {
-        // Verificar si el producto está en la lista de productos deshabilitados
+
         const isProductHidden = hiddenProducts.some((product) => product.code === code);
         setView(!isProductHidden); 
     }, [hiddenProducts, code]);
@@ -41,14 +42,28 @@ function ProductsAdmin({ code,
 
     const handleToggleProductVisibility = () => {
         if (view) {
-            dispatch(disableProducts(code)); // Deshabilitar el producto
+            dispatch(disableProducts(code));
         } else {
-            dispatch(restoreProducts(code)); // Restaurar el producto
+            dispatch(restoreProducts(code)); 
         }
-        setView(!view); // Cambiar el estado local para mostrar/ocultar
+        setView(!view); 
     };
 
+    // const handleDeleteProduct = () => {
+    //     dispatch(deleteProducts(code));
+    // }
 
+    const handleDeleteProduct = () => {
+        const confirmation = window.confirm('¿Desea usted eliminar este producto?');
+    
+        if (confirmation) {
+          // El usuario eligió "Sí"
+          dispatch(deleteProducts(code));
+        } else {
+          // El usuario eligió "No" o canceló la alerta
+          // Puedes realizar alguna acción o simplemente no hacer nada
+        }
+      };
 
     return (
         <tr className="mb-2 text-center">
@@ -67,11 +82,11 @@ function ProductsAdmin({ code,
             ) : (
                 <button onClick={handleToggleProductVisibility}><AiFillEyeInvisible /></button>
             )}
-                 {/* <button><AiFillDelete /></button> */}
+                 <button onClick={handleDeleteProduct}><AiFillDelete /></button>
             </td>
         </tr>
 
     )
 }
 
-export default ProductsAdmin
+export default ProductsHidden

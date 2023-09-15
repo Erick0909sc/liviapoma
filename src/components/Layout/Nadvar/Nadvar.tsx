@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
-import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import UserModal from "@/components/Modals/users";
 import { signOut, useSession } from "next-auth/react";
@@ -8,9 +8,8 @@ import { ImMenu } from "react-icons/im";
 import MenuModal from "@/components/Modals/menu";
 import { AiFillHome } from "react-icons/ai";
 import { MdContactPhone, MdInventory } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { selectAllProducts } from "@/states/products/productsSlice";
-import Image from "next/image";
+import SearchNav from "@/components/SearchNav";
+
 
 type Props = {};
 
@@ -29,35 +28,6 @@ const Nadvar = (props: Props) => {
     setMenuModalOpen(false);
     setUserModalOpen(!userModalOpen);
   };
-  //prueba:
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const allProducts = useSelector(selectAllProducts);
-
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const noResults = filteredProducts.length === 0 && searchQuery !== "";
-
-  const searchRef = useRef<HTMLDivElement | null>(null); //  tipo q ni sabia q existia 
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      searchRef.current &&
-      !searchRef.current.contains(event.target as Node)
-    ) {
-      setShowSearch(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <nav className="relative">
       <div className="bg-blue-950 flex text-white h-16 w-ful ">
@@ -66,51 +36,8 @@ const Nadvar = (props: Props) => {
             <h2 className="cursor-pointer">Ferreteria Liviapoma</h2>
           </Link>
         </div>
-
-        <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[30%] flex justify-center items-center gap-2 relative">
-          <input
-            type="text"
-            placeholder="¿Qué Buscas?"
-            className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black "
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setShowSearch(e.target.value.length > 0);
-            }}
-            onFocus={() => setShowSearch(searchQuery.length > 0)}
-          />
-          <button>
-            <FaSearch className="text-[20px]" />
-          </button>
-
-          {showSearch && (
-            <div
-              ref={searchRef}
-              className="search-dropdown absolute z-10 bg-white top-full w-full border border-orange-400"
-            >
-              {noResults ? (
-                <p className="text-red-500">No se encontraron resultados</p>
-              ) : (
-                <div className="product-list max-h-[300px] overflow-y-auto w-full">
-                  {filteredProducts.map((product, index) => (
-                    <Link href={`/products/${product.code}`} key={index}>
-                      <div className="product-item flex items-center p-2 text-gray-700">
-                        <Image
-                          src={product.image} 
-                          alt={product.name}
-                          width={50}
-                          height={50}
-                          className="mr-2"
-                        />
-                        {product.name}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        {/* AQUI VA EL RENDERIZADO OJALA SIRVA XD */}
+        <SearchNav />
 
         <div className=" flex sm:hidden w-[38%]  justify-end items-center gap-5 pr-6 text-[25px] lg:text-[35px]">
           <button onClick={toggleMenuModal}>
@@ -149,7 +76,7 @@ const Nadvar = (props: Props) => {
             </div>
           </Link>
 
-          <Link href={"#"}>
+          <Link href={"/cart"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-red-500">
               <FaShoppingCart />
               <h2>Carrito</h2>

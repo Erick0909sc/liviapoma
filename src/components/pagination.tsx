@@ -40,7 +40,7 @@ const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props)
         onClick={previousPage}
         className="disabled:opacity-50 hover:text-indigo-800 text-indigo-700"
       >
-        <IoIosArrowDropleftCircle className="text-5xl  sm:text-xl" />
+        <IoIosArrowDropleftCircle className="text-5xl" />
       </button>
       {pages.map((number, index) =>
         <button type="button"
