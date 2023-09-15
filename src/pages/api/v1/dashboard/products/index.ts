@@ -75,6 +75,53 @@ export default async function handler(
         res.status(500).json(error);
       }
       break;
+    case "POST":
+      try {
+        const {
+          code,
+          name,
+          description,
+          price,
+          marca,
+          image,
+          rating,
+          discount,
+          categoryId,
+        } = req.body;
+        if (
+          !code ||
+          !name ||
+          !description ||
+          !price ||
+          !marca ||
+          !image ||
+          !rating ||
+          !discount ||
+          !categoryId
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Todos los campos son obligatorios." });
+        }
+        const newProduct = await prisma.product.create({
+          data: {
+            code,
+            name,
+            description,
+            price,
+            marca,
+            image,
+            rating,
+            discount,
+            categoryId,
+          },
+        });
+
+        res.status(201).json(newProduct);
+      } catch (error) {
+        res.status(500).json(error);
+      }
+      break;
     default:
       res.status(500).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;

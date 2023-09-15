@@ -106,3 +106,13 @@ enum Role {
   Admin
   Manager
 }
+
+// enum Role {
+//   User, // Cliente (acceso limitado, principalmente para compras)
+//   Salesperson, // Representante de Ventas (puede gestionar pedidos y atender consultas)
+//   WarehouseManager, // Gerente de Almacén (gestiona el inventario y envíos)
+//   Admin, // Administrador (acceso completo al dashboard, gestiona empleados y configuración)
+//   FinanceManager, // Gerente de Finanzas (gestiona las transacciones y las finanzas)
+//   CustomerSupport, // Soporte al Cliente (responde a preguntas y problemas de los clientes)
+//   DeliveryManager, // Encargado de Entrega (gestiona las entregas y conductores)
+// }

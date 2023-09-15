@@ -47,6 +47,59 @@ export default async function handler(
         res.status(500).json(error);
       }
       break;
+    case "PUT":
+      try {
+        const { code } = req.query;
+        const {
+          name,
+          description,
+          price,
+          marca,
+          image,
+          rating,
+          discount,
+          categoryId,
+        } = req.body;
+        if (
+          !code ||
+          !name ||
+          !description ||
+          !price ||
+          !marca ||
+          !image ||
+          !rating ||
+          !discount ||
+          !categoryId
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Todos los campos son obligatorios." });
+        }
+        const updatedProduct = await prisma.product.update({
+          where: {
+            code: code as string,
+          },
+          data: {
+            name,
+            description,
+            price,
+            marca,
+            image,
+            rating,
+            discount,
+            categoryId,
+          },
+        });
+
+        if (updatedProduct) {
+          res.json(updatedProduct);
+        } else {
+          res.status(404).json({ error: "Producto no encontrado." });
+        }
+      } catch (error) {
+        res.status(500).json(error);
+      }
+      break;
     case "DELETE":
       try {
         const { code } = req.query;

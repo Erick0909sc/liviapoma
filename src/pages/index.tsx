@@ -25,6 +25,8 @@ import "swiper/css/autoplay";
 
 // import './styles.css';
 import { Pagination, Autoplay } from "swiper/modules";
+import Offer from "@/components/Offer";
+import { dataPrueba } from "@/shared/ultis";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -33,7 +35,7 @@ export default function Home() {
   const topRatedProducts = useSelector(selectProductByrating);
   const categoriesProducts = useSelector(selectAllCategory);
   const categoryStatus = useSelector(selectAllCategoriesStatus);
-  const [slidesPerView, setSlidesPerView] = useState(1);
+  const slidesPerView = 1;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,15 +57,14 @@ export default function Home() {
         </div>
 
         <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
-          {categoryStatus === EStateGeneric.PENDING ? (
-            <p>Loading...</p>
-          ) : categoryStatus === EStateGeneric.FAILED ? (
+          {categoryStatus === EStateGeneric.PENDING && <p>Loading...</p>}
+          {categoryStatus === EStateGeneric.FAILED && (
             <p>Failed to load Categories</p>
-          ) : (
+          )}
+          {categoryStatus === EStateGeneric.PENDING &&
             categories.map((category, index) => (
               <Card key={index} name={category.name} />
-            ))
-          )}
+            ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
           <Swiper
@@ -123,6 +124,9 @@ export default function Home() {
             ))}
           </Swiper>
         </div>
+        {/* {dataPrueba.map((e, index: number) => (
+          <Offer key={index} oferta={e} />
+        ))} */}
       </div>
     </Layout>
   );
