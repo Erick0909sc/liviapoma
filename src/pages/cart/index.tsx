@@ -27,6 +27,14 @@ const Cart = (props: Props) => {
         dispatch(getCartUser(session.user.id));
       }
     })();
+    return () => {
+      if (
+        cartStatus === EStateGeneric.SUCCEEDED ||
+        cartStatus === EStateGeneric.FAILED
+      ) {
+        dispatch(cleanUpCart());
+      }
+    };
   }, [session, dispatch]);
 
   return (
