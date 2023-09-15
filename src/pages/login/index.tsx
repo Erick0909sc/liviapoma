@@ -119,7 +119,7 @@ const Login = (props: Props) => {
                   className={`block w-full p-4 text-lg rounded-sm bg-black ${formik.touched.password && formik.errors.password
                     ? "border-2 border-red-500 placeholder:text-red-500" : ""}`}
                   placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
-                  type="text"
+                  type="password"
                   {...formik.getFieldProps("password")}
                   onBlur={(e) => {
                     formik.handleBlur(e);

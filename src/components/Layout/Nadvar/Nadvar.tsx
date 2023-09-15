@@ -61,7 +61,7 @@ const Nadvar = (props: Props) => {
           <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
 
-        <div className="hidden sm:flex w-[40%]  sm:w-[50%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
+        <div className="hidden sm:flex w-[40%]  sm:w-[55%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
           <Link href={"/"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-crema-200">
               <AiFillHome />
@@ -89,6 +89,21 @@ const Nadvar = (props: Props) => {
               <h2>Contacto</h2>
             </div>
           </Link>
+
+          {session?.user?.image ? (
+            <button onClick={toggleUserModal} >
+              <img
+                src={session.user.image}
+                alt="User"
+                className="w-[40px] h-[40px] rounded-full"
+              />
+            </button>
+          ) : (
+            <button onClick={toggleUserModal} className="lg:text-[40px]">
+              <FaUserCircle />
+            </button>
+          )}
+          <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
       </div>
     </nav>
