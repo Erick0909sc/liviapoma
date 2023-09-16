@@ -12,7 +12,7 @@ const Layout = (props: Props) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
-        <title>Liviapoma - {props.title}</title>
+        <title>{`Liviapoma - ${props.title}`}</title>
       </Head>
       <Nadvar />
       <div className="flex-grow">{props.children}</div>

@@ -107,6 +107,17 @@ enum Role {
   Manager
 }
 
+model Offer {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  discount    Float
+  image       String
+  category    String?
+}
+
 // enum Role {
 //   User, // Cliente (acceso limitado, principalmente para compras)
 //   Salesperson, // Representante de Ventas (puede gestionar pedidos y atender consultas)

@@ -4,6 +4,7 @@ import {
   FiSettings,
   FiX,
   FiBarChart2,
+  FiCheckCircle,
 } from "react-icons/fi";
 export const sidebarItems = [
   {
@@ -31,6 +32,10 @@ export const sidebarItems = [
     text: "Disabled",
     icon: <FiX className="text-2xl" />,
   },
+  {
+    text: "Offers",
+    icon: <FiCheckCircle className="text-2xl" />,
+  },
 ];
 export const translate: { [key: string]: string } = {
   Dashboard: "Tablero de control",
@@ -38,4 +43,5 @@ export const translate: { [key: string]: string } = {
   Users: "Usuarios",
   Administración: "Administración",
   Disabled: "Productos Deshabilitados",
+  Offers: "Ofertas",
 };
