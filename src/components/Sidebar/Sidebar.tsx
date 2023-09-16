@@ -39,7 +39,7 @@ const Sidebar = ({ session }: Props) => {
               }
               const lcText = text.toLowerCase();
               return (
-                <div>
+                <div key={text}>
                   <button
                     type="button"
                     onClick={() => {
@@ -48,7 +48,6 @@ const Sidebar = ({ session }: Props) => {
                         : router.push(`/dashboard/${lcText}`);
                       setActive(lcText);
                     }}
-                    key={text}
                     className={`${
                       active === lcText ? "bg-teal-600 text-crema-300" : ""
                     } w-full flex items-center px-2 py-3 gap-2 hover:bg-teal-600 cursor-pointer`}
