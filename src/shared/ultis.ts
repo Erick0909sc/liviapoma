@@ -22,6 +22,24 @@ export const formatPrice = (price: number) => {
   // });
 };
 
+export const formatFechaISO = (fechaISO: string) => {
+  try {
+    const fecha = new Date(fechaISO);
+    const dia = fecha.getDate().toString().padStart(2, "0");
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+    const año = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, "0");
+    const minutos = fecha.getMinutes().toString().padStart(2, "0");
+    const segundos = fecha.getSeconds().toString().padStart(2, "0");
+
+    const fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}:${segundos}`;
+    return fechaFormateada;
+  } catch (error) {
+    console.error("Error al formatear la fecha:", error);
+    return null;
+  }
+};
+
 export const processImage = (image: File) => {
   const formData = new FormData();
   formData.append("image", image);

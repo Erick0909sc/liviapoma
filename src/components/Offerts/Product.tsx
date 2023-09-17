@@ -1,7 +1,7 @@
 import { calcularPrecioConDescuento, formatPrice } from "@/shared/ultis";
 type Props = { oferta: any };
 
-const Offer = ({ oferta }: Props) => {
+const Product = ({ oferta }: Props) => {
   return (
     <div className="bg-crema-100 p-4 rounded-lg shadow-md w-full xs:w-11/12 ss:w-10/12 sm:w-9/12 md:w-8/12 lg:w-10/12 xl:w-11/12 max-w-6xl mx-auto border-4 border-green-600">
       <div className="relative p-0 sm:pt-16 lg:p-0">
@@ -46,4 +46,4 @@ const Offer = ({ oferta }: Props) => {
   );
 };
 
-export default Offer;
+export default Product;

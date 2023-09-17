@@ -25,7 +25,8 @@ import "swiper/css/autoplay";
 
 // import './styles.css';
 import { Pagination, Autoplay } from "swiper/modules";
-import Offer from "@/components/Offer";
+import Product from "@/components/Offerts/Product";
+import Offert from "@/components/Offerts/Offert";
 import { dataPrueba } from "@/shared/ultis";
 
 export default function Home() {
@@ -124,9 +125,17 @@ export default function Home() {
             ))}
           </Swiper>
         </div>
-        {/* {dataPrueba.map((e, index: number) => (
-          <Offer key={index} oferta={e} />
-        ))} */}
+
+        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+          <Offert />
+          <Offert />
+        </div>
+
+        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+          {dataPrueba.map((e, index: number) => (
+            <Product key={index} oferta={e} />
+          ))}
+        </div>
       </div>
     </Layout>
   );
