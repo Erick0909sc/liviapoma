@@ -11,6 +11,8 @@ import * as Yup from "yup";
 type Props = {};
 
 const NewOffer = (props: Props) => {
+  const initialPhoto =
+    "https://view.publitas.com/40824/1026433/pages/11096d18-d5a1-4920-be41-d5d0d5b031d2-at1000.jpg";
   const initialValues = {
     title: "",
     description: "",
@@ -84,6 +86,7 @@ const NewOffer = (props: Props) => {
           formik={formik}
           fieldName="image"
           fieldNameTranslate={OfferTranslation["image"]}
+          initialPhoto={initialPhoto}
         />
         <CustomTextarea
           formik={formik}

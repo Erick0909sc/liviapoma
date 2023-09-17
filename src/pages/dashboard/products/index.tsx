@@ -10,7 +10,7 @@ import { useAppDispatch } from '@/states/store';
 import Paginate from '@/components/pagination';
 import ProductsAdmin from '@/components/Dashboard/Products';
 
-const Index = () => {
+const Products = () => {
     const productDashboard = useSelector(selectAllDashboardProducts);
     console.log(productDashboard);
     const productsStatus = useSelector(selectAllDashboardProductsStatus);
@@ -90,4 +90,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default Products;

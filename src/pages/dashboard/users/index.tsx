@@ -1,10 +1,9 @@
-
 import LayaoutAdmin from '@/components/Layout/LayoutAdmin/LayaoutAdmin'
 import React from 'react'
 
 type Props = {}
 
-const Dashboard = (props: Props) => {
+const Users = (props: Props) => {
   return (
     <div>
       <LayaoutAdmin>
@@ -14,4 +13,4 @@ const Dashboard = (props: Props) => {
   )
 }
 
-export default Dashboard
+export default Users

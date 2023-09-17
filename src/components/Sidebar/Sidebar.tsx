@@ -20,7 +20,7 @@ const Sidebar = ({ session }: Props) => {
   }, [pathname]);
   return (
     <div className="h-screen flex ">
-      <div className="bg-teal-700 text-white flex flex-col flex-shrink-0 w-64">
+      <div className="bg-teal-700 text-white flex flex-col flex-shrink-0 w-72">
         <div className="flex items-center text-center h-[10%] font-bold border-b-4 gap-1">
           <Link href={"#"}>
             <h2 className="text-[25px] cursor-pointer">Ferreteria Liviapoma</h2>
