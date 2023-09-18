@@ -43,7 +43,7 @@ const CustomOptions = <FormValues,>({
               : "border-gray-700"
           }`}
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             {fieldNameTranslate}
           </option>
           {items.map((e, index) => (

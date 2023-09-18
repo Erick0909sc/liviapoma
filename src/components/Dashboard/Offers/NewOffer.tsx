@@ -33,7 +33,10 @@ const NewOffer = (props: Props) => {
   const validationSchema = Yup.object({
     startDate: Yup.date().required("La fecha de inicio es requerida"),
     endDate: Yup.date().required("La fecha de finalización es requerida"),
-    discount: Yup.number().required("El descuento es requerido"),
+    discount: Yup.number()
+      .required("El descuento es requerido")
+      .moreThan(0, "El descuento no puede ser menor o igual a 0%")
+      .max(100, "El descuento no puede ser mayor que 100"),
     category: Yup.array().optional(),
     brand: Yup.array().optional(),
   });
@@ -70,14 +73,11 @@ const NewOffer = (props: Props) => {
   const brands = ["PACASMAYO", "SIDERPERU", "ETERNIT", "FIBRAFORTE"];
 
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
-
     setOffertBy({
       ...states,
       [e.target.value]: true,
     });
   };
-  console.log(offertBy);
   return (
     <div className="p-2 md:p-4 flex flex-col items-center justify-center">
       <h2 className="text-2xl font-bold mb-4">Crear una nueva oferta</h2>
@@ -87,7 +87,7 @@ const NewOffer = (props: Props) => {
           onChange={handleSelect}
           defaultValue=""
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             Seleccionar Tipo de Oferta
           </option>
           <option value="marca_categoria">
