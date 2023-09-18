@@ -25,7 +25,7 @@ const Offert = (props: Props) => {
         alt={Offer.title || "Oferta de tiempo limitado"}
         className="w-auto h-auto rounded-s-lg max-h-[700px]"
       />
-      <div className="p-5 rounded-e-lg bg-crema-100">
+      {/* <div className="p-5 rounded-e-lg bg-crema-100">
         <div className="mt-4">
           <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold">
             {Offer?.title}
@@ -47,7 +47,7 @@ const Offert = (props: Props) => {
             </span>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -34,7 +34,7 @@ const CustomImageInput = <FormValues,>({
             <img
               src={imagePreview as string}
               alt="Vista Previa"
-              className="max-w-[750px] max-h-[500px]"
+              className="xs:max-w-[750px] xs:max-h-[500px]"
             />
             <span className="hidden absolute inset-0 group-hover:flex justify-center items-center backdrop-blur-sm bg-black/30 text-white transition-all text-xl font-bold hover:text-3xl">
               <span

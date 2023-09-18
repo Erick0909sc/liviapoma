@@ -43,6 +43,9 @@ const CustomOptions = <FormValues,>({
               : "border-gray-700"
           }`}
         >
+          <option value="" disabled selected>
+            {fieldNameTranslate}
+          </option>
           {items.map((e, index) => (
             <option key={index} value={e}>
               {e}
@@ -53,14 +56,14 @@ const CustomOptions = <FormValues,>({
       {prevValues.length !== 0 && (
         <div className="flex flex-wrap gap-1">
           {prevValues.map((e, index) => (
-            <span className="relative bg-green-500 p-1 pr-9" key={index}>
+            <span className="relative bg-white border border-gray-700 rounded-md p-1 pr-9" key={index}>
               {e}
               <button
                 className="absolute top-0 right-0"
                 type="button"
                 onClick={() => handleDelete(e)}
               >
-                <AiFillCloseCircle className="text-3xl" />
+                <AiFillCloseCircle className="text-3xl fill-red-500" />
               </button>
             </span>
           ))}
