@@ -3,6 +3,7 @@ import CustomImageInput from "@/components/Custom/CustomImageInput";
 import CustomInput from "@/components/Custom/CustomInput";
 import CustomNumber from "@/components/Custom/CustomNumber";
 import CustomOptions from "@/components/Custom/CustomOptions";
+import CustomOptionsWithInput from "@/components/Custom/CustomOptionsWithInput";
 import CustomTextarea from "@/components/Custom/CustomTextarea";
 import { OfferTranslation } from "@/shared/translate";
 import { useFormik } from "formik";
@@ -33,11 +34,11 @@ const NewOffer = (props: Props) => {
   const validationSchema = Yup.object({
     startDate: Yup.date().required("La fecha de inicio es requerida"),
     endDate: Yup.date().required("La fecha de finalización es requerida"),
-    discount: Yup.number()
-      .required("El descuento es requerido")
-      .moreThan(0, "El descuento no puede ser menor o igual a 0%")
-      .max(100, "El descuento no puede ser mayor que 100"),
-    category: Yup.array().optional(),
+    // discount: Yup.number()
+    //   .required("El descuento es requerido")
+    //   .moreThan(0, "El descuento no puede ser menor o igual a 0%")
+    //   .max(100, "El descuento no puede ser mayor que 100"),
+    // category: Yup.array().optional(),
     brand: Yup.array().optional(),
   });
   const formik = useFormik({
@@ -82,24 +83,41 @@ const NewOffer = (props: Props) => {
     <div className="p-2 md:p-4 flex flex-col items-center justify-center">
       <h2 className="text-2xl font-bold mb-4">Crear una nueva oferta</h2>
       <form onSubmit={formik.handleSubmit} className="w-full h-auto max-w-4xl">
-        <select
-          className={`block w-full px-5 py-3 text-black bg-white border rounded-lg font-semibold focus:border-green-500 focus:ring-green-600 focus:outline-none focus:ring focus:ring-opacity-80 mb-4`}
-          onChange={handleSelect}
-          defaultValue=""
-        >
-          <option value="" disabled>
-            Seleccionar Tipo de Oferta
-          </option>
-          <option value="marca_categoria">
-            Ofertas de Marca en una Categoría
-          </option>
-          <option value="categoria">Ofertas en Toda una Categoría</option>
-          <option value="marca">Ofertas de Toda una Marca</option>
-        </select>
+        <div className="grid items-center gap-4 md:grid-cols-3">
+          <div>
+            <label className="capitalize block text-gray-600">
+              Tipo de Oferta:
+            </label>
+            <select
+              className={`block w-full px-5 py-3 text-black bg-white border rounded-lg font-semibold focus:border-green-500 focus:ring-green-600 focus:outline-none focus:ring focus:ring-opacity-80 mb-4`}
+              onChange={handleSelect}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Seleccionar Tipo de Oferta
+              </option>
+              <option value="marca_categoria">
+                Ofertas de Marca en una Categoría
+              </option>
+              <option value="categoria">Ofertas en Toda una Categoría</option>
+              <option value="marca">Ofertas de Toda una Marca</option>
+            </select>
+          </div>
+          <CustomDatetime
+            formik={formik}
+            fieldName="startDate"
+            fieldNameTranslate={OfferTranslation["startDate"]}
+          />
+          <CustomDatetime
+            formik={formik}
+            fieldName="endDate"
+            fieldNameTranslate={OfferTranslation["endDate"]}
+          />
+        </div>
         {offertBy.marca_categoria && (
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <CustomOptions
+              <CustomOptionsWithInput
                 formik={formik}
                 fieldName="category"
                 items={categories}
@@ -107,7 +125,7 @@ const NewOffer = (props: Props) => {
               />
             </div>
             <div>
-              <CustomOptions
+              <CustomOptionsWithInput
                 formik={formik}
                 fieldName="brand"
                 items={brands}
@@ -119,7 +137,7 @@ const NewOffer = (props: Props) => {
         {offertBy.categoria && (
           <div className="grid gap-4 md:grid-cols-1">
             <div>
-              <CustomOptions
+              <CustomOptionsWithInput
                 formik={formik}
                 fieldName="category"
                 items={categories}
@@ -131,7 +149,7 @@ const NewOffer = (props: Props) => {
         {offertBy.marca && (
           <div className="grid gap-4 md:grid-cols-1">
             <div>
-              <CustomOptions
+              <CustomOptionsWithInput
                 formik={formik}
                 fieldName="brand"
                 items={brands}
@@ -146,23 +164,6 @@ const NewOffer = (props: Props) => {
           fieldNameTranslate={OfferTranslation["image"]}
           initialPhoto={initialPhoto}
         />
-        <div className="grid gap-4 md:grid-cols-3">
-          <CustomDatetime
-            formik={formik}
-            fieldName="startDate"
-            fieldNameTranslate={OfferTranslation["startDate"]}
-          />
-          <CustomDatetime
-            formik={formik}
-            fieldName="endDate"
-            fieldNameTranslate={OfferTranslation["endDate"]}
-          />
-          <CustomNumber
-            formik={formik}
-            fieldName="discount"
-            fieldNameTranslate={OfferTranslation["discount"]}
-          />
-        </div>
         <button
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg"
           type="submit"

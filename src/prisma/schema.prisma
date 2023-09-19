@@ -108,14 +108,26 @@ enum Role {
 }
 
 model Offer {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  startDate   DateTime
-  endDate     DateTime
-  discount    Float
-  image       String
-  category    String?
+  id         Int             @id @default(autoincrement())
+  startDate  DateTime
+  endDate    DateTime
+  image      String
+  categories CategoryOffer[]
+  brand      BrandOffer[]
+}
+
+model CategoryOffer {
+  id       Int     @id @default(autoincrement())
+  name     String
+  discount Int
+  offers   Offer[]
+}
+
+model BrandOffer {
+  id       Int     @id @default(autoincrement())
+  name     String
+  discount Int
+  offers   Offer[]
 }
 
 // enum Role {

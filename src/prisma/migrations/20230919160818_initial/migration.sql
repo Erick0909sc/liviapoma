@@ -95,6 +95,46 @@ CREATE TABLE "CartItem" (
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Offer" (
+    "id" SERIAL NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "image" TEXT NOT NULL,
+
+    CONSTRAINT "Offer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CategoryOffer" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "discount" INTEGER NOT NULL,
+
+    CONSTRAINT "CategoryOffer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "BrandOffer" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "discount" INTEGER NOT NULL,
+
+    CONSTRAINT "BrandOffer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_CategoryOfferToOffer" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_BrandOfferToOffer" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -116,6 +156,18 @@ CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
 -- CreateIndex
 CREATE UNIQUE INDEX "CartItem_productCode_cartId_key" ON "CartItem"("productCode", "cartId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_CategoryOfferToOffer_AB_unique" ON "_CategoryOfferToOffer"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CategoryOfferToOffer_B_index" ON "_CategoryOfferToOffer"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_BrandOfferToOffer_AB_unique" ON "_BrandOfferToOffer"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_BrandOfferToOffer_B_index" ON "_BrandOfferToOffer"("B");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -133,3 +185,15 @@ ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_productCode_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CategoryOfferToOffer" ADD CONSTRAINT "_CategoryOfferToOffer_A_fkey" FOREIGN KEY ("A") REFERENCES "CategoryOffer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CategoryOfferToOffer" ADD CONSTRAINT "_CategoryOfferToOffer_B_fkey" FOREIGN KEY ("B") REFERENCES "Offer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_BrandOfferToOffer" ADD CONSTRAINT "_BrandOfferToOffer_A_fkey" FOREIGN KEY ("A") REFERENCES "BrandOffer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_BrandOfferToOffer" ADD CONSTRAINT "_BrandOfferToOffer_B_fkey" FOREIGN KEY ("B") REFERENCES "Offer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
