@@ -59,9 +59,10 @@ model VerificationToken {
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+  id        Int                @id @default(autoincrement())
+  name      String
+  products  Product[]
+  discounts CategoryDiscount[]
 }
 
 model Product {
@@ -108,26 +109,29 @@ enum Role {
 }
 
 model Offer {
-  id         Int             @id @default(autoincrement())
+  id         Int                @id @default(autoincrement())
   startDate  DateTime
   endDate    DateTime
   image      String
-  categories CategoryOffer[]
-  brand      BrandOffer[]
+  categories CategoryDiscount[]
+  brands     BrandDiscount[]
 }
 
-model CategoryOffer {
-  id       Int     @id @default(autoincrement())
-  name     String
-  discount Int
-  offers   Offer[]
+model CategoryDiscount {
+  id         Int      @id @default(autoincrement())
+  offer      Offer    @relation(fields: [offerId], references: [id])
+  offerId    Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  discount   Float
 }
 
-model BrandOffer {
-  id       Int     @id @default(autoincrement())
-  name     String
-  discount Int
-  offers   Offer[]
+model BrandDiscount {
+  id       Int    @id @default(autoincrement())
+  offer    Offer  @relation(fields: [offerId], references: [id])
+  offerId  Int
+  brand    String
+  discount Float
 }
 
 // enum Role {

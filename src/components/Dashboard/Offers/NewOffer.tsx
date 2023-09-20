@@ -6,6 +6,7 @@ import CustomOptions from "@/components/Custom/CustomOptions";
 import CustomOptionsWithInput from "@/components/Custom/CustomOptionsWithInput";
 import CustomTextarea from "@/components/Custom/CustomTextarea";
 import { OfferTranslation } from "@/shared/translate";
+import { postOfferDashboardByApi } from "@/states/dashboard/offers/offersApi";
 import { useFormik } from "formik";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -28,7 +29,7 @@ const NewOffer = (props: Props) => {
     endDate: "",
     discount: "",
     image: null as File | null,
-    category: [],
+    categories: [],
     brand: [],
   };
   const validationSchema = Yup.object({
@@ -38,7 +39,7 @@ const NewOffer = (props: Props) => {
     //   .required("El descuento es requerido")
     //   .moreThan(0, "El descuento no puede ser menor o igual a 0%")
     //   .max(100, "El descuento no puede ser mayor que 100"),
-    // category: Yup.array().optional(),
+    // categories: Yup.array().optional(),
     brand: Yup.array().optional(),
   });
   const formik = useFormik({
@@ -47,17 +48,19 @@ const NewOffer = (props: Props) => {
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
-        console.log(values);
-        // const data = await dispatch(postUser({ ...values }));
-        // if (data.payload.status === 201) {
-        //   resetForm()
-        //   toast.success("Usuario registrado correctamente.");
-        //   // router.push("/login");
-        // } else {
-        //   toast.error("Correo ya registrado.");
-        // }
+        const res = await postOfferDashboardByApi({
+          ...values,
+          image:
+            "https://assets.isu.pub/document-structure/230607120922-2c5c232729585842273d4d814d749bb8/v1/95016803dd58a8cab99a5d8bff5ab12e.jpeg",
+        });
+        if (res.status === 201) {
+          resetForm();
+          toast.success(res.data.message, { duration: 5000 });
+        }
       } catch (error) {
-        toast.error("Ocurrió un error, inténtelo nuevamente.");
+        toast.error(
+          "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual."
+        );
       } finally {
       }
     },
@@ -119,9 +122,9 @@ const NewOffer = (props: Props) => {
             <div>
               <CustomOptionsWithInput
                 formik={formik}
-                fieldName="category"
+                fieldName="categories"
                 items={categories}
-                fieldNameTranslate={OfferTranslation["category"]}
+                fieldNameTranslate={OfferTranslation["categories"]}
               />
             </div>
             <div>
@@ -139,9 +142,9 @@ const NewOffer = (props: Props) => {
             <div>
               <CustomOptionsWithInput
                 formik={formik}
-                fieldName="category"
+                fieldName="categories"
                 items={categories}
-                fieldNameTranslate={OfferTranslation["category"]}
+                fieldNameTranslate={OfferTranslation["categories"]}
               />
             </div>
           </div>

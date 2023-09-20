@@ -3,6 +3,6 @@ export const OfferTranslation: { [key: string]: string } = {
   endDate: "Fecha de fin",
   discount: "Descuento",
   image: "Imagen",
-  category: "Categoría",
+  categories: "Categorías",
   brand: "Marca",
 };

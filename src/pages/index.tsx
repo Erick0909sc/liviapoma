@@ -28,9 +28,16 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Product from "@/components/Offerts/Product";
 import Offert from "@/components/Offerts/Offert";
 import { dataPrueba } from "@/shared/ultis";
-
+import { getOffersByApi } from "@/states/dashboard/offers/offersApi";
+interface Main {
+  id: number;
+  startDate: string;
+  endDate: string;
+  image: string;
+}
 export default function Home() {
   const { data: session } = useSession();
+  const [test, setTest] = useState<Main[]>([]);
   const dispatch = useAppDispatch();
 
   const topRatedProducts = useSelector(selectProductByrating);
@@ -45,6 +52,8 @@ export default function Home() {
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
       }
+      const res = await getOffersByApi();
+      setTest(res.data);
     };
 
     fetchData();
@@ -127,8 +136,9 @@ export default function Home() {
         </div>
 
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          <Offert />
-          <Offert />
+          {test?.map((e: Main, index: number) => (
+            <Offert {...e} key={index} />
+          ))}
         </div>
 
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
