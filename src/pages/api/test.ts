@@ -13,6 +13,7 @@ export default async function handle(
     case "POST":
       try {
         const startDate = "2023-09-20T12:18";
+        console.log(peruDateTimeFormat(startDate))
         cron.schedule(peruDateTimeFormat(startDate), async () => {
           // 'Esta tarea se ejecuta a las 11:26 el 20 de septiembre de 2023  en Perú (PET)'
           console.log(

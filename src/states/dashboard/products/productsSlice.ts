@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { EStateGeneric, ICategory, IProduct, Phidden, } from "@/shared/types";
+import { EStateGeneric, ICategory, IProduct } from "@/shared/types";
 import { deleteProductByApi, disableProductByApi, getDashboardProductsByApi, getDashboardProductsDisabledByApi, restoreProductByApi } from "./productsApi";
 
 export const getAllProducts = createAsyncThunk(
@@ -76,7 +76,7 @@ export const deleteProducts = createAsyncThunk(
 
 interface IDashboardProductsState {
   products: IProduct[];
-  productshidden: Phidden[];
+  productshidden: IProduct[];
   allProductsStatus: EStateGeneric;
   producthiddenStatus: EStateGeneric;
 

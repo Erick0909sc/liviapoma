@@ -65,12 +65,18 @@ model Category {
   discounts CategoryDiscount[]
 }
 
+model Brand {
+  id        Int             @id @default(autoincrement())
+  name      String
+  products  Product[]
+  discounts BrandDiscount[]
+}
+
 model Product {
   code        String     @id
   name        String
   description String
   price       Float
-  marca       String
   image       String
   rating      Float
   discount    Float
@@ -78,6 +84,8 @@ model Product {
   categoryId  Int
   cartItems   CartItem[]
   deletedAt   DateTime?
+  brand       Brand?     @relation(fields: [brandId], references: [id])
+  brandId     Int?
 }
 
 model Cart {
@@ -127,10 +135,11 @@ model CategoryDiscount {
 }
 
 model BrandDiscount {
-  id       Int    @id @default(autoincrement())
-  offer    Offer  @relation(fields: [offerId], references: [id])
+  id       Int   @id @default(autoincrement())
+  offer    Offer @relation(fields: [offerId], references: [id])
   offerId  Int
-  brand    String
+  brand    Brand @relation(fields: [brandId], references: [id])
+  brandId  Int
   discount Float
 }
 

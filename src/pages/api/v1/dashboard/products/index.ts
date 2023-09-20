@@ -19,6 +19,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -36,6 +37,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -54,6 +56,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -66,6 +69,7 @@ export default async function handler(
           },
           include: {
             category: true,
+            brand: true,
           },
         });
         products.length
@@ -82,22 +86,22 @@ export default async function handler(
           name,
           description,
           price,
-          marca,
           image,
           rating,
           discount,
           categoryId,
+          brandId,
         } = req.body;
         if (
           !code ||
           !name ||
           !description ||
           !price ||
-          !marca ||
           !image ||
           !rating ||
           !discount ||
-          !categoryId
+          !categoryId ||
+          !brandId
         ) {
           return res
             .status(400)
@@ -109,11 +113,11 @@ export default async function handler(
             name,
             description,
             price,
-            marca,
             image,
             rating,
             discount,
             categoryId,
+            brandId,
           },
         });
 

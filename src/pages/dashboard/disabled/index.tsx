@@ -76,7 +76,7 @@ const Disabled = (props: Props) => {
                                         name={product.name}
                                         description={product.description}
                                         price={product.price}
-                                        marca={product.marca}
+                                        brand={product.brand?.name}
                                         category={product.category.name}
                                         discount={product.discount}
                                         image={product.image}

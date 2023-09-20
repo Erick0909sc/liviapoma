@@ -21,6 +21,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             }
           })
           return products.length ? res.status(200).json(products) : res.status(400).json({ message: 'products not found' })
@@ -37,6 +38,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             }
           })
           return products.length ? res.status(200).json(products) : res.status(400).json({ message: 'products not found' })
@@ -47,6 +49,7 @@ export default async function handler(
           },
           include: {
             category: true,
+              brand: true,
           }
         })
         products.length ? res.status(200).json(products) : res.status(400).json({ message: 'products not found' })

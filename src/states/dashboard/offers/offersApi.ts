@@ -1,9 +1,8 @@
+import { processImage } from "@/shared/ultis";
 import axios from "axios";
-
-export const getOffersByApi = () => axios.get(`/api/v1/offers`);
 export const getOffersDashboardByApi = () =>
   axios.get(`/api/v1/dashboard/offers`);
-export const postOfferDashboardByApi = ({
+export const postOfferDashboardByApi = async ({
   startDate,
   endDate,
   image,
@@ -11,12 +10,16 @@ export const postOfferDashboardByApi = ({
 }: {
   startDate: string;
   endDate: string;
-  image: string;
+  image: File;
   categories: { [key: string]: string }[];
-}) =>
-  axios.post(`/api/v1/dashboard/offers`, {
+}) => {
+  const urlImage = await processImage(image);
+  console.log(urlImage);
+  console.log(startDate, endDate, image, categories);
+  return axios.post(`/api/v1/dashboard/offers`, {
     startDate,
     endDate,
-    image,
+    image: urlImage.data,
     categories,
   });
+};

@@ -48,10 +48,10 @@ const NewOffer = (props: Props) => {
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
+        console.log(values);
         const res = await postOfferDashboardByApi({
           ...values,
-          image:
-            "https://assets.isu.pub/document-structure/230607120922-2c5c232729585842273d4d814d749bb8/v1/95016803dd58a8cab99a5d8bff5ab12e.jpeg",
+          image: values.image as File,
         });
         if (res.status === 201) {
           resetForm();
@@ -85,7 +85,16 @@ const NewOffer = (props: Props) => {
   return (
     <div className="p-2 md:p-4 flex flex-col items-center justify-center">
       <h2 className="text-2xl font-bold mb-4">Crear una nueva oferta</h2>
-      <form onSubmit={formik.handleSubmit} className="w-full h-auto max-w-4xl">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!formik.values.image) {
+            return toast.error("Se requiere una imagen para la oferta");
+          }
+          formik.handleSubmit(e);
+        }}
+        className="w-full h-auto max-w-4xl"
+      >
         <div className="grid items-center gap-4 md:grid-cols-3">
           <div>
             <label className="capitalize block text-gray-600">

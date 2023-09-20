@@ -4,6 +4,7 @@ import cron from "node-cron";
 import {
   desactivateOfferProductsByCategory,
   offerProductsByCategory,
+  offerValidation,
 } from "@/controllers/offerController";
 import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
 export default async function handler(
@@ -33,6 +34,12 @@ export default async function handler(
         const now = new Date();
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
+        console.log(now);
+        console.log(startDateObj);
+        console.log(endDateObj);
+        console.log(formatFechaISO(now));
+        console.log(formatFechaISO(startDateObj));
+        console.log(formatFechaISO(endDateObj));
         if (startDateObj < now || endDateObj <= startDateObj) {
           return res.status(400).json({
             message:
@@ -40,6 +47,17 @@ export default async function handler(
           });
         }
         if (categories.length) {
+          const result = await offerValidation({
+            startDate,
+            endDate,
+            categories,
+            brands,
+          });
+          if (result.success) {
+            res.status(201).json({ message: result.message });
+          } else {
+            return res.status(400).json({ message: result.error });
+          }
           cron.schedule(peruDateTimeFormat(startDate), async () => {
             await offerProductsByCategory({
               startDate,
@@ -48,24 +66,12 @@ export default async function handler(
               categories,
             });
           });
-
           cron.schedule(peruDateTimeFormat(endDate), async () => {
             await desactivateOfferProductsByCategory({
               categories,
             });
           });
-          return res.status(201).json({
-            message: `Las ofertas estaran activas desde las ${peruDateTimeFormat(
-              startDate,
-              "H:mm"
-            )} el ${peruDateTimeFormat(
-              startDate,
-              "D [de] MMMM [de] YYYY"
-            )} hasta las ${peruDateTimeFormat(
-              endDate,
-              "H:mm"
-            )} del ${peruDateTimeFormat(endDate, "D [de] MMMM [de] YYYY")}`,
-          });
+          break;
         }
         if (brands.length) {
           return res

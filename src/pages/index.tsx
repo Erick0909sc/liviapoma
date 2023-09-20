@@ -27,8 +27,11 @@ import "swiper/css/autoplay";
 import { Pagination, Autoplay } from "swiper/modules";
 import Product from "@/components/Offerts/Product";
 import Offert from "@/components/Offerts/Offert";
-import { dataPrueba } from "@/shared/ultis";
-import { getOffersByApi } from "@/states/dashboard/offers/offersApi";
+import {
+  getAllOffers,
+  selectAllOffers,
+  selectAllOffersStatus,
+} from "@/states/globalSlice";
 interface Main {
   id: number;
   startDate: string;
@@ -43,6 +46,8 @@ export default function Home() {
   const topRatedProducts = useSelector(selectProductByrating);
   const categoriesProducts = useSelector(selectAllCategory);
   const categoryStatus = useSelector(selectAllCategoriesStatus);
+  const offersStatus = useSelector(selectAllOffersStatus);
+  const offers = useSelector(selectAllOffers);
   const slidesPerView = 1;
 
   useEffect(() => {
@@ -51,9 +56,8 @@ export default function Home() {
         await dispatch(getAllCategories());
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
+        await dispatch(getAllOffers());
       }
-      const res = await getOffersByApi();
-      setTest(res.data);
     };
 
     fetchData();
@@ -136,16 +140,16 @@ export default function Home() {
         </div>
 
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          {test?.map((e: Main, index: number) => (
+          {offers.map((e, index: number) => (
             <Offert {...e} key={index} />
           ))}
         </div>
 
-        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+        {/* <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
           {dataPrueba.map((e, index: number) => (
             <Product key={index} oferta={e} />
           ))}
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

@@ -59,7 +59,7 @@ const Products: React.FC = () => {
                   title={product.name}
                   description={product.description}
                   price={product.price}
-                  brand={product.marca}
+                  brand={product.brand?.name}
                   image={product.image}
                   category={product.category.name}
                 />
