@@ -15,11 +15,14 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const currentDate = new Date();
+        const nowInPeru = new Date().toLocaleString("en-US", {
+          timeZone: "America/Lima",
+        });
+        const now = new Date(nowInPeru);
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
-              gt: currentDate,
+              gt: now,
             },
           },
         });
