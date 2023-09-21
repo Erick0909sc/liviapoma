@@ -16,11 +16,11 @@ const CategoryPage = () => {
   const productsByCategory = useSelector(selectAllProductsByCategory);
   const categories = useSelector(selectAllCategory);
 
-  useEffect(() => {
-    if (category) {
-      dispatch(getAllProductsByCategory(category));
-    }
-  }, [category, dispatch]);
+  // useEffect(() => {
+  //   if (category) {
+  //     dispatch(getAllProductsByCategory(category));
+  //   }
+  // }, [category, dispatch]);
   
 
   return (
