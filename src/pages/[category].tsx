@@ -8,19 +8,20 @@ import {
   selectAllProductsByCategory,
 } from "@/states/products/productsSlice";
 import Card from "@/components/card";
+import { useAppDispatch } from "@/states/store";
 
 const CategoryPage = () => {
   const router = useRouter();
   const { category } = router.query;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const productsByCategory = useSelector(selectAllProductsByCategory);
   const categories = useSelector(selectAllCategory);
 
-  // useEffect(() => {
-  //   if (category) {
-  //     dispatch(getAllProductsByCategory(category));
-  //   }
-  // }, [category, dispatch]);
+  useEffect(() => {
+    if (category) {
+      dispatch(getAllProductsByCategory(category as string));
+    }
+  }, [category, dispatch]);
   
 
   return (
@@ -28,16 +29,16 @@ const CategoryPage = () => {
       <h1>Productos de la categoría {category}</h1>
 
       <div className="flex flex-col justify-center">
-        {productsByCategory.map((product) => (
+        {productsByCategory.map((product, index) => (
           <Card
-            key={product.id}
+            key={index}
             session={null}
             code={product.code}
-            title={product.title}
+            title={product.name}
             description={product.description}
             price={product.price}
             image={product.image}
-            brand={product.marca}
+            brand={product.brand?.name}
             category={product.category.name}
           />
         ))}

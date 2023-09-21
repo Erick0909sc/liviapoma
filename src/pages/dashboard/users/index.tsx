@@ -11,7 +11,7 @@ import Users from '@/components/Dashboard/Users'
 
 type Props = {}
 
-const Users  = (props: Props) => {
+const UsersPage  = (props: Props) => {
 
     const Allusers = useSelector(selectDashboardAllUsers)
     const usersStatus = useSelector(selectusersStatus)
@@ -87,4 +87,4 @@ const Users  = (props: Props) => {
     )
 }
 
-export default Users
+export default UsersPage

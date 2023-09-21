@@ -76,13 +76,10 @@ export default function Home() {
           {categoryStatus === EStateGeneric.FAILED && (
             <p>Failed to load Categories</p>
           )}
-          {categoryStatus === EStateGeneric.PENDING &&
+          {categoryStatus === EStateGeneric.SUCCEEDED &&
             categories.map((category, index) => (
-             <Link key={index} href={`/${category.name}`}>
-                <Card name={category.name} />
-              </Link>
-            ))
-          )}
+                <Card key={index} name={category.name} />
+            ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
           <Swiper

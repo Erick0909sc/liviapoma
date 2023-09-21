@@ -5,6 +5,15 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
+export interface Iuser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  // image:string,
+  role: string;
+}
+
 export interface IProduct {
   code: string;
   name: string;
@@ -21,22 +30,8 @@ export interface IProduct {
 
 export interface Category {
   id: number;
-  title:string
+  name: string;
 }
-
-export interface Iusers{
-  id: string;
-  name:string,
-  email:string,
-  password:string,
-  // image:string,
-  role: string,
-}
-
-// export interface Phidden{
-  // code: string;
-  // name: string;
-// }
 
 export interface Brand {
   id: number;
