@@ -1,4 +1,4 @@
-export const ejecutarDespuesDeFecha = (
+export const executeAfterDate = (
   date: string,
   customFunction: () => void
 ) => {
