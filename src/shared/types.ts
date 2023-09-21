@@ -5,36 +5,35 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
+export interface Iuser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  // image:string,
+  role: string;
+}
+
 export interface IProduct {
   code: string;
   name: string;
   description: string;
   price: number;
-  marca: string;
   image: string;
   rating: number;
   discount: number;
   categoryId: number;
   category: Category;
-  id: number;
-  title:string
-
+  brandId: number;
+  brand: Brand;
 }
-
-export interface Phidden{
-  code: string;
-  name: string;
-  description: string;
-  price: number;
-  marca: string;
-  category: Category;
-  discount: number;
-  image: string;
-}
-
-
 
 export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Brand {
   id: number;
   name: string;
 }
@@ -43,21 +42,25 @@ export interface ICategory {
   name: string;
 }
 
-
 export interface ICart {
-  id:        number;
-  userId:    string;
+  id: number;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
-  products:  IProductCart[];
+  products: IProductCart[];
 }
 
 export interface IProductCart {
-  id:          number;
-  quantity:    number;
+  id: number;
+  quantity: number;
   productCode: string;
-  cartId:      number;
-  product:     IProduct;
+  cartId: number;
+  product: IProduct;
 }
 
-
+export interface IOffer {
+  id: number;
+  startDate: Date;
+  endDate: Date;
+  image: string;
+}

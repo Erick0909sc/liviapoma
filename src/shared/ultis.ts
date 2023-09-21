@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IProductCart } from "./types";
+import { IProduct, IProductCart } from "./types";
 import { Session } from "next-auth";
 import toast from "react-hot-toast";
 import {
@@ -8,6 +8,8 @@ import {
   patchOneProductToCart,
 } from "@/states/cart/cartApi";
 import { getCartUser } from "@/states/cart/cartSlice";
+import moment from "moment-timezone";
+moment.tz.setDefault("America/Lima");
 
 export const itemsPerPage = 5;
 
@@ -20,6 +22,24 @@ export const formatPrice = (price: number) => {
   //   style: "currency",
   //   currency: "USD",
   // });
+};
+
+export const formatFechaISO = (fechaISO: string | Date) => {
+  try {
+    const fecha = new Date(fechaISO);
+    const dia = fecha.getDate().toString().padStart(2, "0");
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+    const año = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, "0");
+    const minutos = fecha.getMinutes().toString().padStart(2, "0");
+    const segundos = fecha.getSeconds().toString().padStart(2, "0");
+
+    const fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}:${segundos}`;
+    return fechaFormateada;
+  } catch (error) {
+    console.error("Error al formatear la fecha:", error);
+    return null;
+  }
 };
 
 export const processImage = (image: File) => {
@@ -42,21 +62,37 @@ export const calcularSubtotal = (items: IProductCart[]): number => {
   return subtotalTotal;
 };
 
-export const calcularDescuentoItem = (producto: IProductCart): number => {
+export const calcularDescuentoItemCart = (producto: IProductCart): number => {
   const precioSinDescuento = producto.product.price;
   const descuentoPorcentaje = producto.product.discount;
   const descuento = (precioSinDescuento * descuentoPorcentaje) / 100;
   return descuento * producto.quantity;
 };
 
+export const calcularPrecioConDescuento = (producto: IProduct): number => {
+  const descuento = (producto.price * producto.discount) / 100;
+  const precioConDescuento = producto.price - descuento;
+
+  return precioConDescuento;
+};
+
 export const calcularDescuento = (carrito: IProductCart[]): number => {
   let descuentoTotal = 0;
 
   for (const producto of carrito) {
-    descuentoTotal += calcularDescuentoItem(producto);
+    descuentoTotal += calcularDescuentoItemCart(producto);
   }
 
   return descuentoTotal;
+};
+
+export const peruDateTimeFormat = (
+  startDate: string,
+  format: string = "m H D M *"
+): string => {
+  const peruDateTime = moment(startDate).tz("America/Lima");
+  peruDateTime.locale("es");
+  return peruDateTime.format(format);
 };
 
 export const hanldeItemCart = async ({

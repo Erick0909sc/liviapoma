@@ -25,16 +25,31 @@ import "swiper/css/autoplay";
 
 // import './styles.css';
 import { Pagination, Autoplay } from "swiper/modules";
+import Product from "@/components/Offerts/Product";
+import Offert from "@/components/Offerts/Offert";
+import {
+  getAllOffers,
+  selectAllOffers,
+  selectAllOffersStatus,
+} from "@/states/globalSlice";
+interface Main {
+  id: number;
+  startDate: string;
+  endDate: string;
+  image: string;
+}
 import Link from "next/link";
-
 export default function Home() {
   const { data: session } = useSession();
+  const [test, setTest] = useState<Main[]>([]);
   const dispatch = useAppDispatch();
 
   const topRatedProducts = useSelector(selectProductByrating);
   const categoriesProducts = useSelector(selectAllCategory);
   const categoryStatus = useSelector(selectAllCategoriesStatus);
-  const [slidesPerView, setSlidesPerView] = useState(1);
+  const offersStatus = useSelector(selectAllOffersStatus);
+  const offers = useSelector(selectAllOffers);
+  const slidesPerView = 1;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +57,7 @@ export default function Home() {
         await dispatch(getAllCategories());
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
+        await dispatch(getAllOffers());
       }
     };
 
@@ -56,17 +72,14 @@ export default function Home() {
         </div>
 
         <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
-          {categoryStatus === EStateGeneric.PENDING ? (
-            <p>Loading...</p>
-          ) : categoryStatus === EStateGeneric.FAILED ? (
+          {categoryStatus === EStateGeneric.PENDING && <p>Loading...</p>}
+          {categoryStatus === EStateGeneric.FAILED && (
             <p>Failed to load Categories</p>
-          ) : (
-            categories.map((category, index) => (
-              <Link key={index} href={`/${category.name}`}>
-                <Card name={category.name} />
-              </Link>
-            ))
           )}
+          {categoryStatus === EStateGeneric.SUCCEEDED &&
+            categories.map((category, index) => (
+                <Card key={index} name={category.name} />
+            ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
           <Swiper
@@ -126,6 +139,18 @@ export default function Home() {
             ))}
           </Swiper>
         </div>
+
+        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+          {offers.map((e, index: number) => (
+            <Offert {...e} key={index} />
+          ))}
+        </div>
+
+        {/* <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+          {dataPrueba.map((e, index: number) => (
+            <Product key={index} oferta={e} />
+          ))}
+        </div> */}
       </div>
     </Layout>
   );

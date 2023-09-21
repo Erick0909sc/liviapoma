@@ -4,7 +4,7 @@ import React from 'react'
 
 type Props = {}
 
-const Index = (props: Props) => {
+const Dashboard = (props: Props) => {
   return (
     <div>
       <LayaoutAdmin>
@@ -14,4 +14,4 @@ const Index = (props: Props) => {
   )
 }
 
-export default Index
+export default Dashboard

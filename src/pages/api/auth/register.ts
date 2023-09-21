@@ -48,7 +48,9 @@ export default async function handle(
               name: name,
               email,
               password: passwordhash,
-              image: image ? image : "",
+              image: image
+                ? image
+                : "https://res.cloudinary.com/dsofguadj/image/upload/v1694964554/wm1hvbu4znuawf14n6rk.webp",
               role,
             },
           });

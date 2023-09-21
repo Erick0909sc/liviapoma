@@ -4,6 +4,9 @@ import globalSlice from "./globalSlice";
 import usersSlice from "./users/usersSlice";
 import cartSlice from "./cart/cartSlice";
 import dashboardProductsSlice from "./dashboard/products/productsSlice";
+import  dashboardusersSlice  from "./dashboard/users/usersSlice";
+
+
 
 export const rootReducer = combineReducers({
   products: productsSlice,
@@ -11,8 +14,9 @@ export const rootReducer = combineReducers({
   cart: cartSlice,
   dashboard: combineReducers({
     products: dashboardProductsSlice,
+    users: dashboardusersSlice, //
     // reviews: reviewsSlice,
-    // users: usersSlice,
+  
   }),
   global: globalSlice,
 });
