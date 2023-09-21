@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import LoaderBtn from "./Cart/LoaderBtn";
 import Link from "next/link";
 
+
 type Props = {
   session: Session | null;
   code: string;
@@ -30,6 +31,8 @@ const Card: React.FC<Props> = ({
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   return (
+    <>
+    
     <div className="relative mt-8 rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl mx-auto border border-white bg-white">
       <Link href={`products/${code}`}>
         <div className="cursor-pointer w-full sm:flex">
@@ -92,6 +95,7 @@ const Card: React.FC<Props> = ({
         </button>
       </div>
     </div>
+    </>
   );
 };
 
