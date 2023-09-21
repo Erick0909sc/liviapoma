@@ -9,7 +9,7 @@ const Card = ({ name }: Props) => {
   return (
     <div className="w-36 text-center border-r border-slate-400">
       <div>
-        <Link href={"#"}>
+        <Link href={`/${name}`}>
           <h2 className="font-bold cursor-pointer hover:text-red-500">
             {name}
           </h2>

@@ -26,7 +26,6 @@ const Sidebar = ({ session }: Props) => {
             <h2 className="text-[25px] cursor-pointer">Ferreteria Liviapoma</h2>
           </Link>
         </div>
-
         <div className="flex flex-col flex-grow">
           {session.user.role === Role.Admin &&
             sidebarItems.map(({ text, icon }) => {

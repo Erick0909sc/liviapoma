@@ -78,10 +78,11 @@ const Login = (props: Props) => {
             </p>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
-          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800 bg-no-repeat  items-center">
-            <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
+        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-tl from-yellow-400 to-green-600">
+          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-tl from-yellow-400 to-green-600 bg-no-repeat  items-center">
+            <div className="absolute  inset-0 z-0"></div>
           </div>
+
           <div className="w-full py-6 z-20">
             <h1 className="my-6 flex flex-col justify-center text-5xl">
               Ferreteria Liviapoma
@@ -147,7 +148,7 @@ const Login = (props: Props) => {
                 <a href="#">¿Olvidaste tu contraseña?</a>
               </div>
               <div className="px-4 pb-2 pt-4">
-                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none">
+                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-600 hover:bg-yellow-600 focus:outline-none">
                   Ingresar
                 </button>
               </div>

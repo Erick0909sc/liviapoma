@@ -32,8 +32,6 @@ const Products = () => {
       if (productsStatus === EStateGeneric.IDLE) {
         await dispatch(getAllProducts());
       }
-    };
-
     fetchData();
   }, [dispatch, productsStatus]);
 

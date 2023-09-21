@@ -21,8 +21,22 @@ export interface IProduct {
 
 export interface Category {
   id: number;
-  name: string;
+  title:string
 }
+
+export interface Iusers{
+  id: string;
+  name:string,
+  email:string,
+  password:string,
+  // image:string,
+  role: string,
+}
+
+// export interface Phidden{
+  // code: string;
+  // name: string;
+// }
 
 export interface Brand {
   id: number;

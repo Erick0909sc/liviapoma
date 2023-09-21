@@ -41,16 +41,15 @@ function ProductsAdmin({
     );
     setView(!isProductHidden);
   }, [hiddenProducts, code]);
-
+  
   const handleToggleProductVisibility = () => {
     if (view) {
-      dispatch(disableProducts(code)); // Deshabilitar el producto
+      dispatch(disableProducts(code)); // Deshabilitar el producto verificar si funca
     } else {
       dispatch(restoreProducts(code)); // Restaurar el producto
     }
     setView(!view); // Cambiar el estado local para mostrar/ocultar
   };
-
   return (
     <tr className="mb-2 text-center">
       <td className="px-2 py-1">{code}</td>

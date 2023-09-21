@@ -38,6 +38,7 @@ interface Main {
   endDate: string;
   image: string;
 }
+import Link from "next/link";
 export default function Home() {
   const { data: session } = useSession();
   const [test, setTest] = useState<Main[]>([]);
@@ -77,8 +78,11 @@ export default function Home() {
           )}
           {categoryStatus === EStateGeneric.PENDING &&
             categories.map((category, index) => (
-              <Card key={index} name={category.name} />
-            ))}
+             <Link key={index} href={`/${category.name}`}>
+                <Card name={category.name} />
+              </Link>
+            ))
+          )}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
           <Swiper
