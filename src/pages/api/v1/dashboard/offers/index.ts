@@ -59,19 +59,33 @@ export default async function handler(
           } else {
             return res.status(400).json({ message: result.error });
           }
-          cron.schedule(peruDateTimeFormat(startDate), async () => {
-            await offerProductsByCategory({
-              startDate,
-              endDate,
-              image,
-              categories,
-            });
-          });
-          cron.schedule(peruDateTimeFormat(endDate), async () => {
-            await desactivateOfferProductsByCategory({
-              categories,
-            });
-          });
+          cron.schedule(
+            peruDateTimeFormat(startDate),
+            async () => {
+              await offerProductsByCategory({
+                startDate,
+                endDate,
+                image,
+                categories,
+              });
+            },
+            {
+              scheduled: true,
+              timezone: "America/Lima",
+            }
+          );
+          cron.schedule(
+            peruDateTimeFormat(endDate),
+            async () => {
+              await desactivateOfferProductsByCategory({
+                categories,
+              });
+            },
+            {
+              scheduled: true,
+              timezone: "America/Lima",
+            }
+          );
           break;
         }
         if (brands.length) {
