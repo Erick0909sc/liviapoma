@@ -7,6 +7,7 @@ import {
   offerValidation,
 } from "@/controllers/offerController";
 import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
+import { executeAfterDate } from "@/shared/test";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -59,33 +60,19 @@ export default async function handler(
           } else {
             return res.status(400).json({ message: result.error });
           }
-          cron.schedule(
-            peruDateTimeFormat(startDate),
-            async () => {
-              await offerProductsByCategory({
-                startDate,
-                endDate,
-                image,
-                categories,
-              });
-            },
-            {
-              scheduled: true,
-              timezone: "America/Lima",
-            }
-          );
-          cron.schedule(
-            peruDateTimeFormat(endDate),
-            async () => {
-              await desactivateOfferProductsByCategory({
-                categories,
-              });
-            },
-            {
-              scheduled: true,
-              timezone: "America/Lima",
-            }
-          );
+          executeAfterDate(startDate, async () => {
+            await offerProductsByCategory({
+              startDate,
+              endDate,
+              image,
+              categories,
+            });
+          });
+          executeAfterDate(endDate, async () => {
+            await desactivateOfferProductsByCategory({
+              categories,
+            });
+          });
           break;
         }
         if (brands.length) {
