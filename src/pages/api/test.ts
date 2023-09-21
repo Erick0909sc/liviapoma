@@ -48,8 +48,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import fs from "fs/promises";
 import { peruDateTimeFormat } from "@/shared/ultis";
+import path from "path";
 
-const DATA_FILE_PATH = "./data.json";
+const DATA_FILE_PATH = path.join(process.cwd(), "data.json");
+// const DATA_FILE_PATH = "./data.json";
 
 function ejecutarDespuesDeFecha(fecha: string, funcionAEjecutar: () => void) {
   const nowInPeru = new Date().toLocaleString("en-US", {
