@@ -12,8 +12,8 @@ type Props = {
   style: string;
 };
 interface FormValues {
-  [key: string]: string
-};
+  [key: string]: string;
+}
 
 const Login = (props: Props) => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Login = (props: Props) => {
   const initialValues = {
     email: "",
     password: "",
-  }
+  };
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Ingrese un correo válido")
@@ -48,13 +48,13 @@ const Login = (props: Props) => {
         redirect: false,
         email: values.email,
         password: values.password,
-      })
+      });
       if (response?.ok) {
         resetForm();
-        toast.loading("Redirigiendo...", { duration: 4000 })
-        router.push(router.query.callbackUrl as string || "/");
+        toast.loading("Redirigiendo...", { duration: 4000 });
+        router.push((router.query.callbackUrl as string) || "/");
       } else {
-        toast.error(response?.error as string)
+        toast.error(response?.error as string);
       }
     } catch (error) {
       toast.error("Ocurrió un error, por favor intente nuevamente.");
@@ -78,10 +78,11 @@ const Login = (props: Props) => {
             </p>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
-          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800 bg-no-repeat  items-center">
-            <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
+        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-tl from-yellow-400 to-green-600">
+          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-tl from-yellow-400 to-green-600 bg-no-repeat  items-center">
+            <div className="absolute  inset-0 z-0"></div>
           </div>
+
           <div className="w-full py-6 z-20">
             <h1 className="my-6 flex flex-col justify-center text-5xl">
               Ferreteria Liviapoma
@@ -103,27 +104,43 @@ const Login = (props: Props) => {
             >
               <div className="pb-2 pt-4">
                 <input
-                  className={`block w-full p-4 text-lg rounded-sm bg-black ${formik.touched.email && formik.errors.email
-                    ? "border-2 border-red-500 placeholder:text-red-500" : ""}`}
-                  placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : "Example123@gmail.com"}
+                  className={`block w-full p-4 text-lg rounded-sm bg-black ${
+                    formik.touched.email && formik.errors.email
+                      ? "border-2 border-red-500 placeholder:text-red-500"
+                      : ""
+                  }`}
+                  placeholder={
+                    formik.touched.email && formik.errors.email
+                      ? formik.errors.email
+                      : "Example123@gmail.com"
+                  }
                   type="text"
                   {...formik.getFieldProps("email")}
                   onBlur={(e) => {
                     formik.handleBlur(e);
-                    if (formik.touched.email && formik.errors.email) return toast.error(formik.errors.email)
+                    if (formik.touched.email && formik.errors.email)
+                      return toast.error(formik.errors.email);
                   }}
                 />
               </div>
               <div className="pb-2 pt-4">
                 <input
-                  className={`block w-full p-4 text-lg rounded-sm bg-black ${formik.touched.password && formik.errors.password
-                    ? "border-2 border-red-500 placeholder:text-red-500" : ""}`}
-                  placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
+                  className={`block w-full p-4 text-lg rounded-sm bg-black ${
+                    formik.touched.password && formik.errors.password
+                      ? "border-2 border-red-500 placeholder:text-red-500"
+                      : ""
+                  }`}
+                  placeholder={
+                    formik.touched.password && formik.errors.password
+                      ? formik.errors.password
+                      : "Contraseña"
+                  }
                   type="password"
                   {...formik.getFieldProps("password")}
                   onBlur={(e) => {
                     formik.handleBlur(e);
-                    if (formik.touched.password && formik.errors.password) return toast.error(formik.errors.password)
+                    if (formik.touched.password && formik.errors.password)
+                      return toast.error(formik.errors.password);
                   }}
                 />
               </div>
@@ -131,7 +148,7 @@ const Login = (props: Props) => {
                 <a href="#">¿Olvidaste tu contraseña?</a>
               </div>
               <div className="px-4 pb-2 pt-4">
-                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none">
+                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-600 hover:bg-yellow-600 focus:outline-none">
                   Ingresar
                 </button>
               </div>

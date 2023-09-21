@@ -16,6 +16,8 @@ export interface IProduct {
   discount: number;
   categoryId: number;
   category: Category;
+  id: number;
+  title:string
 
 }
 
@@ -57,4 +59,5 @@ export interface IProductCart {
   cartId:      number;
   product:     IProduct;
 }
+
 
