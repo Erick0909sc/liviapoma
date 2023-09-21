@@ -18,7 +18,7 @@ const Sidebar = (props: Props) => {
                 </div>
 
                 <div className='flex flex-col flex-grow'>
-                    <Link href={'/dashboard'}>
+                    <Link href={'/dashboard/users'}>
                         <div className='flex items-center justify-center gap-2 h-16 hover:bg-teal-600 cursor-pointer'>
                             <FaUsers className='text-[23px]' />
                             <h2 className='text-[18px]'>Usuarios</h2>

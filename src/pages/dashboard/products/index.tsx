@@ -15,9 +15,9 @@ const Index = () => {
     console.log(productDashboard);
     const productsStatus = useSelector(selectAllDashboardProductsStatus);
 
-    
-
     const dispatch = useAppDispatch();
+
+    
     const currentPage = useSelector(selectCurrentPage);
     const minItems = (currentPage - 1) * itemsPerPage;
     const maxItems = currentPage * itemsPerPage;

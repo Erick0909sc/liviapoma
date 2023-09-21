@@ -67,7 +67,6 @@ function ProductsAdmin({ code,
             ) : (
                 <button onClick={handleToggleProductVisibility}><AiFillEyeInvisible /></button>
             )}
-                 {/* <button><AiFillDelete /></button> */}
             </td>
         </tr>
 

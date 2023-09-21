@@ -21,6 +21,27 @@ export interface IProduct {
 
 }
 
+export interface Iusers{
+  id: string;
+  name:string,
+  email:string,
+  password:string,
+  // image:string,
+  role: string,
+}
+
+export interface Ioneuser{
+  id: string;
+  role:string;
+  name:string,
+  email:string,
+  password:string,
+  // image:string,
+  
+}
+
+
+
 export interface Phidden{
   code: string;
   name: string;
