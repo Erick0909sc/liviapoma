@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prismadb";
+import axios from "axios";
 import cron from "node-cron";
-import { peruDateTimeFormat } from "@/shared/ultis";
 
 export default async function handle(
   req: NextApiRequest,
@@ -12,24 +11,23 @@ export default async function handle(
   switch (method) {
     case "POST":
       try {
-        const startDate = "2023-09-20T12:18";
-        console.log(peruDateTimeFormat(startDate))
-        cron.schedule(peruDateTimeFormat(startDate), async () => {
-          // 'Esta tarea se ejecuta a las 11:26 el 20 de septiembre de 2023  en Perú (PET)'
-          console.log(
-            `Las ofertas estaran activas desde las ${peruDateTimeFormat(
-              startDate,
-              "H:mm"
-            )} el ${peruDateTimeFormat(
-              startDate,
-              "D [de] MMMM [de] YYYY"
-            )} hasta las ${peruDateTimeFormat(
-              startDate,
-              "H:mm"
-            )} del ${peruDateTimeFormat(startDate, "D [de] MMMM [de] YYYY")}`
+        // Definir una función para obtener un chiste aleatorio de Chuck Norris
+        const getChuckNorrisJoke = async () => {
+          const response = await axios.get(
+            "https://api.chucknorris.io/jokes/random"
           );
+          return response.data.value;
+        };
+
+        // Programar una tarea cron para ejecutar cada minuto
+        cron.schedule("* * * * *", async () => {
+          const joke = await getChuckNorrisJoke();
+          return res.status(200).json({ joke });
         });
-        res.status(200).json({ message: "cron.schedule" });
+
+        // Enviar un chiste aleatorio en la respuesta inicial
+        const initialJoke = await getChuckNorrisJoke();
+        res.status(200).json({ joke: initialJoke });
       } catch (error) {
         res.status(500).json(error);
       }
