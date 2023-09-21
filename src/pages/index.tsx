@@ -25,6 +25,7 @@ import "swiper/css/autoplay";
 
 // import './styles.css';
 import { Pagination, Autoplay } from "swiper/modules";
+import Link from "next/link";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -61,7 +62,9 @@ export default function Home() {
             <p>Failed to load Categories</p>
           ) : (
             categories.map((category, index) => (
-              <Card key={index} name={category.name} />
+              <Link key={index} href={`/${category.name}`}>
+                <Card name={category.name} />
+              </Link>
             ))
           )}
         </div>

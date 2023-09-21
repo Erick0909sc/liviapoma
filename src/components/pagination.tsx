@@ -40,12 +40,12 @@ const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props)
         onClick={previousPage}
         className="disabled:opacity-50 hover:text-indigo-800 text-indigo-700"
       >
-        <IoIosArrowDropleftCircle className="text-5xl" />
+        <IoIosArrowDropleftCircle className="text-4xl ss:text-5xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl" />
       </button>
       {pages.map((number, index) =>
         <button type="button"
           key={index}
-          className={`px-4 py-2 rounded-full hover:text-indigo-700 hover:bg-indigo-200 ${number === currentPage ? "bg-indigo-700 text-white" : "text-indigo-700"}`}
+          className={` px-2 py-0 xs:px-4 xs:py-2 rounded-full  hover:text-indigo-700 hover:bg-indigo-200 ${number === currentPage ? "bg-indigo-700 text-white" : "text-indigo-700 "}`}
           onClick={() => setCurrentPage(number)}>
           {number}
         </button>)}
@@ -54,7 +54,7 @@ const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props)
         onClick={nextPage}
         className="disabled:opacity-50 hover:text-indigo-800 text-indigo-700"
       >
-        <IoIosArrowDroprightCircle className="text-5xl" />
+        <IoIosArrowDroprightCircle className="text-4xl ss:text-5xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl" />
       </button>
     </div>
   );

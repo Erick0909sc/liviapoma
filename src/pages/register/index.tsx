@@ -72,7 +72,7 @@ const Register = (props: Props) => {
   const photoPreview = formik.values.photo ? URL.createObjectURL(formik.values.photo) : Foto;
   return (
     <div>
-      <section className="bg-gradient-to-t from-blue-300 via-cyan-600 to-cyan-800">
+      <section className="bg-gradient-to-tl from-yellow-300 to-green-600">
         <div className="flex justify-center min-h-screen">
           <div
             className="hidden bg-cover lg:block lg:w-2/5"
@@ -81,7 +81,7 @@ const Register = (props: Props) => {
 
           <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
             <div className="w-full">
-              <h1 className="text-5xl mt-8 font-semibold text-gray-800 dark:text-white">
+              <h1 className="text-5xl mt-8 font-semibold text-white">
                 Ferreteria Liviapoma
               </h1>
 
@@ -151,12 +151,12 @@ const Register = (props: Props) => {
                 </div>
 
                 <div>
-                  <label className="block mb-2 text-sm text-gray-600 dark:text-gray-100">
+                  <label className="block mb-2 text-sm text-gray-100">
                     Nombre Completo
                   </label>
                   <input
                     className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.name && formik.errors.name
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
                     placeholder={formik.touched.name && formik.errors.name ? formik.errors.name : "Example name"}
                     type="text"
                     {...formik.getFieldProps("name")}
@@ -168,12 +168,12 @@ const Register = (props: Props) => {
                 </div>
 
                 <div>
-                  <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
+                  <label className="block mb-2 text-sm text-gray-200">
                     Correo Electronico
                   </label>
                   <input
                     className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.email && formik.errors.email
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
                     placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : "Example123@gmail.com"}
                     type="text"
                     {...formik.getFieldProps("email")}
@@ -185,12 +185,12 @@ const Register = (props: Props) => {
                 </div>
 
                 <div className="relative">
-                  <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
+                  <label className="block mb-2 text-sm text-gray-200">
                     Contraseña
                   </label>
                   <input
                     className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.password && formik.errors.password
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-200 dark:border-gray-700 placeholder-gray-400"}`}
+                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
                     placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
                     type={showPassword ? "text" : "password"}
                     {...formik.getFieldProps("password")}
@@ -199,14 +199,14 @@ const Register = (props: Props) => {
                       if (formik.touched.password && formik.errors.password) return toast.error(formik.errors.password)
                     }}
                   />
-                  <span
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  <button
+                    className="absolute right-2 top-5 mt-8 transform -translate-y-1/2"
                     onClick={handleTogglePassword}
                   >
                     {" "}
                     {showPassword ? <FaEye /> : <FaEyeSlash />}{" "}
                     {/* Alterna entre los íconos */}
-                  </span>
+                  </button>
                 </div>
 
                 <button
