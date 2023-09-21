@@ -14,7 +14,7 @@ import ProductsHidden from '@/components/Dashboard/Productshidden';
 
 type Props = {}
 
-const Index = (props: Props) => {
+const Disabled = (props: Props) => {
 
     const productDashboard = useSelector(selecthiddenproducts);
     const productsStatus = useSelector(selectAllhiddenProductsStatus);
@@ -76,7 +76,7 @@ const Index = (props: Props) => {
                                         name={product.name}
                                         description={product.description}
                                         price={product.price}
-                                        marca={product.marca}
+                                        brand={product.brand?.name}
                                         category={product.category.name}
                                         discount={product.discount}
                                         image={product.image}
@@ -101,4 +101,4 @@ const Index = (props: Props) => {
     )
 }
 
-export default Index
+export default Disabled

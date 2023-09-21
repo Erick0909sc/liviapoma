@@ -19,6 +19,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -36,6 +37,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -54,6 +56,7 @@ export default async function handler(
             },
             include: {
               category: true,
+              brand: true,
             },
           });
           return products.length
@@ -66,11 +69,59 @@ export default async function handler(
           },
           include: {
             category: true,
+            brand: true,
           },
         });
         products.length
           ? res.status(200).json(products)
           : res.status(400).json({ message: "products not found" });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+      break;
+    case "POST":
+      try {
+        const {
+          code,
+          name,
+          description,
+          price,
+          image,
+          rating,
+          discount,
+          categoryId,
+          brandId,
+        } = req.body;
+        if (
+          !code ||
+          !name ||
+          !description ||
+          !price ||
+          !image ||
+          !rating ||
+          !discount ||
+          !categoryId ||
+          !brandId
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Todos los campos son obligatorios." });
+        }
+        const newProduct = await prisma.product.create({
+          data: {
+            code,
+            name,
+            description,
+            price,
+            image,
+            rating,
+            discount,
+            categoryId,
+            brandId,
+          },
+        });
+
+        res.status(201).json(newProduct);
       } catch (error) {
         res.status(500).json(error);
       }

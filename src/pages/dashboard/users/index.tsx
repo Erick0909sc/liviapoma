@@ -1,4 +1,3 @@
-
 import LayaoutAdmin from '@/components/Layout/LayoutAdmin/LayaoutAdmin'
 import { EStateGeneric } from '@/shared/types'
 import { itemsPerPage } from '@/shared/ultis'
@@ -12,7 +11,7 @@ import Users from '@/components/Dashboard/Users'
 
 type Props = {}
 
-const Index = (props: Props) => {
+const Users  = (props: Props) => {
 
     const Allusers = useSelector(selectDashboardAllUsers)
     const usersStatus = useSelector(selectusersStatus)
@@ -88,4 +87,4 @@ const Index = (props: Props) => {
     )
 }
 
-export default Index
+export default Users

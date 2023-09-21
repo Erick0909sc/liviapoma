@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-// import { RiArrowLeftLine } from "react-icons/ri";
+import { GetServerSideProps } from "next";
 
 type Props = {
   style: string;
@@ -51,7 +51,7 @@ const Login = (props: Props) => {
       });
       if (response?.ok) {
         resetForm();
-        toast.loading("Redirigiendo...", { duration: 4000 });
+        toast.loading("Redirigiendo...", { duration: 3000 });
         router.push((router.query.callbackUrl as string) || "/");
       } else {
         toast.error(response?.error as string);
@@ -196,14 +196,12 @@ const Login = (props: Props) => {
   );
 };
 
-export const getServerSideProps = async (context: any) => {
-  const { callbackUrl } = context.query;
-  const referer = callbackUrl || "/";
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   if (session) {
     return {
       redirect: {
-        destination: referer,
+        destination: "/",
         permanent: false,
       },
     };

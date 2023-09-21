@@ -1,5 +1,7 @@
 import { IProductCart } from "@/shared/types";
 import {
+  calcularDescuentoItemCart,
+  calcularPrecioConDescuento,
   formatPrice,
   handleDelete,
   handleInputChange,
@@ -53,6 +55,11 @@ const Card = ({ session, ...props }: Props) => {
           <span className="text-gray-600">{props.product.category.name}</span>
           <span className="text-gray-600">
             {formatPrice(props.product.price)}
+          </span>
+          <span className="text-crema-600">
+            {props.product.discount
+              ? `${props.product.discount}% de descuento`
+              : ``}
           </span>
         </div>
         <div className="max-w-[50%] flex absolute top-0 right-0 border-[1px] border-gray-400">
@@ -125,7 +132,17 @@ const Card = ({ session, ...props }: Props) => {
           </button>
         </div>
         <div className="max-w-[50%] absolute bottom-0 right-0">
-          {formatPrice(props.quantity * props.product.price)}
+          {props.product.discount ? (
+            <span className="text-crema-600 text-sm line-through">
+              {formatPrice(props.quantity * props.product.price)}{" "}
+            </span>
+          ) : null}
+          <span>
+            {formatPrice(
+              props.quantity * props.product.price -
+                calcularDescuentoItemCart(props)
+            )}
+          </span>
         </div>
       </div>
       {deleteConfirmation && (

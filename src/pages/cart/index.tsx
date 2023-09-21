@@ -11,7 +11,8 @@ import {
 import { useAppDispatch } from "@/states/store";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 type Props = {};
@@ -19,12 +20,15 @@ type Props = {};
 const Cart = (props: Props) => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const cartStatus = useSelector(selectAllCartStatus);
   const cart = useSelector(selectAllCart);
   useEffect(() => {
     (async () => {
-      if (cartStatus === EStateGeneric.IDLE && session) {
-        dispatch(getCartUser(session.user.id));
+      if (router.isReady) {
+        if (session) {
+          await dispatch(getCartUser(session.user.id));
+        }
       }
     })();
     return () => {
@@ -58,6 +62,13 @@ const Cart = (props: Props) => {
                     <Summary cart={cart.products} />
                   </div>
                 </div>
+              </div>
+            )}
+            {cartStatus === EStateGeneric.IDLE && (
+              <div className="md:flex gap-4">
+                <p>
+                  Loading...
+                </p>
               </div>
             )}
             {cartStatus === EStateGeneric.FAILED && (

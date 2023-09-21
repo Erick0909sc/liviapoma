@@ -11,7 +11,7 @@ type Props = {
     name: string;
     description: string;
     price: number;
-    marca: string;
+    brand: string;
     image: string;
     discount: number;
     category: string;
@@ -21,7 +21,7 @@ function ProductsHidden({ code,
     name,
     description,
     price,
-    marca,
+    brand,
     image,
 
     discount,
@@ -71,7 +71,7 @@ function ProductsHidden({ code,
             <td className="px-2 py-1">{name}</td>
             <td className="px-2 py-1">{description}</td>
             <td className="px-2 py-1">{price}</td>
-            <td className="px-2 py-1">{marca}</td>
+            <td className="px-2 py-1">{brand}</td>
             <td className="px-2 py-1">{category}</td>
             <td className="px-2 py-1">{discount}</td>
             <td className="relative w-16 h-20">

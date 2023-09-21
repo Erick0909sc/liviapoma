@@ -118,7 +118,7 @@ const Detail = (props: Props) => {
                     <div className="lg:pl-20">
                       <div className="pb-6 mb-8 border-b border-gray-200">
                         <span className="text-lg font-mediumtext-gray-500 text-gray-500">
-                          {product.marca}
+                          {product.brand?.name}
                         </span>
                         <h2 className="max-w-xl mt-2 mb-6 text-xl font-bold text-gray-900 md:text-4xl">
                           {product.name}
