@@ -22,12 +22,19 @@ export default async function handle(
         // Programar una tarea cron para ejecutar cada minuto
         cron.schedule("* * * * *", async () => {
           const joke = await getChuckNorrisJoke();
+          console.log(
+            "************************************************************************************"
+          );
+          console.log(joke);
+          console.log(
+            "************************************************************************************"
+          );
           return res.status(200).json({ joke });
         });
 
         // Enviar un chiste aleatorio en la respuesta inicial
         const initialJoke = await getChuckNorrisJoke();
-        res.status(200).json({ joke: initialJoke });
+        res.status(201).json({ joke: initialJoke });
       } catch (error) {
         res.status(500).json(error);
       }
