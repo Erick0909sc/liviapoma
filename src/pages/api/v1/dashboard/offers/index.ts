@@ -31,15 +31,13 @@ export default async function handler(
     case "POST":
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
-        const now = new Date();
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
-        console.log(now);
-        console.log(startDateObj);
-        console.log(endDateObj);
-        console.log(formatFechaISO(now));
-        console.log(formatFechaISO(startDateObj));
-        console.log(formatFechaISO(endDateObj));
+        // Instancia de Date en la zona horaria de Perú
+        const nowInPeru = new Date().toLocaleString("en-US", {
+          timeZone: "America/Lima",
+        });
+        const now = new Date(nowInPeru);
         if (startDateObj < now || endDateObj <= startDateObj) {
           return res.status(400).json({
             message:
