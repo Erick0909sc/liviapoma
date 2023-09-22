@@ -48,7 +48,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import fs from "fs/promises";
 import path from "path";
-import { formatFecha, formatFechaISO } from "@/shared/test";
+import { formatFecha, formatFechaISO, formatFechaNow, formatFechaPeru } from "@/shared/test";
 
 const DATA_FILE_PATH = path.join(process.cwd(), "data.json");
 // const DATA_FILE_PATH = "./data.json";
@@ -119,9 +119,10 @@ export default async function handle(
         const jsonData = JSON.parse(data);
         res.status(200).json({
           jsonData,
-          ahora: formatFecha(new Date()),
-          startDate: formatFecha(new Date("2023-09-22T12:07")),
-          EndDate: formatFecha(new Date("2023-09-22T12:15")),
+          ahora: formatFechaNow(new Date()),
+          ahoraA: formatFecha(new Date()),
+          startDate: formatFechaPeru(new Date("2023-09-22T12:07")),
+          EndDate: formatFechaPeru(new Date("2023-09-22T12:15")),
           ahoraIso: formatFechaISO(new Date()),
           startDateIso: formatFechaISO(new Date("2023-09-22T12:07")),
           EndDateIso: formatFechaISO(new Date("2023-09-22T12:15")),

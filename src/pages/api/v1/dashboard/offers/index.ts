@@ -7,7 +7,7 @@ import {
   offerValidation,
 } from "@/controllers/offerController";
 import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
-import { executeAfterDate, formatFecha } from "@/shared/test";
+import { executeAfterDate, formatFecha, formatFechaPeru } from "@/shared/test";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -33,8 +33,8 @@ export default async function handler(
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
         const nowInPeru = formatFecha(new Date());
-        const startDateFormat = formatFecha(new Date(startDate));
-        const endDateFormat = formatFecha(new Date(endDate));
+        const startDateFormat = formatFechaPeru(new Date(startDate));
+        const endDateFormat = formatFechaPeru(new Date(endDate));
         if (startDateFormat < nowInPeru || endDateFormat <= startDateFormat) {
           return res.status(400).json({
             message:
