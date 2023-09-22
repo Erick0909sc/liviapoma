@@ -48,20 +48,15 @@ const NewOffer = (props: Props) => {
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
-        console.log(values);
         const res = await postOfferDashboardByApi({
           ...values,
           image: values.image as File,
         });
-        console.log(res);
-
         if (res.status === 201) {
           resetForm();
           toast.success(res.data.message, { duration: 5000 });
         }
       } catch (error) {
-        console.log(error);
-
         toast.error(
           "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual."
         );

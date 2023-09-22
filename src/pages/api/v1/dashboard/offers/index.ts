@@ -6,8 +6,11 @@ import {
   offerProductsByCategory,
   offerValidation,
 } from "@/controllers/offerController";
-import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
-import { executeAfterDate, formatFecha, formatFechaPeru } from "@/shared/test";
+import {
+  executeAfterDate,
+  formatDate,
+  formatDateOfInputDate,
+} from "@/shared/ultis";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,7 +19,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const now = formatFecha(new Date());
+        const now = formatDate(new Date());
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
@@ -32,18 +35,13 @@ export default async function handler(
     case "POST":
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
-        const nowInPeru = formatFecha(new Date());
-        const startDateFormat = formatFechaPeru(new Date(startDate));
-        const endDateFormat = formatFechaPeru(new Date(endDate));
-        console.log(nowInPeru);
-        console.log(startDateFormat);
-        console.log(endDateFormat);
+        const nowInPeru = formatDate(new Date());
+        const startDateFormat = formatDateOfInputDate(new Date(startDate));
+        const endDateFormat = formatDateOfInputDate(new Date(endDate));
         if (startDateFormat < nowInPeru || endDateFormat <= startDateFormat) {
           return res.status(400).json({
-            message: `La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual asd. ${nowInPeru} ${endDateFormat} ${startDateFormat}`,
-            nowInPeru,
-            endDateFormat,
-            startDateFormat,
+            message:
+              "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual.",
           });
         }
         if (categories.length) {

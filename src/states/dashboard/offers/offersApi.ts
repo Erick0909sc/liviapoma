@@ -14,8 +14,6 @@ export const postOfferDashboardByApi = async ({
   categories: { [key: string]: string }[];
 }) => {
   const urlImage = await processImage(image);
-  console.log(urlImage);
-  console.log(startDate, endDate, image, categories);
   return axios.post(`/api/v1/dashboard/offers`, {
     startDate,
     endDate,

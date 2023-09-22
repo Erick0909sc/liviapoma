@@ -23,8 +23,57 @@ export const formatPrice = (price: number) => {
   //   currency: "USD",
   // });
 };
+export const formatFechaISO = (fecha: Date): string => {
+  // Ajustar la hora a la zona horaria de Perú (UTC-5)
+  // fecha.setUTCHours(fecha.getUTCHours() - 5);
 
-export const formatFechaISO = (fechaISO: string | Date) => {
+  // Formatear la fecha en la zona horaria de Perú
+  const formatoPeruano = new Intl.DateTimeFormat("es-PE", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZone: "America/Lima", // Establecer la zona horaria de Perú
+  });
+
+  return formatoPeruano.format(fecha);
+};
+
+export const formatDateOfInputDate = (fecha: Date): Date => {
+  // Clonar la fecha para evitar modificar la original
+  const fechaPeru = new Date(fecha);
+  if (process.env.NODE_ENV !== "production") {
+    // es la fecha de peru para ejecucion local
+    fechaPeru.setUTCHours(fechaPeru.getUTCHours() - 5);
+  } else {
+    // es la fecha de peru para ejecucion de produccion
+    fechaPeru.setUTCHours(fechaPeru.getUTCHours());
+  }
+  return fechaPeru;
+};
+
+export const formatDate = (fecha: Date): Date => {
+  // Ajustar la hora a la zona horaria de Perú (UTC-5)
+  fecha.setUTCHours(fecha.getUTCHours() - 5);
+  return fecha;
+};
+
+export const executeAfterDate = (date: string, customFunction: () => void) => {
+  const nowInPeru = formatDate(new Date());
+  const fechaEspecificaDate = formatDateOfInputDate(new Date(date));
+
+  const tiempoRestante = fechaEspecificaDate.getTime() - nowInPeru.getTime();
+
+  if (tiempoRestante <= 0) {
+    customFunction();
+  } else {
+    setTimeout(customFunction, tiempoRestante);
+  }
+};
+
+export const formatFechaISOa = (fechaISO: string | Date) => {
   try {
     const fecha = new Date(fechaISO);
     const dia = fecha.getDate().toString().padStart(2, "0");

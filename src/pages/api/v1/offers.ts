@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
-import { formatFecha } from "@/shared/test";
+import { formatDate } from "@/shared/ultis";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -9,7 +9,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const now = formatFecha(new Date());
+        const now = formatDate(new Date());
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
