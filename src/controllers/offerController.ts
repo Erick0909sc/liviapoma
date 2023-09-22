@@ -1,4 +1,5 @@
 import prisma from "@/lib/prismadb";
+import { formatFecha } from "@/shared/test";
 import { peruDateTimeFormat } from "@/shared/ultis";
 type Category = {
   name: string;
@@ -129,8 +130,8 @@ export const offerProductsByCategory = async ({
   try {
     const offer = await prisma.offer.create({
       data: {
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
+        startDate: formatFecha(new Date(startDate)),
+        endDate: formatFecha(new Date(endDate)),
         image,
       },
     });

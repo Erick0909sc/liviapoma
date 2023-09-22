@@ -47,25 +47,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import fs from "fs/promises";
-import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
 import path from "path";
+import { formatFecha, formatFechaISO } from "@/shared/test";
 
 const DATA_FILE_PATH = path.join(process.cwd(), "data.json");
 // const DATA_FILE_PATH = "./data.json";
 
 function ejecutarDespuesDeFecha(fecha: string, funcionAEjecutar: () => void) {
-  const nowInPeru = new Date().toLocaleString("en-US", {
-    timeZone: "America/Lima",
-  });
-  const currentDate = new Date(nowInPeru);
-  const fechaEspecifica = new Date(fecha).toLocaleString("en-US", {
-    timeZone: "America/Lima",
-  });
-  const fechaEspecificaDate = new Date(fechaEspecifica);
-  const tiempoRestante = fechaEspecificaDate.getTime() - currentDate.getTime();
+  const nowInPeru = formatFecha(new Date());
+  const fechaEspecificaDate = formatFecha(new Date(fecha));
+
+  const tiempoRestante = fechaEspecificaDate.getTime() - nowInPeru.getTime();
 
   if (tiempoRestante <= 0) {
-    // La fecha ya ha pasado, ejecuta la función inmediatamente.
     funcionAEjecutar();
   } else {
     setTimeout(funcionAEjecutar, tiempoRestante);
@@ -121,32 +115,11 @@ export default async function handle(
       break;
     case "GET":
       try {
-        const startDate = "2023-09-20T18:00";
-        const endDate = "2023-09-20T18:35";
-        const deploystartDate = new Date("2023-09-20T18:00");
-        const deployendDate = new Date("2023-09-20T18:35");
-
-        const startDateAmerica = new Date(startDate).toLocaleString("en-US", {
-          timeZone: "America/Lima",
-        });
-        const startDateAmericaWithDate = new Date(startDateAmerica);
-
-        const endDateAmerica = new Date(endDate).toLocaleString("en-US", {
-          timeZone: "America/Lima",
-        });
-        const endDateAmericaWithDate = new Date(endDateAmerica);
-
         const data = await fs.readFile(DATA_FILE_PATH, "utf-8");
         const jsonData = JSON.parse(data);
         res.status(200).json({
           jsonData,
-          startDateAmericaWithDate,
-          endDateAmericaWithDate,
-          startDateAmericaWithDateIso: formatFechaISO(startDateAmericaWithDate),
-          endDateAmericaWithDateIso: formatFechaISO(endDateAmericaWithDate),
-          deployDate: formatFechaISO("2023-09-22T15:19:34.267Z"),
-          deploystartDate,
-          deployendDate,
+          ahora: formatFecha(new Date())
         });
       } catch (error) {
         res.status(500).json(error);

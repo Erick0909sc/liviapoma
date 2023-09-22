@@ -7,7 +7,7 @@ import {
   offerValidation,
 } from "@/controllers/offerController";
 import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
-import { executeAfterDate } from "@/shared/test";
+import { executeAfterDate, formatFecha } from "@/shared/test";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,10 +16,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const nowInPeru = new Date().toLocaleString("en-US", {
-          timeZone: "America/Lima",
-        });
-        const now = new Date(nowInPeru);
+        const now = formatFecha(new Date());
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
@@ -35,14 +32,10 @@ export default async function handler(
     case "POST":
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
-        const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
-        // Instancia de Date en la zona horaria de Perú
-        const nowInPeru = new Date().toLocaleString("en-US", {
-          timeZone: "America/Lima",
-        });
-        const now = new Date(nowInPeru);
-        if (startDateObj < now || endDateObj <= startDateObj) {
+        const nowInPeru = formatFecha(new Date());
+        const startDateFormat = formatFecha(new Date(startDate));
+        const endDateFormat = formatFecha(new Date(endDate));
+        if (startDateFormat < nowInPeru || endDateFormat <= startDateFormat) {
           return res.status(400).json({
             message:
               "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual.",

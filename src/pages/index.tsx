@@ -28,6 +28,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Product from "@/components/Offerts/Product";
 import Offert from "@/components/Offerts/Offert";
 import {
+  cleanUpOfferts,
   getAllOffers,
   selectAllOffers,
   selectAllOffersStatus,
@@ -57,13 +58,17 @@ export default function Home() {
         await dispatch(getAllCategories());
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
-        await dispatch(getAllOffers());
       }
+      await dispatch(getAllOffers());
     };
 
     fetchData();
+    return () => {
+      dispatch(cleanUpOfferts());
+    };
   }, [dispatch, categoryStatus, session]);
-
+  console.log(offersStatus);
+  console.log(offers);
   return (
     <Layout title="Inicio">
       <div className="w-full flex flex-col bg-slate-100">
@@ -78,7 +83,7 @@ export default function Home() {
           )}
           {categoryStatus === EStateGeneric.SUCCEEDED &&
             categories.map((category, index) => (
-                <Card key={index} name={category.name} />
+              <Card key={index} name={category.name} />
             ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
