@@ -10,16 +10,19 @@ export const formatFechaISO = (fecha: Date): string => {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
-    timeZoneName: "short",
+    timeZone: "America/Lima", // Establecer la zona horaria de Perú
   });
 
   return formatoPeruano.format(fecha);
 };
 
 export const formatFecha = (fecha: Date): Date => {
+  // Clonar la fecha para evitar modificar la original
+  const fechaPeru = new Date(fecha);
+
   // Ajustar la hora a la zona horaria de Perú (UTC-5)
-  fecha.setUTCHours(fecha.getUTCHours() - 5);
-  return fecha;
+  fechaPeru.setUTCHours(fechaPeru.getUTCHours() - 5);
+  return fechaPeru;
 };
 
 export const executeAfterDate = (date: string, customFunction: () => void) => {
