@@ -35,10 +35,15 @@ export default async function handler(
         const nowInPeru = formatFecha(new Date());
         const startDateFormat = formatFechaPeru(new Date(startDate));
         const endDateFormat = formatFechaPeru(new Date(endDate));
+        console.log(nowInPeru);
+        console.log(startDateFormat);
+        console.log(endDateFormat);
         if (startDateFormat < nowInPeru || endDateFormat <= startDateFormat) {
           return res.status(400).json({
-            message:
-              "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual.",
+            message: `La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual asd. ${nowInPeru} ${endDateFormat} ${startDateFormat}`,
+            nowInPeru,
+            endDateFormat,
+            startDateFormat,
           });
         }
         if (categories.length) {
