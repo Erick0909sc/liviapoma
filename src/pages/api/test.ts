@@ -47,7 +47,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import fs from "fs/promises";
-import { peruDateTimeFormat } from "@/shared/ultis";
+import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
 import path from "path";
 
 const DATA_FILE_PATH = path.join(process.cwd(), "data.json");
@@ -68,14 +68,11 @@ function ejecutarDespuesDeFecha(fecha: string, funcionAEjecutar: () => void) {
     // La fecha ya ha pasado, ejecuta la función inmediatamente.
     funcionAEjecutar();
   } else {
-
     setTimeout(funcionAEjecutar, tiempoRestante);
   }
 }
 const getChuckNorrisJoke = async () => {
-  const response = await axios.get(
-    "https://api.chucknorris.io/jokes/random"
-  );
+  const response = await axios.get("https://api.chucknorris.io/jokes/random");
   return response.data.value;
 };
 const funcionAEjecutar = async () => {
@@ -124,9 +121,33 @@ export default async function handle(
       break;
     case "GET":
       try {
+        const startDate = "2023-09-20T18:00";
+        const endDate = "2023-09-20T18:35";
+        const deploystartDate = new Date("2023-09-20T18:00");
+        const deployendDate = new Date("2023-09-20T18:35");
+
+        const startDateAmerica = new Date(startDate).toLocaleString("en-US", {
+          timeZone: "America/Lima",
+        });
+        const startDateAmericaWithDate = new Date(startDateAmerica);
+
+        const endDateAmerica = new Date(endDate).toLocaleString("en-US", {
+          timeZone: "America/Lima",
+        });
+        const endDateAmericaWithDate = new Date(endDateAmerica);
+
         const data = await fs.readFile(DATA_FILE_PATH, "utf-8");
         const jsonData = JSON.parse(data);
-        res.status(200).json(jsonData);
+        res.status(200).json({
+          jsonData,
+          startDateAmericaWithDate,
+          endDateAmericaWithDate,
+          startDateAmericaWithDateIso: formatFechaISO(startDateAmericaWithDate),
+          endDateAmericaWithDateIso: formatFechaISO(endDateAmericaWithDate),
+          deployDate: formatFechaISO("2023-09-22T15:19:34.267Z"),
+          deploystartDate,
+          deployendDate,
+        });
       } catch (error) {
         res.status(500).json(error);
       }
