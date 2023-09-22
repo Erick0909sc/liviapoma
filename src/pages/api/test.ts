@@ -119,7 +119,12 @@ export default async function handle(
         const jsonData = JSON.parse(data);
         res.status(200).json({
           jsonData,
-          ahora: formatFecha(new Date())
+          ahora: formatFecha(new Date()),
+          startDate: formatFecha(new Date("2023-09-22T12:07")),
+          EndDate: formatFecha(new Date("2023-09-22T12:15")),
+          ahoraIso: formatFechaISO(new Date()),
+          startDateIso: formatFechaISO(new Date("2023-09-22T12:07")),
+          EndDateIso: formatFechaISO(new Date("2023-09-22T12:15")),
         });
       } catch (error) {
         res.status(500).json(error);

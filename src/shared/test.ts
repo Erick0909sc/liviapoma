@@ -1,6 +1,6 @@
 export const formatFechaISO = (fecha: Date): string => {
   // Ajustar la hora a la zona horaria de Perú (UTC-5)
-  fecha.setUTCHours(fecha.getUTCHours() - 5);
+  // fecha.setUTCHours(fecha.getUTCHours() - 5);
 
   // Formatear la fecha en la zona horaria de Perú
   const formatoPeruano = new Intl.DateTimeFormat("es-PE", {
