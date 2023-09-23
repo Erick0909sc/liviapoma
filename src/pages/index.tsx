@@ -33,16 +33,8 @@ import {
   selectAllOffers,
   selectAllOffersStatus,
 } from "@/states/globalSlice";
-interface Main {
-  id: number;
-  startDate: string;
-  endDate: string;
-  image: string;
-}
-import Link from "next/link";
 export default function Home() {
   const { data: session } = useSession();
-  const [test, setTest] = useState<Main[]>([]);
   const dispatch = useAppDispatch();
 
   const topRatedProducts = useSelector(selectProductByrating);
@@ -59,16 +51,24 @@ export default function Home() {
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
       }
-      await dispatch(getAllOffers());
     };
 
     fetchData();
-    return () => {
-      dispatch(cleanUpOfferts());
-    };
   }, [dispatch, categoryStatus, session]);
-  console.log(offersStatus);
-  console.log(offers);
+
+  useEffect(() => {
+    (async () => {
+      if (offersStatus === EStateGeneric.IDLE) {
+        await dispatch(getAllOffers());
+      }
+    })();
+    return () => {
+      if (offersStatus === EStateGeneric.SUCCEEDED) {
+        dispatch(cleanUpOfferts());
+      }
+    };
+  }, [dispatch, offersStatus]);
+
   return (
     <Layout title="Inicio">
       <div className="w-full flex flex-col bg-slate-100">

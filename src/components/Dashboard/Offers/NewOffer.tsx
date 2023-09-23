@@ -11,7 +11,9 @@ import { useFormik } from "formik";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
+import request from "axios";
 type Props = {};
+
 
 const NewOffer = (props: Props) => {
   const states = {
@@ -57,9 +59,15 @@ const NewOffer = (props: Props) => {
           toast.success(res.data.message, { duration: 5000 });
         }
       } catch (error) {
-        toast.error(
-          "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual."
-        );
+        if (request.isAxiosError(error) && error.response) {
+          toast.error(
+            (
+              error.response?.data as {
+                message: string;
+              }
+            ).message
+          );
+        }
       } finally {
       }
     },

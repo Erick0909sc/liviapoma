@@ -19,12 +19,34 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
+        const { disabled } = req.query;
         const now = formatDate(new Date());
+        if (disabled) {
+          const offers = await prisma.offer.findMany({
+            where: {
+              startDate: {
+                lt: now,
+              },
+              endDate: {
+                lt: now,
+              },
+            },
+            include: {
+              brands: { include: { brand: true } },
+              categories: { include: { category: true } },
+            },
+          });
+          return res.status(200).json(offers);
+        }
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
               gt: now,
             },
+          },
+          include: {
+            brands: { include: { brand: true } },
+            categories: { include: { category: true } },
           },
         });
         res.status(200).json(offers);

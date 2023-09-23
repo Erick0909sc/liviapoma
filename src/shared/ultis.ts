@@ -73,6 +73,13 @@ export const executeAfterDate = (date: string, customFunction: () => void) => {
   }
 };
 
+export const formatToDatetimeLocal = (isoDate: Date) => {
+  const date = new Date(isoDate);
+  date.setUTCHours(date.getUTCHours());
+
+  return date.toISOString().slice(0, 16); // El formato datetime-local es "yyyy-MM-ddThh:mm"
+};
+
 export const formatFechaISOa = (fechaISO: string | Date) => {
   try {
     const fecha = new Date(fechaISO);

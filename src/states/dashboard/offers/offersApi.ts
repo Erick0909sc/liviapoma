@@ -2,6 +2,10 @@ import { processImage } from "@/shared/ultis";
 import axios from "axios";
 export const getOffersDashboardByApi = () =>
   axios.get(`/api/v1/dashboard/offers`);
+
+export const getOffersDisabledDashboardByApi = () =>
+  axios.get(`/api/v1/dashboard/offers?disabled=true`);
+
 export const postOfferDashboardByApi = async ({
   startDate,
   endDate,

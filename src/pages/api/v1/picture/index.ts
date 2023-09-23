@@ -36,9 +36,9 @@ export default async function handler(
         try {
           const result = await cloudinary.uploader.upload(files.image.path);
           var image = result.secure_url.replace(/\.(png|jpeg|jpg)$/, ".webp");
-          res.status(200).json(image);
+          return res.status(200).json(image);
         } catch (error) {
-          res.status(500).json({ error });
+          return res.status(500).json({ error });
         }
       });
       break;
