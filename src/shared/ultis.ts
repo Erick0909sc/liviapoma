@@ -21,23 +21,6 @@ export const formatPrice = (price: number) => {
   //   currency: "USD",
   // });
 };
-export const formatFechaISO = (fecha: Date): string => {
-  // Ajustar la hora a la zona horaria de Perú (UTC-5)
-  // fecha.setUTCHours(fecha.getUTCHours() - 5);
-
-  // Formatear la fecha en la zona horaria de Perú
-  const formatoPeruano = new Intl.DateTimeFormat("es-PE", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZone: "America/Lima", // Establecer la zona horaria de Perú
-  });
-
-  return formatoPeruano.format(fecha);
-};
 
 export const formatDateOfInputDate = (fecha: Date): Date => {
   // Clonar la fecha para evitar modificar la original
@@ -78,7 +61,7 @@ export const formatToDatetimeLocal = (isoDate: Date) => {
   return date.toISOString().slice(0, 16); // El formato datetime-local es "yyyy-MM-ddThh:mm"
 };
 
-export const formatFechaISOa = (fechaISO: string | Date) => {
+export const formatFechaISO = (fechaISO: string | Date) => {
   try {
     const fecha = new Date(fechaISO);
     const dia = fecha.getDate().toString().padStart(2, "0");
