@@ -58,15 +58,6 @@ export default async function handler(
     case "POST":
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
-        const nowInPeru = formatDate(new Date());
-        const startDateFormat = formatDateOfInputDate(new Date(startDate));
-        const endDateFormat = formatDateOfInputDate(new Date(endDate));
-        if (startDateFormat < nowInPeru || endDateFormat <= startDateFormat) {
-          return res.status(400).json({
-            message:
-              "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual.",
-          });
-        }
         if (categories.length) {
           executeAfterDate(startDate, async () => {
             await offerProductsByCategory({

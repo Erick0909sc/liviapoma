@@ -104,9 +104,9 @@ const EditOffer = ({
   };
   const animationClass = isIn ? "animate-jump-in" : "animate-jump-out";
   return (
-    <div className="flex justify-center py-4 fixed top-0 right-0 w-screen h-screen bg-black/30 z-50">
+    <div className="flex justify-center items-center py-4 fixed top-0 right-0 w-screen h-screen bg-black/30 z-50">
       <div
-        className={`bg-white overflow-y-auto sm:p-6 rounded-lg ${animationClass}`}
+        className={`bg-white max-h-[95vh] overflow-y-auto sm:p-6 rounded-lg ${animationClass}`}
       >
         <div className="p-2 md:p-4 flex flex-col items-center justify-center">
           <h2 className="text-2xl font-bold mb-4">Crear una nueva oferta</h2>
