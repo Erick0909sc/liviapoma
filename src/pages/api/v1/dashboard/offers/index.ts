@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
-import cron from "node-cron";
 import {
+  desactivateOfferProductsByBrand,
   desactivateOfferProductsByCategory,
+  offerProductsByBrand,
   offerProductsByCategory,
   offerValidation,
 } from "@/controllers/offerController";
@@ -67,17 +68,6 @@ export default async function handler(
           });
         }
         if (categories.length) {
-          const result = await offerValidation({
-            startDate,
-            endDate,
-            categories,
-            brands,
-          });
-          if (result.success) {
-            res.status(201).json({ message: result.message });
-          } else {
-            return res.status(400).json({ message: result.error });
-          }
           executeAfterDate(startDate, async () => {
             await offerProductsByCategory({
               startDate,
@@ -91,12 +81,23 @@ export default async function handler(
               categories,
             });
           });
-          break;
+          return res.status(200);
         }
         if (brands.length) {
-          return res
-            .status(503)
-            .json({ message: "La ruta está en proceso de desarrollo." });
+          executeAfterDate(startDate, async () => {
+            await offerProductsByBrand({
+              startDate,
+              endDate,
+              image,
+              brands,
+            });
+          });
+          executeAfterDate(endDate, async () => {
+            await desactivateOfferProductsByBrand({
+              brands,
+            });
+          });
+          return res.status(200);
         }
         if (categories.length && brands.length) {
           return res

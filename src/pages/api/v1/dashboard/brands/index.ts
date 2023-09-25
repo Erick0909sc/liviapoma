@@ -9,10 +9,10 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const categories = await prisma.category.findMany();
-        categories.length
-          ? res.status(200).json(categories)
-          : res.status(400).json({ message: "categories not found" });
+        const brands = await prisma.brand.findMany();
+        brands.length
+          ? res.status(200).json(brands)
+          : res.status(400).json({ message: "brands not found" });
       } catch (error) {
         res.status(500).json(error);
       }

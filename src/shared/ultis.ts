@@ -8,8 +8,6 @@ import {
   patchOneProductToCart,
 } from "@/states/cart/cartApi";
 import { getCartUser } from "@/states/cart/cartSlice";
-import moment from "moment-timezone";
-moment.tz.setDefault("America/Lima");
 
 export const itemsPerPage = 5;
 
@@ -140,15 +138,6 @@ export const calcularDescuento = (carrito: IProductCart[]): number => {
   }
 
   return descuentoTotal;
-};
-
-export const peruDateTimeFormat = (
-  startDate: string,
-  format: string = "m H D M *"
-): string => {
-  const peruDateTime = moment(startDate).tz("America/Lima");
-  peruDateTime.locale("es");
-  return peruDateTime.format(format);
 };
 
 export const hanldeItemCart = async ({

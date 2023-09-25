@@ -61,7 +61,6 @@ export default async function handle(
     case "POST":
       try {
         const OFFER_START_DATE = req.query.fecha as string;
-
         res.status(201).json({ joke: `se ejecutara ${OFFER_START_DATE}` });
       } catch (error) {
         res.status(500).json(error);
@@ -69,7 +68,23 @@ export default async function handle(
       break;
     case "GET":
       try {
+        const startDate = "2023-09-22T12:07";
+        const endDate = "2023-09-22T12:07";
         res.status(200).json({
+          message: `Las ofertas estaran activas desde las ${formatFechaISO(
+            formatDateOfInputDate(new Date(startDate))
+          )} el ${formatFechaISO(
+            formatDateOfInputDate(new Date(startDate))
+          )} hasta las ${formatFechaISO(
+            formatDateOfInputDate(new Date(endDate))
+          )} del ${formatFechaISO(new Date(endDate))}`,
+          message2: `Las ofertas estaran activas desde las ${formatFechaISO(
+            new Date(startDate)
+          )} el ${formatFechaISO(
+            new Date(startDate)
+          )} hasta las ${formatFechaISO(
+            new Date(endDate)
+          )} del ${formatFechaISO(new Date(endDate))}`,
           ahora: formatDate(new Date()),
           ahoraA: formatDate(new Date()),
           startDate: formatDateOfInputDate(new Date("2023-09-22T12:07")),

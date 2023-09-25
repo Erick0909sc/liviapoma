@@ -1,6 +1,9 @@
 import prisma from "@/lib/prismadb";
-import { formatDate, formatDateOfInputDate } from "@/shared/ultis";
-import { peruDateTimeFormat } from "@/shared/ultis";
+import {
+  formatDate,
+  formatDateOfInputDate,
+  formatFechaISO,
+} from "@/shared/ultis";
 type Category = {
   name: string;
   discount: number;
@@ -97,16 +100,11 @@ export const offerValidation = async ({
     }
     return {
       success: true,
-      message: `Las ofertas estaran activas desde las ${peruDateTimeFormat(
-        startDate,
-        "H:mm"
-      )} el ${peruDateTimeFormat(
-        startDate,
-        "D [de] MMMM [de] YYYY"
-      )} hasta las ${peruDateTimeFormat(
-        endDate,
-        "H:mm"
-      )} del ${peruDateTimeFormat(endDate, "D [de] MMMM [de] YYYY")}`,
+      message: `Las ofertas estaran activas desde las ${formatFechaISO(
+        new Date(startDate)
+      )} el ${formatFechaISO(new Date(startDate))} hasta las ${formatFechaISO(
+        new Date(endDate)
+      )} del ${formatFechaISO(new Date(endDate))}`,
     };
   } catch (error) {
     return {
