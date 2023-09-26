@@ -64,3 +64,24 @@ export interface IOffer {
   endDate: Date;
   image: string;
 }
+
+export interface IOfferDashboard extends IOffer {
+  brands: IBrandOffer[];
+  categories: ICategoryOffer[];
+}
+
+export interface IBrandOffer {
+  id: number;
+  offerId: number;
+  brandId: number;
+  discount: number;
+  brand: Brand;
+}
+
+export interface ICategoryOffer {
+  id: number;
+  offerId: number;
+  categoryId: number;
+  discount: number;
+  category: Category;
+}

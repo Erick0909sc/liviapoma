@@ -8,8 +8,6 @@ import {
   patchOneProductToCart,
 } from "@/states/cart/cartApi";
 import { getCartUser } from "@/states/cart/cartSlice";
-import moment from "moment-timezone";
-moment.tz.setDefault("America/Lima");
 
 export const itemsPerPage = 5;
 
@@ -22,6 +20,39 @@ export const formatPrice = (price: number) => {
   //   style: "currency",
   //   currency: "USD",
   // });
+};
+
+export const formatDateOfInputDate = (fecha: Date): Date => {
+  // Clonar la fecha para evitar modificar la original
+  const fechaPeru = new Date(fecha);
+  fechaPeru.setUTCHours(fechaPeru.getUTCHours());
+  return fechaPeru;
+};
+
+export const formatDate = (fecha: Date): Date => {
+  // Ajustar la hora a la zona horaria de Perú (UTC-5)
+  fecha.setUTCHours(fecha.getUTCHours() - 5);
+  return fecha;
+};
+
+export const executeAfterDate = (date: string, customFunction: () => void) => {
+  const nowInPeru = formatDate(new Date());
+  const fechaEspecificaDate = formatDateOfInputDate(new Date(date));
+
+  const tiempoRestante = fechaEspecificaDate.getTime() - nowInPeru.getTime();
+
+  if (tiempoRestante <= 0) {
+    customFunction();
+  } else {
+    setTimeout(customFunction, tiempoRestante);
+  }
+};
+
+export const formatToDatetimeLocal = (isoDate: Date) => {
+  const date = new Date(isoDate);
+  date.setUTCHours(date.getUTCHours());
+
+  return date.toISOString().slice(0, 16); // El formato datetime-local es "yyyy-MM-ddThh:mm"
 };
 
 export const formatFechaISO = (fechaISO: string | Date) => {
@@ -84,15 +115,6 @@ export const calcularDescuento = (carrito: IProductCart[]): number => {
   }
 
   return descuentoTotal;
-};
-
-export const peruDateTimeFormat = (
-  startDate: string,
-  format: string = "m H D M *"
-): string => {
-  const peruDateTime = moment(startDate).tz("America/Lima");
-  peruDateTime.locale("es");
-  return peruDateTime.format(format);
 };
 
 export const hanldeItemCart = async ({

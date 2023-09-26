@@ -11,9 +11,14 @@ import { useFormik } from "formik";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
+import request from "axios";
+import useCategoriesData from "@/hooks/useCategoriesData";
+import useBrandsData from "@/hooks/useBrandsData";
 type Props = {};
 
 const NewOffer = (props: Props) => {
+  const categories = useCategoriesData();
+  const brands = useBrandsData();
   const states = {
     marca_categoria: false,
     categoria: false,
@@ -30,17 +35,12 @@ const NewOffer = (props: Props) => {
     discount: "",
     image: null as File | null,
     categories: [],
-    brand: [],
+    brands: [],
   };
   const validationSchema = Yup.object({
     startDate: Yup.date().required("La fecha de inicio es requerida"),
     endDate: Yup.date().required("La fecha de finalización es requerida"),
-    // discount: Yup.number()
-    //   .required("El descuento es requerido")
-    //   .moreThan(0, "El descuento no puede ser menor o igual a 0%")
-    //   .max(100, "El descuento no puede ser mayor que 100"),
-    // categories: Yup.array().optional(),
-    brand: Yup.array().optional(),
+    brands: Yup.array().optional(),
   });
   const formik = useFormik({
     initialValues,
@@ -48,7 +48,6 @@ const NewOffer = (props: Props) => {
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
-        console.log(values);
         const res = await postOfferDashboardByApi({
           ...values,
           image: values.image as File,
@@ -58,29 +57,26 @@ const NewOffer = (props: Props) => {
           toast.success(res.data.message, { duration: 5000 });
         }
       } catch (error) {
-        toast.error(
-          "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual."
-        );
+        if (request.isAxiosError(error) && error.response) {
+          toast.error(
+            (
+              error.response?.data as {
+                message: string;
+              }
+            ).message
+          );
+        }
       } finally {
       }
     },
   });
-  const categories = [
-    "Cementos",
-    "Varillas",
-    "Estribos",
-    "Alambres",
-    "Clavos",
-    "Eternits",
-    "Cumbreras",
-  ];
-  const brands = ["PACASMAYO", "SIDERPERU", "ETERNIT", "FIBRAFORTE"];
-
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setOffertBy({
       ...states,
       [e.target.value]: true,
     });
+    formik.setFieldValue("categories", []);
+    formik.setFieldValue("brands", []);
   };
   return (
     <div className="p-2 md:p-4 flex flex-col items-center justify-center">
@@ -139,9 +135,9 @@ const NewOffer = (props: Props) => {
             <div>
               <CustomOptionsWithInput
                 formik={formik}
-                fieldName="brand"
+                fieldName="brands"
                 items={brands}
-                fieldNameTranslate={OfferTranslation["brand"]}
+                fieldNameTranslate={OfferTranslation["brands"]}
               />
             </div>
           </div>
@@ -163,9 +159,9 @@ const NewOffer = (props: Props) => {
             <div>
               <CustomOptionsWithInput
                 formik={formik}
-                fieldName="brand"
+                fieldName="brands"
                 items={brands}
-                fieldNameTranslate={OfferTranslation["brand"]}
+                fieldNameTranslate={OfferTranslation["brands"]}
               />
             </div>
           </div>

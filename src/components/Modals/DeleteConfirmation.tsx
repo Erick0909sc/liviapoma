@@ -28,7 +28,7 @@ const DeleteConfirmation = ({
           <p>{message}</p>
           <div className="w-full flex justify-evenly">
             <button
-              className="p-3 rounded-lg bg-red-500 text-white"
+              className="p-3 rounded-lg bg-red-500 hover:bg-red-600 text-white"
               type="button"
               onClick={() => {
                 setIsIn(false);
@@ -41,7 +41,7 @@ const DeleteConfirmation = ({
               {confirmText}
             </button>
             <button
-              className="p-3 rounded-lg bg-blue-950 text-white"
+              className="p-3 rounded-lg bg-green-500 hover:bg-green-600 text-white"
               type="button"
               onClick={() => {
                 setIsIn(false);

@@ -36,6 +36,13 @@ export const globalSlice = createSlice({
         currentPage: action.payload,
       };
     },
+    cleanUpOfferts: (state) => {
+      return {
+        ...state,
+        offers: [],
+        allOffersStatus: EStateGeneric.IDLE,
+      };
+    },
   },
   extraReducers(builder) {
     builder.addCase(getAllOffers.fulfilled, (state, action) => {
@@ -51,7 +58,7 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setCurrentPage } = globalSlice.actions;
+export const { setCurrentPage, cleanUpOfferts } = globalSlice.actions;
 
 export const selectCurrentPage = (state: RootState) => state.global.currentPage;
 export const selectAllOffers = (state: RootState) => state.global.offers;

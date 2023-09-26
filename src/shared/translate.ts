@@ -4,5 +4,5 @@ export const OfferTranslation: { [key: string]: string } = {
   discount: "Descuento",
   image: "Imagen",
   categories: "Categorías",
-  brand: "Marca",
+  brands: "Marcas",
 };
