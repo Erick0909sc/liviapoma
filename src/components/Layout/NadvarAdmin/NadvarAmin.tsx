@@ -4,18 +4,28 @@ import { GoBellFill } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
 import { GoTriangleDown } from "react-icons/go";
 import { Session } from "next-auth";
+import AdminModal from "@/components/Modals/Admin";
 
 interface NadvarProps {
   toggleSidebar: () => void;
   session: Session;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
+const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session ,isOpen,onClose}) => {
   const [visibleSidebar, setVisibleSidebar] = React.useState(true);
+
 
   const toggleSidebarVisibility = () => {
     setVisibleSidebar(!visibleSidebar);
     toggleSidebar();
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
   return (
@@ -29,8 +39,8 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
           </button>
         </div>
 
-        <div className="w-[25%] flex justify-center">
-          <form className="bg-transparent  border-white border rounded-[10px] w-[70%]">
+        <div className=" w-56  lg:w-[25%] flex justify-center">
+          <form className="bg-transparent  border-white border rounded-[10px] w-full  lg:w-[70%]">
             <input
               type="text "
               className="bg-transparent rounded-[10px] p-2 focus:outline-none w-[75%] placeholder-white"
@@ -42,8 +52,19 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
           </form>
         </div>
 
-        <div className="w-[60%] flex justify-end p-4 gap-3 ">
-          <button className="text-[25px]">
+        <div className="w-36 flex justify-end pr-3 text-[35px]">
+        {session && (
+            <>
+              <FaUserCircle onClick={toggleModal} className="lg:hidden sm:hidden"/>
+              {showModal && <AdminModal  isOpen={showModal}  onClose={toggleModal} />}
+            </>
+          )}
+        </div>
+
+
+
+        <div className="w-[60%]  justify-end p-4 gap-3 hidden sm:flex   lg:flex">
+          <button className="text-[25px] ">
             <GoBellFill />
           </button>
           <div className="flex items-center ">

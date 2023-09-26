@@ -28,7 +28,7 @@ const LayaoutAdmin = ({ children }: Props) => {
       </Head>
 
       {visibleSidebar && (
-        <div className=" h-full">
+        <div >
           <Sidebar session={session} />
         </div>
       )}
@@ -37,7 +37,7 @@ const LayaoutAdmin = ({ children }: Props) => {
         <div className="flex-grow">{children}</div>
         <FooterAdmin />
       </div> */}
-      <div className="max-h-screen flex-grow flex flex-col">
+      <div className=" max-h-screen  flex-grow flex flex-col">
         <NadvarAmin toggleSidebar={toggleSidebar} session={session} />
         <div className="overflow-y-auto flex-grow">{children}</div>
         <FooterAdmin />

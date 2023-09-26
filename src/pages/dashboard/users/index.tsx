@@ -53,9 +53,7 @@ const UsersPage  = (props: Props) => {
                                         <th className="p-2">id</th>
                                         <th className="p-2">Nombre</th>
                                         <th className="p-2">email</th>
-                                        <th className="p-2">contraseña</th>
                                         <th className="p-2">rol</th>
-                                        <th className="p-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,7 +63,6 @@ const UsersPage  = (props: Props) => {
                                             id={user.id}
                                             name={user.name}
                                             email={user.email}
-                                            password={user.password}
                                             role={user.role}
 
                                         />

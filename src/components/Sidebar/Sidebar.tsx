@@ -19,7 +19,7 @@ const Sidebar = ({ session }: Props) => {
     setActive(parts[parts.length - 1]);
   }, [pathname]);
   return (
-    <div className="h-screen flex ">
+    <div className=" absolute h-[90.4%] sm:h-auto z-10  lg:static top-14 bottom-0   lg:h-screen flex ">
       <div className="bg-teal-700 text-white flex flex-col flex-shrink-0 w-72">
         <div className="flex items-center text-center h-[10%] font-bold border-b-4 gap-1">
           <Link href={"#"}>
