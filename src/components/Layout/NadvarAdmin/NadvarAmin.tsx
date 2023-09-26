@@ -9,13 +9,10 @@ import AdminModal from "@/components/Modals/Admin";
 interface NadvarProps {
   toggleSidebar: () => void;
   session: Session;
-  isOpen: boolean;
-  onClose: () => void;
 }
 
-const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session ,isOpen,onClose}) => {
+const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
   const [visibleSidebar, setVisibleSidebar] = React.useState(true);
-
 
   const toggleSidebarVisibility = () => {
     setVisibleSidebar(!visibleSidebar);
@@ -53,15 +50,18 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session ,isOpen,onCl
         </div>
 
         <div className="w-36 flex justify-end pr-3 text-[35px]">
-        {session && (
+          {session && (
             <>
-              <FaUserCircle onClick={toggleModal} className="lg:hidden sm:hidden"/>
-              {showModal && <AdminModal  isOpen={showModal}  onClose={toggleModal} />}
+              <FaUserCircle
+                onClick={toggleModal}
+                className="lg:hidden sm:hidden"
+              />
+              {showModal && (
+                <AdminModal isOpen={showModal} onClose={toggleModal} />
+              )}
             </>
           )}
         </div>
-
-
 
         <div className="w-[60%]  justify-end p-4 gap-3 hidden sm:flex   lg:flex">
           <button className="text-[25px] ">

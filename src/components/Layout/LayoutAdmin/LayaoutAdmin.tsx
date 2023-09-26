@@ -28,7 +28,7 @@ const LayaoutAdmin = ({ children }: Props) => {
       </Head>
 
       {visibleSidebar && (
-        <div >
+        <div>
           <Sidebar session={session} />
         </div>
       )}
