@@ -57,6 +57,7 @@ const CustomOptionsWithInput = <FormValues,>({
           {fieldNameTranslate}:
         </label>
         <select
+          defaultValue=""
           name={fieldName as string}
           onChange={handleChange}
           className={`block w-full px-5 py-3 text-black bg-white border rounded-lg font-semibold focus:border-green-500 focus:ring-green-600 focus:outline-none focus:ring focus:ring-opacity-80 ${

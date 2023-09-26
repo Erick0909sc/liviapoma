@@ -16,30 +16,19 @@ const LayaoutAdmin = ({ children }: Props) => {
   const toggleSidebar = () => {
     setVisibleSidebar(!visibleSidebar);
   };
-  const containerClass = visibleSidebar ? "with-sidebar" : "";
+  const containerClass = visibleSidebar ? "" : "";
 
   if (!session) return null;
-
   return (
-    <div className={`flex min-h-screen ${containerClass}`}>
-      {/* realizar tarea de head , que sea dinamico y que reciba un title */}
+    <div className={`flex w-full h-screen ${containerClass}`}>
       <Head>
         <title>Hola</title>
       </Head>
 
-      {visibleSidebar && (
-        <div className=" h-full">
-          <Sidebar session={session} />
-        </div>
-      )}
-      {/* <div className="flex-grow flex flex-col">
-        <NadvarAmin toggleSidebar={toggleSidebar} session={session} />
-        <div className="flex-grow">{children}</div>
-        <FooterAdmin />
-      </div> */}
+      {visibleSidebar && <Sidebar session={session} />}
       <div className="max-h-screen flex-grow flex flex-col">
         <NadvarAmin toggleSidebar={toggleSidebar} session={session} />
-        <div className="overflow-y-auto flex-grow">{children}</div>
+        <div className="overflow-y-auto h-screen flex-grow">{children}</div>
         <FooterAdmin />
       </div>
     </div>

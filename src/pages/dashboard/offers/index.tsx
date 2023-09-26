@@ -16,7 +16,7 @@ const Offers = (props: Props) => {
   return (
     <LayaoutAdmin>
       <div className="w-full h-full">
-        <div className="flex justify-between bg-green-500">
+        <div className="flex justify-between">
           <button
             onClick={() =>
               setComponent({
@@ -24,7 +24,9 @@ const Offers = (props: Props) => {
                 new: true,
               })
             }
-            className="hover:bg-yellow-500 bg-blue-500 p-2 w-full text-center"
+            className={`hover:bg-green-600 bg-green-500 p-2 w-full text-center ${
+              component.new ? "text-white font-bold bg-green-600" : "text-black"
+            }`}
           >
             Nueva
           </button>
@@ -35,7 +37,9 @@ const Offers = (props: Props) => {
                 actives: true,
               })
             }
-            className="hover:bg-yellow-500 bg-blue-500 p-2 w-full text-center"
+            className={`hover:bg-green-600 bg-green-500 p-2 w-full text-center ${
+              component.actives ? "text-white font-bold bg-green-600" : "text-black"
+            }`}
           >
             Activas
           </button>
@@ -46,7 +50,9 @@ const Offers = (props: Props) => {
                 disabled: true,
               })
             }
-            className="hover:bg-yellow-500 bg-blue-500 p-2 w-full text-center"
+            className={`hover:bg-green-600 bg-green-500 p-2 w-full text-center ${
+              component.disabled ? "text-white font-bold bg-green-600" : "text-black"
+            }`}
           >
             Desactivadas
           </button>

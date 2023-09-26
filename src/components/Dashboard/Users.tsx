@@ -10,11 +10,10 @@ type Props = {
   id: string;
   name: string,
   email: string,
-  password: string,
   role: string,
 }
 
-const Users = ({ id, name, email, password, role }: Props) => {
+const Users = ({ id, name, email, role }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedRole, setEditedRole] = useState(role);
   const dispatch = useAppDispatch();
@@ -40,7 +39,6 @@ const Users = ({ id, name, email, password, role }: Props) => {
       <td className="px-2 py-1">{id}</td>
       <td className="px-2 py-1">{name}</td>
       <td className="px-2 py-1">{email}</td>
-      <td className="px-2 py-1">{password}</td>
       <td className="px-2 py-1">
         {isEditing ? (
           <select
@@ -56,13 +54,13 @@ const Users = ({ id, name, email, password, role }: Props) => {
           <span>{editedRole}</span>
         )}
       </td>
-      <td className="px-2 py-1 flex gap-2 text-[20px]">
+      <td className="px-2 py-1 flex gap-4  ">
         {isEditing ? (
-          <button onClick={handleSaveRole}><FaSave /></button>
+          <button onClick={handleSaveRole} className='flex text-[15px] bg-green-600 p-1 px-2 text-white rounded-[10px]'><FaSave className='text-[18px] '/> Guardar</button>
         ) : (
-          <button onClick={() => setIsEditing(true)}><FaUserEdit /></button>
+          <button onClick={() => setIsEditing(true)} className='flex gap-2 bg-blue-600 p-1 px-2 text-white rounded-[10px]'><FaUserEdit className='text-[18px]'/>Editar</button>
         )}
-        <button><TiUserDelete /></button>
+        <button className='flex text-[15px] gap-2 bg-red-600 p-1 px-2 text-white rounded-[10px]  '><TiUserDelete  className='text-[18px]'/>Eliminar</button>
       </td>
     </tr>
   )

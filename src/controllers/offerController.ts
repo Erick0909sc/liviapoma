@@ -1,5 +1,9 @@
 import prisma from "@/lib/prismadb";
-import { peruDateTimeFormat } from "@/shared/ultis";
+import {
+  formatDate,
+  formatDateOfInputDate,
+  formatFechaISO,
+} from "@/shared/ultis";
 type Category = {
   name: string;
   discount: number;
@@ -96,16 +100,11 @@ export const offerValidation = async ({
     }
     return {
       success: true,
-      message: `Las ofertas estaran activas desde las ${peruDateTimeFormat(
-        startDate,
-        "H:mm"
-      )} el ${peruDateTimeFormat(
-        startDate,
-        "D [de] MMMM [de] YYYY"
-      )} hasta las ${peruDateTimeFormat(
-        endDate,
-        "H:mm"
-      )} del ${peruDateTimeFormat(endDate, "D [de] MMMM [de] YYYY")}`,
+      message: `Las ofertas estaran activas desde las ${formatFechaISO(
+        new Date(startDate)
+      )} el ${formatFechaISO(new Date(startDate))} hasta las ${formatFechaISO(
+        new Date(endDate)
+      )} del ${formatFechaISO(new Date(endDate))}`,
     };
   } catch (error) {
     return {
@@ -129,8 +128,8 @@ export const offerProductsByCategory = async ({
   try {
     const offer = await prisma.offer.create({
       data: {
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
+        startDate: formatDateOfInputDate(new Date(startDate)),
+        endDate: formatDateOfInputDate(new Date(endDate)),
         image,
       },
     });
@@ -146,10 +145,6 @@ export const offerProductsByCategory = async ({
           discount: category.discount,
         },
       });
-    }
-
-    // Productos relacionados con las categorías en la oferta
-    for (const category of categories) {
       await prisma.product.updateMany({
         where: {
           category: {
@@ -186,6 +181,95 @@ export const desactivateOfferProductsByCategory = async ({
         where: {
           category: {
             name: category.name,
+          },
+          NOT: {
+            discount: 0,
+          },
+        },
+        data: {
+          discount: 0,
+        },
+      });
+    }
+    return {
+      success: true,
+      message: "descuentos desactivados",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+};
+
+export const offerProductsByBrand = async ({
+  startDate,
+  endDate,
+  image,
+  brands,
+}: {
+  brands: Category[];
+  startDate: string;
+  endDate: string;
+  image: string;
+}) => {
+  try {
+    const offer = await prisma.offer.create({
+      data: {
+        startDate: formatDateOfInputDate(new Date(startDate)),
+        endDate: formatDateOfInputDate(new Date(endDate)),
+        image,
+      },
+    });
+
+    for (const brand of brands) {
+      const findBrand = await prisma.brand.findFirst({
+        where: { name: brand.name },
+      });
+      await prisma.categoryDiscount.create({
+        data: {
+          offerId: offer.id,
+          categoryId: findBrand?.id as number,
+          discount: brand.discount,
+        },
+      });
+      await prisma.product.updateMany({
+        where: {
+          brand: {
+            name: brand.name,
+          },
+          discount: 0,
+        },
+        data: {
+          discount: brand.discount,
+        },
+      });
+    }
+    return {
+      success: true,
+      data: offer,
+      message: "descuentos listos",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+};
+
+export const desactivateOfferProductsByBrand = async ({
+  brands,
+}: {
+  brands: Brand[];
+}) => {
+  try {
+    for (const brand of brands) {
+      await prisma.product.updateMany({
+        where: {
+          brand: {
+            name: brand.name,
           },
           NOT: {
             discount: 0,

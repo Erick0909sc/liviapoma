@@ -6,6 +6,7 @@ import {
   getAllProducts,
   selectAllProducts,
   selectAllProductsStatus,
+  getAllProductsByCategory,
 } from "@/states/products/productsSlice";
 import { EStateGeneric, IProduct } from "@/shared/types";
 import { useAppDispatch } from "@/states/store";
@@ -25,7 +26,7 @@ const Products: React.FC = () => {
   const products = useSelector(selectAllProducts); // Declaración de products
   const categories = useSelector(selectAllCategory);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const categoryNames = categories.map((category) => category.name);
+  // const categoryNames = categories.map((category) => category.name);
 
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
@@ -49,18 +50,24 @@ const Products: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (productsStatus === EStateGeneric.IDLE) {
-        await dispatch(getAllProducts());
+        // Utiliza la acción getAllProducts si selectedCategory no está definida
+        if (!selectedCategory) {
+          await dispatch(getAllProducts());
+        } else {
+          // Utiliza la acción getAllProductsByCategory con la categoría seleccionada
+          await dispatch(getAllProductsByCategory(selectedCategory));
+        }
       }
     };
-
+  
     fetchData();
-  }, [dispatch, productsStatus, session]);
-
+  }, [dispatch, productsStatus, session, selectedCategory]);
+  
   return (
     <Layout title="Productos">
       <>
         <FilterByCategory
-          categories={categoryNames}
+          
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />

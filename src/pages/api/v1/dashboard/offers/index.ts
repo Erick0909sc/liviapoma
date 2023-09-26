@@ -1,12 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
-import cron from "node-cron";
 import {
+  desactivateOfferProductsByBrand,
   desactivateOfferProductsByCategory,
+  offerProductsByBrand,
   offerProductsByCategory,
   offerValidation,
 } from "@/controllers/offerController";
-import { formatFechaISO, peruDateTimeFormat } from "@/shared/ultis";
+import {
+  executeAfterDate,
+  formatDate,
+  formatDateOfInputDate,
+} from "@/shared/ultis";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,12 +20,34 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const currentDate = new Date();
+        const { disabled } = req.query;
+        const now = formatDate(new Date());
+        if (disabled) {
+          const offers = await prisma.offer.findMany({
+            where: {
+              startDate: {
+                lt: now,
+              },
+              endDate: {
+                lt: now,
+              },
+            },
+            include: {
+              brands: { include: { brand: true } },
+              categories: { include: { category: true } },
+            },
+          });
+          return res.status(200).json(offers);
+        }
         const offers = await prisma.offer.findMany({
           where: {
             endDate: {
-              gt: currentDate,
+              gt: now,
             },
+          },
+          include: {
+            brands: { include: { brand: true } },
+            categories: { include: { category: true } },
           },
         });
         res.status(200).json(offers);
@@ -31,34 +58,8 @@ export default async function handler(
     case "POST":
       try {
         const { startDate, endDate, image, categories, brands } = req.body;
-        const now = new Date();
-        const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
-        console.log(now);
-        console.log(startDateObj);
-        console.log(endDateObj);
-        console.log(formatFechaISO(now));
-        console.log(formatFechaISO(startDateObj));
-        console.log(formatFechaISO(endDateObj));
-        if (startDateObj < now || endDateObj <= startDateObj) {
-          return res.status(400).json({
-            message:
-              "La fecha de inicio debe ser anterior a la fecha de fin y ambas deben ser posteriores a la fecha y hora actual.",
-          });
-        }
         if (categories.length) {
-          const result = await offerValidation({
-            startDate,
-            endDate,
-            categories,
-            brands,
-          });
-          if (result.success) {
-            res.status(201).json({ message: result.message });
-          } else {
-            return res.status(400).json({ message: result.error });
-          }
-          cron.schedule(peruDateTimeFormat(startDate), async () => {
+          executeAfterDate(startDate, async () => {
             await offerProductsByCategory({
               startDate,
               endDate,
@@ -66,17 +67,28 @@ export default async function handler(
               categories,
             });
           });
-          cron.schedule(peruDateTimeFormat(endDate), async () => {
+          executeAfterDate(endDate, async () => {
             await desactivateOfferProductsByCategory({
               categories,
             });
           });
-          break;
+          return res.status(200);
         }
         if (brands.length) {
-          return res
-            .status(503)
-            .json({ message: "La ruta está en proceso de desarrollo." });
+          executeAfterDate(startDate, async () => {
+            await offerProductsByBrand({
+              startDate,
+              endDate,
+              image,
+              brands,
+            });
+          });
+          executeAfterDate(endDate, async () => {
+            await desactivateOfferProductsByBrand({
+              brands,
+            });
+          });
+          return res.status(200);
         }
         if (categories.length && brands.length) {
           return res

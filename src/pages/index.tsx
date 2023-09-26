@@ -28,20 +28,13 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Product from "@/components/Offerts/Product";
 import Offert from "@/components/Offerts/Offert";
 import {
+  cleanUpOfferts,
   getAllOffers,
   selectAllOffers,
   selectAllOffersStatus,
 } from "@/states/globalSlice";
-interface Main {
-  id: number;
-  startDate: string;
-  endDate: string;
-  image: string;
-}
-import Link from "next/link";
 export default function Home() {
   const { data: session } = useSession();
-  const [test, setTest] = useState<Main[]>([]);
   const dispatch = useAppDispatch();
 
   const topRatedProducts = useSelector(selectProductByrating);
@@ -57,12 +50,24 @@ export default function Home() {
         await dispatch(getAllCategories());
         await dispatch(getAllProducts());
         await dispatch(selectTopRatedProducts());
-        await dispatch(getAllOffers());
       }
     };
 
     fetchData();
   }, [dispatch, categoryStatus, session]);
+
+  useEffect(() => {
+    (async () => {
+      if (offersStatus === EStateGeneric.IDLE) {
+        await dispatch(getAllOffers());
+      }
+    })();
+    return () => {
+      if (offersStatus === EStateGeneric.SUCCEEDED) {
+        dispatch(cleanUpOfferts());
+      }
+    };
+  }, [dispatch, offersStatus]);
 
   return (
     <Layout title="Inicio">
@@ -78,7 +83,7 @@ export default function Home() {
           )}
           {categoryStatus === EStateGeneric.SUCCEEDED &&
             categories.map((category, index) => (
-                <Card key={index} name={category.name} />
+              <Card key={index} name={category.name} />
             ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
