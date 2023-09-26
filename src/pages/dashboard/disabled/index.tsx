@@ -52,44 +52,23 @@ const Disabled = (props: Props) => {
                 {productsStatus === EStateGeneric.FAILED && <p>No hay productos inhabilitados</p>}
 
                 {productsStatus === EStateGeneric.SUCCEEDED && (
-                    <div className="overflow-x-auto ">
+                    <div className="grid grid-cols-3 justify-center p-6 ">
 
-                        <table className="min-w-full table-auto ">
-                            <thead>
-                                <tr>
-                                    <th className="p-2">Codigo</th>
-                                    <th className="p-2">Nombre</th>
-                                    <th className="p-2">Descripcion</th>
-                                    <th className="p-2">Precio</th>
-                                    <th className="p-2">Marca</th>
-                                    <th className="p-2">Categoria</th>
-                                    <th className="p-2">Descuento</th>
-                                    <th className="p-2">Imagen</th>
-                                    <th className="p-2"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {items.map((product, index) => (
-                                    <ProductsHidden
-                                        key={index}
-                                        code={product.code}
-                                        name={product.name}
-                                        description={product.description}
-                                        price={product.price}
-                                        brand={product.brand?.name}
-                                        category={product.category.name}
-                                        discount={product.discount}
-                                        image={product.image}
-                                    />
-                                ))}
-                            </tbody>
-                        </table>
-
+                        {items.map((product, index) => (
+                            <ProductsHidden
+                                key={index}
+                                code={product.code}
+                                name={product.name}
+                                description={product.description}
+                                price={product.price}
+                                brand={product.brand?.name}
+                                category={product.category.name}
+                                discount={product.discount}
+                                image={product.image}
+                            />
+                        ))}
                     </div>
                 )}
-
-
-
                 <Paginate
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPageRedux}

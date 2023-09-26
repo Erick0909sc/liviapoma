@@ -15,7 +15,7 @@ import ProductsAdmin from "@/components/Dashboard/Products";
 
 const Products = () => {
   const productDashboard = useSelector(selectAllDashboardProducts);
-  console.log(productDashboard);
+  // console.log(productDashboard);
   const productsStatus = useSelector(selectAllDashboardProductsStatus);
 
   const dispatch = useAppDispatch();
@@ -38,46 +38,31 @@ const Products = () => {
 
   return (
     <LayaoutAdmin>
-      <div className="flex flex-col h-full justify-between   ">
+      <div className="flex flex-col h-full    ">
         {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
         {productsStatus === EStateGeneric.FAILED && (
           <p>Failed to load products</p>
         )}
 
         {productsStatus === EStateGeneric.SUCCEEDED && (
-          <div className="overflow-x-auto ">
-            <table className="min-w-full table-auto ">
-              <thead>
-                <tr>
-                  <th className="p-2">Codigo</th>
-                  <th className="p-2">Nombre</th>
-                  <th className="p-2">Descripcion</th>
-                  <th className="p-2">Precio</th>
-                  <th className="p-2">Marca</th>
-                  <th className="p-2">Categoria</th>
-                  <th className="p-2">Descuento</th>
-                  <th className="p-2">Imagen</th>
-                  <th className="p-2"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((product, index) => (
-                  <ProductsAdmin
-                    key={index}
-                    code={product.code}
-                    name={product.name}
-                    description={product.description}
-                    price={product.price}
-                    brand={product.brand?.name}
-                    category={product.category.name}
-                    discount={product.discount}
-                    image={product.image}
-                  />
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center p-6">
+            {items.map((product, index) => (
+              <ProductsAdmin
+                key={index}
+                code={product.code}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                brand={product.brand?.name}
+                category={product.category.name}
+                discount={product.discount}
+                image={product.image}
+              />
+            ))}
+
           </div>
         )}
+
 
         <Paginate
           currentPage={currentPage}

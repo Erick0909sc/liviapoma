@@ -3,12 +3,12 @@ import React from 'react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
-interface UserModalProps {
+interface AdminModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
+const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     const { data: session } = useSession();
 
     const handleLogout = async () => {
@@ -34,14 +34,14 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                 <>
                     <h2 className="text-lg font-bold mb-2">{renderUserName()}</h2>
                     <ul className="space-y-3 text-center font-semibold">
-                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
+                        {/* <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                             <Link href="#">
                                 <a onClick={onClose}>Perfil de Usuario</a>
                             </Link>
-                        </li>
-                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                            <Link href="/dashboard">
-                                <a onClick={onClose}>dashboard</a>
+                        </li> */}
+                         <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
+                            <Link href="/">
+                                <a>Notificaciones</a>
                             </Link>
                         </li>
                         <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
@@ -49,6 +49,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                                 <a onClick={handleLogout}>Cerrar Sesión</a>
                             </Link>
                         </li>
+                        
                     </ul>
                 </>
             );
@@ -84,4 +85,4 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
     );
 };
 
-export default UserModal;
+export default AdminModal;
