@@ -28,7 +28,9 @@ export default async function handler(
           brands,
         });
         if (result.success) {
-          return res.status(200).json({ message: "validacion correcta" });
+          return res.status(200).json({
+            message: `validacion correcta, ${result.message}`,
+          });
         } else {
           return res.status(400).json({ message: result.error });
         }
@@ -37,7 +39,7 @@ export default async function handler(
       }
       break;
     default:
-      res.status(500).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
+      res.status(405).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;
   }
 }
