@@ -33,7 +33,6 @@ export default async function handler(
         const offer = await prisma.offer.findUnique({
           where: { id: parseInt(id as string) },
         });
-
         if (!offer) {
           // Si la oferta no existe, devuelve un error 404
           return res.status(404).json({ mesage: "Oferta no encontrada" });
@@ -65,9 +64,33 @@ export default async function handler(
                 })
               ),
             },
+            categories: {
+              updateMany: await Promise.all(
+                categories.map(async (category) => {
+                  // Buscar la marca por nombre para obtener su ID
+                  const existingCategory = await prisma.category.findFirst({
+                    where: { name: category.name },
+                  });
+
+                  if (!existingCategory) {
+                    throw new Error(`Marca no encontrada: ${category.name}`);
+                  }
+
+                  return {
+                    where: {
+                      categoryId: existingCategory.id,
+                      offerId: offer.id,
+                    },
+                    data: { discount: category.discount },
+                  };
+                })
+              ),
+            },
           },
         });
-        res.status(200).json(updatedOferta);
+        res
+          .status(200)
+          .json({ updatedOferta, message: "Oferta actualizada correctamente" });
       } catch (error) {
         res.status(500).json(error);
       }

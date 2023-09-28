@@ -1,3 +1,4 @@
+import { Brand, Category } from "@/shared/types";
 import { processImage } from "@/shared/ultis";
 import axios from "axios";
 export const getOffersDashboardByApi = () =>
@@ -29,16 +30,19 @@ export const postOfferDashboardByApi = async ({
   endDate,
   image,
   categories,
+  brands,
 }: {
   startDate: string;
   endDate: string;
   image: File;
   categories: { [key: string]: string }[];
+  brands: { [key: string]: string }[];
 }) => {
   const validation = await validationOfferDashboardByApi({
     startDate,
     endDate,
     categories,
+    brands,
   });
   if (validation.status === 200) {
     const urlImage = await processImage(image);
@@ -50,4 +54,45 @@ export const postOfferDashboardByApi = async ({
     });
   }
   return validation;
+};
+
+export const putOfferDashboardByApi = async ({
+  image,
+  id,
+  categories,
+  brands,
+}: {
+  id: number;
+  image: File | string;
+  categories: {
+    name: string;
+    id: number;
+    offerId: number;
+    categoryId: number;
+    discount: number;
+    category: Category;
+  }[];
+  brands: {
+    name: string;
+    id: number;
+    offerId: number;
+    brandId: number;
+    discount: number;
+    brand: Brand;
+  }[];
+}) => {
+  if (typeof image === "string") {
+    return axios.put(`/api/v1/dashboard/offers/${id}`, {
+      image: image,
+      categories,
+      brands,
+    });
+  } else {
+    const responseImage = await processImage(image);
+    return axios.put(`/api/v1/dashboard/offers/${id}`, {
+      image: responseImage?.data,
+      categories,
+      brands,
+    });
+  }
 };

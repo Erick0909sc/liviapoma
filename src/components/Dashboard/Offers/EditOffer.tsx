@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import request from "axios";
 import { IOfferDashboard } from "@/shared/types";
-import { formatToDatetimeLocal } from "@/shared/ultis";
+import { putOfferDashboardByApi } from "@/states/dashboard/offers/offersApi";
+import { useAppDispatch } from "@/states/store";
+import { getAllOffers } from "@/states/dashboard/offers/offersSlice";
 interface Props extends IOfferDashboard {
   // title: string;
   // message: string;
@@ -26,6 +28,7 @@ const EditOffer = ({
   onCancel,
   ...props
 }: Props) => {
+  const dispatch = useAppDispatch();
   const offertBy = {
     categoria: props.categories.length ? true : false,
     marca: props.brands.length ? true : false,
@@ -63,15 +66,15 @@ const EditOffer = ({
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
-        console.log(values);
-        // const res = await postOfferDashboardByApi({
-        //   ...values,
-        //   image: values.image as File,
-        // });
-        // if (res.status === 201) {
-        //   resetForm();
-        //   toast.success(res.data.message, { duration: 5000 });
-        // }
+        const res = await putOfferDashboardByApi({
+          id: props.id,
+          ...values,
+          image: values.image ? (values.image as File) : props.image,
+        });
+        if (res.status === 200) {
+          resetForm();
+          toast.success(res.data.message, { duration: 5000 });
+        }
       } catch (error) {
         if (request.isAxiosError(error) && error.response) {
           toast.error(
@@ -83,10 +86,11 @@ const EditOffer = ({
           );
         }
       } finally {
+        await dispatch(getAllOffers());
       }
     },
   });
-  const animationClass = isIn ? "animate-jump-in" : "animate-jump-out";
+  const animationClass = isIn ? "animate-flip-down" : "animate-jump-out";
   return (
     <div className="flex justify-center items-center py-4 fixed top-0 right-0 w-screen h-screen bg-black/30 z-50">
       <div

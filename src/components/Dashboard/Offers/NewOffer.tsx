@@ -65,7 +65,6 @@ const NewOffer = (props: Props) => {
             ).message
           );
         }
-      } finally {
       }
     },
   });
