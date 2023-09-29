@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
+import {
+  desactivateOfferProductsByBrand,
+  desactivateOfferProductsByCategory,
+} from "@/controllers/offerController";
 
 type Category = {
   name: string;
@@ -95,7 +99,35 @@ export default async function handler(
         res.status(500).json(error);
       }
       break;
-
+    case "DELETE":
+      try {
+        const { id } = req.query;
+        console.log(id);
+        const {
+          categories,
+          brands,
+        }: {
+          categories: Category[];
+          brands: Brand[];
+        } = req.body;
+        // Primero, verifica si la oferta existe
+        const offer = await prisma.offer.delete({
+          where: { id: parseInt(id as string) },
+        });
+        await desactivateOfferProductsByCategory({
+          categories,
+        });
+        await desactivateOfferProductsByBrand({
+          brands,
+        });
+        if (!offer) {
+          // Si la oferta no existe, devuelve un error 404
+          return res.status(404).json({ mesage: "Oferta no encontrada" });
+        }
+      } catch (error) {
+        res.status(500).json({ error });
+      }
+      break;
     default:
       res.status(405).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;

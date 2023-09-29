@@ -28,7 +28,6 @@ const OffersActives = (props: Props) => {
       // }
     };
   }, [dispatch, offersStatus]);
-  console.log(offers.length);
   return (
     <>
       {offersStatus === EStateGeneric.SUCCEEDED && (
