@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   getAllProducts,
@@ -12,6 +12,21 @@ import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
 import ProductsAdmin from "@/components/Dashboard/Products";
+import EditProduct from "@/components/Modals/EditProduct";
+
+
+type productData = {
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  brandId: number;
+  image: string;
+  discount: number;
+  categoryId: number;
+};
+
+
 
 const Products = () => {
   const productDashboard = useSelector(selectAllDashboardProducts);
@@ -27,6 +42,23 @@ const Products = () => {
     dispatch(setCurrentPage(page));
   };
 
+  const [selectedProduct, setSelectedProduct] = useState<productData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+// const openModal = (product: productData) => {
+//     setSelectedProduct(product);
+//     setIsModalOpen(true);
+//   };
+  
+
   useEffect(() => {
     const fetchData = async () => {
       if (productsStatus === EStateGeneric.IDLE) {
@@ -35,6 +67,8 @@ const Products = () => {
     };
     fetchData();
   }, [dispatch, productsStatus]);
+
+
 
   return (
     <LayaoutAdmin>
@@ -47,22 +81,39 @@ const Products = () => {
         {productsStatus === EStateGeneric.SUCCEEDED && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center p-6">
             {items.map((product, index) => (
-              <ProductsAdmin
-                key={index}
-                code={product.code}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                brand={product.brand?.name}
-                category={product.category.name}
-                discount={product.discount}
-                image={product.image}
-              />
+              <div key={index}>
+                <ProductsAdmin
+                  code={product.code}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.brand}
+                  category={product.category}
+                  discount={product.discount}
+                  image={product.image}
+                  openModal={openModal}
+                />
+
+                <EditProduct
+                  productData={{
+                    code: product.code,
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                    brandId: product.brand?.id ,
+                    image: product.image,
+                    discount: product.discount,
+                    categoryId: product.category.id,
+                  }}
+                  isModalOpen={isModalOpen}
+                  closeModal={closeModal}
+                />
+
+              </div>
             ))}
 
           </div>
         )}
-
 
         <Paginate
           currentPage={currentPage}
