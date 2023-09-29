@@ -91,24 +91,8 @@ const Products = () => {
                   category={product.category}
                   discount={product.discount}
                   image={product.image}
-                  openModal={openModal}
+                  // openModal={openModal}
                 />
-
-                <EditProduct
-                  productData={{
-                    code: product.code,
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    brandId: product.brand?.id ,
-                    image: product.image,
-                    discount: product.discount,
-                    categoryId: product.category.id,
-                  }}
-                  isModalOpen={isModalOpen}
-                  closeModal={closeModal}
-                />
-
               </div>
             ))}
 
