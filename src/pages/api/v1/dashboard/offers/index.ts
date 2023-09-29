@@ -51,9 +51,7 @@ export default async function handler(
             categories: { include: { category: true } },
           },
         });
-        const discountC = await prisma.categoryDiscount.findMany();
-        const discountB = await prisma.brandDiscount.findMany();
-        res.status(200).json({ offers, discountC, discountB });
+        res.status(200).json(offers);
       } catch (error) {
         res.status(500).json(error);
       }

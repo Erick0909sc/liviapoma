@@ -7,7 +7,7 @@ type Props = {}
 const Dashboard = (props: Props) => {
   return (
     <div>
-      <LayaoutAdmin>
+      <LayaoutAdmin title="Dashboard">
 
       </LayaoutAdmin>
     </div>

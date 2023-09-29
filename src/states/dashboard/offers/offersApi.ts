@@ -96,3 +96,6 @@ export const putOfferDashboardByApi = async ({
     });
   }
 };
+
+export const deleteOfferDashboardByApi = (id: number) =>
+  axios.delete(`/api/v1/dashboard/offers/${id}`);

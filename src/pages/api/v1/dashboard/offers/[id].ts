@@ -102,17 +102,32 @@ export default async function handler(
     case "DELETE":
       try {
         const { id } = req.query;
-        console.log(id);
-        const {
-          categories,
-          brands,
-        }: {
-          categories: Category[];
-          brands: Brand[];
-        } = req.body;
-        // Primero, verifica si la oferta existe
-        const offer = await prisma.offer.delete({
+        const offer = await prisma.offer.findUnique({
           where: { id: parseInt(id as string) },
+          include: {
+            categories: { include: { category: true } },
+            brands: { include: { brand: true } },
+          },
+        });
+        if (!offer) {
+          return res.status(404).json({ mesage: "Oferta no encontrada" });
+        }
+        const categoriesData = offer.categories;
+        const brandsData = offer.brands;
+        const categories = categoriesData.map((item) => {
+          return {
+            name: item.category.name,
+            discount: item.discount,
+          };
+        });
+        const brands = brandsData.map((item) => {
+          return {
+            name: item.brand.name,
+            discount: item.discount,
+          };
+        });
+        const deleteOffer = await prisma.offer.delete({
+          where: { id: offer.id },
         });
         await desactivateOfferProductsByCategory({
           categories,
@@ -120,10 +135,9 @@ export default async function handler(
         await desactivateOfferProductsByBrand({
           brands,
         });
-        if (!offer) {
-          // Si la oferta no existe, devuelve un error 404
-          return res.status(404).json({ mesage: "Oferta no encontrada" });
-        }
+        return res.status(200).json({
+          message: `Oferta número ${deleteOffer.id} eliminada correctamente`,
+        });
       } catch (error) {
         res.status(500).json({ error });
       }

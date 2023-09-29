@@ -11,23 +11,10 @@ import { putOfferDashboardByApi } from "@/states/dashboard/offers/offersApi";
 import { useAppDispatch } from "@/states/store";
 import { getAllOffers } from "@/states/dashboard/offers/offersSlice";
 interface Props extends IOfferDashboard {
-  // title: string;
-  // message: string;
-  // confirmText: string;
-  // cancelText: string;
-  onConfirm: () => void;
   onCancel: () => void;
 }
 
-const EditOffer = ({
-  // title,
-  // message,
-  // confirmText,
-  // cancelText,
-  onConfirm,
-  onCancel,
-  ...props
-}: Props) => {
+const EditOffer = ({ onCancel, ...props }: Props) => {
   const dispatch = useAppDispatch();
   const offertBy = {
     categoria: props.categories.length ? true : false,
