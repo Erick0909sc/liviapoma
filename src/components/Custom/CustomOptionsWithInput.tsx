@@ -80,7 +80,7 @@ const CustomOptionsWithInput = <FormValues,>({
         <div className="flex flex-wrap justify-center gap-1">
           {selectedCategories.map((category, index) => (
             <div
-              className="relative rounded-md border border-gray-700 overflow-hidden"
+              className="relative rounded-md border border-gray-700 overflow-hidden animate-flip-up"
               key={index}
             >
               <span className="bg-white p-1 pr-9 flex items-center justify-center">

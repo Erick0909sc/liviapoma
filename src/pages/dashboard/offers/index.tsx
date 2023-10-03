@@ -14,7 +14,7 @@ const Offers = (props: Props) => {
   };
   const [component, setComponent] = useState({ ...states, new: true });
   return (
-    <LayaoutAdmin>
+    <LayaoutAdmin title="Ofertas">
       <div className="w-full h-full">
         <div className="flex justify-between">
           <button

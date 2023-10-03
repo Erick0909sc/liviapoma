@@ -12,6 +12,7 @@ type Brand = {
   name: string;
   discount: number;
 };
+
 export const offerValidation = async ({
   categories = [],
   brands = [],
@@ -24,87 +25,86 @@ export const offerValidation = async ({
   endDate: string;
 }) => {
   try {
-    // BLOQUE DE PRUEBAS
-    // if (brands.length === 1 && categories.length === 1) {
-    //   const findBrandCategory = await prisma.product.findMany({
-    //     where: {
-    //       brand: {
-    //         name: brands[0].name,
-    //       },
-    //       category: {
-    //         name: categories[0].name,
-    //       },
-    //       NOT: {
-    //         discount: 0,
-    //       },
-    //     },
-    //   });
-    //   if (findBrandCategory.length) {
-    //     return {
-    //       success: false,
-    //       error: `La marca ${brands[0].name} ya tiene un descuento aplicado en la categoria ${categories[0].name}`,
-    //     };
-    //   }
-    // }
-    // BLOQUE DE PRUEBAS
-
-    for (const brand of brands) {
-      const prodcutsWithDiscount = await prisma.product.findMany({
-        where: {
-          brand: {
-            name: brand.name,
+    const now = formatDate(new Date());
+    const [existingCategories, existingBrands, existingOffers] =
+      await Promise.all([
+        prisma.category.findMany({
+          where: {
+            name: {
+              in: categories.map((category) => category.name),
+            },
           },
-          NOT: {
-            discount: 0,
+        }),
+        prisma.brand.findMany({
+          where: {
+            name: {
+              in: brands.map((brand) => brand.name),
+            },
           },
-        },
-      });
-      if (prodcutsWithDiscount.length > 0) {
-        const firstDiscount = prodcutsWithDiscount[0].discount;
-        const allHaveSameDiscount = prodcutsWithDiscount.every(
-          (product) => product.discount === firstDiscount
-        );
+        }),
+        prisma.offer.findMany({
+          where: {
+            startDate: {
+              lte: now,
+            },
+            endDate: {
+              gte: now,
+            },
+          },
+          include: {
+            categories: true,
+            brands: true,
+          },
+        }),
+      ]);
 
-        if (allHaveSameDiscount) {
-          return {
-            success: false,
-            error: `La marca ${brand.name} ya tiene un descuento del ${firstDiscount}% aplicado en todos sus productos.`,
-          };
-        }
-      }
-    }
+    const categoryMap = new Map(
+      existingCategories.map((category) => [category.name, category])
+    );
+    const brandMap = new Map(
+      existingBrands.map((brand) => [brand.name, brand])
+    );
+    const discountCategoriesMap = new Map(
+      existingOffers.flatMap((offer) =>
+        offer.categories.map((cat) => [cat.categoryId, cat.discount])
+      )
+    );
+    const discountBrandsMap = new Map(
+      existingOffers.flatMap((offer) =>
+        offer.brands.map((brand) => [brand.brandId, brand.discount])
+      )
+    );
+
     for (const category of categories) {
-      const prodcutsWithDiscount = await prisma.product.findMany({
-        where: {
-          category: {
-            name: category.name,
-          },
-          NOT: {
-            discount: 0,
-          },
-        },
-      });
-      if (prodcutsWithDiscount.length > 0) {
-        const firstDiscount = prodcutsWithDiscount[0].discount;
-        const allHaveSameDiscount = prodcutsWithDiscount.every(
-          (product) => product.discount === firstDiscount
-        );
-
-        if (allHaveSameDiscount) {
+      const findCategory = categoryMap.get(category.name);
+      if (findCategory) {
+        const discount = discountCategoriesMap.get(findCategory.id);
+        if (discount !== undefined) {
           return {
             success: false,
-            error: `La categoría ${category.name} ya tiene un descuento del ${firstDiscount}% aplicado en todos sus productos.`,
+            error: `La categoria ${category.name} ya tiene un descuento aplicado de ${discount}%`,
           };
         }
       }
     }
+    for (const brand of brands) {
+      const findBrand = brandMap.get(brand.name);
+      if (findBrand) {
+        const discount = discountBrandsMap.get(findBrand.id);
+        if (discount !== undefined) {
+          return {
+            success: false,
+            error: `La marca ${brand.name} ya tiene un descuento aplicado de ${discount}%`,
+          };
+        }
+      }
+    }
+
     return {
       success: true,
-      message: `Las ofertas estaran activas desde las ${formatFechaISO(
+      message: `Las ofertas estarán activas desde el ${formatFechaISO(
         new Date(startDate)
-      )} el ${formatFechaISO(new Date(startDate))} hasta las ${formatFechaISO(
-        new Date(endDate)
-      )} del ${formatFechaISO(new Date(endDate))}`,
+      )} hasta el ${formatFechaISO(new Date(endDate))}`,
     };
   } catch (error) {
     return {
@@ -227,10 +227,10 @@ export const offerProductsByBrand = async ({
       const findBrand = await prisma.brand.findFirst({
         where: { name: brand.name },
       });
-      await prisma.categoryDiscount.create({
+      await prisma.brandDiscount.create({
         data: {
           offerId: offer.id,
-          categoryId: findBrand?.id as number,
+          brandId: findBrand?.id as number,
           discount: brand.discount,
         },
       });

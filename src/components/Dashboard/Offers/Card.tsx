@@ -3,9 +3,29 @@ import { IOfferDashboard } from "@/shared/types";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import EditOffer from "./EditOffer";
+import { deleteOfferDashboardByApi } from "@/states/dashboard/offers/offersApi";
+import { useAppDispatch } from "@/states/store";
+import { getAllOffers } from "@/states/dashboard/offers/offersSlice";
+import toast from "react-hot-toast";
 const Card = (props: IOfferDashboard) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [editConfirmation, setEditConfirmation] = useState(false);
+  const dispatch = useAppDispatch();
+  const handleDelete = async () => {
+    try {
+      const res = await deleteOfferDashboardByApi(props.id);
+      if (res.status === 200) {
+        toast.success(res.data.message, { duration: 5000 });
+      }
+    } catch (error) {
+      toast.error(
+        "Lo siento, ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.",
+        { duration: 5000 }
+      );
+    } finally {
+      await dispatch(getAllOffers());
+    }
+  };
   return (
     <div className="w-full flex flex-col justify-between bg-white rounded-lg overflow-hidden shadow-md">
       <img
@@ -36,33 +56,15 @@ const Card = (props: IOfferDashboard) => {
       {deleteConfirmation && (
         <DeleteConfirmation
           title="Eliminar Ofera"
-          message="¿Estás seguro de que deseas eliminar esta oferta?"
+          message="¿Estás seguro de que deseas eliminar esta oferta? Al hacerlo, todos los productos relacionados perderán el descuento asociado y quedarán sin descuento."
           confirmText="Eliminar"
           cancelText="Cancelar"
-          onConfirm={() =>
-            // handleDelete({
-            //   ...propsForFunctions,
-            // })
-            alert("Deleting")
-          }
+          onConfirm={handleDelete}
           onCancel={() => setDeleteConfirmation(false)}
         />
       )}
       {editConfirmation && (
-        <EditOffer
-          // title="Eliminar Ofera"
-          // message="¿Estás seguro de que deseas eliminar esta oferta?"
-          // confirmText="Eliminar"
-          // cancelText="Cancelar"
-          onConfirm={() =>
-            // handleDelete({
-            //   ...propsForFunctions,
-            // })
-            alert("Deleting")
-          }
-          onCancel={() => setEditConfirmation(false)}
-          {...props}
-        />
+        <EditOffer onCancel={() => setEditConfirmation(false)} {...props} />
       )}
     </div>
   );

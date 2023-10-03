@@ -22,7 +22,7 @@ export default async function handle(
       }
       break;
     default:
-      res.status(500).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
+      res.status(405).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;
   }
 }

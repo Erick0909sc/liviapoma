@@ -71,7 +71,7 @@ const Products = () => {
 
 
   return (
-    <LayaoutAdmin>
+    <LayaoutAdmin title="Productos">
       <div className="flex flex-col h-full    ">
         {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
         {productsStatus === EStateGeneric.FAILED && (
