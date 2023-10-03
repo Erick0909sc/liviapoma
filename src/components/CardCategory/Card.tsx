@@ -5,9 +5,9 @@ type Props = {
   name: string;
 };
 
-const Card = ({ name }: Props) => {
+const Cardcategory = ({ name }: Props) => {
   return (
-    <div className="w-36 text-center border-r border-slate-400">
+    <div className="w-36 text-center border-r border-slate-900">
       <div>
         <Link href={`/${encodeURIComponent(name)}`}>
           
@@ -15,9 +15,11 @@ const Card = ({ name }: Props) => {
             {name}
           </h2>
         </Link>
+        
       </div>
+      
     </div>
   );
 };
 
-export default Card;
+export default Cardcategory;
