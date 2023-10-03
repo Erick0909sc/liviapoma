@@ -1,3 +1,5 @@
+import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
+import EditProduct from "@/components/Modals/EditProduct";
 import { formatPrice } from "@/shared/ultis";
 import {
   disableProducts,
@@ -9,8 +11,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import EditProduct from "../Modals/EditProduct";
-import DeleteConfirmation from "../Modals/DeleteConfirmation";
 
 type Props = {
   code: string;
@@ -24,7 +24,7 @@ type Props = {
   // openModal: () => void;
 };
 
-function ProductsAdmin({
+function Products({
   code,
   name,
   description,
@@ -39,6 +39,7 @@ Props) {
   const [view, setView] = useState(true);
   const hiddenProducts = useSelector(selecthiddenproducts);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const isProductHidden = hiddenProducts.some(
@@ -75,7 +76,7 @@ Props) {
       <div className=" p-2 bg-green-800 flex">
         <div className="w-[30%]">
           <button
-            onClick={handleToggleProductVisibility}
+            onClick={() => setDeleteConfirmation(true)}
             className="text-white p-2 bg-orange-800 rounded-[10px]"
           >
             <AiFillEye className="inline-block mr-1" />
@@ -149,9 +150,18 @@ Props) {
           closeModal={closeModal}
         />
       )}
-      
+      {deleteConfirmation && (
+        <DeleteConfirmation
+          title="Ocultar Producto"
+          message="¿Estás seguro de que deseas ocultar este producto de la tienda? Ten en cuenta que este producto se ocultará de la tienda y nadie podrá verlo."
+          confirmText="Confirmar"
+          cancelText="Cancelar"
+          onConfirm={handleToggleProductVisibility}
+          onCancel={() => setDeleteConfirmation(false)}
+        />
+      )}
     </div>
   );
 }
 
-export default ProductsAdmin;
+export default Products;

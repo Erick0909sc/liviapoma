@@ -11,9 +11,8 @@ import { itemsPerPage } from "@/shared/ultis";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
-import ProductsAdmin from "@/components/Dashboard/Products";
+import Products from "@/components/Dashboard/Products/Products";
 import EditProduct from "@/components/Modals/EditProduct";
-
 
 type productData = {
   code: string;
@@ -26,9 +25,7 @@ type productData = {
   categoryId: number;
 };
 
-
-
-const Products = () => {
+const ProductsPage = () => {
   const productDashboard = useSelector(selectAllDashboardProducts);
   // console.log(productDashboard);
   const productsStatus = useSelector(selectAllDashboardProductsStatus);
@@ -42,7 +39,9 @@ const Products = () => {
     dispatch(setCurrentPage(page));
   };
 
-  const [selectedProduct, setSelectedProduct] = useState<productData | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<productData | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -53,11 +52,10 @@ const Products = () => {
     setIsModalOpen(false);
   };
 
-// const openModal = (product: productData) => {
-//     setSelectedProduct(product);
-//     setIsModalOpen(true);
-//   };
-  
+  // const openModal = (product: productData) => {
+  //     setSelectedProduct(product);
+  //     setIsModalOpen(true);
+  //   };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,8 +65,6 @@ const Products = () => {
     };
     fetchData();
   }, [dispatch, productsStatus]);
-
-
 
   return (
     <LayaoutAdmin title="Productos">
@@ -82,7 +78,7 @@ const Products = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center p-6">
             {items.map((product, index) => (
               <div key={index}>
-                <ProductsAdmin
+                <Products
                   code={product.code}
                   name={product.name}
                   description={product.description}
@@ -95,7 +91,6 @@ const Products = () => {
                 />
               </div>
             ))}
-
           </div>
         )}
 
@@ -110,4 +105,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductsPage;
