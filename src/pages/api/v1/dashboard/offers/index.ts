@@ -11,6 +11,7 @@ import {
   executeAfterDate,
   formatDate,
   formatDateOfInputDate,
+  formatFechaISO,
 } from "@/shared/ultis";
 export default async function handler(
   req: NextApiRequest,
@@ -72,7 +73,11 @@ export default async function handler(
               categories,
             });
           });
-          return res.status(200);
+          return res.status(201).json({
+            message: `Las ofertas estarán activas desde el ${formatFechaISO(
+              new Date(startDate)
+            )} hasta el ${formatFechaISO(new Date(endDate))}`,
+          });
         }
         if (brands.length) {
           executeAfterDate(startDate, async () => {
@@ -88,17 +93,17 @@ export default async function handler(
               brands,
             });
           });
-          return res.status(200);
-        }
-        if (categories.length && brands.length) {
-          return res
-            .status(503)
-            .json({ message: "La ruta está en proceso de desarrollo." });
+          return res.status(201).json({
+            message: `Las ofertas estarán activas desde el ${formatFechaISO(
+              new Date(startDate)
+            )} hasta el ${formatFechaISO(new Date(endDate))}`,
+          });
         }
       } catch (error) {
         res.status(500).json(error);
+      } finally {
+        break;
       }
-      break;
     case "PATCH":
       try {
         const { categories } = req.body;
@@ -115,7 +120,7 @@ export default async function handler(
       }
       break;
     default:
-      res.status(500).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
+      res.status(405).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;
   }
 }

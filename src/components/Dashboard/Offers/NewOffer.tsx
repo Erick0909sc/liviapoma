@@ -20,7 +20,6 @@ const NewOffer = (props: Props) => {
   const categories = useCategoriesData();
   const brands = useBrandsData();
   const states = {
-    marca_categoria: false,
     categoria: false,
     marca: false,
   };
@@ -66,7 +65,6 @@ const NewOffer = (props: Props) => {
             ).message
           );
         }
-      } finally {
       }
     },
   });
@@ -104,9 +102,6 @@ const NewOffer = (props: Props) => {
               <option value="" disabled>
                 Seleccionar Tipo de Oferta
               </option>
-              <option value="marca_categoria">
-                Ofertas de Marca en una Categoría
-              </option>
               <option value="categoria">Ofertas en Toda una Categoría</option>
               <option value="marca">Ofertas de Toda una Marca</option>
             </select>
@@ -122,26 +117,6 @@ const NewOffer = (props: Props) => {
             fieldNameTranslate={OfferTranslation["endDate"]}
           />
         </div>
-        {offertBy.marca_categoria && (
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <CustomOptionsWithInput
-                formik={formik}
-                fieldName="categories"
-                items={categories}
-                fieldNameTranslate={OfferTranslation["categories"]}
-              />
-            </div>
-            <div>
-              <CustomOptionsWithInput
-                formik={formik}
-                fieldName="brands"
-                items={brands}
-                fieldNameTranslate={OfferTranslation["brands"]}
-              />
-            </div>
-          </div>
-        )}
         {offertBy.categoria && (
           <div className="grid gap-4 md:grid-cols-1">
             <div>

@@ -7,9 +7,10 @@ import { useSession } from "next-auth/react";
 
 type Props = {
   children: ReactNode;
+  title: string;
 };
 
-const LayaoutAdmin = ({ children }: Props) => {
+const LayaoutAdmin = ({ children, title }: Props) => {
   const { data: session } = useSession();
   const [visibleSidebar, setVisibleSidebar] = useState(true);
 
@@ -22,7 +23,7 @@ const LayaoutAdmin = ({ children }: Props) => {
   return (
     <div className={`flex w-full h-screen ${containerClass}`}>
       <Head>
-        <title>Hola</title>
+        <title>{`Liviapoma - ${title}`}</title>
       </Head>
 
       {visibleSidebar && <Sidebar session={session} />}

@@ -25,7 +25,11 @@ export const formatPrice = (price: number) => {
 export const formatDateOfInputDate = (fecha: Date): Date => {
   // Clonar la fecha para evitar modificar la original
   const fechaPeru = new Date(fecha);
-  fechaPeru.setUTCHours(fechaPeru.getUTCHours());
+  if (process.env.NODE_ENV !== "production") {
+    fechaPeru.setUTCHours(fechaPeru.getUTCHours() - 5);
+  } else {
+    fechaPeru.setUTCHours(fechaPeru.getUTCHours());
+  }
   return fechaPeru;
 };
 
@@ -38,9 +42,7 @@ export const formatDate = (fecha: Date): Date => {
 export const executeAfterDate = (date: string, customFunction: () => void) => {
   const nowInPeru = formatDate(new Date());
   const fechaEspecificaDate = formatDateOfInputDate(new Date(date));
-
   const tiempoRestante = fechaEspecificaDate.getTime() - nowInPeru.getTime();
-
   if (tiempoRestante <= 0) {
     customFunction();
   } else {

@@ -206,7 +206,7 @@ const Detail = (props: Props) => {
                                             ...propsForFunctions,
                                             value: productFind.quantity + 1,
                                           })
-                                        : null
+                                        : handleFirstItem()
                                     }
                                     disabled={isProcessing}
                                     className="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer hover:text-gray-700 hover:bg-gray-300"

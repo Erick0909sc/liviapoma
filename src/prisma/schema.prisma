@@ -127,18 +127,18 @@ model Offer {
 
 model CategoryDiscount {
   id         Int      @id @default(autoincrement())
-  offer      Offer    @relation(fields: [offerId], references: [id])
+  offer      Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
   offerId    Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
   discount   Float
 }
 
 model BrandDiscount {
   id       Int   @id @default(autoincrement())
-  offer    Offer @relation(fields: [offerId], references: [id])
+  offer    Offer @relation(fields: [offerId], references: [id], onDelete: Cascade)
   offerId  Int
-  brand    Brand @relation(fields: [brandId], references: [id])
+  brand    Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
   brandId  Int
   discount Float
 }

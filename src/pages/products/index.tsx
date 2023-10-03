@@ -18,9 +18,11 @@ import { useSession } from "next-auth/react";
 
 import Pagination from "@/components/pagination";
 import FilterByCategory from "@/components/Filtros/FilterByCategory";
+import { useRouter } from "next/router";
 
 const Products: React.FC = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
   const products = useSelector(selectAllProducts); // Declaración de products
@@ -41,6 +43,25 @@ const Products: React.FC = () => {
   const setCurrentPageRedux = (page: number) => {
     dispatch(setCurrentPage(page));
   };
+  useEffect(() => {
+    const { query } = router;
+    const categoryFromURL = query.category as string;
+    if (categoryFromURL) {
+      // Si hay una categoría en la URL, seleccionarla
+      setSelectedCategory(categoryFromURL);
+    } else {
+      // Si no hay categoría en la URL, intentar obtenerla de LocalStorage
+      const storedCategory = localStorage.getItem("selectedCategory");
+      if (storedCategory) {
+        setSelectedCategory(storedCategory);
+      }
+    }
+  }, [router]);
+
+  // Almacenar el filtro de categoría seleccionado en LocalStorage cuando cambia
+  useEffect(() => {
+    localStorage.setItem("selectedCategory", selectedCategory);
+  }, [selectedCategory]);
 
   // Restablecer la página actual a 1 al cambiar la categoría
   useEffect(() => {
@@ -62,6 +83,11 @@ const Products: React.FC = () => {
   
     fetchData();
   }, [dispatch, productsStatus, session, selectedCategory]);
+  const handleCategoryChange = (newCategory: string) => {
+    setSelectedCategory(newCategory);
+    router.push(`/products?category=${newCategory}`);
+  };
+
   
   return (
     <Layout title="Productos">
@@ -69,7 +95,7 @@ const Products: React.FC = () => {
         <FilterByCategory
           
           selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
+          setSelectedCategory={handleCategoryChange}
         />
         <div className="flex flex-col justify-center">
           {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
