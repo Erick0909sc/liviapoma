@@ -7,18 +7,21 @@ import {
 import { useAppDispatch } from "@/states/store";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import {  AiFillEdit, AiFillEye } from "react-icons/ai";
+import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import EditProduct from "../Modals/EditProduct";
+import DeleteConfirmation from "../Modals/DeleteConfirmation";
 
 type Props = {
   code: string;
   name: string;
   description: string;
   price: number;
-  brand: string;
+  brand: { id: number; name: string };
   image: string;
   discount: number;
-  category: string;
+  category: { id: number; name: string };
+  // openModal: () => void;
 };
 
 function ProductsAdmin({
@@ -30,10 +33,12 @@ function ProductsAdmin({
   image,
   discount,
   category,
-}: Props) {
-  const [view, setView] = useState(true);
+}: // openModal,
+Props) {
   const dispatch = useAppDispatch();
+  const [view, setView] = useState(true);
   const hiddenProducts = useSelector(selecthiddenproducts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const isProductHidden = hiddenProducts.some(
@@ -44,22 +49,45 @@ function ProductsAdmin({
 
   const handleToggleProductVisibility = () => {
     if (view) {
-      dispatch(disableProducts(code)); 
+      dispatch(disableProducts(code));
     }
-  
-    setView(!view); 
+
+    setView(!view);
   };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // const productData ={
+  //   code,
+  //   name,
+  //   description,
+  //   price,
+  //   brandId: brand?.id || null,
+  //   image,
+  //   discount,
+  //   categoryId: category.id,
+  // }
+
   return (
-    <div className="card bg-opacity-60 hover:bg-opacity-100  w-80  transform transition-transform duration-500 hover:scale-105 active:scale-95 rotate-1.7  rounded-lg overflow-hidden border-gray-600 border mb-6 bg-white">
+    <div className="bg-opacity-60 hover:bg-opacity-100 w-80  transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white">
       <div className=" p-2 bg-green-800 flex">
         <div className="w-[30%]">
-          <button onClick={handleToggleProductVisibility} className="text-white p-2 bg-orange-800 rounded-[10px]">
+          <button
+            onClick={handleToggleProductVisibility}
+            className="text-white p-2 bg-orange-800 rounded-[10px]"
+          >
             <AiFillEye className="inline-block mr-1" />
             Ocultar
           </button>
         </div>
+
         <div className="w-[30%] ">
-          <button className="text-white p-2 bg-blue-800 rounded-[10px]">
+          <button
+            className="text-white p-2 bg-blue-800 rounded-[10px]"
+            onClick={() => setIsModalOpen(true)}
+          >
             <AiFillEdit className="inline-block mr-1" />
             Editar
           </button>
@@ -76,7 +104,12 @@ function ProductsAdmin({
         </div>
 
         <div className="relative w-72 h-36 mx-auto my-4">
-          <Image src={image} layout="fill" className="object-cover" alt={name} />
+          <Image
+            src={image}
+            layout="fill"
+            className="object-cover"
+            alt={name}
+          />
         </div>
 
         <div>
@@ -84,27 +117,41 @@ function ProductsAdmin({
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">Marca:{brand}</h2>
+          <h2 className="text-lg font-semibold">Marca:{brand?.name}</h2>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">Categoría: {category}</h2>
+          <h2 className="text-lg font-semibold">Categoría: {category.name}</h2>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">Precio: {formatPrice(price)}</h2>
-        </div> 
+          <h2 className="text-lg font-semibold">
+            Precio: {formatPrice(price)}
+          </h2>
+        </div>
 
         <div>
           <h2 className="text-lg font-semibold">Descuento: {discount}</h2>
         </div>
       </div>
+      {isModalOpen && (
+        <EditProduct
+          productData={{
+            code: code,
+            name: name,
+            description: description,
+            price: price,
+            brandId: brand?.id,
+            image: image,
+            discount: discount,
+            categoryId: category.id,
+          }}
+          closeModal={closeModal}
+        />
+      )}
+      
     </div>
-
   );
 }
-
-
-
 
 export default ProductsAdmin;

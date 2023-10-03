@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { EStateGeneric, ICategory, IProduct } from "@/shared/types";
-import { deleteProductByApi, disableProductByApi, getDashboardProductsByApi, getDashboardProductsDisabledByApi, restoreProductByApi } from "./productsApi";
+import { Category, EStateGeneric, ICategory, IProduct } from "@/shared/types";
+import { deleteProductByApi, disableProductByApi, editProductByApi, getAllCategoryApi, getDashboardProductsByApi, getDashboardProductsDisabledByApi, restoreProductByApi } from "./productsApi";
 
 export const getAllProducts = createAsyncThunk(
   "dashboardProducts/getAllProducts",
@@ -57,11 +57,75 @@ export const hiddenProducts = createAsyncThunk(
 
 export const deleteProducts = createAsyncThunk(
   "dashboardProducts/deleteProducts",
-  async (code:string, { rejectWithValue }) => {
+  async (code: string, { rejectWithValue }) => {
     try {
       const response = await deleteProductByApi(code);
       console.log(response);
       return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+export const getcategories = createAsyncThunk(
+  "dashboardProducts/getcategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getAllCategoryApi();
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+
+export const editproduct = createAsyncThunk(
+  "dashboardProducts/editproduct",
+  async ({ code,
+    name,
+    description,
+    price,
+    brandId,
+    image,
+    discount,
+    categoryId, }: {
+      code: string;
+      name: string;
+      description: string;
+      price: number;
+      brandId: number;
+      image: string;
+      discount: number;
+      categoryId: number;
+    }, { rejectWithValue }) => {
+    try {
+
+      console.log('Datos del producto a editar:', {
+        code,
+        name,
+        description,
+        price,
+        brandId,
+        image,
+        discount,
+        categoryId,
+      });
+      const response = await editProductByApi({code,
+        name,
+        description,
+        price,
+        brandId,
+        image,
+        discount,
+        categoryId});
+        console.log(response)
+      return response.data;
+      
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -79,14 +143,20 @@ interface IDashboardProductsState {
   productshidden: IProduct[];
   allProductsStatus: EStateGeneric;
   producthiddenStatus: EStateGeneric;
+  categories:Category[];
+  productStatus: EStateGeneric;
+  categoryStatus: EStateGeneric;
 
 }
 
 const initialState: IDashboardProductsState = {
   products: [],
+  categories:[],
   productshidden: [],
   producthiddenStatus: EStateGeneric.IDLE,
   allProductsStatus: EStateGeneric.IDLE,
+  productStatus: EStateGeneric.IDLE,
+  categoryStatus: EStateGeneric.IDLE
 
 };
 
@@ -166,7 +236,7 @@ export const dashboardProductsSlice = createSlice({
     });
 
 
-    
+
     builder.addCase(deleteProducts.fulfilled, (state, action) => {
       console.log('Producto eliminado con éxito:', action.payload);
       state.productshidden = state.productshidden.filter(product => product.code !== action.payload.code);
@@ -180,6 +250,33 @@ export const dashboardProductsSlice = createSlice({
     builder.addCase(deleteProducts.rejected, (state, action) => {
       // Puedes manejar el error si es necesario
       console.error('Error al eliminar el producto:', action.error.message);
+    });
+
+
+
+
+    builder.addCase(editproduct.fulfilled, (state, action) => {
+      state.productStatus = EStateGeneric.SUCCEEDED;
+      
+    });
+    builder.addCase(editproduct.pending, (state, action) => {
+      state.productStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(editproduct.rejected, (state, action) => {
+      state.productStatus = EStateGeneric.FAILED;
+    });
+
+
+
+    builder.addCase(getcategories.fulfilled, (state, action) => {
+      state.categories = action.payload;
+      state.categoryStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getcategories.pending, (state, action) => {
+      state.categoryStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getcategories.rejected, (state, action) => {
+      state.categoryStatus = EStateGeneric.FAILED;
     });
 
 
@@ -203,5 +300,14 @@ export const selectAllDashboardProductsStatus = (state: RootState) =>
 export const selectAllhiddenProductsStatus = (state: RootState) =>
   state.dashboard.products.producthiddenStatus;
 
+  export const selectAllCategories = (state: RootState) =>
+  state.dashboard.products.categories;
+
+  export const CategoriesStatus = (state: RootState) =>
+  state.dashboard.products.categoryStatus;
+
+
+export const selectOneProductStatus = (state: RootState) =>
+  state.dashboard.products.productStatus;
 
 export default dashboardProductsSlice.reducer;

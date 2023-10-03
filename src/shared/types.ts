@@ -85,3 +85,10 @@ export interface ICategoryOffer {
   discount: number;
   category: Category;
 }
+
+
+
+// export interface ICategory{
+//   id: number;
+//   name: string;
+// }
