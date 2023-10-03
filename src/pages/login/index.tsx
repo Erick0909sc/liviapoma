@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 
 type Props = {
   style: string;
@@ -63,6 +64,9 @@ const Login = (props: Props) => {
 
   return (
     <div>
+      <Head>
+        <title>{`Liviapoma - Inicio de sesión`}</title>
+      </Head>
       <section className="min-h-screen flex items-stretch text-white ">
         <div
           className="lg:flex w-1/2 hidden  bg-no-repeat bg-cover relative items-center"
