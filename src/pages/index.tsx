@@ -33,6 +33,7 @@ import {
   selectAllOffers,
   selectAllOffersStatus,
 } from "@/states/globalSlice";
+import Cardcategory from "@/components/CardCategory/Card";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
@@ -83,7 +84,7 @@ export default function Home() {
           )}
           {categoryStatus === EStateGeneric.SUCCEEDED &&
             categories.map((category, index) => (
-              <Card key={index} name={category.name} />
+              <Cardcategory key={index} name={category.name} />
             ))}
         </div>
         <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
