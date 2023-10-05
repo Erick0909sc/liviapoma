@@ -15,7 +15,7 @@ export default async function handler(
             code: code as string,
             deletedAt: null,
           },
-          include: { category: true },
+          include: { category: true, brand: true },
         });
         product
           ? res.status(200).json(product)

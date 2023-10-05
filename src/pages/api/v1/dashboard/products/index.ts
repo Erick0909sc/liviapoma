@@ -87,10 +87,18 @@ export default async function handler(
           description,
           price,
           image,
-          rating,
           discount,
           categoryId,
           brandId,
+        }: {
+          code: string;
+          name: string;
+          description: string;
+          price: number;
+          image: string;
+          discount: number;
+          categoryId: number;
+          brandId: number;
         } = req.body;
         if (
           !code ||
@@ -98,8 +106,6 @@ export default async function handler(
           !description ||
           !price ||
           !image ||
-          !rating ||
-          !discount ||
           !categoryId ||
           !brandId
         ) {
@@ -114,7 +120,7 @@ export default async function handler(
             description,
             price,
             image,
-            rating,
+            rating: 0,
             discount,
             categoryId,
             brandId,
