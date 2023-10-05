@@ -1,7 +1,7 @@
 import useBrandsData from "@/hooks/useBrandsData";
 import useCategoriesData from "@/hooks/useCategoriesData";
 import { ProductTranslation } from "@/shared/translate";
-import { editproduct } from "@/states/dashboard/products/productsSlice";
+import { editproduct, getAllProducts } from "@/states/dashboard/products/productsSlice";
 import { RootState, useAppDispatch } from "@/states/store";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import request from "axios";
+import { processImage } from "@/shared/ultis";
 
 type Props = {
   productData: {
@@ -61,17 +62,27 @@ const EditProduct = ({ productData, closeModal }: Props) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
-        console.log(values);
-        // const res = await postOfferDashboardByApi({
-        //   ...values,
-        //   image: values.image as File,
-        // });
-        // if (res.status === 201) {
-        //   resetForm();
-        //   toast.success(res.data.message, { duration: 5000 });
-        // }
+        const categoryId = parseInt(values.categoryId as string);
+        const brandId = parseInt(values.brandId as string);
+        let responseImage;
+        if (values.image) {
+          responseImage = await processImage(values.image);
+        }
+        const res = await dispatch(
+          editproduct({
+            ...values,
+            categoryId,
+            brandId: brandId ? brandId : null,
+            image: values.image ? responseImage?.data : productData.image,
+          })
+        );
+        if (res.meta.requestStatus === "fulfilled") {
+          closeModal();
+          await dispatch(getAllProducts());
+          return toast.success("Producto actualizado correctamente");
+        }
       } catch (error) {
         if (request.isAxiosError(error) && error.response) {
           toast.error(
@@ -102,11 +113,6 @@ const EditProduct = ({ productData, closeModal }: Props) => {
           />
           <CustomInput
             formik={formik}
-            fieldName="code"
-            fieldNameTranslate={ProductTranslation["code"]}
-          />
-          <CustomInput
-            formik={formik}
             fieldName="name"
             fieldNameTranslate={ProductTranslation["name"]}
           />
@@ -130,14 +136,14 @@ const EditProduct = ({ productData, closeModal }: Props) => {
             fieldName="categoryId"
             items={categories}
             fieldNameTranslate={ProductTranslation["category"]}
-            value={productData.categoryId}
+            value={formik.values.categoryId}
           />
           <CustomOptionsWithOnlyValue
             formik={formik}
             fieldName="brandId"
             items={brands}
             fieldNameTranslate={ProductTranslation["brand"]}
-            value={productData.brandId}
+            value={formik.values.brandId}
           />
           <div className="col-span-2 text-center mt-4">
             <button
@@ -149,7 +155,6 @@ const EditProduct = ({ productData, closeModal }: Props) => {
             <button
               type="button"
               className="bg-red-600 text-white p-2 rounded-md"
-              // onClick={closeModal}
               onClick={() => {
                 setIsIn(false);
                 setTimeout(() => {

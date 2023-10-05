@@ -27,10 +27,10 @@ const NewProduct = (props: Props) => {
     name: "",
     description: "",
     price: 0,
-    brandId: 0,
+    brandId: "",
     image: null as File | null,
     discount: 0,
-    categoryId: 0,
+    categoryId: "",
   };
   const validationSchema = Yup.object({
     code: Yup.string().required("El código es requerido"),
@@ -41,8 +41,7 @@ const NewProduct = (props: Props) => {
       .positive("El precio debe ser un número positivo")
       .required("El precio es requerido"),
     brandId: Yup.number().required("El ID de la marca es requerido"),
-    image: Yup.string()
-      .required("La imagen es requerida"),
+    image: Yup.string().required("La imagen es requerida"),
     discount: Yup.number()
       .typeError("El descuento debe ser un número")
       .min(0, "El descuento no puede ser menor que 0")
@@ -128,12 +127,14 @@ const NewProduct = (props: Props) => {
           fieldName="categoryId"
           items={categories}
           fieldNameTranslate="categories"
+          value={formik.values.categoryId}
         />
         <CustomOptionsWithOnlyValue
           formik={formik}
           fieldName="brandId"
           items={brands}
           fieldNameTranslate="brands"
+          value={formik.values.brandId}
         />
         <button
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg"

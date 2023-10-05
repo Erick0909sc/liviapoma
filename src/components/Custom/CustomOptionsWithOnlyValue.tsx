@@ -14,7 +14,6 @@ const CustomOptionsWithOnlyValue = <FormValues,>({
   fieldNameTranslate,
   value,
 }: Props<FormValues>) => {
-  console.log(formik.values[fieldName])
   return (
     <div className="mb-4">
       <label className="capitalize block text-gray-600">

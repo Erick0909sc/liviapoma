@@ -55,38 +55,11 @@ export default async function handler(
           description,
           price,
           image,
-          // rating,
           discount,
           categoryId,
           brandId,
         } = req.body;
-
-        console.log('Datos que llegan en la solicitud PUT:', {
-          code,
-          name,
-          description,
-          price,
-          image,
-          // rating,
-          discount,
-          categoryId,
-          brandId,
-        });
-
-        console.log(typeof(code))
-
-
-        if (
-          !code ||
-          !name ||
-          !description ||
-          !price ||
-          // !brandId ||
-          !image ||
-          // !rating ||
-          // !discount ||
-          !categoryId
-        ) {
+        if (!name || !description || !price || !image || !categoryId) {
           return res
             .status(400)
             .json({ message: "Todos los campos son obligatorios." });
@@ -100,10 +73,9 @@ export default async function handler(
             description,
             price,
             image,
-            // rating,
-            // discount,
+            discount,
             categoryId,
-            // brandId,
+            brandId,
           },
         });
 
