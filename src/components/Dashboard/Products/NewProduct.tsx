@@ -15,6 +15,7 @@ import request from "axios";
 import useCategoriesData from "@/hooks/useCategoriesData";
 import useBrandsData from "@/hooks/useBrandsData";
 import CustomOptionsWithOnlyValue from "@/components/Custom/CustomOptionsWithOnlyValue";
+import { postProductByApi } from "@/states/dashboard/products/productsApi";
 type Props = {};
 
 const NewProduct = (props: Props) => {
@@ -40,7 +41,6 @@ const NewProduct = (props: Props) => {
       .typeError("El precio debe ser un número")
       .positive("El precio debe ser un número positivo")
       .required("El precio es requerido"),
-    brandId: Yup.number().required("El ID de la marca es requerido"),
     image: Yup.string().required("La imagen es requerida"),
     discount: Yup.number()
       .typeError("El descuento debe ser un número")
@@ -55,14 +55,18 @@ const NewProduct = (props: Props) => {
       7;
       try {
         console.log(values);
-        // const res = await postOfferDashboardByApi({
-        //   ...values,
-        //   image: values.image as File,
-        // });
-        // if (res.status === 201) {
-        //   resetForm();
-        //   toast.success(res.data.message, { duration: 5000 });
-        // }
+        const brandId = parseInt(values.brandId as string);
+        const categoryId = parseInt(values.categoryId as string);
+        const res = await postProductByApi({
+          ...values,
+          image: values.image as File,
+          categoryId,
+          brandId,
+        });
+        if (res.status === 201) {
+          resetForm();
+          toast.success(res.data.message, { duration: 5000 });
+        }
       } catch (error) {
         if (request.isAxiosError(error) && error.response) {
           toast.error(

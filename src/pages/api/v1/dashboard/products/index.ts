@@ -100,19 +100,18 @@ export default async function handler(
           categoryId: number;
           brandId: number;
         } = req.body;
-        if (
-          !code ||
-          !name ||
-          !description ||
-          !price ||
-          !image ||
-          !categoryId ||
-          !brandId
-        ) {
+        if (!code || !name || !description || !price || !image || !categoryId) {
           return res
             .status(400)
             .json({ message: "Todos los campos son obligatorios." });
         }
+        const findProduct = await prisma.product.findUnique({
+          where: { code: code },
+        });
+        if (findProduct)
+          return res
+            .status(400)
+            .json({ message: "Ya existe un producto con ese código" });
         const newProduct = await prisma.product.create({
           data: {
             code,
@@ -127,7 +126,10 @@ export default async function handler(
           },
         });
 
-        res.status(201).json(newProduct);
+        res.status(201).json({
+          newProduct,
+          message: "El producto se ha creado exitosamente",
+        });
       } catch (error) {
         res.status(500).json(error);
       }

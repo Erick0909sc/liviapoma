@@ -1,3 +1,4 @@
+import { processImage } from "@/shared/ultis";
 import axios from "axios";
 
 export const getDashboardProductsByApi = () =>
@@ -28,6 +29,24 @@ export const editProductByApi = async (productData: {
   axios.put(`/api/v1/dashboard/products/${productData.code}`, {
     ...productData,
   });
+
+export const postProductByApi = async (productData: {
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  brandId: number | null;
+  image: File;
+  discount: number;
+  categoryId: number;
+}) => {
+  const responseImage: { data: string } = await processImage(productData.image);
+  return axios.post(`/api/v1/dashboard/products`, {
+    ...productData,
+    image: responseImage.data,
+  });
+};
+
 export const deleteProductByApi = (code: string) =>
   axios.delete(`/api/v1/dashboard/products/${code}`);
 
