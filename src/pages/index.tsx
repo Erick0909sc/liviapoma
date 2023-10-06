@@ -94,9 +94,6 @@ export default function Home() {
             loop={true}
             spaceBetween={10}
             pagination={false}
-            // pagination={{
-            //   clickable: true,
-            // }}
             modules={[Pagination, Autoplay]}
             autoplay={{
               delay: 5000,
@@ -122,9 +119,6 @@ export default function Home() {
             spaceBetween={50}
             loop={true}
             pagination={false}
-            // pagination={{
-            //   clickable: true,
-            // }}
             modules={[Pagination, Autoplay]}
             autoplay={{
               delay: 5000,
@@ -151,12 +145,6 @@ export default function Home() {
             <Offert {...e} key={index} />
           ))}
         </div>
-
-        {/* <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          {dataPrueba.map((e, index: number) => (
-            <Product key={index} oferta={e} />
-          ))}
-        </div> */}
       </div>
     </Layout>
   );

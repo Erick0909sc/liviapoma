@@ -10,12 +10,12 @@ type Props = {}
 
 const Footer = (props: Props) => {
   return (
-    <div className=' flex flex-col  bg-blue-950 w-full   justify-center items-center pt-4'>
+    <div className=' flex flex-col  bg-green-700  w-full   justify-center items-center pt-4'>
 
       <div className='text-white flex gap-6  lg:w-[90%]  border-b border-slate-400   justify-center h-[20%] items-center pb-4'>
 
         <div className='flex flex-col w-[35%] text-center  text-[12px] md:text-[18px] lg:text-[18px]'>
-          <div className='hover:text-red-600 font-semibold w-[100%] flex items-center justify-center gap-1'>
+          <div className='hover:text-crema-400 font-semibold w-[100%] flex items-center justify-center gap-1'>
             <span className='ml-2 '>
               <BsTelephoneForwardFill />
             </span>
@@ -27,7 +27,7 @@ const Footer = (props: Props) => {
         </div>
 
         <div className='flex flex-col w-[35%] text-center text-[12px] md:text-[18px] lg:text-[18px]'>
-          <div className='hover:text-red-600 font-semibold w-[100%] flex items-center justify-center gap-1'>
+          <div className='hover:text-crema-400 font-semibold w-[100%] flex items-center justify-center gap-1'>
             <span className='ml-2 '><CgMail /></span>
             <span> <Link href={'#'}>ferreteria@gmail.com</Link></span>
 
