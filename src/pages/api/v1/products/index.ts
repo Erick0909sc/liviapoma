@@ -26,7 +26,7 @@ export default async function handler(
           });
           return products.length
             ? res.status(200).json(products)
-            : res.status(400).json({ message: "products not found" });
+            : res.status(404).json({ message: "products not found" });
         }
         if (category) {
           const products = await prisma.product.findMany({
@@ -58,7 +58,7 @@ export default async function handler(
         });
         products.length
           ? res.status(200).json(products)
-          : res.status(400).json({ message: "products not found" });
+          : res.status(404).json({ message: "products not found" });
       } catch (error) {
         res.status(500).json(error);
       }

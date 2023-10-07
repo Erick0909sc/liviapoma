@@ -4,12 +4,7 @@
 - [Productos por nombre](#productos-por-nombre)
 - [Productos por categoria](#productos-por-categoria)
 - [Productos Recomendados](#productos-recomendados)
-- [Otro Endpoint](#otro-endpoint)
-- [Otro Endpoint](#otro-endpoint)
-- [Otro Endpoint](#otro-endpoint)
-- [Otro Endpoint](#otro-endpoint)
-- [Otro Endpoint](#otro-endpoint)
-- [Otro Endpoint](#otro-endpoint)
+- [Detalle de producto](#detalle-de-producto)
 
 ## Productos
 
@@ -79,8 +74,6 @@ Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontra
 GET /api/v1/products?name=vari
 ```
 
-Gracias por señalar la corrección necesaria.
-
 **Ejemplo de Respuesta Exitosa:**
 
 Respuesta con código de estado HTTP 200 OK:
@@ -119,28 +112,105 @@ Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontra
 { "message": "products not found" }
 ```
 
-## Productos por categoría
+## Productos por categoria
 
-- **Obtener Todos los Productos**
+| Método | Ruta                               | Descripción                                                       |
+| :----- | :--------------------------------- | :---------------------------------------------------------------- |
+| `GET`  | `/api/v1/products?category={name}` | Obtiene todos los productos en la tienda que contienen ese nombre |
 
-```http
-GET  /api/v1/products
+**Parámetros de la Solicitud (Request params):**
+
+| Parámetro | Tipo     | Descripción                     |
+| :-------- | :------- | :------------------------------ |
+| `name`    | `string` | Nombre de la categoria a buscar |
+
+**Ejemplo de Solicitud:**
+
+```
+GET /api/v1/products?category=Estribos
 ```
 
-| Parámetro | Tipo      | Descripción                              |
-| :-------- | :-------- | :--------------------------------------- |
-| `ninguno` | `ninguno` | Obtiene todos los productos en la tienda |
+**Ejemplo de Respuesta Exitosa:**
 
-## Productos Recomendados
+Respuesta con código de estado HTTP 200 OK:
 
-- **Obtener Todos los Productos Recomendados**
-
-```http
-GET  /api/v1/products?recommended=true
+```json
+[
+  {
+    "code": "0103002",
+    "name": "ESTRIBOS P/VIGA (15 X 20)18 X 15 (V2)",
+    "description": "Los estribos para viga (15 X 20) de 18 X 15 (V2) son la conexión que une la estabilidad y la elegancia en tus creaciones. Diseñados para dar soporte y agregar un toque estético, estos estribos son una declaración de que en cada detalle, reside la integridad.",
+    "price": 23,
+    "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/12.webp",
+    "rating": 0,
+    "discount": 0,
+    "categoryId": 3,
+    "deletedAt": null,
+    "brandId": null,
+    "category": {
+      "id": 3,
+      "name": "Estribos"
+    },
+    "brand": null
+  }
+  // Otros productos...
+]
 ```
 
-| Parámetro | Tipo      | Descripción                              |
-| :-------- | :-------- | :--------------------------------------- |
-| `ninguno` | `ninguno` | Obtiene todos los productos recomendados |
+**Ejemplo de Respuesta Fallida:**
 
-Claro, aquí tienes una versión actualizada de la documentación que explica qué se espera en el cuerpo (body) de la solicitud POST:
+Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontraron productos:
+
+```json
+{ "message": "products not found" }
+```
+
+## Detalle de producto
+
+| Método | Ruta                      | Descripción                       |
+| :----- | :------------------------ | :-------------------------------- |
+| `GET`  | `/api/v1/products/{code}` | Obtiene el detalle de un producto |
+
+**Parámetros de la Solicitud (Request params):**
+
+| Parámetro | Tipo     | Descripción                  |
+| :-------- | :------- | :--------------------------- |
+| `code`    | `string` | código del producto a buscar |
+
+**Ejemplo de Solicitud:**
+
+```
+GET /api/v1/products/0103001
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 OK:
+
+```json
+{
+  "code": "0103001",
+  "name": "ESTRIBOS P/COLUMNA (13 X 25)8.5 X 21 (C5)",
+  "description": "Los estribos para columna (13 X 25) de 8.5 X 21 (C5) son el detalle que marca la diferencia en tus construcciones. Diseñados para brindar una base estable y segura, estos estribos son una muestra de atención a los detalles y cuidado en cada proyecto.",
+  "price": 27.5,
+  "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/11.webp",
+  "rating": 0,
+  "discount": 47,
+  "categoryId": 3,
+  "deletedAt": null,
+  "brandId": null,
+  "category": {
+    "id": 3,
+    "name": "Estribos"
+  },
+  "brand": null
+}
+```
+
+**Ejemplo de Respuesta Fallida:**
+
+Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontraron productos:
+
+```json
+{ "message": "product not found" }
+```
