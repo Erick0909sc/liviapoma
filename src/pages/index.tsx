@@ -1,31 +1,18 @@
-import Card from "@/components/CardCategory/Card";
 import CardRating from "@/components/CardProductbyRating/CardRating";
 import Layout from "@/components/Layout/Layout";
-import categories from "@/data/categories";
 import { EStateGeneric } from "@/shared/types";
-import {
-  getAllCategories,
-  getAllProducts,
-  selectAllCategoriesStatus,
-  selectAllCategory,
-  selectProductByrating,
-  selectTopRatedProducts,
-} from "@/states/products/productsSlice";
 import { useAppDispatch } from "@/states/store";
 import Image from "next/image";
 import img from "public/portada02.jpg";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useSession } from "next-auth/react";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-// import './styles.css';
 import { Pagination, Autoplay } from "swiper/modules";
-import Product from "@/components/Offerts/Product";
 import Offert from "@/components/Offerts/Offert";
 import {
   cleanUpOfferts,
@@ -33,29 +20,16 @@ import {
   selectAllOffers,
   selectAllOffersStatus,
 } from "@/states/globalSlice";
-import Cardcategory from "@/components/CardCategory/Card";
+import Link from "next/link";
+import Categories from "@/components/Categories/Categories";
+import { dataTest } from "@/data/products";
+import Product from "@/components/Offerts/Product";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
-
-  const topRatedProducts = useSelector(selectProductByrating);
-  const categoriesProducts = useSelector(selectAllCategory);
-  const categoryStatus = useSelector(selectAllCategoriesStatus);
   const offersStatus = useSelector(selectAllOffersStatus);
   const offers = useSelector(selectAllOffers);
   const slidesPerView = 1;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (categoryStatus === EStateGeneric.IDLE) {
-        await dispatch(getAllCategories());
-        await dispatch(getAllProducts());
-        await dispatch(selectTopRatedProducts());
-      }
-    };
-
-    fetchData();
-  }, [dispatch, categoryStatus, session]);
 
   useEffect(() => {
     (async () => {
@@ -72,43 +46,32 @@ export default function Home() {
 
   return (
     <Layout title="Inicio">
-      <div className="w-full flex flex-col bg-slate-100">
-        <div className="relative flex flex-col w-full h-[15rem]  md:h-[30rem] lg:h-[30rem]">
-          <Image src={img} alt="img" className="aspect-video " />
+      <>
+        <div className="relative h-[30rem] md:h-[40rem] text-white">
+          <Image
+            src={img}
+            alt="Imagen de productos"
+            layout="fill"
+            objectFit="cover"
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-green bg-black bg-opacity-50">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-cream">
+              Bienvenido a Liviapoma, tu tienda de{" "}
+              <span className="text-green-500">ferretería</span> y{" "}
+              <span className="text-green-500">materiales de construcción</span>
+            </h1>
+            <p className="mt-4 text-lg md:text-xl lg:text-2xl text-center text-cream">
+              Encuentra todo lo que necesitas para tus proyectos de construcción
+              y renovación.
+            </p>
+            <Link href="/products">
+              <span className="mt-6 px-6 py-3 bg-green-500 hover:bg-green-600 text-cream rounded-full text-lg transition duration-300 ease-in-out">
+                Ver Productos
+              </span>
+            </Link>
+          </div>
         </div>
-
-        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
-          {categoryStatus === EStateGeneric.PENDING && <p>Loading...</p>}
-          {categoryStatus === EStateGeneric.FAILED && (
-            <p>Failed to load Categories</p>
-          )}
-          {categoryStatus === EStateGeneric.SUCCEEDED &&
-            categories.map((category, index) => (
-              <Cardcategory key={index} name={category.name} />
-            ))}
-        </div>
-        <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
-          <Swiper
-            slidesPerView={3}
-            className="mySwiper swiper-h h-full bg-transparent"
-            loop={true}
-            spaceBetween={10}
-            pagination={false}
-            modules={[Pagination, Autoplay]}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-            }}
-          >
-            {categoriesProducts.map((category, index) => (
-              <SwiperSlide key={index} className="w-full ">
-                <div className="flex justify-center h-full items-center text-[15px]">
-                  <Card name={category.name} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        <Categories />
         <div className=" flex flex-col h-[30rem]  md:h-[30rem] lg:h-[40rem] pb-8">
           <div className="w-full h-20 flex items-center justify-center p-5 text-[20px] font-bold">
             <h2>PRODUCTOS MAS VENDIDOS</h2>
@@ -125,7 +88,7 @@ export default function Home() {
               disableOnInteraction: false,
             }}
           >
-            {topRatedProducts.map((product, index) => (
+            {dataTest.map((product, index) => (
               <SwiperSlide key={index}>
                 <CardRating
                   session={session}
@@ -139,13 +102,17 @@ export default function Home() {
             ))}
           </Swiper>
         </div>
-
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
           {offers.map((e, index: number) => (
             <Offert {...e} key={index} />
           ))}
         </div>
-      </div>
+        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+          {dataTest.map((e, index: number) => (
+            <Product key={index} oferta={e} />
+          ))}
+        </div>
+      </>
     </Layout>
   );
 }

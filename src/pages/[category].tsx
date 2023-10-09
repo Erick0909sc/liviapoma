@@ -4,7 +4,6 @@ import Layout from "@/components/Layout/Layout";
 import { useEffect, useState } from "react";
 import {
   getAllProductsByCategory,
-  selectAllCategory,
   selectAllProductsByCategory,
 } from "@/states/products/productsSlice";
 import Card from "@/components/card";
@@ -12,7 +11,7 @@ import { useAppDispatch } from "@/states/store";
 import Pagination from "@/components/pagination";
 import { itemsPerPage } from "@/shared/ultis";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import Cardcategory from "@/components/CardCategory/Card";
+import Cardcategory from "@/components/Categories/Category";
 import useCategoriesData from "@/hooks/useCategoriesData";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -52,7 +51,9 @@ const CategoryPage = () => {
 
   return (
     <Layout title={`Productos de la categoría ${category}`}>
-      <h6 className="text-xl font-normal leading-normal mt-5 mb-2 text-black flex justify-center items-center">Usted esta en la categoria: {category}</h6>
+      <h6 className="text-xl font-normal leading-normal mt-5 mb-2 text-black flex justify-center items-center">
+        Usted esta en la categoria: {category}
+      </h6>
       <div>
         <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
           <div className="w-40 text-center border-r border-slate-900">

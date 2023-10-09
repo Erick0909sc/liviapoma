@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Card from "@/components/card";
 import { useSelector } from "react-redux";
 import {
-  selectAllCategory,
   getAllProducts,
   selectAllProducts,
   selectAllProductsStatus,
@@ -25,10 +24,8 @@ const Products: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
-  const products = useSelector(selectAllProducts); // Declaración de products
-  const categories = useSelector(selectAllCategory);
+  const products = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  // const categoryNames = categories.map((category) => category.name);
 
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
@@ -80,7 +77,7 @@ const Products: React.FC = () => {
         }
       }
     };
-  
+
     fetchData();
   }, [dispatch, productsStatus, session, selectedCategory]);
   const handleCategoryChange = (newCategory: string) => {
@@ -88,12 +85,10 @@ const Products: React.FC = () => {
     router.push(`/products?category=${newCategory}`);
   };
 
-  
   return (
     <Layout title="Productos">
       <>
         <FilterByCategory
-          
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}
         />
