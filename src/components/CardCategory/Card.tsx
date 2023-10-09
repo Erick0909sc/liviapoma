@@ -11,7 +11,7 @@ const Cardcategory = ({ name }: Props) => {
       <div>
         <Link href={`/${encodeURIComponent(name)}`}>
           
-          <h2 className="font-bold cursor-pointer hover:text-red-500">
+          <h2 className="font-bold cursor-pointer hover:text-crema-400">
             {name}
           </h2>
         </Link>

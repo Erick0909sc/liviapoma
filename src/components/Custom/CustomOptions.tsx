@@ -37,6 +37,7 @@ const CustomOptions = <FormValues,>({
         <select
           name={fieldName as string}
           onChange={handleChange}
+          defaultValue=""
           className={`block w-full px-5 py-3 text-black bg-white border rounded-lg font-semibold focus:border-green-500 focus:ring-green-600 focus:outline-none focus:ring focus:ring-opacity-80 ${
             formik.touched[fieldName] && formik.errors[fieldName]
               ? "border-red-500 placeholder:text-red-500"
@@ -56,7 +57,10 @@ const CustomOptions = <FormValues,>({
       {prevValues.length !== 0 && (
         <div className="flex flex-wrap gap-1">
           {prevValues.map((e, index) => (
-            <span className="relative bg-white border border-gray-700 rounded-md p-1 pr-9" key={index}>
+            <span
+              className="relative bg-white border border-gray-700 rounded-md p-1 pr-9"
+              key={index}
+            >
               {e}
               <button
                 className="absolute top-0 right-0"

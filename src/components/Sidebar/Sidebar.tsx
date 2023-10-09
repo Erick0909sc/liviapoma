@@ -19,7 +19,7 @@ const Sidebar = ({ session }: Props) => {
     setActive(parts[parts.length - 1]);
   }, [pathname]);
   return (
-    <div className="absolute bg-teal-700 w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex">
+    <div className="absolute bg-green-900 w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex">
       <div className="w-full text-white flex flex-col flex-shrink-0">
         <div className="flex items-center text-center h-[10%] font-bold border-b-4 gap-1">
           <Link href={"#"}>
@@ -48,8 +48,8 @@ const Sidebar = ({ session }: Props) => {
                       setActive(lcText);
                     }}
                     className={`${
-                      active === lcText ? "bg-teal-600 text-crema-300" : ""
-                    } w-full flex items-center px-2 py-3 gap-2 hover:bg-teal-600 cursor-pointer`}
+                      active === lcText ? "bg-crema-400 text-white" : ""
+                    } w-full flex items-center px-2 py-3 gap-2 hover:bg-green-500 cursor-pointer`}
                   >
                     {icon}
                     <span className="text-lg">{translate[text]}</span>

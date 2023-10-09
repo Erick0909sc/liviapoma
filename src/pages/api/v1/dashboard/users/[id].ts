@@ -19,7 +19,7 @@ export default async function handler(
         });
         user
           ? res.status(200).json(user)
-          : res.status(400).json({ message: "user not found" });
+          : res.status(404).json({ message: "user not found" });
       } catch (error) {
         res.status(500).json(error);
       }
@@ -36,7 +36,7 @@ export default async function handler(
         });
         user
           ? res.status(200).json(user)
-          : res.status(400).json({ message: "user not found" });
+          : res.status(404).json({ message: "user not found" });
       } catch (error) {
         res.status(500).json(error);
       }
@@ -51,7 +51,7 @@ export default async function handler(
         });
         user
           ? res.status(200).json(user)
-          : res.status(400).json({ message: "user not found" });
+          : res.status(404).json({ message: "user not found" });
       } catch (error) {
         res.status(500).json(error);
       }
