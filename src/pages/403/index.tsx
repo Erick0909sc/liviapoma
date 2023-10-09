@@ -4,11 +4,11 @@ import { signIn, useSession } from "next-auth/react";
 type Props = {};
 
 const Page403 = (props: Props) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <LayaoutAdmin title="No autorizado">
-      {!session && (
+      {status === "unauthenticated" && (
         <div className="md:p-10 max-w-screen-2xl w-full h-full">
           <div className="md:flex justify-center items-center h-full">
             <div className="flex-1 bg-white p-4 rounded-lg shadow-md">

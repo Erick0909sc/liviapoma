@@ -22,7 +22,7 @@ export const getAllCartByUser = async ({ userId }: { userId: string }) => {
       },
     });
 
-    return cart
+    return cart?.products.length
       ? {
           success: true,
           data: cart,

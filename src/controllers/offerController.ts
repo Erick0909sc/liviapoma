@@ -291,3 +291,48 @@ export const desactivateOfferProductsByBrand = async ({
     };
   }
 };
+
+export const updateProductsOffer = async ({
+  items,
+}: {
+  items: {
+    name: string;
+    discount: number;
+  }[];
+}) => {
+  try {
+    for (const item of items) {
+      await prisma.product.updateMany({
+        where: {
+          OR: [
+            {
+              brand: {
+                name: item.name,
+              },
+            },
+            {
+              category: {
+                name: item.name,
+              },
+            },
+          ],
+          NOT: {
+            discount: 0,
+          },
+        },
+        data: {
+          discount: item.discount,
+        },
+      });
+    }
+    return {
+      success: true,
+      message: "descuentos actualizados",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+};
