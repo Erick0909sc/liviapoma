@@ -24,6 +24,7 @@ import Link from "next/link";
 import Categories from "@/components/Categories/Categories";
 import { dataTest } from "@/data/products";
 import Product from "@/components/Offerts/Product";
+import Card from "@/components/card";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
@@ -72,13 +73,13 @@ export default function Home() {
           </div>
         </div>
         <Categories />
-        <div className=" flex flex-col h-[30rem]  md:h-[30rem] lg:h-[40rem] pb-8">
-          <div className="w-full h-20 flex items-center justify-center p-5 text-[20px] font-bold">
-            <h2>PRODUCTOS MAS VENDIDOS</h2>
-          </div>
+        <div>
+          <h3 className="text-center font-bold text-xl my-4 underline underline-offset-4">
+            Productos más vendidos
+          </h3>
           <Swiper
             slidesPerView={slidesPerView}
-            className="mySwiper swiper-h w-[100%] md::w-[80%] lg:w-[80%]"
+            className="w-full xs:w-11/12 ss:w-10/12 sm:w-9/12 md:w-8/12 lg:w-10/12 xl:w-11/12 max-w-6xl my-6"
             spaceBetween={50}
             loop={true}
             pagination={false}
@@ -90,26 +91,28 @@ export default function Home() {
           >
             {dataTest.map((product, index) => (
               <SwiperSlide key={index}>
-                <CardRating
+                <Card
                   session={session}
                   code={product.code}
-                  name={product.name}
-                  image={product.image}
-                  rating={product.rating}
+                  title={product.name}
                   description={product.description}
+                  price={product.price}
+                  brand={product.brand?.name as string}
+                  image={product.image}
+                  category={product.category.name}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          {offers.map((e, index: number) => (
-            <Offert {...e} key={index} />
+          {dataTest.map((e, index: number) => (
+            <Product key={index} oferta={e} />
           ))}
         </div>
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          {dataTest.map((e, index: number) => (
-            <Product key={index} oferta={e} />
+          {offers.map((e, index: number) => (
+            <Offert {...e} key={index} />
           ))}
         </div>
       </>

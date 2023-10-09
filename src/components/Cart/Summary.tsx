@@ -32,7 +32,7 @@ const Summary = ({ cart }: Props) => {
           <span>{formatPrice(total)}</span>
         </p>
       </div>
-      <button className="text-white p-4 bg-blue-950 hover:bg-blue-900" type="button">Continuar compra</button>
+      <button className="text-white p-4 bg-green-700 hover:bg-green-500" type="button">Continuar compra</button>
     </div>
   )
 }

@@ -98,7 +98,7 @@ const Products: React.FC = () => {
             <p>Failed to load products</p>
           )}
           {productsStatus === EStateGeneric.SUCCEEDED && (
-            <div>
+            <div className="flex flex-col gap-8 py-8">
               {items.map((product, index) => (
                 <Card
                   key={index}

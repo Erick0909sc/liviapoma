@@ -109,7 +109,7 @@ const Card = ({ session, ...props }: Props) => {
           )}
           <button
             type="button"
-            className="p-1 md:p-2 text-white bg-blue-950"
+            className="p-1 md:p-2 text-white bg-green-700"
             onClick={() =>
               handleItemsCart({
                 ...propsForFunctions,

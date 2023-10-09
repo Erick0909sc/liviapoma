@@ -11,7 +11,7 @@ const Categories = (props: Props) => {
 
   return (
     <>
-      <h3 className="text-center font-bold text-xl my-4">Categorías</h3>
+      <h3 className="text-center font-bold text-xl my-4 underline underline-offset-4">Categorías</h3>
       <div className="gap-2 w-full justify-center h-14 items-center hidden sm:flex">
         {categories.map((category, index) => (
           <Category key={index} name={category} />
