@@ -17,7 +17,9 @@ export default async function handler(
           },
           include: { category: true, brand: true },
         });
-        res.status(200).json(product);
+        product
+          ? res.status(200).json(product)
+          : res.status(404).json({ message: "product not found" });
       } catch (error) {
         res.status(500).json(error);
       }

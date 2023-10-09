@@ -1,39 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Liviapoma - E-commerce
 
-## Getting Started
+Bienvenido a Liviapoma, un sistema de comercio electrónico (e-commerce) diseñado exclusivamente para ofrecer una amplia gama de productos relacionados con la construcción.
 
-First, run the development server:
+## Descripción del Proyecto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Nuestro e-commerce de materiales de construcción es una solución completa para simplificar la adquisición de productos esenciales para proyectos de construcción y renovación. Ofrecemos a nuestros clientes una experiencia de compra en línea fácil de usar, junto con una extensa selección de productos de alta calidad a precios competitivos. Algunas de las características clave de nuestro proyecto incluyen:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Catálogo de Productos:** Explore nuestro amplio catálogo de productos, que incluye categorías esenciales para su proyecto de construcción, como cementos, varillas, estribos, alambres, clavos, eternits y cumbreras. Descubra una amplia gama de materiales de construcción de alta calidad en Liviapoma.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- **Búsqueda Avanzada:** Nuestra potente función de búsqueda permite a los usuarios encontrar rápidamente los productos que necesitan utilizando filtros y palabras clave específicas.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **Carrito de Compras:** Los clientes pueden organizar y gestionar fácilmente sus compras, revisar su pedido y completar la transacción de manera segura.
 
-The `pages/api` directory is mapped to `/api/v1/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Seguridad:** Implementamos tecnologías de seguridad avanzadas para proteger la información de los clientes y garantizar transacciones seguras.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Secciones Principales
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# Practicas
+- [Versionado de la API](doc/versioning.md)
