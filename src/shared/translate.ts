@@ -6,3 +6,14 @@ export const OfferTranslation: { [key: string]: string } = {
   categories: "Categorías",
   brands: "Marcas",
 };
+
+export const ProductTranslation: { [key: string]: string } = {
+  code: "Código",
+  name: "Nombre",
+  description: "Descripción",
+  price: "Precio",
+  brand: "Marca",
+  image: "Imagen",
+  discount: "Descuento",
+  category: "Categoría",
+};

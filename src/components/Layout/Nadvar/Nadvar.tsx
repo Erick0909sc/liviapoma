@@ -30,7 +30,7 @@ const Nadvar = (props: Props) => {
   };
   return (
     <nav className="relative">
-      <div className="bg-green-600 flex text-white h-16 w-ful ">
+      <div className="bg-green-700 flex text-white h-16 w-ful ">
         <div className="title flex items-center font-serif w-[32%] sm:w-[20%] lg:w-[32%] text-[15px] pl-1 justify-start md:pl-4 lg:pl-4  sm:text-[20px] font-bold">
           <Link href={"#"}>
             <h2 className="cursor-pointer">Ferreteria Liviapoma</h2>
@@ -63,28 +63,28 @@ const Nadvar = (props: Props) => {
 
         <div className="hidden sm:flex w-[40%]  sm:w-[55%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
           <Link href={"/"}>
-            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-200">
+            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <AiFillHome />
               <h2>Inicio</h2>
             </div>
           </Link>
 
           <Link href={"/products"}>
-            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-200">
+            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <MdInventory />
               <h2>Productos</h2>
             </div>
           </Link>
 
           <Link href={"/cart"}>
-            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-200">
+            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <FaShoppingCart />
               <h2>Carrito</h2>
             </div>
           </Link>
 
           <Link href={"#"}>
-            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-200">
+            <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <MdContactPhone />
               <h2>Contacto</h2>
             </div>
