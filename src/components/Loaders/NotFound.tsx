@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "@/components/Layout/Layout";
 import {
   getAllProductsByCategory,
-  selectAllCategory,
   selectAllProducts,
   selectAllProductsByCategory,
 } from "@/states/products/productsSlice";
@@ -20,13 +19,9 @@ const CategoryPage = () => {
   const { category: urlCategory } = router.query; // Cambia el nombre de la variable a urlCategory
   const dispatch = useAppDispatch();
   const productsByCategory = useSelector(selectAllProductsByCategory);
-  const categories = useSelector(selectAllCategory);
   const products = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState("");
- 
 
-  const categoryNames = categories.map((category) => category.name);
-  // cosas para el paginado
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
   const maxItems = currentPage * itemsPerPage;
