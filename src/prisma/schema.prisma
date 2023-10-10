@@ -73,19 +73,28 @@ model Brand {
 }
 
 model Product {
-  code        String     @id
-  name        String
-  description String
-  price       Float
-  image       String
-  rating      Float
-  discount    Float
-  category    Category   @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  cartItems   CartItem[]
-  deletedAt   DateTime?
-  brand       Brand?     @relation(fields: [brandId], references: [id])
-  brandId     Int?
+  code            String        @id
+  name            String
+  description     String
+  price           Float
+  image           String
+  rating          Float
+  discount        Float
+  category        Category      @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  cartItems       CartItem[]
+  deletedAt       DateTime?
+  brand           Brand?        @relation(fields: [brandId], references: [id])
+  brandId         Int?
+  unitOfMeasure   UnitOfMeasure @relation(fields: [unitOfMeasureId], references: [id])
+  unitOfMeasureId Int
+}
+
+model UnitOfMeasure {
+  id           Int       @id @default(autoincrement())
+  name         String
+  abbreviation String
+  Product      Product[]
 }
 
 model Cart {

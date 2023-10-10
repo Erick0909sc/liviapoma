@@ -6,6 +6,7 @@ import {
   getProductByApi,
   getProductsByApi,
   getProductsByCategoryByApi,
+  getProductsWithDiscountByApi,
 } from "./productsApi";
 
 export const getAllProducts = createAsyncThunk(
@@ -13,6 +14,18 @@ export const getAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getProductsByApi();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllProductsDiscount = createAsyncThunk(
+  "products/getAllProductsDiscount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getProductsWithDiscountByApi();
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -46,18 +59,22 @@ export const getOneProduct = createAsyncThunk(
 
 interface IProductsState {
   products: IProduct[];
+  productsDiscount: IProduct[];
   productsByCategory: IProduct[];
   product: IProduct;
   allProductsStatus: EStateGeneric;
+  allProductsDiscountStatus: EStateGeneric;
   allProductsByCategoryStatus: EStateGeneric;
   oneProductStatus: EStateGeneric;
 }
 
 const initialState: IProductsState = {
   products: [],
+  productsDiscount: [],
   productsByCategory: [],
   product: {} as IProduct,
   allProductsStatus: EStateGeneric.IDLE,
+  allProductsDiscountStatus: EStateGeneric.IDLE,
   allProductsByCategoryStatus: EStateGeneric.IDLE,
   oneProductStatus: EStateGeneric.IDLE,
 };
@@ -99,6 +116,17 @@ export const productsSlice = createSlice({
       state.allProductsStatus = EStateGeneric.FAILED;
     });
 
+    builder.addCase(getAllProductsDiscount.fulfilled, (state, action) => {
+      state.productsDiscount = action.payload;
+      state.allProductsDiscountStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getAllProductsDiscount.pending, (state, action) => {
+      state.allProductsDiscountStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getAllProductsDiscount.rejected, (state, action) => {
+      state.allProductsDiscountStatus = EStateGeneric.FAILED;
+    });
+
     builder.addCase(getAllProductsByCategory.fulfilled, (state, action) => {
       state.productsByCategory = action.payload;
       state.allProductsByCategoryStatus = EStateGeneric.SUCCEEDED;
@@ -126,6 +154,8 @@ export const productsSlice = createSlice({
 export const { cleanUpProducts, cleanUpProduct } = productsSlice.actions;
 
 export const selectAllProducts = (state: RootState) => state.products.products;
+export const selectAllProductsDiscount = (state: RootState) =>
+  state.products.productsDiscount;
 export const selectAllProductsByCategory = (state: RootState) =>
   state.products.productsByCategory;
 export const selectOneProduct = (state: RootState) => state.products.product;
@@ -134,6 +164,8 @@ export const selectAllProductsByCategoryStatus = (state: RootState) =>
   state.products.allProductsByCategoryStatus;
 export const selectAllProductsStatus = (state: RootState) =>
   state.products.allProductsStatus;
+export const selectAllProductsDiscountStatus = (state: RootState) =>
+  state.products.allProductsDiscountStatus;
 export const selectOneProductStatus = (state: RootState) =>
   state.products.oneProductStatus;
 

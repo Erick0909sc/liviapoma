@@ -54,7 +54,8 @@ const Card = ({ session, ...props }: Props) => {
           <span className="font-bold">{props.product.name}</span>
           <span className="text-gray-600">{props.product.category.name}</span>
           <span className="text-gray-600">
-            {formatPrice(props.product.price)}
+            {formatPrice(props.product.price)}{" "}
+            {props.product.unitOfMeasure.name}
           </span>
           <span className="text-crema-600">
             {props.product.discount
@@ -137,6 +138,9 @@ const Card = ({ session, ...props }: Props) => {
               {formatPrice(props.quantity * props.product.price)}{" "}
             </span>
           ) : null}
+          <span className="text-gray-600">
+            {props.product.unitOfMeasure.name} (x{props.quantity})
+          </span>{" "}
           <span>
             {formatPrice(
               props.quantity * props.product.price -

@@ -15,7 +15,7 @@ export default async function handler(
             code: code as string,
             deletedAt: null,
           },
-          include: { category: true, brand: true },
+          include: { category: true, brand: true, unitOfMeasure: true },
         });
         product
           ? res.status(200).json(product)
@@ -57,9 +57,17 @@ export default async function handler(
           image,
           discount,
           categoryId,
+          unitOfMeasureId,
           brandId,
         } = req.body;
-        if (!name || !description || !price || !image || !categoryId) {
+        if (
+          !name ||
+          !description ||
+          !price ||
+          !image ||
+          !categoryId ||
+          !unitOfMeasureId
+        ) {
           return res
             .status(400)
             .json({ message: "Todos los campos son obligatorios." });
@@ -75,6 +83,7 @@ export default async function handler(
             image,
             discount,
             categoryId,
+            unitOfMeasureId,
             brandId,
           },
         });

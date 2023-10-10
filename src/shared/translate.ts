@@ -9,6 +9,7 @@ export const OfferTranslation: { [key: string]: string } = {
 
 export const ProductTranslation: { [key: string]: string } = {
   code: "Código",
+  measure: "Venta por",
   name: "Nombre",
   description: "Descripción",
   price: "Precio",

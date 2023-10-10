@@ -23,9 +23,17 @@ export interface IProduct {
   rating: number;
   discount: number;
   categoryId: number;
-  category: Category;
   brandId: number;
+  unitOfMeasureId: number;
+  category: Category;
   brand: Brand;
+  unitOfMeasure: UnitOfMeasure;
+}
+
+export interface UnitOfMeasure {
+  id: number;
+  name: string;
+  abbreviation: string;
 }
 
 export interface Category {
@@ -85,8 +93,6 @@ export interface ICategoryOffer {
   discount: number;
   category: Category;
 }
-
-
 
 // export interface ICategory{
 //   id: number;

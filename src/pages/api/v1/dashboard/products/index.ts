@@ -20,6 +20,7 @@ export default async function handler(
             include: {
               category: true,
               brand: true,
+              unitOfMeasure: true,
             },
           });
           return products.length
@@ -38,6 +39,7 @@ export default async function handler(
             include: {
               category: true,
               brand: true,
+              unitOfMeasure: true,
             },
           });
           return products.length
@@ -57,6 +59,7 @@ export default async function handler(
             include: {
               category: true,
               brand: true,
+              unitOfMeasure: true,
             },
           });
           return products.length
@@ -70,6 +73,7 @@ export default async function handler(
           include: {
             category: true,
             brand: true,
+            unitOfMeasure: true,
           },
         });
         products.length

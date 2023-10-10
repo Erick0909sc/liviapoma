@@ -25,6 +25,7 @@ export const editProductByApi = async (productData: {
   image: string;
   discount: number;
   categoryId: number;
+  unitOfMeasureId: number;
 }) =>
   axios.put(`/api/v1/dashboard/products/${productData.code}`, {
     ...productData,

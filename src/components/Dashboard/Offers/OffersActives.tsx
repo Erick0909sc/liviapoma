@@ -6,7 +6,6 @@ import {
 } from "@/states/dashboard/offers/offersSlice";
 import { useAppDispatch } from "@/states/store";
 import { useEffect } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Card from "./Card";
 

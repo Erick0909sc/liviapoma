@@ -25,17 +25,27 @@ import Categories from "@/components/Categories/Categories";
 import { dataTest } from "@/data/products";
 import Product from "@/components/Offerts/Product";
 import Card from "@/components/card";
+import {
+  getAllProductsDiscount,
+  selectAllProductsDiscount,
+  selectAllProductsDiscountStatus,
+} from "@/states/products/productsSlice";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const offersStatus = useSelector(selectAllOffersStatus);
   const offers = useSelector(selectAllOffers);
+  const productsDiscountStatus = useSelector(selectAllProductsDiscountStatus);
+  const productsDiscount = useSelector(selectAllProductsDiscount);
   const slidesPerView = 1;
 
   useEffect(() => {
     (async () => {
       if (offersStatus === EStateGeneric.IDLE) {
         await dispatch(getAllOffers());
+      }
+      if (productsDiscountStatus === EStateGeneric.IDLE) {
+        await dispatch(getAllProductsDiscount());
       }
     })();
     return () => {
@@ -106,7 +116,7 @@ export default function Home() {
           </Swiper>
         </div>
         <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
-          {dataTest.map((e, index: number) => (
+          {productsDiscount.map((e, index: number) => (
             <Product key={index} oferta={e} />
           ))}
         </div>

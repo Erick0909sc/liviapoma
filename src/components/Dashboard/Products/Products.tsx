@@ -85,7 +85,7 @@ const Products = () => {
                 category={product.category}
                 discount={product.discount}
                 image={product.image}
-                // openModal={openModal}
+                unitOfMeasure={product.unitOfMeasure}
               />
             </div>
           ))}

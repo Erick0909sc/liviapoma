@@ -6,9 +6,7 @@ import {
 } from "@/states/dashboard/offers/offersSlice";
 import { useAppDispatch } from "@/states/store";
 import { useEffect } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import Card from "./Card";
 
 type Props = {};
 
@@ -24,11 +22,6 @@ const OffersDisabled = (props: Props) => {
         await dispatch(getAllOffersDisabled());
       }
     })();
-    return () => {
-      // if (offersDisabledStatus === EStateGeneric.SUCCEEDED) {
-      //   dispatch(cleanUpOfferts());
-      // }
-    };
   }, [dispatch, offersDisabledStatus]);
   return (
     <>
@@ -41,7 +34,16 @@ const OffersDisabled = (props: Props) => {
           )}
           <div className="grid grid-cols-1 ss:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
             {offersDisabled.map((offer, index) => (
-              <Card key={index} {...offer} />
+              <div
+                className="w-full flex flex-col justify-between bg-white rounded-lg overflow-hidden shadow-md"
+                key={index}
+              >
+                <img
+                  src={offer.image}
+                  alt="Oferta"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
             ))}
           </div>
         </div>
