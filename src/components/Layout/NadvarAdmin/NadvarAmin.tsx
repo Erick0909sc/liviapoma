@@ -26,7 +26,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
   };
 
   return (
-    <nav className={`flex items-center text-white justify-between h-16 bg-green-900`}>
+    <nav className={`flex items-center text-white justify-between h-16 bg-blue-900`}>
       <div className="flex items-center">
         <button onClick={toggleSidebarVisibility}>
           <ImMenu className="text-3xl"/>

@@ -34,21 +34,23 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                 <>
                     <h2 className="text-lg font-bold mb-2">{renderUserName()}</h2>
                     <ul className="space-y-3 text-center font-semibold">
-                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                            <Link href="#">
+                        <Link href="#">
+                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                                 <a onClick={onClose}>Perfil de Usuario</a>
-                            </Link>
-                        </li>
-                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                            <Link href="/dashboard">
+                            </li>
+                        </Link>
+
+                        <Link href="/dashboard">
+                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                                 <a onClick={onClose}>dashboard</a>
-                            </Link>
-                        </li>
-                        <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                            <Link href="/">
+                            </li>
+                        </Link>
+
+                        <Link href="/">
+                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
                                 <a onClick={handleLogout}>Cerrar Sesión</a>
-                            </Link>
-                        </li>
+                            </li>
+                        </Link>
                     </ul>
                 </>
             );

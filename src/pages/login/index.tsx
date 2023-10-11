@@ -78,12 +78,12 @@ const Login = (props: Props) => {
               Bienvenido
             </h1>
             <p className="text-3xl my-4">
-              Ingresa o Registrate para que seas parte de nuestra familia
+              Ingresa o Registrate para que ser parte de nuestra familia
             </p>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-tl from-yellow-400 to-green-600">
-          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-tl from-yellow-400 to-green-600 bg-no-repeat  items-center">
+        <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-gradient-to-t from-green-600 to-emerald-600">
+          <div className="absolute lg:hidden z-10 inset-0 bg-gradient-to-t from-green-600 to-emerald-600 items-center">
             <div className="absolute  inset-0 z-0"></div>
           </div>
 
@@ -152,7 +152,7 @@ const Login = (props: Props) => {
                 <a href="#">¿Olvidaste tu contraseña?</a>
               </div>
               <div className="px-4 pb-2 pt-4">
-                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-600 hover:bg-yellow-600 focus:outline-none">
+                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none">
                   Ingresar
                 </button>
               </div>

@@ -30,6 +30,7 @@ import {
   selectAllProductsDiscount,
   selectAllProductsDiscountStatus,
 } from "@/states/products/productsSlice";
+import { calcularPrecioConDescuento } from "@/shared/ultis";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
@@ -110,6 +111,8 @@ export default function Home() {
                   brand={product.brand?.name as string}
                   image={product.image}
                   category={product.category.name}
+                  discount={product.discount}
+                  discountedPrice={calcularPrecioConDescuento(product)}
                 />
               </SwiperSlide>
             ))}

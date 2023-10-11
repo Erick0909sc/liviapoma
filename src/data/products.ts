@@ -474,40 +474,19 @@ const productsData = [
 
 export const dataTest = [
   {
-    code: "0102002",
-    name: 'VARILLA CORRUGADA 3/8"',
-    description:
-      'Las varillas corrugadas de 3/8" de Siderperú son el reflejo de estabilidad en cada proyecto. Su diseño meticuloso garantiza una unión firme con el concreto, proporcionando el soporte necesario para tus creaciones. En cada curva, se esconde la solidez.',
-    price: 21.2,
-    image:
-      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
-    rating: 4,
-    discount: 15,
-    categoryId: 2,
-    deletedAt: null,
-    brandId: 2,
-    category: {
-      id: 2,
-      name: "Varillas",
-    },
-    brand: {
-      id: 2,
-      name: "SIDERPERU",
-    },
-  },
-  {
     code: "0101001",
-    name: "CEMENTO PACAS ROJO EXTRAFORTE 45.5 KG",
+    name: "CEMENTO PACAS ROJO EXTRAFORTE 42.5 KG",
     description:
       "Descubre la fuerza y durabilidad del cemento Pacasmayo en su variante roja. Diseñado para brindar una base sólida en cada construcción, este cemento representa pasión y excelencia. Tu proyecto encontrará su cimiento en la confiabilidad de Pacasmayo.",
     price: 30.4,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
     rating: 5,
-    discount: 10,
+    discount: 0,
     categoryId: 1,
     deletedAt: null,
     brandId: 1,
+    unitOfMeasureId: 3,
     category: {
       id: 1,
       name: "Cementos",
@@ -516,63 +495,123 @@ export const dataTest = [
       id: 1,
       name: "PACASMAYO",
     },
-  },
-  {
-    code: "0103001",
-    name: "ESTRIBOS P/COLUMNA (13 X 25)8.5 X 21 (C5)",
-    description:
-      "Los estribos para columna (13 X 25) de 8.5 X 21 (C5) son el detalle que marca la diferencia en tus construcciones. Diseñados para brindar una base estable y segura, estos estribos son una muestra de atención a los detalles y cuidado en cada proyecto.",
-    price: 27.5,
-    image:
-      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/11.webp",
-    rating: 0,
-    discount: 47,
-    categoryId: 3,
-    deletedAt: null,
-    brandId: null,
-    category: {
+    unitOfMeasure: {
       id: 3,
-      name: "Estribos",
+      name: "Unidad",
+      abbreviation: "Ud",
     },
-    brand: null,
   },
   {
-    code: "0104001",
-    name: "ALAMBRE NEGRO #8",
+    code: "0101002",
+    name: "CEMENTO PACAS AZUL FORTIMAX 42.5 KG",
     description:
-      "El alambre negro #8 es la herramienta que da forma a tus proyectos. Diseñado para unir y crear conexiones fuertes, este alambre es una extensión de tus ideas y sueños. Cada giro es una manifestación de la creatividad que fluye en tus construcciones.",
-    price: 4.5,
+      "El cemento Pacasmayo en su versión azul Fortimax te brinda la solidez que necesitas para tus proyectos. Cada bolsa es un símbolo de confianza y calidad, llevando tus construcciones al siguiente nivel. Con Fortimax, cada estructura toma vida en tonos de éxito.",
+    price: 33.7,
     image:
-      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/17.webp",
-    rating: 0,
-    discount: 55,
-    categoryId: 4,
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/02.webp",
+    rating: 3,
+    discount: 0,
+    categoryId: 1,
     deletedAt: null,
-    brandId: null,
+    brandId: 1,
+    unitOfMeasureId: 3,
     category: {
-      id: 4,
-      name: "Alambres",
+      id: 1,
+      name: "Cementos",
     },
-    brand: null,
+    brand: {
+      id: 1,
+      name: "PACASMAYO",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
   },
   {
-    code: "0103006",
-    name: "Los estribos para viga (25 X 25) ",
+    code: "0102001",
+    name: 'VARILLA CORRUGADA 1/2"',
     description:
-      "Los estribos para viga (25 X 25) de 18 X 20 (V3) son la unión de fuerza y resistencia en cada esquina. Diseñados para mantener la integridad de tus vigas, estos estribos son una muestra de que incluso en la construcción, la sinfonía de la solidez y la belleza resuena.",
-    price: 23,
+      'La varilla corrugada de Siderperú en calibre 1/2" es un pilar de fuerza en cada construcción. Cada pieza cuenta una historia de solidez y resistencia, asegurando que tus proyectos se mantengan firmes en el tiempo. Confiabilidad en cada doblez.',
+    price: 38,
     image:
-      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/16.webp",
-    rating: 0,
-    discount: 33,
-    categoryId: 7,
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/03.webp",
+    rating: 2,
+    discount: 0,
+    categoryId: 2,
     deletedAt: null,
-    brandId: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
     category: {
-      id: 7,
-      name: "Cumbreras",
+      id: 2,
+      name: "Varillas",
     },
-    brand: null,
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0102002",
+    name: 'VARILLA CORRUGADA 3/8"',
+    description:
+      'Las varillas corrugadas de 3/8" de Siderperú son el reflejo de estabilidad en cada proyecto. Su diseño meticuloso garantiza una unión firme con el concreto, proporcionando el soporte necesario para tus creaciones. En cada curva, se esconde la solidez.',
+    price: 21.2,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
+    rating: 4,
+    discount: 0,
+    categoryId: 2,
+    deletedAt: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0102003",
+    name: 'VARILLA CORRUGADA 12"',
+    description:
+      'Las varillas corrugadas de 12" de Siderperú representan el equilibrio entre resistencia y flexibilidad. Perfectamente diseñadas para brindar soporte en diversas aplicaciones, estas varillas son un testimonio de la calidad que impulsa tus construcciones.',
+    price: 34,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/05.webp",
+    rating: 4.5,
+    discount: 0,
+    categoryId: 2,
+    deletedAt: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
   },
 ];
 

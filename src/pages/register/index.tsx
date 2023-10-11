@@ -72,7 +72,7 @@ const Register = (props: Props) => {
   const photoPreview = formik.values.photo ? URL.createObjectURL(formik.values.photo) : Foto;
   return (
     <div>
-      <section className="bg-gradient-to-tl from-yellow-300 to-green-600">
+      <section className="bg-gradient-to-t from-green-600 to-emerald-600">
         <div className="flex justify-center min-h-screen">
           <div
             className="hidden bg-cover lg:block lg:w-2/5"
@@ -211,7 +211,7 @@ const Register = (props: Props) => {
 
                 <button
                   type="submit"
-                  className="mt-8 inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 bg-yellow-500 rounded-lg hover:bg-yellow-600focus:shadow-outline focus:outline-none"
+                  className="mt-8 inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 bg-yellow-500 hover:bg-yellow-600 rounded-lg hover:bg-yellow-600focus:shadow-outline focus:outline-none"
                 >
                   Registrar
                 </button>
