@@ -7,7 +7,7 @@ type Props = {
 
 const Cardcategory = ({ name }: Props) => {
   return (
-    <div className="w-36 text-center border-r border-slate-900">
+    <div className="w-40 p-4 border border-gray-300 rounded-lg hover:shadow-lg text-center">
       <div>
         <Link href={`/${encodeURIComponent(name)}`}>
           

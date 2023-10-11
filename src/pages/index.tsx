@@ -77,7 +77,7 @@ export default function Home() {
           <Image src={img} alt="img" className="aspect-video " />
         </div>
 
-        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
+        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex mt-3 ">
           {categoryStatus === EStateGeneric.PENDING && <p>Loading...</p>}
           {categoryStatus === EStateGeneric.FAILED && (
             <p>Failed to load Categories</p>
@@ -87,7 +87,7 @@ export default function Home() {
               <Cardcategory key={index} name={category.name} />
             ))}
         </div>
-        <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
+        <div className=" block md:hidden lg:hidden h-14 w-full bg-white mt-3">
           <Swiper
             slidesPerView={3}
             className="mySwiper swiper-h h-full bg-transparent"
