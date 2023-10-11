@@ -21,9 +21,9 @@ const ProductsPage = () => {
                 products: true,
               })
             }
-            className={`hover:bg-green-600 bg-green-500 p-2 w-full text-center ${
+            className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
               component.products
-                ? "text-white font-bold bg-green-600"
+                ? "text-white font-bold bg-crema-500"
                 : "text-black"
             }`}
           >
@@ -36,9 +36,9 @@ const ProductsPage = () => {
                 new: true,
               })
             }
-            className={`hover:bg-green-600 bg-green-500 p-2 w-full text-center ${
+            className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
               component.new
-                ? "text-white font-bold bg-green-600"
+                ? "text-white font-bold bg-crema-500"
                 : "text-black"
             }`}
           >

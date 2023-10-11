@@ -19,8 +19,8 @@ const Sidebar = ({ session }: Props) => {
     setActive(parts[parts.length - 1]);
   }, [pathname]);
   return (
-    <div className="absolute bg-green-900 w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex">
-      <div className="w-full text-white flex flex-col flex-shrink-0">
+    <div className="absolute bg-emerald-900 text-white w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex ">
+      <div className="w-full  flex flex-col flex-shrink-0">
         <div className="flex items-center text-center h-[10%] font-bold border-b-4 gap-1">
           <Link href={"#"}>
             <h2 className="text-[25px] cursor-pointer">Ferreteria Liviapoma</h2>

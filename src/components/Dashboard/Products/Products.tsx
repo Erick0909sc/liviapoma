@@ -73,7 +73,7 @@ const Products = () => {
       )}
 
       {productsStatus === EStateGeneric.SUCCEEDED && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center p-6">
+        <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
           {items.map((product, index) => (
             <div key={index}>
               <Card
@@ -85,7 +85,7 @@ const Products = () => {
                 category={product.category}
                 discount={product.discount}
                 image={product.image}
-                // openModal={openModal}
+                unitOfMeasure={product.unitOfMeasure}
               />
             </div>
           ))}

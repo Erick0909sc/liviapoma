@@ -100,6 +100,7 @@ export const editproduct = createAsyncThunk(
       image,
       discount,
       categoryId,
+      unitOfMeasureId,
     }: {
       code: string;
       name: string;
@@ -109,20 +110,11 @@ export const editproduct = createAsyncThunk(
       image: string;
       discount: number;
       categoryId: number;
+      unitOfMeasureId: number;
     },
     { rejectWithValue }
   ) => {
     try {
-      console.log("Datos del producto a editar:", {
-        code,
-        name,
-        description,
-        price,
-        brandId,
-        image,
-        discount,
-        categoryId,
-      });
       const response = await editProductByApi({
         code,
         name,
@@ -132,6 +124,7 @@ export const editproduct = createAsyncThunk(
         image,
         discount,
         categoryId,
+        unitOfMeasureId,
       });
       console.log(response);
       return response.data;

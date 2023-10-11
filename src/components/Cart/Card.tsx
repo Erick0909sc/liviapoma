@@ -54,7 +54,8 @@ const Card = ({ session, ...props }: Props) => {
           <span className="font-bold">{props.product.name}</span>
           <span className="text-gray-600">{props.product.category.name}</span>
           <span className="text-gray-600">
-            {formatPrice(props.product.price)}
+            {formatPrice(props.product.price)}{" "}
+            {props.product.unitOfMeasure.name}
           </span>
           <span className="text-crema-600">
             {props.product.discount
@@ -109,7 +110,7 @@ const Card = ({ session, ...props }: Props) => {
           )}
           <button
             type="button"
-            className="p-1 md:p-2 text-white bg-blue-950"
+            className="p-1 md:p-2 text-white bg-green-700"
             onClick={() =>
               handleItemsCart({
                 ...propsForFunctions,
@@ -132,6 +133,9 @@ const Card = ({ session, ...props }: Props) => {
           </button>
         </div>
         <div className="max-w-[50%] absolute bottom-0 right-0">
+          <span className="text-gray-600">
+            {props.product.unitOfMeasure.name} (x{props.quantity})
+          </span>{" "}
           {props.product.discount ? (
             <span className="text-crema-600 text-sm line-through">
               {formatPrice(props.quantity * props.product.price)}{" "}

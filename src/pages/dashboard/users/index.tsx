@@ -41,33 +41,21 @@ const UsersPage = (props: Props) => {
 
   return (
     <LayaoutAdmin title="Usuarios">
-      <div className="flex flex-col h-full justify-between   ">
+      <div className="grid  flex-col h-full   ">
         {usersStatus === EStateGeneric.PENDING && <p>Loading...</p>}
         {usersStatus === EStateGeneric.FAILED && <p>Failed to load products</p>}
 
         {usersStatus === EStateGeneric.SUCCEEDED && (
           <div className="overflow-x-auto ">
-            <table className="min-w-full table-auto ">
-              <thead>
-                <tr>
-                  <th className="p-2">id</th>
-                  <th className="p-2">Nombre</th>
-                  <th className="p-2">email</th>
-                  <th className="p-2">rol</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((user, index) => (
-                  <Users
-                    key={index}
-                    id={user.id}
-                    name={user.name}
-                    email={user.email}
-                    role={user.role}
-                  />
-                ))}
-              </tbody>
-            </table>
+            {items.map((user, index) => (
+              <Users
+                key={index}
+                id={user.id}
+                name={user.name}
+                email={user.email}
+                role={user.role}
+              />
+            ))}
           </div>
         )}
 

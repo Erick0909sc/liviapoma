@@ -8,10 +8,14 @@ type Props = {
   currentPage: number;
   setCurrentPage: (value: number) => void;
 };
-const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props) => {
-
+const Pagination = ({
+  items,
+  itemsPerPage,
+  currentPage,
+  setCurrentPage,
+}: Props) => {
   const maxPages = Math.ceil(items / itemsPerPage);
-  const maxPageNumbersToShow = 5
+  const maxPageNumbersToShow = 5;
   const getNumbersPages = () => {
     const halfMaxPageNumbersToShow = Math.floor(maxPageNumbersToShow / 2);
     let startPage = Math.max(currentPage - halfMaxPageNumbersToShow, 1);
@@ -21,7 +25,10 @@ const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props)
       startPage = Math.max(endPage - maxPageNumbersToShow + 1, 1);
     }
 
-    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, index) => startPage + index
+    );
   };
   const pages = getNumbersPages();
 
@@ -38,21 +45,28 @@ const Pagination = ({ items, itemsPerPage, currentPage, setCurrentPage }: Props)
       <button
         disabled={currentPage === 1}
         onClick={previousPage}
-        className="disabled:opacity-50 hover:text-indigo-800 text-indigo-700"
+        className="disabled:opacity-50 hover:text-green-800 text-green-700"
       >
         <IoIosArrowDropleftCircle className="text-4xl ss:text-5xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl" />
       </button>
-      {pages.map((number, index) =>
-        <button type="button"
+      {pages.map((number, index) => (
+        <button
+          type="button"
           key={index}
-          className={` px-2 py-0 xs:px-4 xs:py-2 rounded-full  hover:text-indigo-700 hover:bg-indigo-200 ${number === currentPage ? "bg-indigo-700 text-white" : "text-indigo-700 "}`}
-          onClick={() => setCurrentPage(number)}>
+          className={` px-2 py-0 xs:px-4 xs:py-2 rounded-full  hover:text-green-700 hover:bg-green-200 ${
+            number === currentPage
+              ? "bg-green-700 text-white"
+              : "text-green-700 "
+          }`}
+          onClick={() => setCurrentPage(number)}
+        >
           {number}
-        </button>)}
+        </button>
+      ))}
       <button
         disabled={currentPage === maxPages}
         onClick={nextPage}
-        className="disabled:opacity-50 hover:text-indigo-800 text-indigo-700"
+        className="disabled:opacity-50 hover:text-green-800 text-green-700"
       >
         <IoIosArrowDroprightCircle className="text-4xl ss:text-5xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl" />
       </button>

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "@/components/Layout/Layout";
 import {
   getAllProductsByCategory,
-  selectAllCategory,
   selectAllProducts,
   selectAllProductsByCategory,
 } from "@/states/products/productsSlice";
@@ -13,20 +12,16 @@ import { useAppDispatch } from "@/states/store";
 import FilterByCategory from "@/components/Filtros/FilterByCategory";
 import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import { itemsPerPage } from "@/shared/ultis";
+import { calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
 
 const CategoryPage = () => {
   const router = useRouter();
   const { category: urlCategory } = router.query; // Cambia el nombre de la variable a urlCategory
   const dispatch = useAppDispatch();
   const productsByCategory = useSelector(selectAllProductsByCategory);
-  const categories = useSelector(selectAllCategory);
   const products = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState("");
- 
 
-  const categoryNames = categories.map((category) => category.name);
-  // cosas para el paginado
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
   const maxItems = currentPage * itemsPerPage;
@@ -75,6 +70,8 @@ const CategoryPage = () => {
             image={product.image}
             brand={product.brand?.name}
             category={product.category.name}
+            discount={product.discount}
+            discountedPrice={calcularPrecioConDescuento(product)}
           />
         ))}
       </div>

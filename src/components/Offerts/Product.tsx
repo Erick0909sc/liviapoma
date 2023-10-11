@@ -1,9 +1,11 @@
 import { calcularPrecioConDescuento, formatPrice } from "@/shared/ultis";
+import Link from "next/link";
 type Props = { oferta: any };
 
 const Product = ({ oferta }: Props) => {
   return (
-    <div className="bg-crema-100 p-4 rounded-lg shadow-md w-full xs:w-11/12 ss:w-10/12 sm:w-9/12 md:w-8/12 lg:w-10/12 xl:w-11/12 max-w-6xl mx-auto border-4 border-green-600">
+    <div className="bg-white p-4 rounded-lg shadow-md w-full xs:w-11/12 ss:w-10/12 sm:w-9/12 md:w-8/12 lg:w-10/12 xl:w-11/12 max-w-6xl mx-auto border-4 border-green-600">
+    {/* <div className="bg-crema-100 p-4 rounded-lg shadow-md w-full xs:w-11/12 ss:w-10/12 sm:w-9/12 md:w-8/12 lg:w-10/12 xl:w-11/12 max-w-6xl mx-auto border-4 border-green-600"> */}
       <div className="relative p-0 sm:pt-16 lg:p-0">
         <div className="sm:absolute my-2 md:m-0 top-0 left-0 bg-green-700 text-white text-lg md:text-3xl font-semibold px-4 py-2 rounded-tr-lg rounded-bl-lg">
           ¡OFERTA IMPERDIBLE!
@@ -42,6 +44,11 @@ const Product = ({ oferta }: Props) => {
           {formatPrice(oferta.price - calcularPrecioConDescuento(oferta))}
         </span>
       </div>
+      <Link href={`/products/${oferta.code}`}>
+        <span className="block bg-green-500 hover:bg-green-600 text-white font-semibold text-center py-2 px-4 sm:p-4 rounded-full mt-4 text-xl">
+          Ver detalles del producto
+        </span>
+      </Link>
     </div>
   );
 };

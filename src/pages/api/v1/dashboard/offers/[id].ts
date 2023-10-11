@@ -3,6 +3,7 @@ import prisma from "@/lib/prismadb";
 import {
   desactivateOfferProductsByBrand,
   desactivateOfferProductsByCategory,
+  updateProductsOffer,
 } from "@/controllers/offerController";
 
 type Category = {
@@ -92,9 +93,20 @@ export default async function handler(
             },
           },
         });
-        res
-          .status(200)
-          .json({ updatedOferta, message: "Oferta actualizada correctamente" });
+        const response = await updateProductsOffer({
+          items: [...categories, ...brands],
+        });
+        if (response.success) {
+          return res.status(200).json({
+            updatedOferta,
+            message: "Oferta actualizada correctamente",
+          });
+        } else {
+          return res.status(400).json({
+            updatedOferta,
+            message: "Algo salió mal. Por favor, inténtelo de nuevo.",
+          });
+        }
       } catch (error) {
         res.status(500).json(error);
       }

@@ -2,6 +2,8 @@ import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import { EStateGeneric } from "@/shared/types";
 import {
+  calcularPrecioConDescuento,
+  formatPrice,
   handleDelete,
   handleInputChange,
   handleItemsCart,
@@ -40,6 +42,7 @@ const Detail = (props: Props) => {
   const productFind = cart.products?.find(
     (item) => item.productCode === product.code
   );
+  const [currentCode, setCurrentCode] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [checkout, setCheckout] = useState(false);
@@ -54,21 +57,23 @@ const Detail = (props: Props) => {
     getCart: () => dispatch(getCartUser(session?.user.id as string)),
   };
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     (async () => {
       if (router.isReady) {
         const { code } = router.query;
-        if (status === EStateGeneric.IDLE) {
-          dispatch(getOneProduct(code as string));
+        if (currentCode !== code) {
+          setCurrentCode(code as string);
+          await dispatch(getOneProduct(code as string));
         }
         if (cartStatus === EStateGeneric.IDLE && session) {
           dispatch(getCartUser(session.user.id));
         }
       }
     })();
-    return () => {
+    if (currentCode !== router.query.code) {
       dispatch(cleanUpProduct());
-    };
+    }
   }, [router.query.code, session]);
 
   useEffect(() => {
@@ -139,10 +144,31 @@ const Detail = (props: Props) => {
                           {product.description}
                         </p>
                         <p className="inline-block text-2xl font-semibold text-gray-700">
-                          <span>S./{product.price}</span>
-                          {/* <span className="text-base font-normal dark:text-gray-400">
-                            $esto lo dejo por si hay descuento
-                          </span> */}
+                          {/* <span>S./{product.price}</span> */}
+                          {product.discount > 0 ? (
+                            <>
+                              <span className="line-through text-gray-500 text-base">
+                                antes: {formatPrice(product.price)}
+                              </span>
+                              &nbsp;
+                              <span className="text-xl text-black">
+                                ahora:
+                                {formatPrice(
+                                  calcularPrecioConDescuento(product)
+                                )}
+                              </span>
+                              <p className="text-sm font-black text-red-500 mt-2 ">
+                                {product.discount > 0
+                                  ? `Ahorrate! : ${formatPrice(
+                                      product.price -
+                                        calcularPrecioConDescuento(product)
+                                    )}`
+                                  : null}
+                              </p>
+                            </>
+                          ) : (
+                            `${formatPrice(product.price)}`
+                          )}
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center ">
