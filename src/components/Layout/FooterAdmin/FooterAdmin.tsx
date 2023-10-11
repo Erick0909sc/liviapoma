@@ -6,7 +6,7 @@ type FooterAdminProps  = {
 
 const FooterAdmin: React.FC<FooterAdminProps> = ({ className }) => {
   return (
-    <div className= {` bg-green-900  lg:h-10 text-white flex items-center justify-center ${className}`}>
+    <div className= {` bg-blue-900  lg:h-10 text-white flex items-center justify-center ${className}`}>
         <h2>Liviapoma corporation <b>2023 - derechos reservados</b></h2>
     </div>
   )

@@ -19,7 +19,7 @@ const Sidebar = ({ session }: Props) => {
     setActive(parts[parts.length - 1]);
   }, [pathname]);
   return (
-    <div className="absolute bg-green-900 w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex">
+    <div className="absolute bg-blue-800 w-full xs:min-w-[18rem] xs:max-w-[18rem] h-[calc(100vh-56px)] sm:h-full z-10  lg:static top-14 bottom-0 flex">
       <div className="w-full text-white flex flex-col flex-shrink-0">
         <div className="flex items-center text-center h-[10%] font-bold border-b-4 gap-1">
           <Link href={"#"}>
