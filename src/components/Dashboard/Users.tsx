@@ -1,5 +1,5 @@
 
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaUserEdit, FaSave } from 'react-icons/fa';
 import { TiUserDelete } from "react-icons/ti";
 import { useSelector } from 'react-redux';
@@ -28,41 +28,52 @@ const Users = ({ id, name, email, role }: Props) => {
 
 
   const handleSaveRole = () => {
-    console.log("ID del usuario:", id);
-    console.log("Nuevo rol:", editedRole);
+    // console.log("ID del usuario:", id);
+    // console.log("Nuevo rol:", editedRole);
     dispatch(editRolUsers({ id, role: editedRole }));
     setIsEditing(false);
   };
 
   return (
-    <tr className="text-center">
-      <td className="px-2 py-1">{id}</td>
-      <td className="px-2 py-1">{name}</td>
-      <td className="px-2 py-1">{email}</td>
-      <td className="px-2 py-1">
-        {isEditing ? (
+    <div className="bg-white border rounded-lg shadow-lg">
+      <div className="p-4">
+        <p className="text-sm">Nombre: {name}</p>
+        <p className="text-sm">Email: {email}</p>
+        <p className="text-sm">Rol: {isEditing ? (
           <select
             value={editedRole}
             onChange={(e) => handleRoleChange(e.target.value)}
+            className="border rounded p-1"
           >
             <option value="Admin">Admin</option>
             <option value="Manager">Manager</option>
             <option value="User">User</option>
-
           </select>
         ) : (
           <span>{editedRole}</span>
         )}
-      </td>
-      <td className="px-2 py-1 flex gap-4  ">
+        </p>
+      </div>
+      <div className="p-4 flex gap-4">
         {isEditing ? (
-          <button onClick={handleSaveRole} className='flex text-[15px] bg-green-600 p-1 px-2 text-white rounded-[10px]'><FaSave className='text-[18px] '/> Guardar</button>
+          <button onClick={handleSaveRole} className="bg-green-600 text-white py-1 px-4 rounded inline-flex">
+            <FaSave />
+            Guardar
+          </button>
         ) : (
-          <button onClick={() => setIsEditing(true)} className='flex gap-2 bg-blue-600 p-1 px-2 text-white rounded-[10px]'><FaUserEdit className='text-[18px]'/>Editar</button>
+          <button onClick={() => setIsEditing(true)} className="bg-blue-600 text-white py-1 px-4 rounded inline-flex">
+            <FaUserEdit />
+            Editar
+          </button>
         )}
-        <button className='flex text-[15px] gap-2 bg-red-600 p-1 px-2 text-white rounded-[10px]  '><TiUserDelete  className='text-[18px]'/>Eliminar</button>
-      </td>
-    </tr>
+        <button className="bg-red-600 text-white py-1 px-4 rounded inline-flex">
+          <TiUserDelete />
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+
   )
 }
 

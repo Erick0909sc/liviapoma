@@ -13,7 +13,7 @@ import { useAppDispatch } from "@/states/store";
 import FilterByCategory from "@/components/Filtros/FilterByCategory";
 import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import { itemsPerPage } from "@/shared/ultis";
+import { calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
 
 const CategoryPage = () => {
   const router = useRouter();
@@ -23,7 +23,6 @@ const CategoryPage = () => {
   const categories = useSelector(selectAllCategory);
   const products = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState("");
- 
 
   const categoryNames = categories.map((category) => category.name);
   // cosas para el paginado
@@ -75,6 +74,8 @@ const CategoryPage = () => {
             image={product.image}
             brand={product.brand?.name}
             category={product.category.name}
+            discount={product.discount}
+            discountedPrice={calcularPrecioConDescuento(product)}
           />
         ))}
       </div>

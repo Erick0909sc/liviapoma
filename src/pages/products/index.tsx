@@ -12,7 +12,7 @@ import { EStateGeneric, IProduct } from "@/shared/types";
 import { useAppDispatch } from "@/states/store";
 import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import { itemsPerPage } from "@/shared/ultis";
+import { calcularDescuentoItemCart, calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
 
 import { useSession } from "next-auth/react";
 
@@ -80,7 +80,7 @@ const Products: React.FC = () => {
         }
       }
     };
-  
+
     fetchData();
   }, [dispatch, productsStatus, session, selectedCategory]);
   const handleCategoryChange = (newCategory: string) => {
@@ -88,12 +88,12 @@ const Products: React.FC = () => {
     router.push(`/products?category=${newCategory}`);
   };
 
-  
+
   return (
     <Layout title="Productos">
       <>
         <FilterByCategory
-          
+
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}
         />
@@ -115,6 +115,8 @@ const Products: React.FC = () => {
                   brand={product.brand?.name}
                   image={product.image}
                   category={product.category.name}
+                  discount={product.discount} 
+                  discountedPrice={calcularPrecioConDescuento(product)}
                 />
               ))}
             </div>

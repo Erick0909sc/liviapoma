@@ -2,6 +2,8 @@ import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import { EStateGeneric } from "@/shared/types";
 import {
+  calcularPrecioConDescuento,
+  formatPrice,
   handleDelete,
   handleInputChange,
   handleItemsCart,
@@ -139,10 +141,26 @@ const Detail = (props: Props) => {
                           {product.description}
                         </p>
                         <p className="inline-block text-2xl font-semibold text-gray-700">
-                          <span>S./{product.price}</span>
-                          {/* <span className="text-base font-normal dark:text-gray-400">
-                            $esto lo dejo por si hay descuento
-                          </span> */}
+                          {/* <span>S./{product.price}</span> */}
+                          {product.discount > 0 ? (
+                            <>
+                              <span className="line-through text-gray-500 text-base">
+                              antes: {formatPrice(product.price)}
+                              </span>
+                              &nbsp;
+                              <span className="text-xl text-black">
+                                ahora:{formatPrice(
+                                 calcularPrecioConDescuento(product)
+                                )}
+                              </span>
+                              <p className="text-sm font-black text-red-500 mt-2 ">
+                                {product.discount > 0 ? `Ahorrate! : ${formatPrice( (product.price) - (calcularPrecioConDescuento(product) ))}` : null}
+                              </p>
+                            </>
+                          ) : (
+                            `${formatPrice(product.price)}`
+                          )}
+
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center ">
@@ -156,10 +174,10 @@ const Detail = (props: Props) => {
                                     onClick={
                                       productFind && productFind.quantity > 1
                                         ? () =>
-                                            handleItemsCart({
-                                              ...propsForFunctions,
-                                              value: productFind.quantity - 1,
-                                            })
+                                          handleItemsCart({
+                                            ...propsForFunctions,
+                                            value: productFind.quantity - 1,
+                                          })
                                         : () => setDeleteConfirmation(true)
                                     }
                                     disabled={isProcessing || !productFind}
@@ -192,9 +210,9 @@ const Detail = (props: Props) => {
                                       }
                                       productFind && productFind.quantity
                                         ? handleInputChange({
-                                            ...propsForFunctions,
-                                            value: input,
-                                          })
+                                          ...propsForFunctions,
+                                          value: input,
+                                        })
                                         : handleFirstItem();
                                     }}
                                   />
@@ -203,9 +221,9 @@ const Detail = (props: Props) => {
                                     onClick={() =>
                                       productFind && productFind.quantity
                                         ? handleItemsCart({
-                                            ...propsForFunctions,
-                                            value: productFind.quantity + 1,
-                                          })
+                                          ...propsForFunctions,
+                                          value: productFind.quantity + 1,
+                                        })
                                         : handleFirstItem()
                                     }
                                     disabled={isProcessing}
@@ -259,9 +277,9 @@ const Detail = (props: Props) => {
                             onClick={() =>
                               productFind && productFind.quantity
                                 ? handleItemsCart({
-                                    ...propsForFunctions,
-                                    value: productFind.quantity + 1,
-                                  })
+                                  ...propsForFunctions,
+                                  value: productFind.quantity + 1,
+                                })
                                 : handleFirstItem()
                             }
                             type="button"

@@ -10,7 +10,7 @@ import {
 import Card from "@/components/card";
 import { useAppDispatch } from "@/states/store";
 import Pagination from "@/components/pagination";
-import { itemsPerPage } from "@/shared/ultis";
+import { calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import Cardcategory from "@/components/CardCategory/Card";
 import useCategoriesData from "@/hooks/useCategoriesData";
@@ -103,6 +103,8 @@ const CategoryPage = () => {
               image={product.image}
               brand={product.brand?.name}
               category={product.category.name}
+              discount={product.discount}
+              discountedPrice={calcularPrecioConDescuento(product)}
             />
           ))}
         </div>

@@ -72,12 +72,12 @@ Props) {
   // }
 
   return (
-    <div className="bg-opacity-60 hover:bg-opacity-100 w-80  transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white">
+    <div className="bg-opacity-60 hover:bg-opacity-100  md:w-80  lg:w-80 transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white ">
       <div className=" p-2 bg-green-800 flex">
-        <div className="w-[30%]">
+        <div className="w-[30%] ">
           <button
             onClick={() => setDeleteConfirmation(true)}
-            className="text-white p-2 bg-orange-800 rounded-[10px]"
+            className="text-white p-2 bg-orange-800 rounded-[10px] flex"
           >
             <AiFillEye className="inline-block mr-1" />
             Ocultar
@@ -104,7 +104,7 @@ Props) {
           <h2 className="text-[20px] font-bold">{name}</h2>
         </div>
 
-        <div className="relative w-72 h-36 mx-auto my-4">
+        <div className="relative  h-36 mx-auto my-4">
           <Image
             src={image}
             layout="fill"
