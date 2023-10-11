@@ -93,6 +93,7 @@ export default async function handler(
           image,
           discount,
           categoryId,
+          unitOfMeasureId,
           brandId,
         }: {
           code: string;
@@ -102,9 +103,18 @@ export default async function handler(
           image: string;
           discount: number;
           categoryId: number;
+          unitOfMeasureId: number;
           brandId: number;
         } = req.body;
-        if (!code || !name || !description || !price || !image || !categoryId) {
+        if (
+          !code ||
+          !name ||
+          !description ||
+          !price ||
+          !image ||
+          !categoryId ||
+          !unitOfMeasureId
+        ) {
           return res
             .status(400)
             .json({ message: "Todos los campos son obligatorios." });
@@ -126,6 +136,7 @@ export default async function handler(
             rating: 0,
             discount,
             categoryId,
+            unitOfMeasureId,
             brandId,
           },
         });
