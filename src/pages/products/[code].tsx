@@ -56,6 +56,7 @@ const Detail = (props: Props) => {
     getCart: () => dispatch(getCartUser(session?.user.id as string)),
   };
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -68,9 +69,9 @@ const Detail = (props: Props) => {
         }
       }
     })();
-    return () => {
+    if (router.query.code !== product.code) {
       dispatch(cleanUpProduct());
-    };
+    }
   }, [router.query.code, session]);
 
   useEffect(() => {
