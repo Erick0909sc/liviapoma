@@ -52,12 +52,11 @@ const CategoryPage = () => {
 
   return (
     <Layout title={`Productos de la categoría ${category}`}>
-      <h6 className="text-xl font-normal leading-normal mt-5 mb-2 text-black flex justify-center items-center">Usted esta en la categoria: {category}</h6>
       <div>
-        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex ">
-          <div className="w-40 text-center border-r border-slate-900">
+        <div className=" gap-2 w-full justify-center h-14 items-center hidden sm:flex mt-4">
+          <div className="w-40 p-4 border border-gray-300 rounded-lg hover:shadow-lg text-center">
             <Link href="/products">
-              <h2 className="font-bold cursor-pointer hover:text-red-500 mx-1">
+              <h2 className="font-bold cursor-pointer hover:text-crema-400 ">
                 Todos los productos
               </h2>
             </Link>
@@ -66,7 +65,7 @@ const CategoryPage = () => {
             <Cardcategory key={index} name={category} />
           ))}
         </div>
-        <div className=" block md:hidden lg:hidden h-14 w-full bg-white ">
+        <div className=" block md:hidden lg:hidden h-20 w-full bg-white mt-3">
           <Swiper
             slidesPerView={3}
             className="mySwiper swiper-h h-full bg-transparent"
