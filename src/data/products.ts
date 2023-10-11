@@ -11,6 +11,7 @@ const productsData = [
     rating: 5,
     discount: 0,
     categoryId: 1,
+    unitOfMeasureId: 3,
   },
   {
     code: "0101002",
@@ -24,6 +25,7 @@ const productsData = [
     rating: 3,
     discount: 0,
     categoryId: 1,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102001",
@@ -37,6 +39,7 @@ const productsData = [
     rating: 2,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102002",
@@ -50,6 +53,7 @@ const productsData = [
     rating: 4,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102003",
@@ -63,6 +67,7 @@ const productsData = [
     rating: 4.5,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102004",
@@ -76,6 +81,7 @@ const productsData = [
     rating: 3.5,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102005",
@@ -89,6 +95,7 @@ const productsData = [
     rating: 4,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102006",
@@ -102,6 +109,7 @@ const productsData = [
     rating: 1,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102007",
@@ -115,6 +123,7 @@ const productsData = [
     rating: 3,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0102008",
@@ -128,6 +137,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 2,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103001",
@@ -140,6 +150,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103002",
@@ -152,6 +163,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103003",
@@ -164,6 +176,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103004",
@@ -176,6 +189,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103005",
@@ -188,6 +202,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0103006",
@@ -200,6 +215,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 3,
+    unitOfMeasureId: 3,
   },
   {
     code: "0104001",
@@ -212,6 +228,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 4,
+    unitOfMeasureId: 3,
   },
   {
     code: "0104002",
@@ -224,6 +241,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 4,
+    unitOfMeasureId: 3,
   },
   {
     code: "0201001",
@@ -236,6 +254,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201002",
@@ -248,6 +267,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201003",
@@ -260,6 +280,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201004",
@@ -272,6 +293,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201005",
@@ -284,6 +306,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201006",
@@ -296,6 +319,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201007",
@@ -308,6 +332,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201008",
@@ -320,6 +345,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201009",
@@ -332,6 +358,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201010",
@@ -344,6 +371,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0201011",
@@ -356,6 +384,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 5,
+    unitOfMeasureId: 1,
   },
   {
     code: "0301001",
@@ -369,6 +398,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 6,
+    unitOfMeasureId: 3,
   },
   {
     code: "0301002",
@@ -382,6 +412,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 6,
+    unitOfMeasureId: 3,
   },
   {
     code: "0301003",
@@ -395,6 +426,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 6,
+    unitOfMeasureId: 3,
   },
   {
     code: "0301004",
@@ -408,6 +440,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 6,
+    unitOfMeasureId: 3,
   },
   {
     code: "0301006",
@@ -421,6 +454,7 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 7,
+    unitOfMeasureId: 3,
   },
   {
     code: "0301007",
@@ -434,6 +468,150 @@ const productsData = [
     rating: 0,
     discount: 0,
     categoryId: 7,
+    unitOfMeasureId: 3,
+  },
+];
+
+export const dataTest = [
+  {
+    code: "0101001",
+    name: "CEMENTO PACAS ROJO EXTRAFORTE 42.5 KG",
+    description:
+      "Descubre la fuerza y durabilidad del cemento Pacasmayo en su variante roja. Diseñado para brindar una base sólida en cada construcción, este cemento representa pasión y excelencia. Tu proyecto encontrará su cimiento en la confiabilidad de Pacasmayo.",
+    price: 30.4,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
+    rating: 5,
+    discount: 0,
+    categoryId: 1,
+    deletedAt: null,
+    brandId: 1,
+    unitOfMeasureId: 3,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+    brand: {
+      id: 1,
+      name: "PACASMAYO",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0101002",
+    name: "CEMENTO PACAS AZUL FORTIMAX 42.5 KG",
+    description:
+      "El cemento Pacasmayo en su versión azul Fortimax te brinda la solidez que necesitas para tus proyectos. Cada bolsa es un símbolo de confianza y calidad, llevando tus construcciones al siguiente nivel. Con Fortimax, cada estructura toma vida en tonos de éxito.",
+    price: 33.7,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/02.webp",
+    rating: 3,
+    discount: 0,
+    categoryId: 1,
+    deletedAt: null,
+    brandId: 1,
+    unitOfMeasureId: 3,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+    brand: {
+      id: 1,
+      name: "PACASMAYO",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0102001",
+    name: 'VARILLA CORRUGADA 1/2"',
+    description:
+      'La varilla corrugada de Siderperú en calibre 1/2" es un pilar de fuerza en cada construcción. Cada pieza cuenta una historia de solidez y resistencia, asegurando que tus proyectos se mantengan firmes en el tiempo. Confiabilidad en cada doblez.',
+    price: 38,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/03.webp",
+    rating: 2,
+    discount: 0,
+    categoryId: 2,
+    deletedAt: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0102002",
+    name: 'VARILLA CORRUGADA 3/8"',
+    description:
+      'Las varillas corrugadas de 3/8" de Siderperú son el reflejo de estabilidad en cada proyecto. Su diseño meticuloso garantiza una unión firme con el concreto, proporcionando el soporte necesario para tus creaciones. En cada curva, se esconde la solidez.',
+    price: 21.2,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
+    rating: 4,
+    discount: 0,
+    categoryId: 2,
+    deletedAt: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
+  },
+  {
+    code: "0102003",
+    name: 'VARILLA CORRUGADA 12"',
+    description:
+      'Las varillas corrugadas de 12" de Siderperú representan el equilibrio entre resistencia y flexibilidad. Perfectamente diseñadas para brindar soporte en diversas aplicaciones, estas varillas son un testimonio de la calidad que impulsa tus construcciones.',
+    price: 34,
+    image:
+      "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/05.webp",
+    rating: 4.5,
+    discount: 0,
+    categoryId: 2,
+    deletedAt: null,
+    brandId: 2,
+    unitOfMeasureId: 3,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+    brand: {
+      id: 2,
+      name: "SIDERPERU",
+    },
+    unitOfMeasure: {
+      id: 3,
+      name: "Unidad",
+      abbreviation: "Ud",
+    },
   },
 ];
 

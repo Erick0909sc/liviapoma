@@ -39,7 +39,7 @@ const Card: React.FC<Props> = ({
   return (
     <>
 
-      <div className="relative mt-8 rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl  mx-auto border border-white bg-white">
+      <div className="relative rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl  mx-auto border border-white bg-white">
         <Link href={`products/${code}`}>
           <div className="cursor-pointer w-full sm:flex">
             <div className="w-full sm:w-1/3 bg-white flex justify-center">

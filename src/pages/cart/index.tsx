@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 type Props = {};
 
 const Cart = (props: Props) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cartStatus = useSelector(selectAllCartStatus);
@@ -40,7 +40,6 @@ const Cart = (props: Props) => {
       }
     };
   }, [session, dispatch]);
-
   return (
     <Layout title="Carro de compras">
       <div className="flex flex-col items-center">
@@ -64,13 +63,6 @@ const Cart = (props: Props) => {
                 </div>
               </div>
             )}
-            {cartStatus === EStateGeneric.IDLE && (
-              <div className="md:flex gap-4">
-                <p>
-                  Loading...
-                </p>
-              </div>
-            )}
             {cartStatus === EStateGeneric.FAILED && (
               <div className="md:flex gap-4">
                 <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
@@ -89,7 +81,12 @@ const Cart = (props: Props) => {
             )}
           </div>
         )}
-        {!session && (
+        {status === "loading" && (
+          <div className="md:flex gap-4">
+            <p>Loading...</p>
+          </div>
+        )}
+        {status === "unauthenticated" && (
           <div className="md:p-10 max-w-screen-2xl w-full">
             <div className="md:flex">
               <div className="flex-1 bg-white p-4 rounded-lg shadow-md">

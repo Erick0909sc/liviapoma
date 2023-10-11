@@ -3,6 +3,7 @@ import prisma from "@/lib/prismadb";
 import productsData from "@/data/products";
 import categoriesData from "@/data/categories";
 import brandsData from "@/data/brands";
+import { measuresData } from "@/data/measures";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,6 +14,7 @@ export default async function handler(
     case "GET":
       try {
         const categories = await prisma.category.findMany();
+        const unitOfMeasure = await prisma.unitOfMeasure.findMany();
         const brands = await prisma.brand.findMany();
         const products = await prisma.product.findMany({
           where: {
@@ -21,6 +23,7 @@ export default async function handler(
         });
         res.status(200).json({
           products: products.length,
+          unitOfMeasure: unitOfMeasure.length,
           categories: categories.length,
           brands: brands.length,
         });
@@ -30,10 +33,19 @@ export default async function handler(
       break;
     case "POST":
       try {
+        const unitOfMeasure = await prisma.unitOfMeasure.findMany();
         const categories = await prisma.category.findMany();
         const brands = await prisma.brand.findMany();
         const products = await prisma.product.findMany();
-        if (!products.length && !categories.length && !brands.length) {
+        if (
+          !products.length &&
+          !categories.length &&
+          !brands.length &&
+          !unitOfMeasure.length
+        ) {
+          const unitOfMeasure = await prisma.unitOfMeasure.createMany({
+            data: measuresData,
+          });
           const categories = await prisma.category.createMany({
             data: categoriesData,
           });
@@ -43,7 +55,9 @@ export default async function handler(
           const products = await prisma.product.createMany({
             data: productsData,
           });
-          return res.status(200).json({ products, categories, brands });
+          return res
+            .status(200)
+            .json({ products, categories, brands, unitOfMeasure });
         }
         res.status(400).json({ message: "The data already exists" });
       } catch (error) {

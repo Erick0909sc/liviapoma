@@ -9,17 +9,10 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { code } = req.query;
-        const product = await prisma.product.findUnique({
-          where: {
-            code: code as string,
-            deletedAt: null,
-          },
-          include: { category: true, brand: true, unitOfMeasure: true },
-        });
-        product
-          ? res.status(200).json(product)
-          : res.status(404).json({ message: "product not found" });
+        const measures = await prisma.unitOfMeasure.findMany();
+        measures.length
+          ? res.status(200).json(measures)
+          : res.status(400).json({ message: "measures not found" });
       } catch (error) {
         res.status(500).json(error);
       }

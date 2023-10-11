@@ -1,7 +1,10 @@
 import useBrandsData from "@/hooks/useBrandsData";
 import useCategoriesData from "@/hooks/useCategoriesData";
 import { ProductTranslation } from "@/shared/translate";
-import { editproduct, getAllProducts } from "@/states/dashboard/products/productsSlice";
+import {
+  editproduct,
+  getAllProducts,
+} from "@/states/dashboard/products/productsSlice";
 import { RootState, useAppDispatch } from "@/states/store";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
@@ -15,6 +18,7 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import request from "axios";
 import { processImage } from "@/shared/ultis";
+import useMeasuresData from "@/hooks/useMeasuresData";
 
 type Props = {
   productData: {
@@ -26,6 +30,7 @@ type Props = {
     image: string;
     discount: number;
     categoryId: number;
+    unitOfMeasureId: number;
   };
   closeModal: () => void;
 };
@@ -34,12 +39,16 @@ const EditProduct = ({ productData, closeModal }: Props) => {
   const dispatch = useAppDispatch();
   const categories = useCategoriesData();
   const brands = useBrandsData();
+  const meaures = useMeasuresData();
   const initialValues = {
     code: productData.code,
     name: productData.name,
     description: productData.description,
     price: productData.price,
     brandId: productData.brandId ? productData.brandId : "",
+    unitOfMeasureId: productData.unitOfMeasureId
+      ? productData.unitOfMeasureId
+      : "",
     image: null as File | null,
     discount: productData.discount,
     categoryId: productData.categoryId ? productData.categoryId : "",
@@ -58,6 +67,7 @@ const EditProduct = ({ productData, closeModal }: Props) => {
       .max(100, "El descuento no puede ser mayor que 100")
       .optional(),
     categoryId: Yup.number().required("El ID de la categoría es requerido"),
+    unitOfMeasureId: Yup.number().required("El ID de la medida es requerido"),
   });
   const formik = useFormik({
     initialValues,
@@ -66,6 +76,7 @@ const EditProduct = ({ productData, closeModal }: Props) => {
       try {
         const categoryId = parseInt(values.categoryId as string);
         const brandId = parseInt(values.brandId as string);
+        const unitOfMeasureId = parseInt(values.unitOfMeasureId as string);
         let responseImage;
         if (values.image) {
           responseImage = await processImage(values.image);
@@ -74,6 +85,7 @@ const EditProduct = ({ productData, closeModal }: Props) => {
           editproduct({
             ...values,
             categoryId,
+            unitOfMeasureId,
             brandId: brandId ? brandId : null,
             image: values.image ? responseImage?.data : productData.image,
           })
@@ -144,6 +156,13 @@ const EditProduct = ({ productData, closeModal }: Props) => {
             items={brands}
             fieldNameTranslate={ProductTranslation["brand"]}
             value={formik.values.brandId}
+          />
+          <CustomOptionsWithOnlyValue
+            formik={formik}
+            fieldName="unitOfMeasureId"
+            items={meaures}
+            fieldNameTranslate={ProductTranslation["measure"]}
+            value={formik.values.unitOfMeasureId}
           />
           <div className="col-span-2 text-center mt-4">
             <button

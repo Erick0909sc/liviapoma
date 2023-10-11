@@ -6,7 +6,7 @@ import {
   getProductByApi,
   getProductsByApi,
   getProductsByCategoryByApi,
-  getcategoriesByApi,
+  getProductsWithDiscountByApi,
 } from "./productsApi";
 
 export const getAllProducts = createAsyncThunk(
@@ -14,6 +14,18 @@ export const getAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getProductsByApi();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllProductsDiscount = createAsyncThunk(
+  "products/getAllProductsDiscount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getProductsWithDiscountByApi();
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -45,40 +57,26 @@ export const getOneProduct = createAsyncThunk(
   }
 );
 
-export const getAllCategories = createAsyncThunk(
-  "products/getAllCategories",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getcategoriesByApi();
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
 interface IProductsState {
   products: IProduct[];
+  productsDiscount: IProduct[];
   productsByCategory: IProduct[];
   product: IProduct;
-  topRatedProducts: IProduct[];
-  categories: ICategory[];
   allProductsStatus: EStateGeneric;
+  allProductsDiscountStatus: EStateGeneric;
   allProductsByCategoryStatus: EStateGeneric;
   oneProductStatus: EStateGeneric;
-  allCategoryStatus: EStateGeneric;
 }
 
 const initialState: IProductsState = {
   products: [],
+  productsDiscount: [],
   productsByCategory: [],
   product: {} as IProduct,
-  categories: [],
-  topRatedProducts: [],
   allProductsStatus: EStateGeneric.IDLE,
+  allProductsDiscountStatus: EStateGeneric.IDLE,
   allProductsByCategoryStatus: EStateGeneric.IDLE,
   oneProductStatus: EStateGeneric.IDLE,
-  allCategoryStatus: EStateGeneric.IDLE,
 };
 export const productsSlice = createSlice({
   name: "products",
@@ -105,16 +103,6 @@ export const productsSlice = createSlice({
         oneProductStatus: EStateGeneric.IDLE,
       };
     },
-    selectTopRatedProducts: (state) => {
-      const topRatedProducts = [...state.products].sort(
-        (a, b) => b.rating - a.rating
-      );
-      const orderbyratin = topRatedProducts.slice(0, 5);
-      return {
-        ...state,
-        topRatedProducts: orderbyratin,
-      };
-    },
   },
   extraReducers(builder) {
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
@@ -126,6 +114,17 @@ export const productsSlice = createSlice({
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
       state.allProductsStatus = EStateGeneric.FAILED;
+    });
+
+    builder.addCase(getAllProductsDiscount.fulfilled, (state, action) => {
+      state.productsDiscount = action.payload;
+      state.allProductsDiscountStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getAllProductsDiscount.pending, (state, action) => {
+      state.allProductsDiscountStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getAllProductsDiscount.rejected, (state, action) => {
+      state.allProductsDiscountStatus = EStateGeneric.FAILED;
     });
 
     builder.addCase(getAllProductsByCategory.fulfilled, (state, action) => {
@@ -149,38 +148,24 @@ export const productsSlice = createSlice({
     builder.addCase(getOneProduct.rejected, (state, action) => {
       state.oneProductStatus = EStateGeneric.FAILED;
     });
-
-    builder.addCase(getAllCategories.fulfilled, (state, action) => {
-      state.categories = action.payload;
-      state.allCategoryStatus = EStateGeneric.SUCCEEDED;
-    });
-    builder.addCase(getAllCategories.pending, (state, action) => {
-      state.allCategoryStatus = EStateGeneric.PENDING;
-    });
-    builder.addCase(getAllCategories.rejected, (state, action) => {
-      state.allCategoryStatus = EStateGeneric.FAILED;
-    });
   },
 });
 
-export const { cleanUpProducts, selectTopRatedProducts, cleanUpProduct } =
-  productsSlice.actions;
+export const { cleanUpProducts, cleanUpProduct } = productsSlice.actions;
 
 export const selectAllProducts = (state: RootState) => state.products.products;
+export const selectAllProductsDiscount = (state: RootState) =>
+  state.products.productsDiscount;
 export const selectAllProductsByCategory = (state: RootState) =>
   state.products.productsByCategory;
 export const selectOneProduct = (state: RootState) => state.products.product;
-export const selectProductByrating = (state: RootState) =>
-  state.products.topRatedProducts;
-export const selectAllCategory = (state: RootState) =>
-  state.products.categories;
 
-export const selectAllCategoriesStatus = (state: RootState) =>
-  state.products.allCategoryStatus;
 export const selectAllProductsByCategoryStatus = (state: RootState) =>
   state.products.allProductsByCategoryStatus;
 export const selectAllProductsStatus = (state: RootState) =>
   state.products.allProductsStatus;
+export const selectAllProductsDiscountStatus = (state: RootState) =>
+  state.products.allProductsDiscountStatus;
 export const selectOneProductStatus = (state: RootState) =>
   state.products.oneProductStatus;
 

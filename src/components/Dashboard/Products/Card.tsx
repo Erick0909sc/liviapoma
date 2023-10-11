@@ -21,7 +21,7 @@ type Props = {
   image: string;
   discount: number;
   category: { id: number; name: string };
-  // openModal: () => void;
+  unitOfMeasure: { id: number; name: string };
 };
 
 function Card({
@@ -32,9 +32,9 @@ function Card({
   brand,
   image,
   discount,
+  unitOfMeasure,
   category,
-}: // openModal,
-Props) {
+}: Props) {
   const dispatch = useAppDispatch();
   const [view, setView] = useState(true);
   const hiddenProducts = useSelector(selecthiddenproducts);
@@ -146,6 +146,7 @@ Props) {
             image: image,
             discount: discount,
             categoryId: category.id,
+            unitOfMeasureId: unitOfMeasure.id,
           }}
           closeModal={closeModal}
         />

@@ -40,8 +40,6 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "gradient-verde-crema": " linear-gradient(135deg, #3C913B, #F8CC6B)",
-        // "gradient-sidebar": "linear-gradient(200deg, #13542b , #e3b20c)"
       },
       screens: {
         xs: "480px",

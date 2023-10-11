@@ -1,16 +1,9 @@
-import React, { ChangeEvent, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { ChangeEvent } from "react";
 import {
-  getAllCategories,
-  selectAllCategoriesStatus,
-  selectAllCategory,
   getAllProducts,
   getAllProductsByCategory,
-  selectAllProducts,
-  selectAllProductsByCategory,
 } from "@/states/products/productsSlice";
 import { useAppDispatch } from "@/states/store";
-import { EStateGeneric } from "@/shared/types";
 import useCategoriesData from "@/hooks/useCategoriesData";
 
 type Props = {
@@ -23,11 +16,10 @@ const FilterByCategory = (props: Props) => {
   const categories = useCategoriesData();
 
   // Cargamos las categorías y productos al montar el componente
-  
 
   function handleCategoryChange(event: ChangeEvent<HTMLSelectElement>): void {
     const selectedCategory = event.target.value;
-    console.log(`Seleccionaste la categoría: ${selectedCategory}`)
+    console.log(`Seleccionaste la categoría: ${selectedCategory}`);
     props.setSelectedCategory(selectedCategory);
 
     if (selectedCategory === "") {
@@ -38,7 +30,6 @@ const FilterByCategory = (props: Props) => {
       dispatch(getAllProductsByCategory(selectedCategory));
     }
   }
-
 
   return (
     <div className="flex justify-center items-center space-x-4 mt-3">
