@@ -6,12 +6,17 @@ import {
   selectAllDashboardProductsStatus,
 } from "@/states/dashboard/products/productsSlice";
 import { EStateGeneric } from "@/shared/types";
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import useDebounce from "@/hooks/useDebounce";
 import { itemsPerPage } from "@/shared/ultis";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
+import {
+  selectCurrentPage,
+  selectSearch,
+  setCurrentPage,
+} from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
 import Card from "./Card";
+import useSearchProducts from "@/hooks/useSearchProducts";
 
 type productData = {
   code: string;
@@ -25,10 +30,13 @@ type productData = {
 };
 
 const Products = () => {
-  const productDashboard = useSelector(selectAllDashboardProducts);
-  // console.log(productDashboard);
+  // const productDashboard = useSelector(selectAllDashboardProducts);
+  const search = useDebounce(useSelector(selectSearch));
+  const productDashboard = useSearchProducts(
+    useSelector(selectAllDashboardProducts),
+    search
+  );
   const productsStatus = useSelector(selectAllDashboardProductsStatus);
-
   const dispatch = useAppDispatch();
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
@@ -37,25 +45,6 @@ const Products = () => {
   const setCurrentPageRedux = (page: number) => {
     dispatch(setCurrentPage(page));
   };
-
-  const [selectedProduct, setSelectedProduct] = useState<productData | null>(
-    null
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // const openModal = (product: productData) => {
-  //     setSelectedProduct(product);
-  //     setIsModalOpen(true);
-  //   };
-
   useEffect(() => {
     const fetchData = async () => {
       if (productsStatus === EStateGeneric.IDLE) {
