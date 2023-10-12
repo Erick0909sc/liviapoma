@@ -46,13 +46,7 @@ const Products: React.FC = () => {
     if (categoryFromURL) {
       // Si hay una categoría en la URL, seleccionarla
       setSelectedCategory(categoryFromURL);
-    } else {
-      // Si no hay categoría en la URL, intentar obtenerla de LocalStorage
-      const storedCategory = localStorage.getItem("selectedCategory");
-      if (storedCategory) {
-        setSelectedCategory(storedCategory);
-      }
-    }
+    } 
   }, [router]);
 
   // Almacenar el filtro de categoría seleccionado en LocalStorage cuando cambia
