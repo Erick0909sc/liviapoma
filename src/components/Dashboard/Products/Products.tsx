@@ -17,6 +17,8 @@ import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
 import Card from "./Card";
 import useSearchProducts from "@/hooks/useSearchProducts";
+import Pending from "@/components/StatesComponents/Pending";
+import Failed from "@/components/StatesComponents/Failed";
 
 type productData = {
   code: string;
@@ -55,38 +57,41 @@ const Products = () => {
   }, [dispatch, productsStatus]);
 
   return (
-    <div className="flex flex-col h-full    ">
-      {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
-      {productsStatus === EStateGeneric.FAILED && (
-        <p>Failed to load products</p>
-      )}
-
+    <div className="flex flex-col h-full">
+      {productsStatus === EStateGeneric.PENDING && <Pending />}
+      {productsStatus === EStateGeneric.FAILED && <Failed />}
       {productsStatus === EStateGeneric.SUCCEEDED && (
-        <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
-          {items.map((product, index) => (
-            <div key={index}>
-              <Card
-                code={product.code}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                brand={product.brand}
-                category={product.category}
-                discount={product.discount}
-                image={product.image}
-                unitOfMeasure={product.unitOfMeasure}
-              />
-            </div>
-          ))}
-        </div>
+        <>
+          {search && !items.length && (
+            <Failed text="No encontramos productos relacionados con tu búsqueda" />
+          )}
+          <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
+            {items.map((product, index) => (
+              <div key={index}>
+                <Card
+                  code={product.code}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.brand}
+                  category={product.category}
+                  discount={product.discount}
+                  image={product.image}
+                  unitOfMeasure={product.unitOfMeasure}
+                />
+              </div>
+            ))}
+          </div>
+        </>
       )}
-
-      <Paginate
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPageRedux}
-        items={productDashboard.length}
-        itemsPerPage={itemsPerPage}
-      />
+      {items.length > 0 && (
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPageRedux}
+          items={productDashboard.length}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
     </div>
   );
 };
