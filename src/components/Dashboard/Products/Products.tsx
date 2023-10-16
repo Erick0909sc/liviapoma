@@ -38,18 +38,18 @@ const Products = () => {
     dispatch(setCurrentPage(page));
   };
 
-  const [selectedProduct, setSelectedProduct] = useState<productData | null>(
-    null
-  );
+  // const [selectedProduct, setSelectedProduct] = useState<productData | null>(
+  //   null
+  // );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  // };
 
   // const openModal = (product: productData) => {
   //     setSelectedProduct(product);
@@ -66,14 +66,14 @@ const Products = () => {
   }, [dispatch, productsStatus]);
 
   return (
-    <div className="flex flex-col h-full    ">
+    <div className="flex flex-col h-full items-center   ">
       {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
       {productsStatus === EStateGeneric.FAILED && (
         <p>Failed to load products</p>
       )}
 
       {productsStatus === EStateGeneric.SUCCEEDED && (
-        <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
+        <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 sm:gap-14 lg:grid-cols-3   justify-center lg:p-6">
           {items.map((product, index) => (
             <div key={index}>
               <Card

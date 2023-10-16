@@ -10,6 +10,7 @@ interface UserModalProps {
 
 const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
     const { data: session } = useSession();
+    // console.log(session);
 
     const handleLogout = async () => {
         await signOut();
@@ -30,24 +31,30 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
 
     const renderContent = () => {
         if (session?.user) {
+            const isAdmin = session.user.role === 'Admin';
             return (
                 <>
-                    <h2 className="text-lg font-bold mb-2">{renderUserName()}</h2>
-                    <ul className="space-y-3 text-center font-semibold">
-                        <Link href="#">
-                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                                <a onClick={onClose}>Perfil de Usuario</a>
-                            </li>
-                        </Link>
 
-                        <Link href="/dashboard">
-                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                                <a onClick={onClose}>dashboard</a>
+                    <ul className="space-y-3 text-center font-semibold">
+                        <li className='border-b-2 border-black'>
+                            <h2 className="text-lg font-bold  pt-1">{renderUserName()}</h2>
+                        </li>
+
+                        <Link href="#" >
+                            <li className='  hover:bg-green-800 p-2 hover:text-white  cursor-pointer '>
+                                <a onClick={onClose}> Perfil del Usuario</a>
                             </li>
                         </Link>
+                        {isAdmin && ( // Verifica si el usuario es administrador
+                            <Link href="/dashboard">
+                                <li className='hover:bg-green-800 p-2 hover:text-white  cursor-pointer'>
+                                    <a onClick={onClose}>dashboard</a>
+                                </li>
+                            </Link>
+                        )}
 
                         <Link href="/">
-                            <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
+                            <li className='hover:bg-green-800 p-2 hover:text-white  cursor-pointer'>
                                 <a onClick={handleLogout}>Cerrar Sesión</a>
                             </li>
                         </Link>
@@ -57,12 +64,12 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
         } else {
             return (
                 <ul className="space-y-2 text-center font-semibold">
-                    <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
-                        <Link href="#">
-                            <a onClick={onClose}>Perfil de Usuario</a>
-                        </Link>
+                    <li className=' p-2 rounded-[10px] text-gray-500'>
+
+                        <a onClick={onClose}>SIN USUARIO</a>
+
                     </li>
-                    <li className='hover:bg-blue-950 p-2 hover:text-white rounded-[10px]'>
+                    <li className=' p-2 hover:bg-blue-950 hover:text-white rounded-[10px]'>
                         <button onClick={() => {
                             onClose()
                             signIn()
@@ -78,8 +85,8 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className="absolute top-16 right-0 z-50">
-            <div className="bg-white rounded-lg p-4 text-black text-[15px] text-center">
+        <div className="absolute  top-16 right-0 z-50">
+            <div className="bg-white rounded-lg  p-2 text-black  text-[15px] text-center animate-fade-down">
                 {renderContent()}
             </div>
         </div>
