@@ -1,4 +1,4 @@
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";

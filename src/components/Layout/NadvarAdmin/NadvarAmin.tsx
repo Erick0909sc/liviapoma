@@ -7,8 +7,9 @@ import { Session } from "next-auth";
 import AdminModal from "@/components/Modals/Admin";
 import { dashboardRoutes, translate } from "@/shared/utils";
 import { useRouter } from "next/router";
-import { setSearch } from "@/states/globalSlice";
+import { selectSearch, setSearch } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
+import { useSelector } from "react-redux";
 
 interface NadvarProps {
   toggleSidebar: () => void;
@@ -18,6 +19,7 @@ interface NadvarProps {
 const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const search = useSelector(selectSearch);
   const [visibleSidebar, setVisibleSidebar] = useState(true);
   const [category, setCategory] = useState("");
   const toggleSidebarVisibility = () => {
@@ -71,6 +73,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
           </select>
           <input
             type="text"
+            value={search}
             onChange={(e) => dispatch(setSearch(e.target.value))}
             className="bg-transparent rounded-[10px] p-2 focus:outline-none placeholder-white"
             placeholder="Escriba su búsqueda 🔎"
@@ -78,9 +81,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
         </div>
       </div>
 
-      <div className="flex justify-end text-4xl">
-
-      </div>
+      <div className="flex justify-end text-4xl"></div>
 
       <div className="justify-end gap-3 hidden sm:flex   lg:flex">
         <button className="text-[25px] ">
