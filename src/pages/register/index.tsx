@@ -200,6 +200,7 @@ const Register = (props: Props) => {
                     }}
                   />
                   <button
+                  type="button"
                     className="absolute right-2 top-5 mt-8 transform -translate-y-1/2"
                     onClick={handleTogglePassword}
                   >
