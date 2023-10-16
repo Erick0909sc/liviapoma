@@ -6,17 +6,27 @@ import {
   selectDashboardAllUsers,
   selectusersStatus,
 } from "@/states/dashboard/users/usersSlice";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
+import {
+  selectCurrentPage,
+  selectSearch,
+  setCurrentPage,
+} from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import React, { useEffect } from "react";
 import Paginate from "@/components/pagination";
 import { useSelector } from "react-redux";
-import Users from "@/components/Dashboard/Users";
+import User from "@/components/Dashboard/User";
+import useDebounce from "@/hooks/useDebounce";
+import useSearchUsers from "@/hooks/useSearchUsers";
+import Pending from "@/components/StatesComponents/Pending";
+import Failed from "@/components/StatesComponents/Failed";
 
 type Props = {};
 
 const UsersPage = (props: Props) => {
-  const Allusers = useSelector(selectDashboardAllUsers);
+  // const Allusers = useSelector(selectDashboardAllUsers);
+  const search = useDebounce(useSelector(selectSearch));
+  const Allusers = useSearchUsers(useSelector(selectDashboardAllUsers), search);
   const usersStatus = useSelector(selectusersStatus);
 
   const dispatch = useAppDispatch();
@@ -41,30 +51,44 @@ const UsersPage = (props: Props) => {
 
   return (
     <LayaoutAdmin title="Usuarios">
-      <div className="grid  flex-col h-full   ">
-        {usersStatus === EStateGeneric.PENDING && <p>Loading...</p>}
-        {usersStatus === EStateGeneric.FAILED && <p>Failed to load products</p>}
-
+      <div className="flex flex-col h-full">
+        {usersStatus === EStateGeneric.PENDING && <Pending />}
+        {usersStatus === EStateGeneric.FAILED && (
+          <Failed
+            tittle="Usuarios no encontrados"
+            text="Los usuarios no pudieron ser cargados correctamente"
+          />
+        )}
         {usersStatus === EStateGeneric.SUCCEEDED && (
-          <div className="overflow-x-auto ">
-            {items.map((user, index) => (
-              <Users
-                key={index}
-                id={user.id}
-                name={user.name}
-                email={user.email}
-                role={user.role}
+          <>
+            {search && !items.length && (
+              <Failed
+                tittle="Usuarios no encontrados"
+                text="No encontramos usuarios relacionados con tu búsqueda"
               />
-            ))}
-          </div>
+            )}
+            <div className="overflow-x-auto ">
+              {items.map((user, index) => (
+                <User
+                  key={index}
+                  id={user.id}
+                  name={user.name}
+                  email={user.email}
+                  role={user.role}
+                />
+              ))}
+            </div>
+          </>
         )}
 
-        <Paginate
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPageRedux}
-          items={Allusers.length}
-          itemsPerPage={itemsPerPage}
-        />
+        {items.length > 0 && (
+          <Paginate
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPageRedux}
+            items={Allusers.length}
+            itemsPerPage={itemsPerPage}
+          />
+        )}
       </div>
     </LayaoutAdmin>
   );

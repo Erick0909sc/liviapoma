@@ -6,6 +6,28 @@ import {
   FiBarChart2,
   FiCheckCircle,
 } from "react-icons/fi";
+export const dashboardRoutes = [
+  {
+    name: "Dashboard",
+    route: "/dashboard",
+  },
+  {
+    name: "Products",
+    route: "/dashboard/products",
+  },
+  {
+    name: "Users",
+    route: "/dashboard/users",
+  },
+  {
+    name: "Disabled",
+    route: "/dashboard/disabled",
+  },
+  {
+    name: "Offers",
+    route: "/dashboard/offers",
+  },
+];
 export const sidebarItems = [
   {
     text: "Dashboard",

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { EStateGeneric, Iuser } from "@/shared/types";
+import { EStateGeneric, IUser } from "@/shared/types";
 // import { RootState } from "@/states/store";
 import { EditUsersApi, getallUsersApi, getoneUserApi } from "./usersApi";
 import type { RootState } from "../../store";
@@ -45,15 +45,15 @@ export const editRolUsers = createAsyncThunk(
 );
 
 interface IDashboardUsersState {
-  Users: Iuser[];
-  OneUser: Iuser;
+  Users: IUser[];
+  OneUser: IUser;
   alluserStatus: EStateGeneric;
   userStatus: EStateGeneric;
 }
 
 const initialState: IDashboardUsersState = {
   Users: [],
-  OneUser: {} as Iuser,
+  OneUser: {} as IUser,
   alluserStatus: EStateGeneric.IDLE,
   userStatus: EStateGeneric.IDLE,
 };

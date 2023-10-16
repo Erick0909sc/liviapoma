@@ -15,12 +15,14 @@ export const getAllOffers = createAsyncThunk(
   }
 );
 interface IGlobalState {
+  search: string;
   currentPage: number;
   offers: IOffer[];
   allOffersStatus: EStateGeneric;
 }
 
 const initialState: IGlobalState = {
+  search: "",
   currentPage: 1,
   offers: [],
   allOffersStatus: EStateGeneric.IDLE,
@@ -34,6 +36,12 @@ export const globalSlice = createSlice({
       return {
         ...state,
         currentPage: action.payload,
+      };
+    },
+    setSearch: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        search: action.payload,
       };
     },
     cleanUpOfferts: (state) => {
@@ -58,11 +66,13 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setCurrentPage, cleanUpOfferts } = globalSlice.actions;
+export const { setCurrentPage, setSearch, cleanUpOfferts } =
+  globalSlice.actions;
 
 export const selectCurrentPage = (state: RootState) => state.global.currentPage;
 export const selectAllOffers = (state: RootState) => state.global.offers;
 export const selectAllOffersStatus = (state: RootState) =>
   state.global.allOffersStatus;
+export const selectSearch = (state: RootState) => state.global.search;
 
 export default globalSlice.reducer;
