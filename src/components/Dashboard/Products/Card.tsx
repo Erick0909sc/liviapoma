@@ -72,7 +72,7 @@ function Card({
   // }
 
   return (
-    <div className="bg-opacity-60 hover:bg-opacity-100  md:w-80  lg:w-80 transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white ">
+    <div className="bg-opacity-60 w-80 h-[98%]  hover:bg-opacity-100  md:w-80 md:h-[98%]   lg:w-80 lg:h-[98%]  transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white ">
       <div className=" p-2 bg-slate-800 flex">
         <div className="w-[30%] ">
           <button
@@ -104,21 +104,23 @@ function Card({
           <h2 className="text-[20px] font-bold">{name}</h2>
         </div>
 
-        <div className="relative  h-36 mx-auto my-4">
+        <div className="relative  h-40 mx-auto my-4 aspect-video">
           <Image
             src={image}
             layout="fill"
-            className="object-cover"
+            // className="object-cover"
             alt={name}
           />
         </div>
 
         <div>
-          <p className="text-sm">{description}</p>
+          <p className="text-sm line-clamp-6">{description}</p>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">Marca:{brand?.name}</h2>
+          {brand && (
+            <h2 className="text-lg font-semibold">Marca: {brand.name}</h2>
+          )}
         </div>
 
         <div>
@@ -131,9 +133,14 @@ function Card({
           </h2>
         </div>
 
-        <div>
+        {/* <div className="h-48 overflow-y-auto">
+          <p className="text-sm">{description}</p>
+          <h2 className="text-lg font-semibold">Marca:{brand?.name}</h2>
+          <h2 className="text-lg font-semibold">Categoría: {category.name}</h2>
+          <h2 className="text-lg font-semibold">Precio: {formatPrice(price)}</h2>
           <h2 className="text-lg font-semibold">Descuento: {discount}</h2>
-        </div>
+        </div> */}
+
       </div>
       {isModalOpen && (
         <EditProduct

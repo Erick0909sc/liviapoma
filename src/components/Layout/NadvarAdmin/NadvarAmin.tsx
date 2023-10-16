@@ -79,17 +79,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
       </div>
 
       <div className="flex justify-end text-4xl">
-        {session && (
-          <>
-            <FaUserCircle
-              onClick={toggleModal}
-              className="lg:hidden sm:hidden"
-            />
-            {showModal && (
-              <AdminModal isOpen={showModal} onClose={toggleModal} />
-            )}
-          </>
-        )}
+
       </div>
 
       <div className="justify-end gap-3 hidden sm:flex   lg:flex">
@@ -97,10 +87,26 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
           <GoBellFill />
         </button>
         <div className="flex items-center ">
-          <button className="flex gap-2 items-center">
-            <FaUserCircle className="text-[28px]" />
+          <button className="flex gap-2 items-center" onClick={toggleModal}>
+            {session && (
+              <FaUserCircle
+                onClick={toggleModal}
+                className="lg:block sm:hidden cursor-pointer text-[28px]"
+              />
+            )}
             <div className="flex items-center">
               <h2>{session.user.name}</h2>
+              {session && (
+                <>
+                  <FaUserCircle
+                    onClick={toggleModal}
+                    className="lg:hidden sm:hidden"
+                  />
+                  {showModal && (
+                    <AdminModal isOpen={showModal} onClose={toggleModal} />
+                  )}
+                </>
+              )}
               <GoTriangleDown />
             </div>
           </button>
