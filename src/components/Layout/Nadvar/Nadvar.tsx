@@ -9,6 +9,7 @@ import MenuModal from "@/components/Modals/menu";
 import { AiFillHome } from "react-icons/ai";
 import { MdContactPhone, MdInventory } from "react-icons/md";
 import SearchNav from "@/components/SearchNav";
+import AdminModal from "@/components/Modals/Admin";
 
 
 type Props = {};
@@ -39,7 +40,7 @@ const Nadvar = (props: Props) => {
         {/* AQUI VA EL RENDERIZADO OJALA SIRVA XD */}
         <SearchNav />
 
-        <div className=" flex sm:hidden w-[38%]  justify-end items-center gap-5 pr-6 text-[25px] lg:text-[35px]">
+        <div className=" flex sm:hidden w-[38%]  justify-end items-center gap-5 pr-2 text-[25px] lg:text-[35px]">
           <button onClick={toggleMenuModal}>
             <ImMenu />
           </button>
@@ -58,7 +59,11 @@ const Nadvar = (props: Props) => {
               <FaUserCircle />
             </button>
           )}
-          <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          {session?.user?.role === "Admin" ? ( // Verifica si el usuario tiene el rol "Admin"
+            <AdminModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          ) : (
+            <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          )}
         </div>
 
         <div className="hidden sm:flex w-[40%]  sm:w-[55%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
@@ -103,7 +108,11 @@ const Nadvar = (props: Props) => {
               <FaUserCircle />
             </button>
           )}
-          <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          {session?.user?.role === "Admin" ? ( // Verifica si el usuario tiene el rol "Admin"
+            <AdminModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          ) : (
+            <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
+          )}
         </div>
       </div>
     </nav>

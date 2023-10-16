@@ -5,7 +5,7 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
-export interface Iuser {
+export interface IUser {
   id: string;
   name: string;
   email: string;

@@ -7,17 +7,30 @@ import {
   selectAllhiddenProductsStatus,
   selecthiddenproducts,
 } from "@/states/dashboard/products/productsSlice";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
+import {
+  selectCurrentPage,
+  selectSearch,
+  setCurrentPage,
+} from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ProductsHidden from "@/components/Dashboard/Productshidden";
+import useDebounce from "@/hooks/useDebounce";
+import useSearchProducts from "@/hooks/useSearchProducts";
+import Failed from "@/components/StatesComponents/Failed";
+import Pending from "@/components/StatesComponents/Pending";
 
 type Props = {};
 
 const Disabled = (props: Props) => {
-  const productDashboard = useSelector(selecthiddenproducts);
+  // const productDashboard = useSelector(selecthiddenproducts);
+  const search = useDebounce(useSelector(selectSearch));
+  const productDashboard = useSearchProducts(
+    useSelector(selecthiddenproducts),
+    search
+  );
   const productsStatus = useSelector(selectAllhiddenProductsStatus);
   const dispatch = useAppDispatch();
 
@@ -52,34 +65,40 @@ const Disabled = (props: Props) => {
   return (
     <LayaoutAdmin title="Productos Deshabilitados">
       <div className="flex flex-col h-full justify-between   ">
-        {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
+        {productsStatus === EStateGeneric.PENDING && <Pending />}
         {productsStatus === EStateGeneric.FAILED && (
-          <p>No hay productos inhabilitados</p>
+          <Failed text="No encontramos productos deshabilitados" />
         )}
-
         {productsStatus === EStateGeneric.SUCCEEDED && (
-          <div className="grid grid-cols-3 justify-center p-6 ">
-            {items.map((product, index) => (
-              <ProductsHidden
-                key={index}
-                code={product.code}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                brand={product.brand?.name}
-                category={product.category.name}
-                discount={product.discount}
-                image={product.image}
-              />
-            ))}
-          </div>
+          <>
+            {search && !items.length && (
+              <Failed text="No encontramos productos relacionados con tu búsqueda" />
+            )}
+            <div className="grid grid-cols-3 justify-center p-6 ">
+              {items.map((product, index) => (
+                <ProductsHidden
+                  key={index}
+                  code={product.code}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.brand?.name}
+                  category={product.category.name}
+                  discount={product.discount}
+                  image={product.image}
+                />
+              ))}
+            </div>
+          </>
         )}
-        <Paginate
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPageRedux}
-          items={productDashboard.length}
-          itemsPerPage={itemsPerPage}
-        />
+        {items.length > 0 && (
+          <Paginate
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPageRedux}
+            items={productDashboard.length}
+            itemsPerPage={itemsPerPage}
+          />
+        )}
       </div>
     </LayaoutAdmin>
   );

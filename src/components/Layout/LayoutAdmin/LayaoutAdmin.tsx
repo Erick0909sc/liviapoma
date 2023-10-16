@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import NadvarAmin from "../NadvarAdmin/NadvarAmin";
 import FooterAdmin from "../FooterAdmin/FooterAdmin";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -17,6 +17,30 @@ const LayaoutAdmin = ({ children, title }: Props) => {
   const toggleSidebar = () => {
     setVisibleSidebar(!visibleSidebar);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleSidebar(false); // Ocultar en pantallas pequeñas
+      } else {
+        setVisibleSidebar(true);
+      }
+    };
+
+    handleResize(); // Llamarlo una vez al cargar la página
+
+    window.addEventListener("resize", handleResize); // Escuchar cambios en el tamaño de la pantalla
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Limpieza al desmontar el componente
+    };
+  }, []);
+
+
+
+
+
+
   const containerClass = visibleSidebar ? "" : "";
 
   if (!session) return null;

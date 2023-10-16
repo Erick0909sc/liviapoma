@@ -79,7 +79,8 @@ export default async function handler(
                     (producto1) => producto1.code === producto2.code
                   )
               )
-            );
+            )
+            .slice(0, 5);
           return products.length
             ? res.status(200).json(productsWithDiscount)
             : res.status(404).json({ message: "products not found" });

@@ -6,12 +6,19 @@ import {
   selectAllDashboardProductsStatus,
 } from "@/states/dashboard/products/productsSlice";
 import { EStateGeneric } from "@/shared/types";
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import useDebounce from "@/hooks/useDebounce";
 import { itemsPerPage } from "@/shared/ultis";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
+import {
+  selectCurrentPage,
+  selectSearch,
+  setCurrentPage,
+} from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Paginate from "@/components/pagination";
 import Card from "./Card";
+import useSearchProducts from "@/hooks/useSearchProducts";
+import Pending from "@/components/StatesComponents/Pending";
+import Failed from "@/components/StatesComponents/Failed";
 
 type productData = {
   code: string;
@@ -25,10 +32,13 @@ type productData = {
 };
 
 const Products = () => {
-  const productDashboard = useSelector(selectAllDashboardProducts);
-  // console.log(productDashboard);
+  // const productDashboard = useSelector(selectAllDashboardProducts);
+  const search = useDebounce(useSelector(selectSearch));
+  const productDashboard = useSearchProducts(
+    useSelector(selectAllDashboardProducts),
+    search
+  );
   const productsStatus = useSelector(selectAllDashboardProductsStatus);
-
   const dispatch = useAppDispatch();
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
@@ -37,25 +47,6 @@ const Products = () => {
   const setCurrentPageRedux = (page: number) => {
     dispatch(setCurrentPage(page));
   };
-
-  const [selectedProduct, setSelectedProduct] = useState<productData | null>(
-    null
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // const openModal = (product: productData) => {
-  //     setSelectedProduct(product);
-  //     setIsModalOpen(true);
-  //   };
-
   useEffect(() => {
     const fetchData = async () => {
       if (productsStatus === EStateGeneric.IDLE) {
@@ -66,38 +57,41 @@ const Products = () => {
   }, [dispatch, productsStatus]);
 
   return (
-    <div className="flex flex-col h-full    ">
-      {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
-      {productsStatus === EStateGeneric.FAILED && (
-        <p>Failed to load products</p>
-      )}
-
+    <div className="flex flex-col h-full">
+      {productsStatus === EStateGeneric.PENDING && <Pending />}
+      {productsStatus === EStateGeneric.FAILED && <Failed />}
       {productsStatus === EStateGeneric.SUCCEEDED && (
-        <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
-          {items.map((product, index) => (
-            <div key={index}>
-              <Card
-                code={product.code}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                brand={product.brand}
-                category={product.category}
-                discount={product.discount}
-                image={product.image}
-                unitOfMeasure={product.unitOfMeasure}
-              />
-            </div>
-          ))}
-        </div>
+        <>
+          {search && !items.length && (
+            <Failed text="No encontramos productos relacionados con tu búsqueda" />
+          )}
+          <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
+            {items.map((product, index) => (
+              <div key={index}>
+                <Card
+                  code={product.code}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  brand={product.brand}
+                  category={product.category}
+                  discount={product.discount}
+                  image={product.image}
+                  unitOfMeasure={product.unitOfMeasure}
+                />
+              </div>
+            ))}
+          </div>
+        </>
       )}
-
-      <Paginate
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPageRedux}
-        items={productDashboard.length}
-        itemsPerPage={itemsPerPage}
-      />
+      {items.length > 0 && (
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPageRedux}
+          items={productDashboard.length}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
     </div>
   );
 };

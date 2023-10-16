@@ -1,7 +1,9 @@
 import {
   cleanUpProduct,
+  getAllProducts,
   selectAllProducts,
 } from "@/states/products/productsSlice";
+import { useAppDispatch } from "@/states/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,10 +17,9 @@ const SearchNav = (props: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const allProducts = useSelector(selectAllProducts);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [searching, setSearching] = useState(false);
-
 
   const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -39,27 +40,34 @@ const SearchNav = (props: Props) => {
   const handleProductClick = (productCode: string) => {
     // Limpia el estado del producto antes de la redirección
     dispatch(cleanUpProduct());
-  
+
     // Establece "searching" en "true" cuando se realiza una búsqueda
     setSearching(true);
-  
+
     // Realiza la redirección al detalle del producto
     router.push(`/products/${productCode}`);
-  
+
     // Oculta el componente de búsqueda
     setShowSearch(false);
-  
+
     // Limpia el campo de búsqueda
     setSearchQuery("");
   };
-  
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    const fetchData = async () => {
+      document.addEventListener("mousedown", handleClickOutside);
+      if (allProducts.length === 0) {
+        await dispatch(getAllProducts());
+      }
+    };
+
+    fetchData();
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [dispatch, allProducts]);
   return (
     <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[30%] flex justify-center items-center gap-2 relative">
       <input
