@@ -133,14 +133,14 @@ const Card = ({ session, ...props }: Props) => {
           </button>
         </div>
         <div className="max-w-[50%] absolute bottom-0 right-0">
+          <span className="text-gray-600">
+            {props.product.unitOfMeasure.name} (x{props.quantity})
+          </span>{" "}
           {props.product.discount ? (
             <span className="text-crema-600 text-sm line-through">
               {formatPrice(props.quantity * props.product.price)}{" "}
             </span>
           ) : null}
-          <span className="text-gray-600">
-            {props.product.unitOfMeasure.name} (x{props.quantity})
-          </span>{" "}
           <span>
             {formatPrice(
               props.quantity * props.product.price -

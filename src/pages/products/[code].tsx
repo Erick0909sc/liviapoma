@@ -42,6 +42,7 @@ const Detail = (props: Props) => {
   const productFind = cart.products?.find(
     (item) => item.productCode === product.code
   );
+  const [currentCode, setCurrentCode] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [checkout, setCheckout] = useState(false);
@@ -56,19 +57,21 @@ const Detail = (props: Props) => {
     getCart: () => dispatch(getCartUser(session?.user.id as string)),
   };
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     (async () => {
       if (router.isReady) {
         const { code } = router.query;
-        if (status === EStateGeneric.IDLE) {
-          dispatch(getOneProduct(code as string));
+        if (currentCode !== code) {
+          setCurrentCode(code as string);
+          await dispatch(getOneProduct(code as string));
         }
         if (cartStatus === EStateGeneric.IDLE && session) {
           dispatch(getCartUser(session.user.id));
         }
       }
     })();
-    if (router.query.code !== product.code) {
+    if (currentCode !== router.query.code) {
       dispatch(cleanUpProduct());
     }
   }, [router.query.code, session]);
