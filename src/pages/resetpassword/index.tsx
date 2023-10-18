@@ -33,11 +33,12 @@ const Resetpassword = (props: Props) => {
           },
           body: JSON.stringify({ email: values.email }),
         });
+        const data = await response.json();
         if (response.ok) {
           resetForm();
           setSuccessModal(true);
         } else {
-          toast.error("No se pudo cambiar la contraseña.");
+          toast.error(data.message);
         }
       } catch (error) {
         toast.error("Error al cambiar la contraseña");
