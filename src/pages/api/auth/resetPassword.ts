@@ -29,6 +29,7 @@ export default async function handle(
           },
         });
         const mail = await resetPassword(email, token);
+        console.log(mail);
         if (mail.success) {
           res.status(200).json({
             message:

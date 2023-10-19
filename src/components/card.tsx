@@ -2,10 +2,13 @@ import { calcularDescuentoItemCart, calcularPrecioConDescuento, formatPrice, han
 import { addOneProductToCart } from "@/states/cart/cartApi";
 import { Session } from "next-auth";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import LoaderBtn from "./Cart/LoaderBtn";
 import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 
 
 
@@ -36,10 +39,18 @@ const Card: React.FC<Props> = ({
   discountedPrice,
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   useEffect(() => {
+    AOS.init({
+      duration: 3000, // Duración de las animaciones en milisegundos
+      offset: 300, // Desplazamiento en píxeles desde el borde superior del elemento para activar la animación
+    });
+  }, []); // Asegúrate de ejecutar esto solo una vez después del montaje del componente
+
   return (
     <>
 
-      <div className="relative rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl  mx-auto border border-white bg-white">
+      <div className="relative rounded-xl shadow-lg p-3 max-w-full sm:max-w-6xl  mx-auto border border-white bg-white" data-aos="fade-up">
         <Link href={`products/${code}`}>
           <div className="cursor-pointer w-full sm:flex">
             <div className="w-full sm:w-1/3 bg-white flex justify-center">

@@ -46,43 +46,49 @@ const Resetpassword = (props: Props) => {
     },
   });
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen">
       <Head>
         <title>Liviapoma - Restablecimiento de contraseña</title>
       </Head>
-      <h1 className="text-4xl font-extrabold text-gray-800">
-        Restablecimiento de contraseña
-      </h1>
-      <p className="text-gray-600 mt-2">
-        Por favor escriba su Email registrado
-      </p>
-      <form onSubmit={formik.handleSubmit}>
-        <CustomInput
-          formik={formik}
-          fieldName={"email"}
-          fieldNameTranslate={"Email"}
-        />
-        <button
-          type="submit"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Restablecer Contraseña
-        </button>
-      </form>
-      <Link href="/">
-        <span className="mt-4 text-green-600 hover:underline">
-          Volver a la página de inicio
-        </span>
-      </Link>
-      {successModal && (
-        <ResetPassSuccess
-          title={"Siga estos pasos"}
-          message={
-            "Hemos enviado un correo electrónico con instrucciones para restablecer su contraseña. Puede cerrar esta ventana en cualquier momento."
-          }
-          icon={<AiOutlineInfoCircle className="text-9xl" />}
-        />
-      )}
+      <img
+        className="absolute top-0 z-10 left-0 w-full h-full object-cover"
+        src="https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg"
+      />
+      <div className="relative flex flex-col z-50 bg-white  w-full max-w-xl h-80 rounded-xl bg-clip-border">
+        <div className="p-6">
+          <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+            Restablecimiento de Contraseña
+          </h5>
+
+          <form onSubmit={formik.handleSubmit}>
+            <CustomInput
+              formik={formik}
+              fieldName={"email"}
+              fieldNameTranslate={"Email"}
+            />
+            <button
+              type="submit"
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out"
+            >
+              Restablecer Contraseña
+            </button>
+          </form>
+          <Link href="/">
+            <span className="mt-4 text-green-600 hover:underline">
+              Volver a la página de inicio
+            </span>
+          </Link>
+          {successModal && (
+            <ResetPassSuccess
+              title={"Siga estos pasos"}
+              message={
+                "Hemos enviado un correo electrónico con instrucciones para restablecer su contraseña. Puede cerrar esta ventana en cualquier momento."
+              }
+              icon={<AiOutlineInfoCircle className="text-9xl" />}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
