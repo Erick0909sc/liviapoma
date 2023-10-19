@@ -10,7 +10,7 @@ type Props = {
   title: string;
 };
 
-const LayaoutAdmin = ({ children, title }: Props) => {
+const LayoutAdmin = ({ children, title }: Props) => {
   const { data: session } = useSession();
   const [visibleSidebar, setVisibleSidebar] = useState(true);
 
@@ -36,11 +36,6 @@ const LayaoutAdmin = ({ children, title }: Props) => {
     };
   }, []);
 
-
-
-
-
-
   const containerClass = visibleSidebar ? "" : "";
 
   if (!session) return null;
@@ -60,4 +55,4 @@ const LayaoutAdmin = ({ children, title }: Props) => {
   );
 };
 
-export default LayaoutAdmin;
+export default LayoutAdmin;

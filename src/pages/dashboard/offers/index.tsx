@@ -1,7 +1,7 @@
 import NewOffer from "@/components/Dashboard/Offers/NewOffer";
 import OffersActives from "@/components/Dashboard/Offers/OffersActives";
 import OffersDisabled from "@/components/Dashboard/Offers/OffersDisabled";
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import { useState } from "react";
 
 type Props = {};
@@ -14,7 +14,7 @@ const Offers = (props: Props) => {
   };
   const [component, setComponent] = useState({ ...states, new: true });
   return (
-    <LayaoutAdmin title="Ofertas">
+    <LayoutAdmin title="Ofertas">
       <div className="w-full h-full">
         <div className="flex justify-between">
           <button
@@ -61,7 +61,7 @@ const Offers = (props: Props) => {
         {component.actives && <OffersActives />}
         {component.disabled && <OffersDisabled />}
       </div>
-    </LayaoutAdmin>
+    </LayoutAdmin>
   );
 };
 

@@ -149,7 +149,7 @@ const Login = (props: Props) => {
                 />
               </div>
               <div className="text-right text-gray-100 hover:underline hover:text-gray-100">
-                <a href="#">¿Olvidaste tu contraseña?</a>
+                <Link href="/resetpassword">¿Olvidaste tu contraseña?</Link>
               </div>
               <div className="px-4 pb-2 pt-4">
                 <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none">

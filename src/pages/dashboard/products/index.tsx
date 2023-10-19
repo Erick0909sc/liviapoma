@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import Products from "@/components/Dashboard/Products/Products";
 import NewProduct from "@/components/Dashboard/Products/NewProduct";
 
@@ -11,7 +11,7 @@ const ProductsPage = () => {
   };
   const [component, setComponent] = useState({ ...states, products: true });
   return (
-    <LayaoutAdmin title="Productos">
+    <LayoutAdmin title="Productos">
       <div className="w-full h-full">
         <div className="flex justify-between">
           <button
@@ -49,7 +49,7 @@ const ProductsPage = () => {
         {component.new && <NewProduct />}
         {/* {component.disabled && <OffersDisabled />} */}
       </div>
-    </LayaoutAdmin>
+    </LayoutAdmin>
   );
 };
 

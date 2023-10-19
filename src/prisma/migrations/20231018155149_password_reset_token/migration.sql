@@ -43,10 +43,13 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "VerificationToken" (
-    "identifier" TEXT NOT NULL,
+CREATE TABLE "PasswordResetToken" (
+    "id" SERIAL NOT NULL,
     "token" TEXT NOT NULL,
-    "expires" TIMESTAMP(3) NOT NULL
+    "userId" TEXT NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "PasswordResetToken_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -153,10 +156,7 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
+CREATE UNIQUE INDEX "PasswordResetToken_token_key" ON "PasswordResetToken"("token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
@@ -169,6 +169,9 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PasswordResetToken" ADD CONSTRAINT "PasswordResetToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
