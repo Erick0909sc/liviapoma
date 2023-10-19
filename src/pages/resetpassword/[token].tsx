@@ -1,14 +1,11 @@
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { HiEye } from "react-icons/Hi";
-import { BsEyeSlashFill } from "react-icons/bs";
 
 type Props = {
   token: string;
@@ -17,17 +14,13 @@ type Props = {
 const Token = ({ token }: Props) => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para controlar si se muestra la contraseña
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleTogglePassword = () => {
-    setShowPassword(!showPassword); // Cambia el estado para alternar entre mostrar y ocultar
+    setShowPassword(!showPassword);
   };
   const handleToggleConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword); // Cambia el estado para alternar entre mostrar y ocultar
-  };
-  const backgroundImageStyle: React.CSSProperties = {
-    backgroundImage:
-      "url(https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg)",
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const initialValues = {
@@ -90,7 +83,7 @@ const Token = ({ token }: Props) => {
           <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
             Restablecimiento de Contraseña
           </h5>
-          
+
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-4 relative">
               <label className="capitalize block text-gray-600">
@@ -116,7 +109,6 @@ const Token = ({ token }: Props) => {
                 onClick={handleTogglePassword}
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
-                {/* Alterna entre los íconos */}
               </span>
             </div>
             <div className="mb-4 relative">
@@ -146,8 +138,7 @@ const Token = ({ token }: Props) => {
                 className=" absolute mt-6 inset-y-0 right-0 flex items-center justify-center pr-2 cursor-pointer"
                 onClick={handleToggleConfirmPassword}
               >
-                {showConfirmPassword ? <HiEye /> : <BsEyeSlashFill />}
-                {/* Alterna entre los íconos */}
+                {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
             <button
