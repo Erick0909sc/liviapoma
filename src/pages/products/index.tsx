@@ -19,6 +19,7 @@ import Pagination from "@/components/pagination";
 import FilterByCategory from "@/components/Filtros/FilterByCategory";
 import { useRouter } from "next/router";
 
+
 const Products: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -92,9 +93,9 @@ const Products: React.FC = () => {
             <p>Failed to load products</p>
           )}
           {productsStatus === EStateGeneric.SUCCEEDED && (
-            <div className="flex flex-col gap-8 py-8">
+            <div className="flex flex-col gap-8 py-8" >
               {items.map((product, index) => (
-                <Card
+                <Card 
                   key={index}
                   session={session}
                   code={product.code}

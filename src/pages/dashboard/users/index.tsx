@@ -1,4 +1,4 @@
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import { EStateGeneric } from "@/shared/types";
 import { itemsPerPage } from "@/shared/ultis";
 import {
@@ -50,7 +50,7 @@ const UsersPage = (props: Props) => {
   }, [dispatch, usersStatus]);
 
   return (
-    <LayaoutAdmin title="Usuarios">
+    <LayoutAdmin title="Usuarios">
       <div className="flex flex-col h-full">
         {usersStatus === EStateGeneric.PENDING && <Pending />}
         {usersStatus === EStateGeneric.FAILED && (
@@ -90,7 +90,7 @@ const UsersPage = (props: Props) => {
           />
         )}
       </div>
-    </LayaoutAdmin>
+    </LayoutAdmin>
   );
 };
 

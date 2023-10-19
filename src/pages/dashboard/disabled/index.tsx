@@ -1,4 +1,4 @@
-import LayaoutAdmin from "@/components/Layout/LayoutAdmin/LayaoutAdmin";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import { EStateGeneric } from "@/shared/types";
 import { itemsPerPage } from "@/shared/ultis";
 import {
@@ -63,7 +63,7 @@ const Disabled = (props: Props) => {
   }, [dispatch, productsStatus]);
 
   return (
-    <LayaoutAdmin title="Productos Deshabilitados">
+    <LayoutAdmin title="Productos Deshabilitados">
       <div className="flex flex-col h-full justify-between   ">
         {productsStatus === EStateGeneric.PENDING && <Pending />}
         {productsStatus === EStateGeneric.FAILED && (
@@ -100,7 +100,7 @@ const Disabled = (props: Props) => {
           />
         )}
       </div>
-    </LayaoutAdmin>
+    </LayoutAdmin>
   );
 };
 

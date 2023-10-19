@@ -38,24 +38,25 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  password      String?
-  emailVerified DateTime?
-  image         String?
-  role          Role      @default(User)
-  cart          Cart?
-  accounts      Account[]
-  sessions      Session[]
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String?              @unique
+  password           String?
+  emailVerified      DateTime?
+  image              String?
+  role               Role                 @default(User)
+  cart               Cart?
+  accounts           Account[]
+  sessions           Session[]
+  PasswordResetToken PasswordResetToken[]
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    String
+  timestamp DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
