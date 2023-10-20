@@ -16,17 +16,19 @@ export default async function handler(
         });
         if (!findUser)
           return res.status(404).json({ message: "user not found" });
+
         const {
-          // name,
+          name,
           email,
           password,
           image,
         }: {
-          // name: string;
+          name: string;
           email: string;
           password: string;
           image: string;
         } = req.body;
+
         const passwordhash = await hash(password, 5);
 
         const user = await prisma.user.update({
@@ -34,12 +36,13 @@ export default async function handler(
             id: findUser.id,
           },
           data: {
-            // name,
+            name,
             email,
             password: passwordhash,
             image,
           },
         });
+
         res.status(200).json(user);
       } catch (error) {
         res.status(500).json(error);
