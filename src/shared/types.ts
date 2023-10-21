@@ -7,14 +7,22 @@ export enum EStateGeneric {
 
 
 export interface IEditUser {
-  id:string;
-  name:string;
+  id: string;
+  name: string;
   email: string;
   password: string;
   image: string,
 }
 
-
+export interface IOneUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  emailVerified: string;
+  image: string;
+  role: string;
+}
 
 
 export interface IUser {

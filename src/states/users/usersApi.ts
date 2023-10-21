@@ -21,3 +21,6 @@ export const putUserDataApi = ({ id, name, email, password, image }: { id: strin
   });
 };
 
+
+export const getusername = (id:string)=> axios.get(`api/v1/user/${id}`)
+
