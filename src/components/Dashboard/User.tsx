@@ -1,12 +1,9 @@
+import { patchUserApi } from "@/states/dashboard/users/usersApi";
 import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { FaUserEdit, FaSave } from "react-icons/fa";
 import { TiUserDelete } from "react-icons/ti";
-import { useSelector } from "react-redux";
-import {
-  editRolUsers,
-  selectEditUser,
-} from "@/states/dashboard/users/usersSlice";
-import { useAppDispatch } from "@/states/store";
+import request from "axios";
 
 type Props = {
   id: string;
@@ -18,7 +15,6 @@ type Props = {
 const User = ({ id, name, email, role }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedRole, setEditedRole] = useState("");
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setEditedRole(role);
@@ -28,9 +24,32 @@ const User = ({ id, name, email, role }: Props) => {
     setEditedRole(newRole);
   };
 
-  const handleSaveRole = () => {
-    dispatch(editRolUsers({ id, role: editedRole }));
-    setIsEditing(false);
+  const handleSaveRole = async () => {
+    try {
+      setIsEditing(true);
+      const res = await patchUserApi(id, editedRole);
+      if (res.status === 200) {
+        toast.success(
+          (
+            res.data as {
+              message: string;
+            }
+          ).message
+        );
+      }
+    } catch (error) {
+      if (request.isAxiosError(error) && error.response) {
+        toast.error(
+          (
+            error.response?.data as {
+              message: string;
+            }
+          ).message
+        );
+      }
+    } finally {
+      setIsEditing(false);
+    }
   };
   return (
     <div className="bg-white border rounded-lg shadow-lg">

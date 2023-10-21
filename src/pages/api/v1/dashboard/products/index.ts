@@ -22,6 +22,9 @@ export default async function handler(
               brand: true,
               unitOfMeasure: true,
             },
+            orderBy: {
+              name: "asc",
+            },
           });
           return products.length
             ? res.status(200).json(products)
@@ -40,6 +43,9 @@ export default async function handler(
               category: true,
               brand: true,
               unitOfMeasure: true,
+            },
+            orderBy: {
+              name: "asc",
             },
           });
           return products.length
@@ -61,6 +67,9 @@ export default async function handler(
               brand: true,
               unitOfMeasure: true,
             },
+            orderBy: {
+              name: "asc",
+            },
           });
           return products.length
             ? res.status(200).json(products)
@@ -74,6 +83,9 @@ export default async function handler(
             category: true,
             brand: true,
             unitOfMeasure: true,
+          },
+          orderBy: {
+            name: "asc",
           },
         });
         products.length
