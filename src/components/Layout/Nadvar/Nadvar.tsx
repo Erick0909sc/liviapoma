@@ -88,7 +88,7 @@ const Nadvar = (props: Props) => {
             </div>
           </Link>
 
-          <Link href={"#"}>
+          <Link href={"/Contactanos"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <MdContactPhone />
               <h2>Contacto</h2>
