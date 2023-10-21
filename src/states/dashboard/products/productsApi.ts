@@ -40,6 +40,7 @@ export const postProductByApi = async (productData: {
   image: File;
   discount: number;
   categoryId: number;
+  unitOfMeasureId: number;
 }) => {
   const responseImage: { data: string } = await processImage(productData.image);
   return axios.post(`/api/v1/dashboard/products`, {

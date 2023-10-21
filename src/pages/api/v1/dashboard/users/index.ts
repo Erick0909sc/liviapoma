@@ -13,6 +13,9 @@ export default async function handle(
       try {
         const users = await prisma.user.findMany({
           include: { cart: { include: { products: true } } },
+          orderBy: {
+            name: "asc",
+          },
         });
         users.length
           ? res.status(200).json(users)

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IUser } from "@/shared/types";
 // import { RootState } from "@/states/store";
-import { EditUsersApi, getallUsersApi, getoneUserApi } from "./usersApi";
+import { getallUsersApi, getoneUserApi } from "./usersApi";
 import type { RootState } from "../../store";
 
 export const getAllUsers = createAsyncThunk(
@@ -30,32 +30,16 @@ export const getoneUser = createAsyncThunk(
   }
 );
 
-export const editRolUsers = createAsyncThunk(
-  "dashboardUsers/editRolUsers",
-  async ({ id, role }: { id: string; role: string }, { rejectWithValue }) => {
-    console.log(id, role);
-    try {
-      const response = await EditUsersApi(id, role);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
 interface IDashboardUsersState {
   Users: IUser[];
   OneUser: IUser;
   alluserStatus: EStateGeneric;
-  userStatus: EStateGeneric;
 }
 
 const initialState: IDashboardUsersState = {
   Users: [],
   OneUser: {} as IUser,
   alluserStatus: EStateGeneric.IDLE,
-  userStatus: EStateGeneric.IDLE,
 };
 
 export const dashboardusersSlice = createSlice({
@@ -75,29 +59,6 @@ export const dashboardusersSlice = createSlice({
     builder.addCase(getAllUsers.rejected, (state, action) => {
       state.alluserStatus = EStateGeneric.FAILED;
     });
-
-    builder.addCase(editRolUsers.fulfilled, (state, action) => {
-      state.OneUser = action.payload;
-
-      const userIndex = state.Users.findIndex(
-        (user) => user.id === state.OneUser.id
-      );
-      console.log(userIndex);
-
-      if (userIndex !== -1) {
-        // Actualiza el rol del usuario en el estado
-        state.Users[userIndex].role = state.OneUser.role;
-        state.userStatus = EStateGeneric.SUCCEEDED;
-      }
-    });
-
-    builder.addCase(editRolUsers.pending, (state, action) => {
-      state.userStatus = EStateGeneric.PENDING;
-    });
-
-    builder.addCase(editRolUsers.rejected, (state, action) => {
-      state.userStatus = EStateGeneric.FAILED;
-    });
   },
 });
 
@@ -114,8 +75,5 @@ export const selectEditUser = (state: RootState) =>
 
 export const selectoneUserDashboard = (state: RootState) =>
   state.dashboard.users.OneUser;
-
-export const SelectoneUserStatus = (state: RootState) =>
-  state.dashboard.users.userStatus;
 
 export default dashboardusersSlice.reducer;
