@@ -40,7 +40,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
                             <h2 className="text-lg font-bold  pt-1">{renderUserName()}</h2>
                         </li>
 
-                        <Link href="#" >
+                        <Link href="/EditUser" >
                             <li className='  hover:bg-green-800 p-2 hover:text-white  cursor-pointer '>
                                 <a onClick={onClose}> Perfil del Usuario</a>
                             </li>
