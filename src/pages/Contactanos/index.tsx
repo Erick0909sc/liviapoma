@@ -2,6 +2,12 @@ import Layout from "@/components/Layout/Layout";
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Foto1 from "@/assets/pictures/1o.jpg";
+import Foto2 from "@/assets/pictures/2o.jpg";
+import Foto3 from "@/assets/pictures/3o.jpg";
+import Foto4 from "@/assets/pictures/4o.jpg";
+import Image from "next/image";
+
 
 type Props = {
   frameborder: string;
@@ -41,14 +47,14 @@ const index = (props: Props) => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8">
-              <img
+              <Image
                 className="w-full rounded-lg"
-                src="https://scontent.fpiu3-1.fna.fbcdn.net/v/t39.30808-6/299326759_604345511396003_8775088148265127012_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHJsaA74EDFzFsxCQmOKBSEB-YVBlpffvIH5hUGWl9-8ofsBv8igfQ0J7dua010AiewkQg8k9FA8uK-iocCncOG&_nc_ohc=Y0pu9YsuR9EAX_2CrAo&_nc_ht=scontent.fpiu3-1.fna&oh=00_AfAyk8NSB9FM0NB1Is6yJINUTkZ86qUXSwRVHWIR83E7pA&oe=65326519"
+                src={Foto1}
                 alt="1"
               />
-              <img
+              <Image
                 className="mt-4 w-full lg:mt-10 rounded-lg"
-                src="https://scontent.fpiu3-1.fna.fbcdn.net/v/t39.30808-6/300172221_604345388062682_6604827093289284845_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeE4brTJxJwWmnpy6jONMyvOq7-r4ReYxaKrv6vhF5jFolvyR1plcioTbvBy8o0NME_OiZB1sXBy06AtDkST1Txt&_nc_ohc=CqT0fI1pBjoAX_UAoQ9&_nc_ht=scontent.fpiu3-1.fna&oh=00_AfC3mnnwiPX5KSP4BK2bbOIfeo5DuYOcF3qxJFTF6dcVWw&oe=653182D7"
+                src={Foto4}
                 alt="2"
               />
             </div>
@@ -57,13 +63,13 @@ const index = (props: Props) => {
       </div>
       <section
         className="flex flex-wrap items-center justify-center mt-6 gap-16 xs:gap-40"
-        data-aos="fade-up"
+        data-aoImage
       >
         <div className="block max-w-[24rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
           <div className="relative overflow-hidden bg-cover bg-no-repeat">
-            <img
+            <Image
               className="rounded-t-lg"
-              src="https://scontent.fpiu3-1.fna.fbcdn.net/v/t39.30808-6/295712560_589583056205582_1383286791742172981_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEfql0gtKeK1ZGzP86lAjuJ9mfwOignOFz2Z_A6KCc4XNO86fSMkMyTQt0vgbo4kisRS2VC13xxgSCGTooFSwpu&_nc_ohc=bCITUUx30NIAX_Y8fqk&_nc_ht=scontent.fpiu3-1.fna&oh=00_AfDJd9O5Q7yHeoj2vmTI2SFbcaQ-A6jqPELJ-cNrTyYGGQ&oe=653393E9"
+              src={Foto2}
               alt=""
             />
           </div>
@@ -81,9 +87,9 @@ const index = (props: Props) => {
         </div>
         <div className="block max-w-[24rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
           <div className="relative overflow-hidden bg-cover bg-no-repeat">
-            <img
+            <Image
               className="rounded-t-lg"
-              src="https://scontent.fpiu3-1.fna.fbcdn.net/v/t39.30808-6/359420738_814894317007787_9038403100605295779_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHsoR-v3O23ifkm246yBaCIcdaSakpcsldx1pJqSlyyVwUDYfpCcbBgJ47VtIpSpvziZWnl-d4dNkayh71vv5aR&_nc_ohc=2GibTZEqSlAAX9iVorY&_nc_ht=scontent.fpiu3-1.fna&oh=00_AfAubBZcBn8T5-ihjNajdWdJoIx7RA-Z-TR850wkkDWrTw&oe=6532DBFF"
+              src={Foto3}
               alt=""
             />
           </div>
