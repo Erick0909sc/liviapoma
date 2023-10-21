@@ -16,11 +16,13 @@ import useCategoriesData from "@/hooks/useCategoriesData";
 import useBrandsData from "@/hooks/useBrandsData";
 import CustomOptionsWithOnlyValue from "@/components/Custom/CustomOptionsWithOnlyValue";
 import { postProductByApi } from "@/states/dashboard/products/productsApi";
+import useMeasuresData from "@/hooks/useMeasuresData";
 type Props = {};
 
 const NewProduct = (props: Props) => {
   const categories = useCategoriesData();
   const brands = useBrandsData();
+  const meaures = useMeasuresData();
   const initialPhoto =
     "https://view.publitas.com/40824/1026433/pages/11096d18-d5a1-4920-be41-d5d0d5b031d2-at1000.jpg";
   const initialValues = {
@@ -32,6 +34,7 @@ const NewProduct = (props: Props) => {
     image: null as File | null,
     discount: 0,
     categoryId: "",
+    unitOfMeasureId: "",
   };
   const validationSchema = Yup.object({
     code: Yup.string().required("El código es requerido"),
@@ -47,6 +50,7 @@ const NewProduct = (props: Props) => {
       .min(0, "El descuento no puede ser menor que 0")
       .max(100, "El descuento no puede ser mayor que 100"),
     categoryId: Yup.number().required("El ID de la categoría es requerido"),
+    unitOfMeasureId: Yup.number().required("El ID de la medida es requerido"),
   });
   const formik = useFormik({
     initialValues,
@@ -57,11 +61,13 @@ const NewProduct = (props: Props) => {
         console.log(values);
         const brandId = parseInt(values.brandId as string);
         const categoryId = parseInt(values.categoryId as string);
+        const unitOfMeasureId = parseInt(values.categoryId as string);
         const res = await postProductByApi({
           ...values,
           image: values.image as File,
           categoryId,
           brandId,
+          unitOfMeasureId,
         });
         if (res.status === 201) {
           resetForm();
@@ -139,6 +145,13 @@ const NewProduct = (props: Props) => {
           items={brands}
           fieldNameTranslate="brands"
           value={formik.values.brandId}
+        />
+        <CustomOptionsWithOnlyValue
+          formik={formik}
+          fieldName="unitOfMeasureId"
+          items={meaures}
+          fieldNameTranslate={ProductTranslation["measure"]}
+          value={formik.values.unitOfMeasureId}
         />
         <button
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg"
