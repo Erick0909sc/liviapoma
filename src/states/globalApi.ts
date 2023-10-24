@@ -1,5 +1,6 @@
 import { IProductCart } from "@/shared/types";
 import {
+  BASE_URL,
   calcularDescuento,
   calcularSubtotal,
   calcularSubtotalItem,
@@ -8,8 +9,33 @@ import axios from "axios";
 import { Session } from "next-auth";
 
 export const getOffersByApi = () => axios.get(`/api/v1/offers`);
+export const deleteCartByApi = (id: number) =>
+  axios.delete(`/api/v1/cart?cartId=${id}`);
+export const getOrderByApi = (id: number) =>
+  axios.get(`${BASE_URL}/api/v1/orders/${id}`);
 
-export const postPayment = ({
+export const postOrder = ({
+  userId,
+  formToken,
+  orderTotalAmount,
+  orderCurrency,
+  products,
+}: {
+  userId: string;
+  formToken: string;
+  orderTotalAmount: number;
+  orderCurrency: string;
+  products: IProductCart[];
+}) =>
+  axios.post(`/api/v1/orders`, {
+    userId,
+    formToken,
+    orderTotalAmount,
+    orderCurrency,
+    products,
+  });
+
+export const postPayment = async ({
   cart,
   session,
 }: {
@@ -21,7 +47,13 @@ export const postPayment = ({
   const total = subtotalTotal - descuentoTotal;
   const totalCentimos = total * 100;
 
-  return axios.post(`/api/createPayment`, {
+  const response = await axios.post(`/api/v1/orders`, {
+    userId: session.user.id,
+    orderTotalAmount: totalCentimos,
+    orderCurrency: "PEN",
+    products: cart,
+  });
+  const res = await axios.post(`/api/createPayment`, {
     paymentConf: {
       amount: totalCentimos,
       currency: "PEN",
@@ -40,9 +72,12 @@ export const postPayment = ({
         },
         reference: session.user.id,
       },
-      orderId: "myOrderId-610455", // GENERAR ID RELATIVO
+      orderId: response.data.order.id,
     },
-    orderId: "myOrderId-610455", // GENERAR ID RELATIVO
+  });
+  return axios.patch(`/api/v1/orders`, {
+    id: response.data.order.id,
+    formToken: res.data.formToken,
   });
 };
 

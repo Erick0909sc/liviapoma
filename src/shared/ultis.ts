@@ -10,7 +10,10 @@ import {
 import { getCartUser } from "@/states/cart/cartSlice";
 
 export const itemsPerPage = 5;
-
+export const BASE_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3000/"
+    : "https://liviapoma.vercel.app/";
 export const formatPrice = (price: number) => {
   return price.toLocaleString("es-PE", {
     style: "currency",

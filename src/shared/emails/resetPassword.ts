@@ -1,5 +1,6 @@
 import prisma from "@/lib/prismadb";
 import nodemailer, { SentMessageInfo } from "nodemailer";
+import { BASE_URL } from "../ultis";
 type MailSendResult = { success?: any; error?: string } & (
   | { success: SentMessageInfo; message: string }
   | { error: string }
@@ -31,18 +32,10 @@ export const resetPassword = async (
       },
       // esto se porbo en mi maquina para que funcione el mailer
       tls: {
-        rejectUnauthorized: false
-    }
+        rejectUnauthorized: false,
+      },
     });
-    // URL for production app
-    // const resetLink = `https://liviapoma.vercel.app/resetpassword/${token}`;
-
-    // URL for both
-    const url_base =
-      process.env.NODE_ENV !== "production"
-        ? "http://localhost:3000/"
-        : "https://liviapoma.vercel.app/";
-    const resetLink = `${url_base}resetpassword/${token}`;
+    const resetLink = `${BASE_URL}resetpassword/${token}`;
 
     const mailOptions = {
       from: "Liviapoma",

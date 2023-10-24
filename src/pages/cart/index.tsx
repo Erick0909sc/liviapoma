@@ -52,7 +52,10 @@ const Cart = (props: Props) => {
                   <hr />
                   <div className="flex-1 flex flex-col">
                     {cart.products.map((product, index) => (
-                      <Card key={index} session={session} {...product} />
+                      <>
+                        <Card key={index} session={session} {...product} />
+                        <hr />
+                      </>
                     ))}
                   </div>
                 </div>
@@ -96,7 +99,7 @@ const Cart = (props: Props) => {
                   Inicia sesión para ver y completar tu carrito de compras.
                 </p>
                 <button
-                  className="bg-blue-950 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded shadow"
+                  className="bg-green-700 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded shadow"
                   onClick={() => signIn()}
                 >
                   Iniciar sesión
