@@ -1,10 +1,17 @@
-import { IProductCart } from '@/shared/types'
-import { calcularDescuento, calcularSubtotal, formatPrice } from '@/shared/ultis'
-import Link from 'next/link'
+import { IProductCart } from "@/shared/types";
+import {
+  calcularDescuento,
+  calcularSubtotal,
+  calcularSubtotalItem,
+  formatPrice,
+} from "@/shared/ultis";
+import { Session } from "next-auth";
+import Link from "next/link";
 
 type Props = {
-  cart: IProductCart[]
-}
+  cart: IProductCart[];
+  session: Session;
+};
 
 const Summary = ({ cart }: Props) => {
   const subtotalTotal = calcularSubtotal(cart);
@@ -32,9 +39,13 @@ const Summary = ({ cart }: Props) => {
           <span>{formatPrice(total)}</span>
         </p>
       </div>
-      <button className="text-white p-4 bg-green-700 hover:bg-green-500" type="button">Continuar compra</button>
+      <Link href="/checkout">
+        <span className="text-white p-4 bg-green-700 hover:bg-green-500 text-center">
+          Continuar compra
+        </span>
+      </Link>
     </div>
-  )
-}
+  );
+};
 
-export default Summary
+export default Summary;

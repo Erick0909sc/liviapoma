@@ -1,0 +1,501 @@
+{
+  "_name": "payment",
+
+  "clientAnswer": {
+    "shopId": "91463876",
+
+    "orderCycle": "CLOSED",
+
+    "orderStatus": "PAID",
+
+    "serverDate": "2023-10-24T01:28:20+00:00",
+
+    "orderDetails": {
+      "orderTotalAmount": 3000,
+
+      "orderEffectiveAmount": 3000,
+
+      "orderCurrency": "PEN",
+
+      "mode": "TEST",
+
+      "orderId": "myOrderId-610455",
+
+      "metadata": null,
+
+      "_type": "V4/OrderDetails"
+    },
+
+    "customer": {
+      "billingDetails": {
+        "address": null,
+
+        "category": null,
+
+        "cellPhoneNumber": null,
+
+        "city": null,
+
+        "country": null,
+
+        "district": null,
+
+        "firstName": "Juan",
+
+        "identityCode": null,
+
+        "identityType": null,
+
+        "language": "ES",
+
+        "lastName": "Peña",
+
+        "phoneNumber": null,
+
+        "state": null,
+
+        "streetNumber": null,
+
+        "title": null,
+
+        "zipCode": null,
+
+        "legalName": null,
+
+        "_type": "V4/Customer/BillingDetails"
+      },
+
+      "email": "sample@example.com",
+
+      "reference": "0101010101",
+
+      "shippingDetails": {
+        "address": null,
+
+        "address2": null,
+
+        "category": null,
+
+        "city": null,
+
+        "country": null,
+
+        "deliveryCompanyName": null,
+
+        "district": null,
+
+        "firstName": null,
+
+        "identityCode": null,
+
+        "lastName": null,
+
+        "legalName": null,
+
+        "phoneNumber": null,
+
+        "shippingMethod": null,
+
+        "shippingSpeed": null,
+
+        "state": null,
+
+        "streetNumber": null,
+
+        "zipCode": null,
+
+        "_type": "V4/Customer/ShippingDetails"
+      },
+
+      "extraDetails": {
+        "browserAccept": null,
+
+        "fingerPrintId": null,
+
+        "ipAddress": "179.6.49.184",
+
+        "browserUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+
+        "_type": "V4/Customer/ExtraDetails"
+      },
+
+      "shoppingCart": {
+        "insuranceAmount": null,
+
+        "shippingAmount": null,
+
+        "taxAmount": null,
+
+        "cartItemInfo": [
+          {
+            "productLabel": "CEMENTO",
+
+            "productType": null,
+
+            "productRef": "https://liviapoma.vercel.app/products/0101001",
+
+            "productQty": 5,
+
+            "productAmount": "3000",
+
+            "productVat": null,
+
+            "_type": "V4/Customer/ShoppingCartItem"
+          },
+
+          {
+            "productLabel": "CEMENTO",
+
+            "productType": null,
+
+            "productRef": "https://liviapoma.vercel.app/products/0101002",
+
+            "productQty": 5,
+
+            "productAmount": "3000",
+
+            "productVat": null,
+
+            "_type": "V4/Customer/ShoppingCartItem"
+          }
+        ],
+
+        "_type": "V4/Customer/ShoppingCart"
+      },
+
+      "_type": "V4/Customer/Customer"
+    },
+
+    "transactions": [
+      {
+        "shopId": "91463876",
+
+        "uuid": "d31003f3dfd641ddb24ef79d72473e48",
+
+        "amount": 3000,
+
+        "currency": "PEN",
+
+        "paymentMethodType": "CARD",
+
+        "paymentMethodToken": null,
+
+        "status": "PAID",
+
+        "detailedStatus": "AUTHORISED",
+
+        "operationType": "DEBIT",
+
+        "effectiveStrongAuthentication": "DISABLED",
+
+        "creationDate": "2023-10-24T01:28:18+00:00",
+
+        "errorCode": null,
+
+        "errorMessage": null,
+
+        "detailedErrorCode": null,
+
+        "detailedErrorMessage": null,
+
+        "metadata": null,
+
+        "transactionDetails": {
+          "liabilityShift": "NO",
+
+          "effectiveAmount": 3000,
+
+          "effectiveCurrency": "PEN",
+
+          "creationContext": "CHARGE",
+
+          "cardDetails": {
+            "paymentSource": "EC",
+
+            "manualValidation": "NO",
+
+            "expectedCaptureDate": "2023-10-24T01:28:18+00:00",
+
+            "effectiveBrand": "VISA",
+
+            "pan": "497010XXXXXX0055",
+
+            "expiryMonth": 12,
+
+            "expiryYear": 2025,
+
+            "country": "PE",
+
+            "issuerCode": null,
+
+            "issuerName": "LYRA BANK S.A.",
+
+            "effectiveProductCode": "F",
+
+            "legacyTransId": "9hoauh",
+
+            "legacyTransDate": "2023-10-24T01:28:18+00:00",
+
+            "paymentMethodSource": "NEW",
+
+            "authorizationResponse": {
+              "amount": 3000,
+
+              "currency": "PEN",
+
+              "authorizationDate": "2023-10-24T01:28:19+00:00",
+
+              "authorizationNumber": "3fe41a",
+
+              "authorizationResult": "0",
+
+              "authorizationMode": "FULL",
+
+              "_type": "V4/PaymentMethod/Details/Cards/CardAuthorizationResponse"
+            },
+
+            "captureResponse": {
+              "refundAmount": null,
+
+              "refundCurrency": null,
+
+              "captureDate": null,
+
+              "captureFileNumber": null,
+
+              "effectiveRefundAmount": null,
+
+              "effectiveRefundCurrency": null,
+
+              "_type": "V4/PaymentMethod/Details/Cards/CardCaptureResponse"
+            },
+
+            "threeDSResponse": {
+              "authenticationResultData": {
+                "transactionCondition": null,
+
+                "enrolled": null,
+
+                "status": null,
+
+                "eci": null,
+
+                "xid": null,
+
+                "cavvAlgorithm": null,
+
+                "cavv": null,
+
+                "signValid": null,
+
+                "brand": null,
+
+                "_type": "V4/PaymentMethod/Details/Cards/CardAuthenticationResponse"
+              },
+
+              "_type": "V4/PaymentMethod/Details/Cards/ThreeDSResponse"
+            },
+
+            "authenticationResponse": null,
+
+            "installmentNumber": 0,
+
+            "installmentCode": "0",
+
+            "markAuthorizationResponse": {
+              "amount": null,
+
+              "currency": null,
+
+              "authorizationDate": null,
+
+              "authorizationNumber": null,
+
+              "authorizationResult": null,
+
+              "_type": "V4/PaymentMethod/Details/Cards/MarkAuthorizationResponse"
+            },
+
+            "cardHolderName": null,
+
+            "identityDocumentNumber": null,
+
+            "identityDocumentType": null,
+
+            "initialIssuerTransactionIdentifier": null,
+
+            "productCategory": "CREDIT",
+
+            "nature": "CONSUMER_CARD",
+
+            "_type": "V4/PaymentMethod/Details/CardDetails"
+          },
+
+          "paymentMethodDetails": {
+            "id": "497010XXXXXX0055",
+
+            "paymentSource": "EC",
+
+            "manualValidation": "NO",
+
+            "expectedCaptureDate": "2023-10-24T01:28:18+00:00",
+
+            "effectiveBrand": "VISA",
+
+            "expiryMonth": 12,
+
+            "expiryYear": 2025,
+
+            "country": "PE",
+
+            "issuerCode": null,
+
+            "issuerName": "LYRA BANK S.A.",
+
+            "effectiveProductCode": "F",
+
+            "legacyTransId": "9hoauh",
+
+            "legacyTransDate": "2023-10-24T01:28:18+00:00",
+
+            "paymentMethodSource": "NEW",
+
+            "authorizationResponse": {
+              "amount": 3000,
+
+              "currency": "PEN",
+
+              "authorizationDate": "2023-10-24T01:28:19+00:00",
+
+              "authorizationNumber": "3fe41a",
+
+              "authorizationResult": "0",
+
+              "authorizationMode": "FULL",
+
+              "_type": "V4/PaymentMethod/Details/Cards/CardAuthorizationResponse"
+            },
+
+            "captureResponse": {
+              "refundAmount": null,
+
+              "refundCurrency": null,
+
+              "captureDate": null,
+
+              "captureFileNumber": null,
+
+              "effectiveRefundAmount": null,
+
+              "effectiveRefundCurrency": null,
+
+              "_type": "V4/PaymentMethod/Details/Cards/CardCaptureResponse"
+            },
+
+            "authenticationResponse": null,
+
+            "installmentNumber": 0,
+
+            "installmentCode": "0",
+
+            "markAuthorizationResponse": {
+              "amount": null,
+
+              "currency": null,
+
+              "authorizationDate": null,
+
+              "authorizationNumber": null,
+
+              "authorizationResult": null,
+
+              "_type": "V4/PaymentMethod/Details/Cards/MarkAuthorizationResponse"
+            },
+
+            "cardHolderName": null,
+
+            "identityDocumentNumber": null,
+
+            "identityDocumentType": null,
+
+            "initialIssuerTransactionIdentifier": null,
+
+            "_type": "V4/PaymentMethod/Details/PaymentMethodDetails"
+          },
+
+          "acquirerDetails": null,
+
+          "fraudManagement": {
+            "_type": "V4/PaymentMethod/Details/FraudManagement"
+          },
+
+          "subscriptionDetails": {
+            "subscriptionId": null,
+
+            "_type": "V4/PaymentMethod/Details/SubscriptionDetails"
+          },
+
+          "parentTransactionUuid": null,
+
+          "mid": "5563095",
+
+          "sequenceNumber": 1,
+
+          "taxAmount": null,
+
+          "preTaxAmount": null,
+
+          "taxRate": null,
+
+          "externalTransactionId": "644458",
+
+          "nsu": null,
+
+          "tid": null,
+
+          "acquirerNetwork": "PROCESOS_ISO",
+
+          "taxRefundAmount": null,
+
+          "userInfo": "JS Client",
+
+          "paymentMethodTokenPreviouslyRegistered": null,
+
+          "occurrenceType": "UNITAIRE",
+
+          "archivalReferenceId": "PV1024644458",
+
+          "useCase": null,
+
+          "wallet": null,
+
+          "_type": "V4/TransactionDetails"
+        },
+
+        "_type": "V4/PaymentTransaction"
+      }
+    ],
+
+    "subMerchantDetails": null,
+
+    "_type": "V4/Payment"
+  },
+
+  "hash": "4895a1460d9ba2821a0df842a8fa1a74e1c5aa752cb242d7a3b4334f31ff5a5d",
+
+  "hashAlgorithm": "sha256_hmac",
+
+  "hashKey": "sha256_hmac",
+
+  "serverDate": null,
+
+  "_type": "V4/Charge/ProcessPaymentAnswer",
+
+  "form": {},
+
+  "extra": {},
+
+  "rawClientAnswer": "{\"shopId\":\"91463876\",\"orderCycle\":\"CLOSED\",\"orderStatus\":\"PAID\",\"serverDate\":\"2023-10-24T01:28:20+00:00\",\"orderDetails\":{\"orderTotalAmount\":3000,\"orderEffectiveAmount\":3000,\"orderCurrency\":\"PEN\",\"mode\":\"TEST\",\"orderId\":\"myOrderId-610455\",\"metadata\":null,\"_type\":\"V4/OrderDetails\"},\"customer\":{\"billingDetails\":{\"address\":null,\"category\":null,\"cellPhoneNumber\":null,\"city\":null,\"country\":null,\"district\":null,\"firstName\":\"Juan\",\"identityCode\":null,\"identityType\":null,\"language\":\"ES\",\"lastName\":null,\"phoneNumber\":null,\"state\":null,\"streetNumber\":null,\"title\":null,\"zipCode\":null,\"legalName\":null,\"_type\":\"V4/Customer/BillingDetails\"},\"email\":\"sample@example.com\",\"reference\":\"0101010101\",\"shippingDetails\":{\"address\":null,\"address2\":null,\"category\":null,\"city\":null,\"country\":null,\"deliveryCompanyName\":null,\"district\":null,\"firstName\":null,\"identityCode\":null,\"lastName\":null,\"legalName\":null,\"phoneNumber\":null,\"shippingMethod\":null,\"shippingSpeed\":null,\"state\":null,\"streetNumber\":null,\"zipCode\":null,\"_type\":\"V4/Customer/ShippingDetails\"},\"extraDetails\":{\"browserAccept\":null,\"fingerPrintId\":null,\"ipAddress\":\"179.6.49.184\",\"browserUserAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36\",\"_type\":\"V4/Customer/ExtraDetails\"},\"shoppingCart\":{\"insuranceAmount\":null,\"shippingAmount\":null,\"taxAmount\":null,\"cartItemInfo\":[{\"productLabel\":\"CEMENTO\",\"productType\":null,\"productRef\":\"01010101\",\"productQty\":5,\"productAmount\":\"3000\",\"productVat\":null,\"_type\":\"V4/Customer/ShoppingCartItem\"},{\"productLabel\":\"CEMENTO\",\"productType\":null,\"productRef\":\"01010102\",\"productQty\":5,\"productAmount\":\"3000\",\"productVat\":null,\"_type\":\"V4/Customer/ShoppingCartItem\"}],\"_type\":\"V4/Customer/ShoppingCart\"},\"_type\":\"V4/Customer/Customer\"},\"transactions\":[{\"shopId\":\"91463876\",\"uuid\":\"d31003f3dfd641ddb24ef79d72473e48\",\"amount\":3000,\"currency\":\"PEN\",\"paymentMethodType\":\"CARD\",\"paymentMethodToken\":null,\"status\":\"PAID\",\"detailedStatus\":\"AUTHORISED\",\"operationType\":\"DEBIT\",\"effectiveStrongAuthentication\":\"DISABLED\",\"creationDate\":\"2023-10-24T01:28:18+00:00\",\"errorCode\":null,\"errorMessage\":null,\"detailedErrorCode\":null,\"detailedErrorMessage\":null,\"metadata\":null,\"transactionDetails\":{\"liabilityShift\":\"NO\",\"effectiveAmount\":3000,\"effectiveCurrency\":\"PEN\",\"creationContext\":\"CHARGE\",\"cardDetails\":{\"paymentSource\":\"EC\",\"manualValidation\":\"NO\",\"expectedCaptureDate\":\"2023-10-24T01:28:18+00:00\",\"effectiveBrand\":\"VISA\",\"pan\":\"497010XXXXXX0055\",\"expiryMonth\":12,\"expiryYear\":2025,\"country\":\"PE\",\"issuerCode\":null,\"issuerName\":\"LYRA BANK S.A.\",\"effectiveProductCode\":\"F\",\"legacyTransId\":\"9hoauh\",\"legacyTransDate\":\"2023-10-24T01:28:18+00:00\",\"paymentMethodSource\":\"NEW\",\"authorizationResponse\":{\"amount\":3000,\"currency\":\"PEN\",\"authorizationDate\":\"2023-10-24T01:28:19+00:00\",\"authorizationNumber\":\"3fe41a\",\"authorizationResult\":\"0\",\"authorizationMode\":\"FULL\",\"_type\":\"V4/PaymentMethod/Details/Cards/CardAuthorizationResponse\"},\"captureResponse\":{\"refundAmount\":null,\"refundCurrency\":null,\"captureDate\":null,\"captureFileNumber\":null,\"effectiveRefundAmount\":null,\"effectiveRefundCurrency\":null,\"_type\":\"V4/PaymentMethod/Details/Cards/CardCaptureResponse\"},\"threeDSResponse\":{\"authenticationResultData\":{\"transactionCondition\":null,\"enrolled\":null,\"status\":null,\"eci\":null,\"xid\":null,\"cavvAlgorithm\":null,\"cavv\":null,\"signValid\":null,\"brand\":null,\"_type\":\"V4/PaymentMethod/Details/Cards/CardAuthenticationResponse\"},\"_type\":\"V4/PaymentMethod/Details/Cards/ThreeDSResponse\"},\"authenticationResponse\":null,\"installmentNumber\":0,\"installmentCode\":\"0\",\"markAuthorizationResponse\":{\"amount\":null,\"currency\":null,\"authorizationDate\":null,\"authorizationNumber\":null,\"authorizationResult\":null,\"_type\":\"V4/PaymentMethod/Details/Cards/MarkAuthorizationResponse\"},\"cardHolderName\":null,\"identityDocumentNumber\":null,\"identityDocumentType\":null,\"initialIssuerTransactionIdentifier\":null,\"productCategory\":\"CREDIT\",\"nature\":\"CONSUMER_CARD\",\"_type\":\"V4/PaymentMethod/Details/CardDetails\"},\"paymentMethodDetails\":{\"id\":\"497010XXXXXX0055\",\"paymentSource\":\"EC\",\"manualValidation\":\"NO\",\"expectedCaptureDate\":\"2023-10-24T01:28:18+00:00\",\"effectiveBrand\":\"VISA\",\"expiryMonth\":12,\"expiryYear\":2025,\"country\":\"PE\",\"issuerCode\":null,\"issuerName\":\"LYRA BANK S.A.\",\"effectiveProductCode\":\"F\",\"legacyTransId\":\"9hoauh\",\"legacyTransDate\":\"2023-10-24T01:28:18+00:00\",\"paymentMethodSource\":\"NEW\",\"authorizationResponse\":{\"amount\":3000,\"currency\":\"PEN\",\"authorizationDate\":\"2023-10-24T01:28:19+00:00\",\"authorizationNumber\":\"3fe41a\",\"authorizationResult\":\"0\",\"authorizationMode\":\"FULL\",\"_type\":\"V4/PaymentMethod/Details/Cards/CardAuthorizationResponse\"},\"captureResponse\":{\"refundAmount\":null,\"refundCurrency\":null,\"captureDate\":null,\"captureFileNumber\":null,\"effectiveRefundAmount\":null,\"effectiveRefundCurrency\":null,\"_type\":\"V4/PaymentMethod/Details/Cards/CardCaptureResponse\"},\"authenticationResponse\":null,\"installmentNumber\":0,\"installmentCode\":\"0\",\"markAuthorizationResponse\":{\"amount\":null,\"currency\":null,\"authorizationDate\":null,\"authorizationNumber\":null,\"authorizationResult\":null,\"_type\":\"V4/PaymentMethod/Details/Cards/MarkAuthorizationResponse\"},\"cardHolderName\":null,\"identityDocumentNumber\":null,\"identityDocumentType\":null,\"initialIssuerTransactionIdentifier\":null,\"_type\":\"V4/PaymentMethod/Details/PaymentMethodDetails\"},\"acquirerDetails\":null,\"fraudManagement\":{\"_type\":\"V4/PaymentMethod/Details/FraudManagement\"},\"subscriptionDetails\":{\"subscriptionId\":null,\"_type\":\"V4/PaymentMethod/Details/SubscriptionDetails\"},\"parentTransactionUuid\":null,\"mid\":\"5563095\",\"sequenceNumber\":1,\"taxAmount\":null,\"preTaxAmount\":null,\"taxRate\":null,\"externalTransactionId\":\"644458\",\"nsu\":null,\"tid\":null,\"acquirerNetwork\":\"PROCESOS_ISO\",\"taxRefundAmount\":null,\"userInfo\":\"JS Client\",\"paymentMethodTokenPreviouslyRegistered\":null,\"occurrenceType\":\"UNITAIRE\",\"archivalReferenceId\":\"PV1024644458\",\"useCase\":null,\"wallet\":null,\"_type\":\"V4/TransactionDetails\"},\"_type\":\"V4/PaymentTransaction\"}],\"subMerchantDetails\":null,\"_type\":\"V4/Payment\"}",
+
+  "__store": true
+}

@@ -58,7 +58,7 @@ const Cart = (props: Props) => {
                 </div>
                 <div className="md:w-1/4 relative">
                   <div className="flex flex-col gap-y-8 sticky top-0">
-                    <Summary cart={cart.products} />
+                    <Summary cart={cart.products} session={session} />
                   </div>
                 </div>
               </div>
