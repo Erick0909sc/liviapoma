@@ -1,16 +1,47 @@
-import { IProductCart } from '@/shared/types'
-import { calcularDescuento, calcularSubtotal, formatPrice } from '@/shared/ultis'
-import Link from 'next/link'
+import { IProductCart } from "@/shared/types";
+import {
+  calcularDescuento,
+  calcularSubtotal,
+  calcularSubtotalItem,
+  calcularTotalCentimos,
+  formatPrice,
+} from "@/shared/ultis";
+import { postPayment } from "@/states/globalApi";
+import { Session } from "next-auth";
+import Link from "next/link";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import LoaderBtn from "./LoaderBtn";
+import { useRouter } from "next/router";
 
 type Props = {
-  cart: IProductCart[]
-}
+  cart: IProductCart[];
+  session: Session;
+};
 
-const Summary = ({ cart }: Props) => {
+const Summary = ({ cart, session }: Props) => {
+  const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
   const subtotalTotal = calcularSubtotal(cart);
   const descuentoTotal = calcularDescuento(cart);
   const total = subtotalTotal - descuentoTotal;
-
+  const handleCheckout = async () => {
+    try {
+      setIsProcessing(true);
+      const response = await postPayment({
+        cart: cart,
+        session: session,
+      });
+      if (response.status === 200) {
+        router.push(`/checkout?orderId=${response.data.id}`);
+        toast.loading("Redirigiendo...", { duration: 2000 });
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error. Por favor, inténtelo nuevamente.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
   return (
     <div className="md:pt-6 pt-14 bg-white p-6 flex flex-col text-gray-600">
       <div>
@@ -32,9 +63,16 @@ const Summary = ({ cart }: Props) => {
           <span>{formatPrice(total)}</span>
         </p>
       </div>
-      <button className="text-white p-4 bg-green-700 hover:bg-green-500" type="button">Continuar compra</button>
+      <button
+        type="button"
+        className="inline-flex justify-center text-white p-4 bg-green-700 hover:bg-green-500 text-center disabled:opacity-50 disabled:bg-black"
+        onClick={handleCheckout}
+        disabled={isProcessing}
+      >
+        {isProcessing ? <LoaderBtn /> : "Continuar compra"}
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Summary
+export default Summary;

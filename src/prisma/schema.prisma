@@ -49,6 +49,8 @@ model User {
   accounts           Account[]
   sessions           Session[]
   PasswordResetToken PasswordResetToken[]
+  reviews            Review[]
+  orders             Order[]
 }
 
 model PasswordResetToken {
@@ -89,6 +91,8 @@ model Product {
   brandId         Int?
   unitOfMeasure   UnitOfMeasure @relation(fields: [unitOfMeasureId], references: [id])
   unitOfMeasureId Int
+  reviews         Review[]
+  orders          Order[]
 }
 
 model UnitOfMeasure {
@@ -151,6 +155,37 @@ model BrandDiscount {
   brand    Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
   brandId  Int
   discount Float
+}
+
+model Order {
+  id               Int         @id @default(autoincrement())
+  userId           String
+  checkoutUuid     String?     @unique
+  orderTotalAmount Int
+  user             User        @relation(fields: [userId], references: [id])
+  products         Product[]
+  orderStatus      OrderStatus @default(PROCESS)
+  orderCurrency    String
+  formToken        String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PAID
+  PROCESS
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  productCode String
+  userId      String
+  description String
+  rating      Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  product     Product  @relation(fields: [productCode], references: [code], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // enum Role {

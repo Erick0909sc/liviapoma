@@ -10,7 +10,10 @@ import {
 import { getCartUser } from "@/states/cart/cartSlice";
 
 export const itemsPerPage = 5;
-
+export const BASE_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3000/"
+    : "https://liviapoma.vercel.app/";
 export const formatPrice = (price: number) => {
   return price.toLocaleString("es-PE", {
     style: "currency",
@@ -85,6 +88,12 @@ export const processImage = (image: File) => {
 
 export const calcularSubtotalItem = (producto: IProductCart): number => {
   return producto.quantity * producto.product.price;
+};
+
+export const calcularTotalCentimos = (numero: number) => {
+  var resultado = numero * 100;
+  resultado = Math.floor(resultado);
+  return resultado;
 };
 
 export const calcularSubtotal = (items: IProductCart[]): number => {

@@ -74,7 +74,7 @@ const Resetpassword = (props: Props) => {
             </button>
           </form>
           <Link href="/">
-            <span className="mt-4 text-green-600 hover:underline">
+            <span className="mt-4 text-green-600 hover:underline hover:cursor-pointer">
               Volver a la página de inicio
             </span>
           </Link>
