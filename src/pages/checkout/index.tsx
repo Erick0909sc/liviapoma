@@ -22,39 +22,13 @@ import Timer from "@/components/Timer";
 
 type Props = {
   formToken: string;
-  open: boolean;
   cart: IProductCart[];
 };
 
-const Checkout = ({ formToken, open, cart }: Props) => {
-  if (!open) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <Head>
-          <title>Liviapoma - Pago Procesado</title>
-        </Head>
-        <h1 className="text-4xl text-center font-extrabold text-green-600">
-          Pago Procesado Anteriormente
-        </h1>
-        <p className="text-gray-600 mt-2">
-          ¡Tu pago ya ha sido procesado con éxito anteriormente!
-        </p>
-        <p className="text-gray-600 mt-2">
-          Si deseas realizar otra compra, puedes hacerlo ahora.
-        </p>
-        <Link href="/">
-          <span className="mt-4 text-green-600 hover:underline hover:cursor-pointer">
-            Volver a la página de inicio
-          </span>
-        </Link>
-      </div>
-    );
-  }
+const Checkout = ({ formToken, cart }: Props) => {
   const [message, setMessage] = useState("");
   const router = useRouter();
-  const subtotalTotal = calcularSubtotal(cart);
-  const descuentoTotal = calcularDescuento(cart);
-  const total = subtotalTotal - descuentoTotal;
+
   useEffect(() => {
     async function setupPaymentForm() {
       const endpoint = "https://static.lyra.com";
@@ -70,7 +44,7 @@ const Checkout = ({ formToken, open, cart }: Props) => {
           "#myPaymentForm"
         ); /* Attach a payment form  to myPaymentForm div*/
         await KR.showForm(result.formId); /* show the payment form */
-      
+
         await KR.onSubmit(async (paymentData) => {
           const response = await postPaymentValidate({ paymentData });
           if (response.status === 200) {
@@ -86,8 +60,10 @@ const Checkout = ({ formToken, open, cart }: Props) => {
     }
 
     setupPaymentForm();
-  }, []);
-
+  }, [formToken, cart, router]);
+  const subtotalTotal = calcularSubtotal(cart);
+  const descuentoTotal = calcularDescuento(cart);
+  const total = subtotalTotal - descuentoTotal;
   return (
     <>
       <Head>
@@ -107,10 +83,10 @@ const Checkout = ({ formToken, open, cart }: Props) => {
               <hr />
               <div className="flex-1 flex flex-col">
                 {cart.map((product, index) => (
-                  <>
-                    <CardSummary key={index} {...product} />
+                  <div key={index}>
+                    <CardSummary {...product} />
                     <hr />
-                  </>
+                  </div>
                 ))}
                 <div className="px-6">
                   <p className="flex justify-between my-2 text-base">
@@ -166,25 +142,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { cart } = response.data;
     if (orderStatus === "PAID") {
       return {
-        props: {
-          formToken: formToken,
-          open: false,
-          cart: cart,
+        redirect: {
+          destination: "/",
         },
       };
     }
     return {
       props: {
         formToken: formToken,
-        open: true,
         cart: cart,
       },
     };
   } catch (error) {
     // { message: 'cart is empty' } === payment made previously
     return {
-      props: {
-        open: false,
+      redirect: {
+        destination: "/",
       },
     };
   }

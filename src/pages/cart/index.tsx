@@ -52,10 +52,10 @@ const Cart = (props: Props) => {
                   <hr />
                   <div className="flex-1 flex flex-col">
                     {cart.products.map((product, index) => (
-                      <>
-                        <Card key={index} session={session} {...product} />
+                      <div key={index}>
+                        <Card session={session} {...product} />
                         <hr />
-                      </>
+                      </div>
                     ))}
                   </div>
                 </div>

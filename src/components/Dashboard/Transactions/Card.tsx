@@ -48,7 +48,7 @@ const Card = ({ order }: Props) => {
       <div className="mt-2 flex justify-center">
         <button
           type="button"
-          className={`mt-2 px-3 py-1 font-bold bg-gray-300 text-gray-800 border-gray-800 border-2`}
+          className={`mt-2 px-3 py-1 font-bold bg-blue-300 text-blue-800 border-blue-800 border-2`}
         >
           Ver más detalles
         </button>
