@@ -20,6 +20,10 @@ export default async function handler(
         res.status(500).json(error);
       }
       break;
+
+
+
+
     case "PUT":
       try {
         const { id, passwordChange } = req.query;
@@ -33,20 +37,25 @@ export default async function handler(
         if (passwordChange) {
           const {
             password,
+            newPassword
           }: {
             password: string;
+            newPassword:string
           } = req.body;
+          
           const verifyPassword = await compare(
             password ?? "",
             findUser.password ?? ""
           );
+
           if (!verifyPassword) {
             return res.status(401).json({
               message:
                 "La contraseña es incorrecta. Para cambiarla es necesario ingresar la contraseña actual.",
             });
           }
-          const passwordhash = await hash(password, 5);
+          const passwordhash = await  hash(newPassword, 5);
+
           const userUpdate = await prisma.user.update({
             where: {
               id: findUser.id,

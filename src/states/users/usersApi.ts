@@ -22,5 +22,22 @@ export const putUserDataApi = ({ id, name, email, password, image }: { id: strin
 };
 
 
-export const getusername = (id:string)=> axios.get(`api/v1/user/${id}`)
+
+export const changePasswordApi = async (id: string, oldPassword: string, newPassword: string) => {
+  try {
+    const response = await axios.put(`/api/v1/user/${id}?passwordChange=true`, {
+      password: oldPassword,
+      newPassword: newPassword,
+    });
+  
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+
+export const getusername = (id: string) => axios.get(`api/v1/user/${id}`)
 

@@ -69,11 +69,11 @@ const SearchNav = (props: Props) => {
     };
   }, [dispatch, allProducts]);
   return (
-    <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[30%] flex justify-center items-center gap-2 relative">
+    <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[60%] flex justify-center items-center gap-2 relative">
       <input
         type="text"
         placeholder="¿Qué Buscas?"
-        className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black "
+        className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black outline-none"
         value={searchQuery}
         onChange={(e) => {
           setSearchQuery(e.target.value);
