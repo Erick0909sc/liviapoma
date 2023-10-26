@@ -4,6 +4,7 @@ type Props = {
 };
 
 const Category = ({ name }: Props) => {
+  
   return (
     <div className="w-36 border-r grid place-content-center border-slate-900">
       <Link href={`/products?category=${name}`}>
