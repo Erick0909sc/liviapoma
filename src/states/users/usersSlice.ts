@@ -30,12 +30,20 @@ export const postUser = createAsyncThunk(
 
 export const putUser = createAsyncThunk(
   "users/putUser",
-  async ({ id, email, password, image, name }: { id: string, name: string, email: string, password: string, image: string }, { rejectWithValue }) => {
-    console.log("Datos para editar el usuario:", { name, id, email, password, image });
+  async ({ id, email, password, image, name }: { id: string, name: string, email: string, password: string, image: File | null }, { rejectWithValue }) => {
     try {
-      const response = await putUserDataApi({ id, name, email, password, image })
-      // console.log(response);
-      return response.data;
+      let responseImage
+      if (image) {
+        responseImage = await processImage(image);
+      }
+
+      const response = await putUserDataApi({ id, name, email, password, image: responseImage?.data })
+      const statusCode = response.status;
+      if (statusCode === 201) {
+        return response.data;
+      } else {
+        return rejectWithValue(response.data);
+      }
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -91,17 +99,13 @@ export const usersSlice = createSlice({
 
     builder.addCase(putUser.fulfilled, (state, action) => {
       state.EditUser = action.payload
-      // console.log(state.EditUser)
       state.userStatus = EStateGeneric.SUCCEEDED;
-      console.log(state.userStatus);
     });
     builder.addCase(putUser.pending, (state, action) => {
       state.userStatus = EStateGeneric.PENDING;
-      // console.log(state.userStatus);
     });
     builder.addCase(putUser.rejected, (state, action) => {
       state.userStatus = EStateGeneric.FAILED;
-      // console.log(state.userStatus);
     });
 
 
@@ -110,15 +114,12 @@ export const usersSlice = createSlice({
     builder.addCase(getoneUser.fulfilled, (state, action) => {
       state.OneUser = action.payload
       state.userStatus = EStateGeneric.SUCCEEDED;
-      console.log(state.userStatus);
     });
     builder.addCase(getoneUser.pending, (state, action) => {
       state.userStatus = EStateGeneric.PENDING;
-      // console.log(state.userStatus);
     });
     builder.addCase(getoneUser.rejected, (state, action) => {
       state.userStatus = EStateGeneric.FAILED;
-      // console.log(state.userStatus);
     });
 
   },

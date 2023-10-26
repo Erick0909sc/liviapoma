@@ -30,5 +30,11 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard/:patch*", "/profile/:patch*", "/success/:patch*"],
+  matcher: [
+    "/dashboard/:patch*",
+    "/profile/:patch*",
+    "/success/:patch*",
+    "/successPayment",
+    "/checkout",
+  ],
 };

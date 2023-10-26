@@ -10,7 +10,8 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-
+import useCategoriesData from "@/hooks/useCategoriesData";
+import Categorysearch from "@/components/Categories/Categorysearch";
 type Props = {};
 
 const SearchNav = (props: Props) => {
@@ -19,10 +20,20 @@ const SearchNav = (props: Props) => {
   const allProducts = useSelector(selectAllProducts);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [visibleProducts, setVisibleProducts] = useState(7);
   const [searching, setSearching] = useState(false);
+  const categories = useCategoriesData();
+  const handleSearchClick = () => {
+    if (searchQuery.trim() !== "") {
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const filteredCategories = categories.filter((category) =>
+    category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const noResults = filteredProducts.length === 0 && searchQuery !== "";
@@ -69,11 +80,11 @@ const SearchNav = (props: Props) => {
     };
   }, [dispatch, allProducts]);
   return (
-    <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[30%] flex justify-center items-center gap-2 relative">
+    <div className="NAVEGACION w-[53%] sm:w-[38%] lg:w-[60%] flex justify-center items-center gap-2 relative">
       <input
         type="text"
         placeholder="¿Qué Buscas?"
-        className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black "
+        className="p-1 rounded-2xl w-[80%] sm:w-[50%] text-center text-black outline-none"
         value={searchQuery}
         onChange={(e) => {
           setSearchQuery(e.target.value);
@@ -81,7 +92,7 @@ const SearchNav = (props: Props) => {
         }}
         onFocus={() => setShowSearch(searchQuery.length > 0)}
       />
-      <button>
+      <button onClick={handleSearchClick}>
         <FaSearch className="text-[20px]" />
       </button>
 
@@ -93,23 +104,45 @@ const SearchNav = (props: Props) => {
           {noResults ? (
             <p className="text-red-500">No se encontraron resultados</p>
           ) : (
-            <div className="product-list max-h-[300px] overflow-y-auto w-full">
-              {filteredProducts.map((product, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleProductClick(product.code)}
-                  className="product-item flex items-center p-2 text-gray-700"
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={50}
-                    height={50}
-                    className="mr-2"
-                  />
-                  {product.name}
+            <div>
+              <div className="product-list max-h-[300px] overflow-y-auto w-full">
+                {filteredProducts
+                  .slice(0, visibleProducts)
+                  .map((product, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleProductClick(product.code)}
+                      className="product-item flex items-center p-2 text-gray-700"
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={50}
+                        height={50}
+                        className="mr-2"
+                      />
+                      {product.name}
+                    </div>
+                  ))}
+                <div className="category-list max-h-[300px] overflow-y-auto w-full">
+                  <span className="flex items-center justify-center text-sm font-medium text-black">
+                    categorias
+                  </span>
+                  {filteredCategories.map((category, index) => (
+                    <div
+                      key={index}
+                      className="category-item p-2 text-gray-700 hover:bg-gray-300"
+                    >
+                      <Categorysearch key={index} name={category} />
+                    </div>
+                  ))}
                 </div>
-              ))}
+                {filteredProducts.length > visibleProducts && (
+                  <button className="w-full text-center py-2 bg-gray-500 text-white">
+                    Ver más
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

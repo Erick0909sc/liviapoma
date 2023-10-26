@@ -66,7 +66,7 @@ const Nadvar = (props: Props) => {
           )}
         </div>
 
-        <div className="hidden sm:flex w-[40%]  sm:w-[55%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
+        <div className="hidden sm:flex w-[40%]  sm:w-[75%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
           <Link href={"/"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <AiFillHome />

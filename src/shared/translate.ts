@@ -18,3 +18,8 @@ export const ProductTranslation: { [key: string]: string } = {
   discount: "Descuento",
   category: "Categoría",
 };
+
+export const codeStatusOrderTranslation: { [key: string]: string } = {
+  PAID: "COMPLETADO",
+  PROCESS: "PENDIENTE",
+};

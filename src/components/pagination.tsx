@@ -64,7 +64,7 @@ const Pagination = ({
         </button>
       ))}
       <button
-        disabled={currentPage === maxPages}
+        disabled={currentPage === maxPages || !maxPages}
         onClick={nextPage}
         className="disabled:opacity-50 hover:text-green-800 text-green-700"
       >

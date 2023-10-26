@@ -42,8 +42,8 @@ const Card: React.FC<Props> = ({
    // eslint-disable-next-line react-hooks/rules-of-hooks
    useEffect(() => {
     AOS.init({
-      duration: 2000, // Duración de las animaciones en milisegundos
-      offset: 300, // Desplazamiento en píxeles desde el borde superior del elemento para activar la animación
+      duration: 1000, // Duración de las animaciones en milisegundos
+      offset: 200, // Desplazamiento en píxeles desde el borde superior del elemento para activar la animación
     });
   }, []); // Asegúrate de ejecutar esto solo una vez después del montaje del componente
 

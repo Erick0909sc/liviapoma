@@ -81,7 +81,18 @@ export default async function handler(
       break;
     case "DELETE":
       try {
-        const { productCode, userId } = req.query;
+        const { productCode, userId, cartId } = req.query;
+        if (cartId) {
+          const deletedCart = await prisma.cart.delete({
+            where: {
+              id: parseInt(cartId as string),
+            },
+          });
+          return res.status(200).json({
+            deletedCart,
+            message: "¡Carrito de compras ha sido eliminado exitosamente!",
+          });
+        }
         const cart = await prisma.cart.findUnique({
           where: {
             userId: userId as string,
