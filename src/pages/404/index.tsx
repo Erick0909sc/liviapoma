@@ -9,14 +9,14 @@ const Page404 = (props: Props) => {
       <Head>
         <title>Liviapoma - Página no encontrada</title>
       </Head>
-      <h1 className="text-4xl font-extrabold text-gray-800">
+      <h1 className="text-4xl text-center font-extrabold text-gray-800">
         404 - Página no encontrada
       </h1>
       <p className="text-gray-600 mt-2">
         La página que estás buscando no existe.
       </p>
       <Link href="/">
-        <span className="mt-4 text-green-600 hover:underline">
+        <span className="mt-4 text-green-600 hover:underline hover:cursor-pointer">
           Volver a la página de inicio
         </span>
       </Link>

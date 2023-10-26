@@ -9,8 +9,10 @@ const Failed = ({
 }: Props) => {
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className="text-4xl font-extrabold text-gray-800">{tittle}</h1>
-      <p className="text-gray-600 mt-2">{text}</p>
+      <h1 className="text-4xl text-center font-extrabold text-gray-800">
+        {tittle}
+      </h1>
+      <p className="text-gray-600 mt-2 p-2 text-justify">{text}</p>
     </div>
   );
 };

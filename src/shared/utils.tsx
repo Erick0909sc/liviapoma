@@ -6,6 +6,8 @@ import {
   FiBarChart2,
   FiCheckCircle,
 } from "react-icons/fi";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+
 export const dashboardRoutes = [
   {
     name: "Dashboard",
@@ -58,6 +60,10 @@ export const sidebarItems = [
     text: "Offers",
     icon: <FiCheckCircle className="text-2xl" />,
   },
+  {
+    text: "Transactions",
+    icon: <FaMoneyBillTransfer className="text-2xl" />,
+  },
 ];
 export const translate: { [key: string]: string } = {
   Dashboard: "Tablero de control",
@@ -66,4 +72,5 @@ export const translate: { [key: string]: string } = {
   Administración: "Administración",
   Disabled: "Productos Deshabilitados",
   Offers: "Ofertas",
+  Transactions: "Transacciones",
 };

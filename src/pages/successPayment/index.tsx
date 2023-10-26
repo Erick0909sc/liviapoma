@@ -8,17 +8,11 @@ type Props = {};
 
 const SuccessPayment = (props: Props) => {
   const router = useRouter();
-
-  useEffect(() => {
-    const replaceUrlInHistory = () => {
-      const newUrl = "/";
-      window.history.replaceState({}, document.title, newUrl);
-      router.push(newUrl);
-    };
-    return () => {
-      replaceUrlInHistory();
-    };
-  }, []);
+  const replaceUrlInHistory = () => {
+    const newUrl = "/";
+    window.history.replaceState({}, document.title, newUrl);
+    router.push(newUrl);
+  };
   return (
     <Layout title="Compra Exitosa">
       <div className="flex items-center justify-center md:p-10">
@@ -32,14 +26,11 @@ const SuccessPayment = (props: Props) => {
           <p className="text-lg sm:text-lg">
             Revisa tu bandeja de entrada de correo electrónico para el recibo.
           </p>
-          <Link href="/">
-            <button
-              type="button"
-              className="p-2 dark:bg-primary-600 bg-slate-200"
-            >
+          <button type="button" onClick={replaceUrlInHistory}>
+            <span className="p-2 dark:bg-primary-600 bg-slate-200">
               Continuar Comprando
-            </button>
-          </Link>
+            </span>
+          </button>
         </div>
       </div>
     </Layout>

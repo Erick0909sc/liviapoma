@@ -3,6 +3,7 @@ import {
   calcularDescuento,
   calcularSubtotal,
   calcularSubtotalItem,
+  calcularTotalCentimos,
   formatPrice,
 } from "@/shared/ultis";
 import { postPayment } from "@/states/globalApi";
@@ -24,7 +25,6 @@ const Summary = ({ cart, session }: Props) => {
   const subtotalTotal = calcularSubtotal(cart);
   const descuentoTotal = calcularDescuento(cart);
   const total = subtotalTotal - descuentoTotal;
-
   const handleCheckout = async () => {
     try {
       setIsProcessing(true);
@@ -34,7 +34,7 @@ const Summary = ({ cart, session }: Props) => {
       });
       if (response.status === 200) {
         router.push(`/checkout?orderId=${response.data.id}`);
-        toast.loading("Redirigiendo...", { duration: 3000 });
+        toast.loading("Redirigiendo...", { duration: 2000 });
       }
     } catch (error) {
       toast.error("Ocurrió un error. Por favor, inténtelo nuevamente.");

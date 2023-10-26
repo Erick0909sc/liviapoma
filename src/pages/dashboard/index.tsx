@@ -2,10 +2,33 @@ import { dayData, monthData, weekData, yearData } from "@/shared/test";
 import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
 import ChartComponent from "@/components/Dashboard/ChartComponent";
 import ChartWithSwitcher from "@/components/Dashboard/ChartWithSwitcher";
+import { useAppDispatch } from "@/states/store";
+import { useEffect } from "react";
+import { EStateGeneric } from "@/shared/types";
+import {
+  getAllOrders,
+  selectAllDashboardOrders,
+  selectAllDashboardOrdersStatus,
+} from "@/states/dashboard/orders/ordersSlice";
+import { useSelector } from "react-redux";
+import { formatFechaISO } from "@/shared/ultis";
 
 type Props = {};
 
 const Dashboard = (props: Props) => {
+  const dispatch = useAppDispatch();
+  const status = useSelector(selectAllDashboardOrdersStatus);
+  const data = useSelector(selectAllDashboardOrders);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (status === EStateGeneric.IDLE) {
+        await dispatch(getAllOrders(1));
+      }
+    };
+
+    fetchData();
+  }, [dispatch, status]);
   const initialData = [
     { time: "2018-12-22", value: 32.51 },
     { time: "2018-12-23", value: 31.11 },
@@ -31,6 +54,39 @@ const Dashboard = (props: Props) => {
           />
         </div>
       </div>
+      {/* {status === EStateGeneric.SUCCEEDED && (
+        <div className="w-full h-full bg-gray-100 p-4">
+          {data.orders.map((order) => (
+            <div
+              key={order.id}
+              className="bg-white rounded-md p-4 mb-4 shadow-md"
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-xl font-semibold">
+                  Order ID: {order.id}
+                </span>
+                <span className="text-gray-600">
+                  {formatFechaISO(order.createdAt)}
+                </span>
+              </div>
+              <div className="mt-2">
+                <span className="text-lg">User ID: {order.userId}</span>
+              </div>
+              <div className="mt-2">
+                <span className="text-lg">
+                  Total Amount: {order.orderTotalAmount} {order.orderCurrency}
+                </span>
+              </div>
+              <div className="mt-2">
+                <span className="text-lg">order ID: {order.checkoutUuid}</span>
+              </div>
+              <div className="mt-2">
+                <span className="text-lg">Status: {order.orderStatus}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )} */}
     </LayoutAdmin>
   );
 };

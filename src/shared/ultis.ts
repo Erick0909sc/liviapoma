@@ -90,6 +90,12 @@ export const calcularSubtotalItem = (producto: IProductCart): number => {
   return producto.quantity * producto.product.price;
 };
 
+export const calcularTotalCentimos = (numero: number) => {
+  var resultado = numero * 100;
+  resultado = Math.floor(resultado);
+  return resultado;
+};
+
 export const calcularSubtotal = (items: IProductCart[]): number => {
   let subtotalTotal = 0;
   for (const producto of items) {

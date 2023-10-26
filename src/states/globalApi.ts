@@ -4,6 +4,7 @@ import {
   calcularDescuento,
   calcularSubtotal,
   calcularSubtotalItem,
+  calcularTotalCentimos,
 } from "@/shared/ultis";
 import axios from "axios";
 import { Session } from "next-auth";
@@ -45,7 +46,7 @@ export const postPayment = async ({
   const subtotalTotal = calcularSubtotal(cart);
   const descuentoTotal = calcularDescuento(cart);
   const total = subtotalTotal - descuentoTotal;
-  const totalCentimos = total * 100;
+  const totalCentimos = calcularTotalCentimos(total);
 
   const response = await axios.post(`/api/v1/orders`, {
     userId: session.user.id,
@@ -63,7 +64,7 @@ export const postPayment = async ({
           cartItemInfo: cart.map((e) => ({
             productLabel: e.product.name,
             productQty: e.quantity,
-            productAmount: `${calcularSubtotalItem(e) * 100}`,
+            productAmount: `${calcularTotalCentimos(calcularSubtotalItem(e))}`,
             productRef: `https://liviapoma.vercel.app/products/${e.productCode}`,
           })),
         },

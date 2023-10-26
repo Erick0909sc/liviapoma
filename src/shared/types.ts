@@ -5,13 +5,12 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
-
 export interface IEditUser {
   id: string;
   name: string;
   email: string;
   password: string;
-  image: string,
+  image: string;
 }
 
 export interface IOneUser {
@@ -23,7 +22,6 @@ export interface IOneUser {
   image: string;
   role: string;
 }
-
 
 export interface IUser {
   id: string;
@@ -118,3 +116,23 @@ export interface ICategoryOffer {
 //   id: number;
 //   name: string;
 // }
+
+export interface IOrders {
+  page: number;
+  orders: Order[];
+  totalOrdersCount: number;
+}
+
+export interface Order {
+  id: number;
+  userId: string;
+  checkoutUuid: string;
+  orderTotalAmount: number;
+  orderStatus: string;
+  orderCurrency: string;
+  formToken: string;
+  createdAt: string;
+  // createdAt: Date;
+  updatedAt: string;
+  // updatedAt: Date;
+}

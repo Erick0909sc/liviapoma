@@ -17,6 +17,8 @@ import {
   calcularSubtotal,
   formatPrice,
 } from "@/shared/ultis";
+import Link from "next/link";
+import Timer from "@/components/Timer";
 
 type Props = {
   formToken: string;
@@ -25,6 +27,29 @@ type Props = {
 };
 
 const Checkout = ({ formToken, open, cart }: Props) => {
+  if (!open) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <Head>
+          <title>Liviapoma - Pago Procesado</title>
+        </Head>
+        <h1 className="text-4xl text-center font-extrabold text-green-600">
+          Pago Procesado Anteriormente
+        </h1>
+        <p className="text-gray-600 mt-2">
+          ¡Tu pago ya ha sido procesado con éxito anteriormente!
+        </p>
+        <p className="text-gray-600 mt-2">
+          Si deseas realizar otra compra, puedes hacerlo ahora.
+        </p>
+        <Link href="/">
+          <span className="mt-4 text-green-600 hover:underline hover:cursor-pointer">
+            Volver a la página de inicio
+          </span>
+        </Link>
+      </div>
+    );
+  }
   const [message, setMessage] = useState("");
   const router = useRouter();
   const subtotalTotal = calcularSubtotal(cart);
@@ -45,11 +70,12 @@ const Checkout = ({ formToken, open, cart }: Props) => {
           "#myPaymentForm"
         ); /* Attach a payment form  to myPaymentForm div*/
         await KR.showForm(result.formId); /* show the payment form */
+      
         await KR.onSubmit(async (paymentData) => {
           const response = await postPaymentValidate({ paymentData });
           if (response.status === 200) {
             await deleteCartByApi(cart[0].cartId);
-            router.push("/success");
+            router.push("/successPayment");
             setMessage("Payment successful!");
           }
           return false; // Return false to prevent the redirection
@@ -63,7 +89,7 @@ const Checkout = ({ formToken, open, cart }: Props) => {
   }, []);
 
   return (
-    <div>
+    <>
       <Head>
         <title>Liviapoma - Checkout</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -72,48 +98,55 @@ const Checkout = ({ formToken, open, cart }: Props) => {
           href="https://static.lyra.com/static/js/krypton-client/V4.0/ext/classic-reset.css"
         />
       </Head>
-      <Script src="https://static.lyra.com/static/js/krypton-client/V4.0/ext/neon.js"></Script>
-      {open && (
-        <div className="p-4 justify-center flex flex-wrap">
-          <div className="flex-1 p-2 min-w-[500px] max-w-[800px]">
-            <h1 className="text-2xl font-bold">Liviapoma - Checkout</h1>
-            <hr />
-            <div className="flex flex-col bg-white">
-              <h2 className="text-xl font-bold p-4">Productos</h2>
+      <Script src="https://static.lyra.com/static/js/krypton-client/V4.0/ext/classic.js"></Script>
+      <div className="flex flex-col items-center">
+        <div className="md:p-10 max-w-screen-2xl w-full">
+          <div className="md:flex gap-4">
+            <div className="flex-1 bg-white">
+              <h2 className="text-2xl font-bold p-4">Productos a Comprar</h2>
               <hr />
-              {cart.map((product, index) => (
-                <>
-                  <CardSummary key={index} {...product} />
-                  <hr />
-                </>
-              ))}
-              <div className="px-6">
-                <p className="flex justify-between my-2 text-base">
-                  <span className="font-bold">Subtotal</span>
-                  <span>{formatPrice(subtotalTotal)}</span>
-                </p>
-                <p className="flex justify-between my-2">
-                  <span className="font-bold">Descuentos</span>
-                  <span>{formatPrice(descuentoTotal)}</span>
-                </p>
-                <hr className="my-4" />
-                <p className="flex justify-between mb-4 text-base">
-                  <span className="font-bold text-2xl">Total</span>
-                  <span>{formatPrice(total)}</span>
-                </p>
+              <div className="flex-1 flex flex-col">
+                {cart.map((product, index) => (
+                  <>
+                    <CardSummary key={index} {...product} />
+                    <hr />
+                  </>
+                ))}
+                <div className="px-6">
+                  <p className="flex justify-between my-2 text-base">
+                    <span className="font-bold">Subtotal</span>
+                    <span>{formatPrice(subtotalTotal)}</span>
+                  </p>
+                  <p className="flex justify-between my-2">
+                    <span className="font-bold">Descuentos</span>
+                    <span>{formatPrice(descuentoTotal)}</span>
+                  </p>
+                  <hr className="my-4" />
+                  <p className="flex justify-between mb-4 text-base">
+                    <span className="font-bold text-2xl">Total</span>
+                    <span>{formatPrice(total)}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="md:w-1/4 relative">
+              <div className="flex flex-col gap-y-8 sticky top-0">
+                <div className="bg-white p-6 flex flex-col text-gray-600">
+                  <div id="myPaymentForm" className="grid place-content-center">
+                    {/* <div
+                      className="kr-smart-form"
+                      kr-card-form-expanded="true"
+                    /> */}
+                  </div>
+                  <div data-test="payment-message">{message}</div>
+                  <Timer minutes={1} />
+                </div>
               </div>
             </div>
           </div>
-          <div className="m-0 md:mt-10">
-            <div id="myPaymentForm">
-              <div className="kr-smart-form" kr-card-form-expanded="true" />
-            </div>
-            <div data-test="payment-message">{message}</div>
-          </div>
         </div>
-      )}
-      {!open && <div>Este pago ya se efectuo</div>}
-    </div>
+      </div>
+    </>
   );
 };
 
@@ -121,24 +154,38 @@ export default Checkout;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { orderId } = context.query;
-  const response = await getOrderByApi(parseInt(orderId as string));
-  const { formToken, orderStatus } = response.data.order;
-  const { cart } = response.data;
-
-  if (orderStatus === "PAID") {
+  if (!orderId)
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  try {
+    const response = await getOrderByApi(parseInt(orderId as string));
+    const { formToken, orderStatus } = response.data.order;
+    const { cart } = response.data;
+    if (orderStatus === "PAID") {
+      return {
+        props: {
+          formToken: formToken,
+          open: false,
+          cart: cart,
+        },
+      };
+    }
     return {
       props: {
         formToken: formToken,
-        open: false,
+        open: true,
         cart: cart,
       },
     };
+  } catch (error) {
+    // { message: 'cart is empty' } === payment made previously
+    return {
+      props: {
+        open: false,
+      },
+    };
   }
-  return {
-    props: {
-      formToken: formToken,
-      open: true,
-      cart: cart,
-    },
-  };
 }
