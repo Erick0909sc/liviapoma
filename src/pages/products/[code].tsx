@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
+import ReviewUser from "@/components/ReviewUser/ReviewUser";
 import { EStateGeneric } from "@/shared/types";
 import {
   calcularPrecioConDescuento,
@@ -48,6 +49,12 @@ const Detail = (props: Props) => {
   const [checkout, setCheckout] = useState(false);
   const [input, setInput] = useState<number | null>(null);
 
+  /////// estado para maqueta rating
+
+  const [rating, setRating] = useState(3);
+
+  ////////
+
   const propsForFunctions = {
     code: product.code,
     session: session as Session,
@@ -85,6 +92,38 @@ const Detail = (props: Props) => {
     }
   }, [productFind]);
 
+
+  /////////// array para maquetado de reviews
+  const productComments = [
+    {
+      name: "John Doe",
+      photo: "https://i.pinimg.com/474x/12/5d/cd/125dcd8ee7d52a9e84e8f0a016e9dbdd.jpg",
+      comment: "Este producto es de alta calidad y muy duradero. ¡Lo recomiendo!",
+
+    },
+    {
+      name: "Jane Smith",
+      photo: "https://i.pinimg.com/originals/38/d6/73/38d67346adbaf6ca3993f9a0bf9a1624.jpg",
+      comment: "Estoy muy satisfecha con mi compra. Funciona perfectamente.",
+
+    },
+    {
+      name: "David Johnson",
+      photo: "https://pbs.twimg.com/profile_images/1309266094889332737/G-o2UUH2_400x400.jpg",
+      comment: "El producto superó mis expectativas. Muy contento con él.",
+  
+    },
+    {
+      name: "Emily Davis",
+      photo: "https://media-cldnry.s-nbcnews.com/image/upload/newscms/2015_02/835681/150106-mia-khalifa-830a.jpg",
+      comment: "Este producto ha mejorado mi vida. Lo uso todos los días.",
+
+    }
+  ];
+
+
+  ///////////////////////
+
   const handleBtns = async () => {
     if (!session) {
       return toast.error("Por favor, inicie sesión para continuar.");
@@ -103,7 +142,7 @@ const Detail = (props: Props) => {
     <Layout title={product.name || "Product not found"}>
       <div>
         {status === EStateGeneric.SUCCEEDED && (
-          <section className="py-20 overflow-hidden bg-white font-poppins ">
+          <section className="py-5 overflow-hidden bg-white font-poppins ">
             {product && (
               <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
                 <div className="flex flex-wrap -mx-4">
@@ -160,9 +199,9 @@ const Detail = (props: Props) => {
                               <p className="text-sm font-black text-red-500 mt-2 ">
                                 {product.discount > 0
                                   ? `Ahorrate! : ${formatPrice(
-                                      product.price -
-                                        calcularPrecioConDescuento(product)
-                                    )}`
+                                    product.price -
+                                    calcularPrecioConDescuento(product)
+                                  )}`
                                   : null}
                               </p>
                             </>
@@ -182,10 +221,10 @@ const Detail = (props: Props) => {
                                     onClick={
                                       productFind && productFind.quantity > 1
                                         ? () =>
-                                            handleItemsCart({
-                                              ...propsForFunctions,
-                                              value: productFind.quantity - 1,
-                                            })
+                                          handleItemsCart({
+                                            ...propsForFunctions,
+                                            value: productFind.quantity - 1,
+                                          })
                                         : () => setDeleteConfirmation(true)
                                     }
                                     disabled={isProcessing || !productFind}
@@ -218,9 +257,9 @@ const Detail = (props: Props) => {
                                       }
                                       productFind && productFind.quantity
                                         ? handleInputChange({
-                                            ...propsForFunctions,
-                                            value: input,
-                                          })
+                                          ...propsForFunctions,
+                                          value: input,
+                                        })
                                         : handleFirstItem();
                                     }}
                                   />
@@ -229,9 +268,9 @@ const Detail = (props: Props) => {
                                     onClick={() =>
                                       productFind && productFind.quantity
                                         ? handleItemsCart({
-                                            ...propsForFunctions,
-                                            value: productFind.quantity + 1,
-                                          })
+                                          ...propsForFunctions,
+                                          value: productFind.quantity + 1,
+                                        })
                                         : handleFirstItem()
                                     }
                                     disabled={isProcessing}
@@ -285,9 +324,9 @@ const Detail = (props: Props) => {
                             onClick={() =>
                               productFind && productFind.quantity
                                 ? handleItemsCart({
-                                    ...propsForFunctions,
-                                    value: productFind.quantity + 1,
-                                  })
+                                  ...propsForFunctions,
+                                  value: productFind.quantity + 1,
+                                })
                                 : handleFirstItem()
                             }
                             type="button"
@@ -328,6 +367,41 @@ const Detail = (props: Props) => {
           </section>
         )}
       </div>
+      <div className=" bg-white p-2 flex flex-col justify-center pb-7">
+        <div className=" flex justify-center">
+
+          <ReviewUser />
+        </div>
+
+        {/* maqueta para review */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {productComments.map((commentData, index) => (
+            <div key={index} className="border p-4 rounded shadow-md">
+              <div className="flex items-center gap-3">
+                <img
+                  src={commentData.photo}
+                  alt={commentData.name}
+                  className="w-12 h-12 rounded-full"
+                />
+                <div className="text-xl font-semibold">{commentData.name}</div>
+              </div>
+              <Rating
+                name="simple-controlled"
+                value={rating}
+                onChange={(event, newValue) => {
+                  //   setRating(newValue);
+                }}
+              />
+
+              <p>{commentData.comment}</p>
+            </div>
+          ))}
+        </div>
+        {/* //////////////////7 */}
+
+
+      </div>
+
       {deleteConfirmation && (
         <DeleteConfirmation
           title="Eliminar Producto"

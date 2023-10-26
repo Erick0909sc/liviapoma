@@ -17,7 +17,7 @@ const Categories = (props: Props) => {
           <Category key={index} name={category} />
         ))}
       </div>
-      <div className="block md:hidden lg:hidden h-14 w-full bg-white ">
+      <div className="block sm:hidden lg:hidden h-14 w-full bg-white ">
         <Swiper
           slidesPerView={3}
           className="mySwiper swiper-h h-full bg-transparent"
