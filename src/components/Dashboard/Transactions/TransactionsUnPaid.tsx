@@ -8,12 +8,10 @@ import {
   selectAllDashboardUnPaidOrdersStatus,
 } from "@/states/dashboard/orders/ordersSlice";
 import { useSelector } from "react-redux";
-import { formatFechaISO } from "@/shared/ultis";
 import Pending from "@/components/StatesComponents/Pending";
 import Failed from "@/components/StatesComponents/Failed";
 import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import useSearchTransactions from "@/hooks/useSearchTransactions";
 import Card from "./Card";
 type Props = {
   search: string;
@@ -22,11 +20,7 @@ type Props = {
 const TransactionsUnPaid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
   const status = useSelector(selectAllDashboardUnPaidOrdersStatus);
-  // const data = useSelector(selectAllDashboardUnPaidOrders);
-  const data = useSearchTransactions(
-    useSelector(selectAllDashboardUnPaidOrders),
-    search
-  );
+  const data = useSelector(selectAllDashboardUnPaidOrders);
   const currentPage = useSelector(selectCurrentPage);
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
@@ -36,7 +30,7 @@ const TransactionsUnPaid = ({ search }: Props) => {
     (async () => {
       if (status === EStateGeneric.IDLE) {
         await dispatch(
-          getAllUnPaidOrders({ page: currentPage, count: itemsPerPage })
+          getAllUnPaidOrders({ page: currentPage, count: itemsPerPage, search })
         );
       }
     })();
@@ -45,9 +39,9 @@ const TransactionsUnPaid = ({ search }: Props) => {
         dispatch(cleanUpUnPaidOrders());
       }
     };
-  }, [dispatch, status, currentPage]);
+  }, [dispatch, status, currentPage, search]);
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
       {status === EStateGeneric.FAILED && <Failed />}
       {status === EStateGeneric.SUCCEEDED && (
@@ -59,7 +53,7 @@ const TransactionsUnPaid = ({ search }: Props) => {
             />
           )}
           <div
-            className={`flex flex-wrap gap-4 justify-center w-full h-auto bg-gray-100 ${
+            className={`flex flex-wrap gap-4 justify-center w-full h-auto ${
               data.orders?.length ? "p-6" : ""
             }`}
           >
@@ -69,14 +63,12 @@ const TransactionsUnPaid = ({ search }: Props) => {
           </div>
         </>
       )}
-      {data.orders?.length > 0 && (
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPageRedux}
-          items={data.totalOrdersCount}
-          itemsPerPage={itemsPerPage}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPageRedux}
+        items={data.totalOrdersCount}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };

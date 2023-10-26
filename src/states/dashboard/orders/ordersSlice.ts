@@ -9,11 +9,15 @@ import type { RootState } from "../../store";
 export const getAllOrders = createAsyncThunk(
   "dashboardOrders/getAllOrders",
   async (
-    { page, count }: { page: number; count?: number },
+    { page, count, search }: { page: number; count?: number; search?: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await getPaidOrdersDashboardByApi(page, count);
+      const response = await getPaidOrdersDashboardByApi({
+        page,
+        count,
+        search,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -24,11 +28,15 @@ export const getAllOrders = createAsyncThunk(
 export const getAllUnPaidOrders = createAsyncThunk(
   "dashboardOrders/getAllUnPaidOrders",
   async (
-    { page, count }: { page: number; count?: number },
+    { page, count, search }: { page: number; count?: number; search?: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await getUnPaidOrdersDashboardByApi(page, count);
+      const response = await getUnPaidOrdersDashboardByApi({
+        page,
+        count,
+        search,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error);

@@ -29,6 +29,10 @@ export const dashboardRoutes = [
     name: "Offers",
     route: "/dashboard/offers",
   },
+  {
+    name: "Transactions",
+    route: "/dashboard/transactions",
+  },
 ];
 export const sidebarItems = [
   {

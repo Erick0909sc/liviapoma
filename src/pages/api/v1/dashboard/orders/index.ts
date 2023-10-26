@@ -19,6 +19,9 @@ export default async function handler(
         if (search) {
           const searchValue = parseInt(search as string);
           const isNumericSearch = !isNaN(searchValue);
+          console.log(search)
+          console.log(searchValue)
+          console.log(isNumericSearch)
           const totalOrdersCount = await prisma.order.count({
             where: {
               orderStatus: paid ? "PAID" : "PROCESS",

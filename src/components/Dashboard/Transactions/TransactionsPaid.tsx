@@ -8,12 +8,10 @@ import {
   selectAllDashboardOrdersStatus,
 } from "@/states/dashboard/orders/ordersSlice";
 import { useSelector } from "react-redux";
-import { formatFechaISO } from "@/shared/ultis";
 import Pending from "@/components/StatesComponents/Pending";
 import Failed from "@/components/StatesComponents/Failed";
 import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import useSearchTransactions from "@/hooks/useSearchTransactions";
 import Card from "./Card";
 
 type Props = {
@@ -23,10 +21,7 @@ type Props = {
 const TransactionsPaid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
   const status = useSelector(selectAllDashboardOrdersStatus);
-  const data = useSearchTransactions(
-    useSelector(selectAllDashboardOrders),
-    search
-  );
+  const data = useSelector(selectAllDashboardOrders);
   const currentPage = useSelector(selectCurrentPage);
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
@@ -36,7 +31,7 @@ const TransactionsPaid = ({ search }: Props) => {
     (async () => {
       if (status === EStateGeneric.IDLE) {
         await dispatch(
-          getAllOrders({ page: currentPage, count: itemsPerPage })
+          getAllOrders({ page: currentPage, count: itemsPerPage, search })
         );
       }
     })();
@@ -45,7 +40,7 @@ const TransactionsPaid = ({ search }: Props) => {
         dispatch(cleanUpOrders());
       }
     };
-  }, [dispatch, status, currentPage]);
+  }, [dispatch, status, currentPage, search]);
   return (
     <div className="flex flex-col h-full">
       {status === EStateGeneric.PENDING && <Pending />}
@@ -69,14 +64,12 @@ const TransactionsPaid = ({ search }: Props) => {
           </div>
         </>
       )}
-      {data.orders?.length > 0 && (
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPageRedux}
-          items={data.totalOrdersCount}
-          itemsPerPage={itemsPerPage}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPageRedux}
+        items={data.totalOrdersCount}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };
