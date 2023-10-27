@@ -81,11 +81,11 @@ export default async function handler(
       break;
     case "DELETE":
       try {
-        const { productCode, userId, cartId } = req.query;
-        if (cartId) {
+        const { productCode, userId, deleteCartUser } = req.query;
+        if (deleteCartUser) {
           const deletedCart = await prisma.cart.delete({
             where: {
-              id: parseInt(cartId as string),
+              userId: deleteCartUser as string,
             },
           });
           return res.status(200).json({

@@ -12,11 +12,10 @@ interface DataByInterval {
 
 const ChartWithSwitcher = (props: {
   dayData: IntervalosType[];
-  weekData: IntervalosType[];
   monthData: IntervalosType[];
   yearData: IntervalosType[];
 }) => {
-  const { dayData, weekData, monthData, yearData } = props;
+  const { dayData, monthData, yearData } = props;
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<IChartApi | null>(null);
@@ -25,7 +24,6 @@ const ChartWithSwitcher = (props: {
 
   const dataByInterval: DataByInterval = {
     "1D": dayData,
-    "1W": weekData,
     "1M": monthData,
     "1Y": yearData,
   };

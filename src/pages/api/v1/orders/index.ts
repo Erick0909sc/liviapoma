@@ -44,7 +44,12 @@ export default async function handler(
             orderTotalAmount,
             orderCurrency,
             products: {
-              connect: products.map((item) => ({ code: item.productCode })),
+              createMany: {
+                data: products.map((item) => ({
+                  quantity: item.quantity,
+                  productCode: item.productCode,
+                })),
+              },
             },
           },
         });
