@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export enum EStateGeneric {
   IDLE = "idle",
   SUCCEEDED = "succeeded",
@@ -181,6 +183,11 @@ export interface IOrderDataDashboard {
   dayData: DayDatum[];
   monthData: Datum[];
   yearData: Datum[];
+  category1: CategoryData;
+  category2: CategoryData;
+  category3: CategoryData;
+  category4: CategoryData;
+  category5: CategoryData;
 }
 
 export interface DayDatum extends Datum {
@@ -190,4 +197,18 @@ export interface DayDatum extends Datum {
 export interface Datum {
   time: string;
   value: number;
+}
+
+interface Item {
+  id: number;
+  time: Prisma.JsonValue;
+  value: number;
+  categoryId: number;
+  category: Category;
+}
+
+export interface CategoryData {
+  name: string;
+  data: Item[];
+  sumValue?: number;
 }

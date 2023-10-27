@@ -12,6 +12,7 @@ import {
 } from "@/states/dashboard/dashboardSlice";
 import { useEffect } from "react";
 import { EStateGeneric } from "@/shared/types";
+import ChartComponentCategories from "@/components/Dashboard/ChartComponentCategories";
 
 type Props = {};
 
@@ -34,13 +35,27 @@ const Dashboard = (props: Props) => {
   return (
     <LayoutAdmin title="Dashboard">
       {status === EStateGeneric.SUCCEEDED && (
-        <div className="flex justify-center items-center">
-          <div className="w-full max-w-5xl">
-            <ChartComponent data={data.dayData} />
+        <div className="flex flex-wrap justify-center items-center bg-white">
+          <div className="w-full max-w-[95%] p-4">
+            <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
+              Gráfico de Ventas
+            </h2>
             <ChartWithSwitcher
               dayData={data.dayData}
               monthData={data.monthData}
               yearData={data.yearData}
+            />
+          </div>
+          <div className="w-full max-w-[95%] p-4">
+            <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
+              Ventas por Categorías: Las 5 Más Vendidas
+            </h2>
+            <ChartComponentCategories
+              category1={data.category1.data}
+              category2={data.category2.data}
+              category3={data.category3.data}
+              category4={data.category4.data}
+              category5={data.category5.data}
             />
           </div>
         </div>

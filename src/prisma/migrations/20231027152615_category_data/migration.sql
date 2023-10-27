@@ -199,6 +199,16 @@ CREATE TABLE "DailyData" (
     CONSTRAINT "DailyData_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "CategoryData" (
+    "id" SERIAL NOT NULL,
+    "time" JSONB NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+    "categoryId" INTEGER NOT NULL,
+
+    CONSTRAINT "CategoryData_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -225,6 +235,9 @@ CREATE UNIQUE INDEX "OrderItem_productCode_orderId_key" ON "OrderItem"("productC
 
 -- CreateIndex
 CREATE UNIQUE INDEX "DailyData_time_key" ON "DailyData"("time");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CategoryData_time_categoryId_key" ON "CategoryData"("time", "categoryId");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -279,3 +292,6 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_productCode_fkey" FOREIGN KEY ("prod
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CategoryData" ADD CONSTRAINT "CategoryData_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
