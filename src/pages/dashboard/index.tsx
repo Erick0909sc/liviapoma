@@ -36,8 +36,8 @@ const Dashboard = (props: Props) => {
   return (
     <LayoutAdmin title="Dashboard">
       {status === EStateGeneric.SUCCEEDED && (
-        <div className="flex flex-wrap justify-center items-center bg-rose-500 w-full min-h-full overflow-auto">
-          <SummaryDashboard />
+        <div className="flex flex-wrap justify-center items-center bg-white w-full min-h-full overflow-auto">
+          <SummaryDashboard summary={data.summary}/>
 
           <div className="w-full max-w-[95%] p-4">
             <h2 className="text-xl sm:text-4xl text-gray-600 my-4">

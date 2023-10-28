@@ -188,6 +188,12 @@ export interface IOrderDataDashboard {
   category3: CategoryData;
   category4: CategoryData;
   category5: CategoryData;
+  summary: {
+    totalRevenue: string;
+    percentageChange: string;
+    numberOfTransactions: number;
+    numberOfUsers: number;
+  };
 }
 
 export interface DayDatum extends Datum {
