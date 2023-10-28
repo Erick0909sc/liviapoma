@@ -42,7 +42,6 @@ const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
   // console.log(cart[0].cartId);
   // console.log(cart);
 
-  
   useEffect(() => {
     async function setupPaymentForm() {
       const endpoint = "https://static.lyra.com";
@@ -165,14 +164,17 @@ export default Checkout;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
   const { orderId } = context.query;
-  if (!orderId)
+  if (!orderId || !session)
     return {
       redirect: {
         destination: "/",
       },
     };
   try {
-    const response = await getOrderByApi(parseInt(orderId as string));
+    const response = await getOrderByApi(
+      parseInt(orderId as string),
+      session.user.id
+    );
     const { formToken, orderStatus, products, updatedAt } = response.data;
     if (orderStatus === "PAID") {
       return {

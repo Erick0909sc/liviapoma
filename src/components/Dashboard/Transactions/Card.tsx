@@ -64,7 +64,7 @@ const Card = ({ order }: Props) => {
       </div>
       <div className="mt-4">
         {data && (
-          <div>
+          <div className="max-h-72 overflow-auto">
             <h2 className="text-2xl font-semibold">{data.user.name}</h2>
             <p className="text-gray-600">{data.user.email}</p>
             <h3 className="text-lg font-semibold mt-4">

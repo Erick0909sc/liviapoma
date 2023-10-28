@@ -3,6 +3,14 @@ import {
   ColorType,
   IChartApi,
   LineStyle,
+  ISeriesApi,
+  Time,
+  AreaData,
+  WhitespaceData,
+  AreaSeriesOptions,
+  DeepPartial,
+  AreaStyleOptions,
+  SeriesOptionsCommon,
 } from "lightweight-charts";
 import React, { useEffect, useRef } from "react";
 
@@ -24,7 +32,13 @@ const ChartWithSwitcher = (props: {
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<IChartApi | null>(null);
-  const areaSeriesRef = useRef<any>(null);
+  const areaSeriesRef = useRef<ISeriesApi<
+    "Area",
+    Time,
+    AreaData<Time> | WhitespaceData<Time>,
+    AreaSeriesOptions,
+    DeepPartial<AreaStyleOptions & SeriesOptionsCommon>
+  > | null>(null);
   const [activeInterval, setActiveInterval] = React.useState("1D");
 
   const dataByInterval: DataByInterval = {

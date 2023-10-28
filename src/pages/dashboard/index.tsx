@@ -13,6 +13,7 @@ import {
 import { useEffect } from "react";
 import { EStateGeneric } from "@/shared/types";
 import ChartComponentCategories from "@/components/Dashboard/ChartComponentCategories";
+import SummaryDashboard from "@/components/Dashboard/SummaryDashboard";
 
 type Props = {};
 
@@ -35,7 +36,9 @@ const Dashboard = (props: Props) => {
   return (
     <LayoutAdmin title="Dashboard">
       {status === EStateGeneric.SUCCEEDED && (
-        <div className="flex flex-wrap justify-center items-center bg-white">
+        <div className="flex flex-wrap justify-center items-center bg-rose-500 w-full min-h-full overflow-auto">
+          <SummaryDashboard />
+
           <div className="w-full max-w-[95%] p-4">
             <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
               Gráfico de Ventas

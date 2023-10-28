@@ -87,7 +87,8 @@ export const processImage = (image: File) => {
 };
 
 export const calcularSubtotalItem = (producto: IProductCart): number => {
-  return producto.quantity * producto.product.price;
+  const float = (producto.quantity * producto.product.price).toFixed(2);
+  return parseFloat(float);
 };
 
 export const calcularTotalCentimos = (numero: number) => {
@@ -108,7 +109,8 @@ export const calcularDescuentoItemCart = (producto: IProductCart): number => {
   const precioSinDescuento = producto.product.price;
   const descuentoPorcentaje = producto.product.discount;
   const descuento = (precioSinDescuento * descuentoPorcentaje) / 100;
-  return descuento * producto.quantity;
+  const descuentoTotal = descuento * producto.quantity;
+  return parseFloat(descuentoTotal.toFixed(2));
 };
 
 export const calcularPrecioConDescuento = (producto: IProduct): number => {

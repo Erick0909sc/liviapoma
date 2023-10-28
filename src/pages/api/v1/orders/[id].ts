@@ -11,7 +11,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { id, detail } = req.query;
+        const { id, detail, userId } = req.query;
         if (detail) {
           const order = await prisma.order.findUnique({
             where: {
@@ -37,6 +37,7 @@ export default async function handler(
         const order = await prisma.order.findUnique({
           where: {
             id: parseInt(id as string),
+            userId: userId as string,
           },
           include: {
             products: {

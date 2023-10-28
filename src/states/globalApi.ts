@@ -12,8 +12,8 @@ import { Session } from "next-auth";
 export const getOffersByApi = () => axios.get(`/api/v1/offers`);
 export const deleteCartByApi = (id: string) =>
   axios.delete(`/api/v1/cart?deleteCartUser=${id}`);
-export const getOrderByApi = (id: number) =>
-  axios.get(`${BASE_URL}/api/v1/orders/${id}`);
+export const getOrderByApi = (id: number, userId: string) =>
+  axios.get(`${BASE_URL}/api/v1/orders/${id}?userId=${userId}`);
 
 export const postOrder = ({
   userId,
@@ -54,7 +54,7 @@ export const postPayment = async ({
     orderCurrency: "PEN",
     products: cart,
   });
-  const res = await axios.post(`/api/createPayment`, {
+  const res = await axios.post(`/api/v1/izipay/createPayment`, {
     paymentConf: {
       amount: totalCentimos,
       currency: "PEN",
@@ -96,7 +96,7 @@ export const updateTokenFormPayment = async ({
   const total = subtotalTotal - descuentoTotal;
   const totalCentimos = calcularTotalCentimos(total);
 
-  const res = await axios.post(`/api/createPayment`, {
+  const res = await axios.post(`/api/v1/izipay/createPayment`, {
     paymentConf: {
       amount: totalCentimos,
       currency: "PEN",
@@ -128,7 +128,7 @@ export const postPaymentValidate = ({
   paymentData,
 }: {
   paymentData: KRPaymentResponse;
-}) => axios.post(`/api/validatePayment`, paymentData);
+}) => axios.post(`/api/v1/izipay/validatePayment`, paymentData);
 
 export const getDetailsOrderByApi = (id: number) =>
   axios.get(`/api/v1/orders/${id}?detail=true`);

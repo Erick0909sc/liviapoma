@@ -41,36 +41,36 @@ const ChartComponentCategories = ({
     category5[0].category.name,
   ]);
 
-  const getSeriesColors = (index: number) => {
-    const colors = [
-      {
+  const getSeriesColors = (index: string) => {
+    const colors = {
+      [category1[0].category.name]: {
         topColor: `rgba(255, 99, 71, 0.56)`,
         bottomColor: `rgba(255, 192, 203, 0.56)`,
         lineColor: `#FF0000`, // Rojo claro
       },
-      {
+      [category2[0].category.name]: {
         topColor: `rgba(144, 238, 144, 0.56)`,
         bottomColor: `rgba(34, 139, 34, 0.56)`,
         lineColor: `#00FF00`, // Verde claro
       },
-      {
+      [category3[0].category.name]: {
         topColor: `rgba(70, 130, 180, 0.56)`,
         bottomColor: `rgba(100, 149, 237, 0.56)`,
         lineColor: `#0000FF`, // Azul cielo
       },
-      {
+      [category4[0].category.name]: {
         topColor: `rgba(218, 112, 214, 0.56)`,
         bottomColor: `rgba(199, 21, 133, 0.56)`,
         lineColor: `#FF00FF`, // Rosa
       },
-      {
+      [category5[0].category.name]: {
         topColor: `rgba(255, 215, 0, 0.56)`,
         bottomColor: `rgba(255, 223, 186, 0.56)`,
-        lineColor: `#FFFF00`, // Amarillo
+        lineColor: `#FFB400`, // Amarillo
       },
-    ];
+    };
 
-    return colors[index % colors.length];
+    return colors[index];
   };
   const handleCategories = (e: ChangeEvent<HTMLInputElement>) => {
     if (
@@ -150,7 +150,7 @@ const ChartComponentCategories = ({
         })),
       };
       categoriesToShow.filter((category, index) => {
-        const seriesColors = getSeriesColors(index);
+        const seriesColors = getSeriesColors(category);
         const series = chart?.addAreaSeries({
           topColor: seriesColors.topColor,
           bottomColor: seriesColors.bottomColor,
@@ -168,10 +168,10 @@ const ChartComponentCategories = ({
     };
   }, [category1, category2, category3, category4, category5, categoriesToShow]);
   return (
-    <div className="w-full min-h-[500px]">
+    <div className="w-full h-full">
       <div className="flex flex-col">
         <label>
-          Elija cuántos gráficos mostrar de las 5 categorías más vendidas:{" "}
+          Elija cuántos gráficos mostrar de las 5 categorías más vendidas:
         </label>
         <div className="space-x-4 inline-flex">
           {[
@@ -180,14 +180,23 @@ const ChartComponentCategories = ({
             category3[0].category.name,
             category4[0].category.name,
             category5[0].category.name,
-          ].map((item, index) => (
-            <label key={item} className={`flex items-center gap-1 text-[#555]`}>
+          ].map((item) => (
+            <label
+              key={item}
+              className={`flex items-center gap-1`}
+              style={{
+                color: getSeriesColors(item).lineColor,
+              }}
+            >
               <input
                 type="checkbox"
                 value={item}
                 checked={categoriesToShow.includes(item)}
                 onChange={handleCategories}
-                className="appearance-none rounded-full h-5 w-5 border-2 border-gray-300 checked:bg-green-600 checked:border-green-700 focus:outline-none focus:border-green-600 transition-colors duration-200 ease-in-out"
+                style={{
+                  border: `4px solid ${getSeriesColors(item).lineColor}`,
+                }}
+                className="appearance-none rounded-full h-5 w-5 checked:bg-black"
               />
               {item}
             </label>
@@ -195,7 +204,7 @@ const ChartComponentCategories = ({
         </div>
       </div>
 
-      <div ref={chartContainerRef} className="max-h-[500px]"></div>
+      <div ref={chartContainerRef} className="h-[50%]" />
     </div>
   );
 };
