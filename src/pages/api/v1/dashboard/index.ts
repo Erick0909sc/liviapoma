@@ -77,9 +77,9 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const categoryData = await prisma.categoryData.findMany({
-          include: { category: true },
-        });
+        // const categoryData = await prisma.categoryData.findMany({
+        //   include: { category: true },
+        // });
         const categories: Record<string, CategoryData> = {};
         categoryData.forEach((item) => {
           const category = item.category;
@@ -199,6 +199,22 @@ export default async function handler(
             numberOfUsers,
           },
         });
+        // return res.status(200).json({
+        //   dayData,
+        //   monthData,
+        //   yearData,
+        //   category1,
+        //   category2,
+        //   category3,
+        //   category4,
+        //   category5,
+        //   summary: {
+        //     totalRevenue,
+        //     percentageChange,
+        //     numberOfTransactions,
+        //     numberOfUsers,
+        //   },
+        // });
       } catch (error) {
         res.status(500).json(error);
       }
