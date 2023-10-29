@@ -125,7 +125,7 @@ const ChartWithSwitcher = (props: {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-auto">
       <div className="flex w-min gap-1 border-2 border-gray-600 rounded-md p-[1px]">
         {Object.keys(dataByInterval).map((interval) => (
           <button

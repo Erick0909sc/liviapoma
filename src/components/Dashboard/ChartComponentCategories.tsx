@@ -168,12 +168,9 @@ const ChartComponentCategories = ({
     };
   }, [category1, category2, category3, category4, category5, categoriesToShow]);
   return (
-    <div className="w-full h-full">
-      <div className="flex flex-col">
-        <label>
-          Elija cuántos gráficos mostrar de las 5 categorías más vendidas:
-        </label>
-        <div className="space-x-4 inline-flex">
+    <div className="w-full h-auto">
+      <div className="flex flex-col w-full">
+        <div className="inline-flex flex-wrap gap-4 justify-center">
           {[
             category1[0].category.name,
             category2[0].category.name,

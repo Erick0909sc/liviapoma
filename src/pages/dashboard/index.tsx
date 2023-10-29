@@ -36,10 +36,9 @@ const Dashboard = (props: Props) => {
   return (
     <LayoutAdmin title="Dashboard">
       {status === EStateGeneric.SUCCEEDED && (
-        <div className="flex flex-wrap justify-center items-center bg-white w-full min-h-full overflow-auto">
-          <SummaryDashboard summary={data.summary}/>
-
-          <div className="w-full max-w-[95%] p-4">
+        <div className="flex flex-wrap justify-center bg-white w-full min-h-full">
+          <SummaryDashboard summary={data.summary} />
+          <div className="w-full max-w-[95%] sm:p-4">
             <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
               Gráfico de Ventas
             </h2>
@@ -49,9 +48,9 @@ const Dashboard = (props: Props) => {
               yearData={data.yearData}
             />
           </div>
-          <div className="w-full max-w-[95%] p-4">
+          <div className="w-full max-w-[95%] sm:p-4">
             <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
-              Ventas por Categorías: Las 5 Más Vendidas
+              Gráfico Ventas de las 5 Categorías Más Vendidas
             </h2>
             <ChartComponentCategories
               category1={data.category1.data}
