@@ -77,9 +77,9 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        // const categoryData = await prisma.categoryData.findMany({
-        //   include: { category: true },
-        // });
+        const categoryData = await prisma.categoryData.findMany({
+          include: { category: true },
+        });
         const categories: Record<string, CategoryData> = {};
         categoryData.forEach((item) => {
           const category = item.category;
@@ -105,44 +105,44 @@ export default async function handler(
         const category3 = top5Categories[2];
         const category4 = top5Categories[3];
         const category5 = top5Categories[4];
-        // const dayData = await prisma.dailyData.findMany();
-        const dayData = [
-          {
-            id: 1,
-            time: "2023-10-27",
-            value: 4000.1,
-          },
-          {
-            id: 2,
-            time: "2023-10-28",
-            value: 584.1,
-          },
-          {
-            id: 1,
-            time: "2023-10-29",
-            value: 154.1,
-          },
-          {
-            id: 1,
-            time: "2023-10-30",
-            value: 158.1,
-          },
-          {
-            id: 1,
-            time: "2023-10-31",
-            value: 8000.1,
-          },
-          {
-            id: 1,
-            time: "2023-11-01",
-            value: 84.1,
-          },
-          {
-            id: 1,
-            time: "2023-11-02",
-            value: 14.1,
-          },
-        ];
+        const dayData = await prisma.dailyData.findMany();
+        // const dayData = [
+        //   {
+        //     id: 1,
+        //     time: "2023-10-27",
+        //     value: 4000.1,
+        //   },
+        //   {
+        //     id: 2,
+        //     time: "2023-10-28",
+        //     value: 584.1,
+        //   },
+        //   {
+        //     id: 1,
+        //     time: "2023-10-29",
+        //     value: 154.1,
+        //   },
+        //   {
+        //     id: 1,
+        //     time: "2023-10-30",
+        //     value: 158.1,
+        //   },
+        //   {
+        //     id: 1,
+        //     time: "2023-10-31",
+        //     value: 8000.1,
+        //   },
+        //   {
+        //     id: 1,
+        //     time: "2023-11-01",
+        //     value: 84.1,
+        //   },
+        //   {
+        //     id: 1,
+        //     time: "2023-11-02",
+        //     value: 14.1,
+        //   },
+        // ];
         const monthData = groupDataByMonth(dayData);
         const yearData = groupDataByYear(dayData);
         monthData.sort(
