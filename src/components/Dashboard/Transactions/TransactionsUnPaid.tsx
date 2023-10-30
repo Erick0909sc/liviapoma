@@ -43,7 +43,12 @@ const TransactionsUnPaid = ({ search }: Props) => {
   return (
     <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
-      {status === EStateGeneric.FAILED && <Failed />}
+      {status === EStateGeneric.FAILED && (
+        <Failed
+          text="Las transacciones no pudieron ser cargados correctamente"
+          tittle="Transacciones no encontradas"
+        />
+      )}
       {status === EStateGeneric.SUCCEEDED && (
         <>
           {search && !data.orders?.length && (

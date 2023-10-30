@@ -44,7 +44,12 @@ const TransactionsPaid = ({ search }: Props) => {
   return (
     <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
-      {status === EStateGeneric.FAILED && <Failed />}
+      {status === EStateGeneric.FAILED && (
+        <Failed
+          text="Las transacciones no pudieron ser cargados correctamente"
+          tittle="Transacciones no encontradas"
+        />
+      )}
       {status === EStateGeneric.SUCCEEDED && (
         <>
           {search && !data.orders?.length && (
@@ -54,7 +59,7 @@ const TransactionsPaid = ({ search }: Props) => {
             />
           )}
           <div
-            className={`flex flex-wrap gap-4 justify-center w-full h-auto bg-gray-100 ${
+            className={`flex flex-wrap gap-4 justify-center w-full h-auto ${
               data.orders?.length ? "p-6" : ""
             }`}
           >

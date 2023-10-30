@@ -54,10 +54,10 @@ const Dashboard = (props: Props) => {
             </h2>
             <ChartComponentCategories
               category1={data.category1.data}
-              category2={data.category2.data}
-              category3={data.category3.data}
-              category4={data.category4.data}
-              category5={data.category5.data}
+              category2={data?.category2?.data}
+              category3={data?.category3?.data}
+              category4={data?.category4?.data}
+              category5={data?.category5?.data}
             />
           </div>
         </div>
