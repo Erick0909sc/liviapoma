@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export enum EStateGeneric {
   IDLE = "idle",
   SUCCEEDED = "succeeded",
@@ -135,4 +137,84 @@ export interface Order {
   // createdAt: Date;
   updatedAt: string;
   // updatedAt: Date;
+}
+
+export interface paymentConf {
+  amount: number;
+  currency: string;
+  customer: {
+    email: string;
+    shoppingCart: {
+      cartItemInfo: {
+        productLabel: string;
+        productQty: number;
+        productAmount: string;
+        productRef: string;
+      }[];
+    };
+    billingDetails: {
+      firstName: string;
+    };
+    reference: string;
+  };
+  orderId: number;
+}
+
+export interface IOrderDetail {
+  user: {
+    name: string;
+    email: string;
+  };
+  shoppingCart: ShoppingCart[];
+  amount: number;
+}
+
+export interface ShoppingCart {
+  productLabel: string;
+  productType: null;
+  productRef: string;
+  productQty: number;
+  productAmount: string;
+  productVat: null;
+  _type: string;
+}
+
+export interface IOrderDataDashboard {
+  dayData: DayDatum[];
+  monthData: Datum[];
+  yearData: Datum[];
+  category1: CategoryData;
+  category2: CategoryData;
+  category3: CategoryData;
+  category4: CategoryData;
+  category5: CategoryData;
+  summary: {
+    totalRevenue: string;
+    percentageChange: string;
+    numberOfTransactions: number;
+    numberOfUsers: number;
+  };
+}
+
+export interface DayDatum extends Datum {
+  id: number;
+}
+
+export interface Datum {
+  time: string;
+  value: number;
+}
+
+interface Item {
+  id: number;
+  time: Prisma.JsonValue;
+  value: number;
+  categoryId: number;
+  category: Category;
+}
+
+export interface CategoryData {
+  name: string;
+  data: Item[];
+  sumValue?: number;
 }

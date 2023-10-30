@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { getAllCartByUser } from "@/controllers/cartController";
+import { getTransactionApiIziPay } from "@/controllers/paymentController";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,21 +11,48 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { id } = req.query;
+        const { id, detail, userId } = req.query;
+        if (detail) {
+          const order = await prisma.order.findUnique({
+            where: {
+              id: parseInt(id as string),
+            },
+          });
+          if (!order) {
+            return res.status(404).json({ message: "order not found" });
+          }
+          const transaction = await getTransactionApiIziPay(
+            order.checkoutUuid as string
+          );
+          const data = {
+            user: {
+              name: transaction.answer.customer.billingDetails.firstName,
+              email: transaction.answer.customer.email,
+            },
+            shoppingCart: transaction.answer.customer.shoppingCart.cartItemInfo,
+            amount: transaction.answer.amount,
+          };
+          return res.status(200).json(data);
+        }
         const order = await prisma.order.findUnique({
           where: {
             id: parseInt(id as string),
+            userId: userId as string,
+          },
+          include: {
+            products: {
+              include: {
+                product: {
+                  include: { category: true, brand: true, unitOfMeasure: true },
+                },
+              },
+            },
           },
         });
         if (!order) {
           return res.status(404).json({ message: "order not found" });
         }
-        const result = await getAllCartByUser({ userId: order.userId });
-        if (result.success) {
-          return res.status(200).json({ order, cart: result.data?.products });
-        } else {
-          return res.status(400).json({ message: result.error });
-        }
+        return res.status(200).json(order);
       } catch (error) {
         res.status(500).json(error);
       }

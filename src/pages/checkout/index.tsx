@@ -5,6 +5,7 @@ import {
   deleteCartByApi,
   getOrderByApi,
   postPaymentValidate,
+  updateTokenFormPayment,
 } from "@/states/globalApi";
 import { useRouter } from "next/router";
 import Script from "next/script";
@@ -17,17 +18,29 @@ import {
   calcularSubtotal,
   formatPrice,
 } from "@/shared/ultis";
-import Link from "next/link";
 import Timer from "@/components/Timer";
+import { getSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 type Props = {
+  timestamp: number;
   formToken: string;
+  orderId: number;
   cart: IProductCart[];
+  session: Session;
 };
 
-const Checkout = ({ formToken, cart }: Props) => {
+const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
   const [message, setMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const router = useRouter();
+  const subtotalTotal = calcularSubtotal(cart);
+  const descuentoTotal = calcularDescuento(cart);
+  const total = subtotalTotal - descuentoTotal;
+  // console.log(cart[0]);
+  // console.log(cart[0].cartId);
+  // console.log(cart);
 
   useEffect(() => {
     async function setupPaymentForm() {
@@ -48,7 +61,7 @@ const Checkout = ({ formToken, cart }: Props) => {
         await KR.onSubmit(async (paymentData) => {
           const response = await postPaymentValidate({ paymentData });
           if (response.status === 200) {
-            await deleteCartByApi(cart[0].cartId);
+            await deleteCartByApi(session.user.id);
             router.push("/successPayment");
             setMessage("Payment successful!");
           }
@@ -61,9 +74,25 @@ const Checkout = ({ formToken, cart }: Props) => {
 
     setupPaymentForm();
   }, [formToken, cart, router]);
-  const subtotalTotal = calcularSubtotal(cart);
-  const descuentoTotal = calcularDescuento(cart);
-  const total = subtotalTotal - descuentoTotal;
+
+  const handleCheckout = async () => {
+    try {
+      setIsProcessing(true);
+      const response = await updateTokenFormPayment({
+        cart,
+        session,
+        orderId,
+      });
+      if (response.status === 200) {
+        router.reload();
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error. Por favor, inténtelo nuevamente.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -115,7 +144,11 @@ const Checkout = ({ formToken, cart }: Props) => {
                     /> */}
                   </div>
                   <div data-test="payment-message">{message}</div>
-                  <Timer minutes={1} />
+                  <Timer
+                    time={timestamp}
+                    customFunction={handleCheckout}
+                    isProcessing={isProcessing}
+                  />
                 </div>
               </div>
             </div>
@@ -129,17 +162,20 @@ const Checkout = ({ formToken, cart }: Props) => {
 export default Checkout;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
   const { orderId } = context.query;
-  if (!orderId)
+  if (!orderId || !session)
     return {
       redirect: {
         destination: "/",
       },
     };
   try {
-    const response = await getOrderByApi(parseInt(orderId as string));
-    const { formToken, orderStatus } = response.data.order;
-    const { cart } = response.data;
+    const response = await getOrderByApi(
+      parseInt(orderId as string),
+      session.user.id
+    );
+    const { formToken, orderStatus, products, updatedAt } = response.data;
     if (orderStatus === "PAID") {
       return {
         redirect: {
@@ -147,14 +183,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
       };
     }
+    const fechaCreacionToken = new Date(updatedAt);
+    const fechaActual = new Date();
+    const tiempoExpiracionEnSegundos: number =
+      Math.floor(
+        (fechaCreacionToken.getTime() - fechaActual.getTime()) / 1000
+      ) + 600;
+
     return {
       props: {
         formToken: formToken,
-        cart: cart,
+        cart: products,
+        orderId: parseInt(orderId as string),
+        timestamp: tiempoExpiracionEnSegundos,
+        session: session as Session,
       },
     };
   } catch (error) {
-    // { message: 'cart is empty' } === payment made previously
     return {
       redirect: {
         destination: "/",

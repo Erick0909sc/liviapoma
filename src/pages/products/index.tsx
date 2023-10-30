@@ -18,6 +18,7 @@ import { useSession } from "next-auth/react";
 import Pagination from "@/components/pagination";
 import FilterByCategory from "@/components/Filtros/FilterByCategory";
 import { useRouter } from "next/router";
+import Loader from "@/components/Loader/loader";
 
 
 const Products: React.FC = () => {
@@ -88,7 +89,7 @@ const Products: React.FC = () => {
           setSelectedCategory={handleCategoryChange}
         />
         <div className="flex flex-col justify-center">
-          {productsStatus === EStateGeneric.PENDING && <p>Loading...</p>}
+          {productsStatus === EStateGeneric.PENDING && <Loader />}
           {productsStatus === EStateGeneric.FAILED && (
             <p>Failed to load products</p>
           )}

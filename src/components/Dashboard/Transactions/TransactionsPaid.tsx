@@ -42,7 +42,7 @@ const TransactionsPaid = ({ search }: Props) => {
     };
   }, [dispatch, status, currentPage, search]);
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
       {status === EStateGeneric.FAILED && <Failed />}
       {status === EStateGeneric.SUCCEEDED && (

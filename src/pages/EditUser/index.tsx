@@ -20,6 +20,9 @@ const Index: React.FC = () => {
   const dispatch = useAppDispatch()
   const [editedUser, setEditedUser] = useState(dataoneuser);
 
+  const [hasChanges, setHasChanges] = useState(false);
+
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
   const { data: session } = useSession();
@@ -41,7 +44,7 @@ const Index: React.FC = () => {
     }
   }, [dataoneuser]);
 
-  
+
 
   const handleStartEdit = (field: string) => {
     setFieldToEdit(field);
@@ -54,11 +57,40 @@ const Index: React.FC = () => {
   };
 
 
+  // const formik = useFormik({
+  //   initialValues,
+  //   onSubmit: async (values) => {
+  //     try {
+  //       console.log(values);
+  //       dispatch(
+  //         putUser({
+  //           id: editedUser.id,
+  //           name: editedUser.name,
+  //           email: editedUser.email,
+  //           password: editedUser.password,
+  //           image: values.image,
+  //         })
+  //       );
+
+  //       alert("¡Se editó correctamente!, recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   },
+  // });
+
+
+
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
       try {
         console.log(values);
+        if (!hasChanges) {
+          alert("No se han realizado cambios. No se puede guardar.");
+          return; // No se envía la solicitud si no hay cambios
+        }
+
         dispatch(
           putUser({
             id: editedUser.id,
@@ -68,10 +100,11 @@ const Index: React.FC = () => {
             image: values.image,
           })
         );
+        router.push('/');
 
-        alert("¡Se editó correctamente!, recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
+        alert("¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
   });
@@ -90,12 +123,23 @@ const Index: React.FC = () => {
   };
 
 
+  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   setEditedUser((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+
+
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setEditedUser((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    setHasChanges(true); // Establece que se han realizado cambios
   };
 
   return (

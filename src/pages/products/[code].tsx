@@ -374,7 +374,7 @@ const Detail = (props: Props) => {
         </div>
 
         {/* maqueta para review */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           {productComments.map((commentData, index) => (
             <div key={index} className="border p-4 rounded shadow-md">
               <div className="flex items-center gap-3">
