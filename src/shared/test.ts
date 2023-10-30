@@ -1872,3 +1872,342 @@ export const seriesesData = new Map([
   ["1M", monthData],
   ["1Y", yearData],
 ]);
+
+export const categoryData = [
+  {
+    id: 1,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 75.5,
+    categoryId: 6,
+    category: {
+      id: 6,
+      name: "Eternits",
+    },
+  },
+  {
+    id: 2,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 12000,
+    categoryId: 5,
+    category: {
+      id: 5,
+      name: "Clavos",
+    },
+  },
+  {
+    id: 3,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 450,
+    categoryId: 4,
+    category: {
+      id: 4,
+      name: "Alambres",
+    },
+  },
+  {
+    id: 4,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 27.5,
+    categoryId: 3,
+    category: {
+      id: 3,
+      name: "Estribos",
+    },
+  },
+  {
+    id: 5,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 38,
+    categoryId: 2,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+  },
+  {
+    id: 6,
+    time: {
+      day: 27,
+      year: 2023,
+      month: 10,
+    },
+    value: 64.1,
+    categoryId: 1,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+  },
+  {
+    id: 7,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 80.3,
+    categoryId: 6,
+    category: {
+      id: 6,
+      name: "Eternits",
+    },
+  },
+  {
+    id: 8,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 5000,
+    categoryId: 5,
+    category: {
+      id: 5,
+      name: "Clavos",
+    },
+  },
+  {
+    id: 9,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 420,
+    categoryId: 4,
+    category: {
+      id: 4,
+      name: "Alambres",
+    },
+  },
+  {
+    id: 10,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 30.5,
+    categoryId: 3,
+    category: {
+      id: 3,
+      name: "Estribos",
+    },
+  },
+  {
+    id: 11,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 41,
+    categoryId: 2,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+  },
+  {
+    id: 12,
+    time: {
+      day: 28,
+      year: 2023,
+      month: 10,
+    },
+    value: 68.2,
+    categoryId: 1,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+  },
+  {
+    id: 13,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 7200.8,
+    categoryId: 6,
+    category: {
+      id: 6,
+      name: "Eternits",
+    },
+  },
+  {
+    id: 14,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 180.5,
+    categoryId: 5,
+    category: {
+      id: 5,
+      name: "Clavos",
+    },
+  },
+  {
+    id: 15,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 3900,
+    categoryId: 4,
+    category: {
+      id: 4,
+      name: "Alambres",
+    },
+  },
+  {
+    id: 16,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 8666.2,
+    categoryId: 3,
+    category: {
+      id: 3,
+      name: "Estribos",
+    },
+  },
+  {
+    id: 17,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 47,
+    categoryId: 2,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+  },
+  {
+    id: 18,
+    time: {
+      day: 29,
+      year: 2023,
+      month: 10,
+    },
+    value: 7199.4,
+    categoryId: 1,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+  },
+  {
+    id: 19,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 12001.7,
+    categoryId: 6,
+    category: {
+      id: 6,
+      name: "Eternits",
+    },
+  },
+  {
+    id: 20,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 20.5,
+    categoryId: 5,
+    category: {
+      id: 5,
+      name: "Clavos",
+    },
+  },
+  {
+    id: 21,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 360,
+    categoryId: 4,
+    category: {
+      id: 4,
+      name: "Alambres",
+    },
+  },
+  {
+    id: 22,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 38.9,
+    categoryId: 3,
+    category: {
+      id: 3,
+      name: "Estribos",
+    },
+  },
+  {
+    id: 23,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 50,
+    categoryId: 2,
+    category: {
+      id: 2,
+      name: "Varillas",
+    },
+  },
+  {
+    id: 24,
+    time: {
+      day: 30,
+      year: 2023,
+      month: 10,
+    },
+    value: 75.8,
+    categoryId: 1,
+    category: {
+      id: 1,
+      name: "Cementos",
+    },
+  },
+];

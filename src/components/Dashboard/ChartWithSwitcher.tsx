@@ -1,4 +1,17 @@
-import { createChart, ColorType, IChartApi } from "lightweight-charts";
+import {
+  createChart,
+  ColorType,
+  IChartApi,
+  LineStyle,
+  ISeriesApi,
+  Time,
+  AreaData,
+  WhitespaceData,
+  AreaSeriesOptions,
+  DeepPartial,
+  AreaStyleOptions,
+  SeriesOptionsCommon,
+} from "lightweight-charts";
 import React, { useEffect, useRef } from "react";
 
 type IntervalosType = {
@@ -12,20 +25,24 @@ interface DataByInterval {
 
 const ChartWithSwitcher = (props: {
   dayData: IntervalosType[];
-  weekData: IntervalosType[];
   monthData: IntervalosType[];
   yearData: IntervalosType[];
 }) => {
-  const { dayData, weekData, monthData, yearData } = props;
+  const { dayData, monthData, yearData } = props;
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<IChartApi | null>(null);
-  const areaSeriesRef = useRef<any>(null);
+  const areaSeriesRef = useRef<ISeriesApi<
+    "Area",
+    Time,
+    AreaData<Time> | WhitespaceData<Time>,
+    AreaSeriesOptions,
+    DeepPartial<AreaStyleOptions & SeriesOptionsCommon>
+  > | null>(null);
   const [activeInterval, setActiveInterval] = React.useState("1D");
 
   const dataByInterval: DataByInterval = {
     "1D": dayData,
-    "1W": weekData,
     "1M": monthData,
     "1Y": yearData,
   };
@@ -35,20 +52,22 @@ const ChartWithSwitcher = (props: {
       if (chartContainerRef.current) {
         chartRef.current = createChart(chartContainerRef.current, {
           width: chartContainerRef.current.clientWidth || 300,
-          height: 300,
+          height: 400,
           layout: {
             background: {
               type: ColorType.Solid,
-              color: "#000000",
+              color: "#ffffff",
             },
-            textColor: "#d1d4dc",
+            textColor: "#000",
           },
           grid: {
             vertLines: {
-              visible: false,
+              color: "#c2bfc9",
+              style: LineStyle.LargeDashed,
             },
             horzLines: {
-              color: "rgba(42, 46, 57, 0.5)",
+              color: "#c2bfc9",
+              style: LineStyle.LargeDashed,
             },
           },
           rightPriceScale: {
@@ -58,12 +77,27 @@ const ChartWithSwitcher = (props: {
             borderVisible: false,
           },
           crosshair: {
+            mode: 1,
             horzLine: {
-              visible: false,
+              color: "rgba(76, 175, 80, 1)",
+              width: 2,
+            },
+            vertLine: {
+              color: "rgba(76, 175, 80, 1)",
+              width: 2,
             },
           },
         });
-
+        // chart.applyOptions({
+        //   watermark: {
+        //     visible: true,
+        //     fontSize: 24,
+        //     horzAlign: "center",
+        //     vertAlign: "center",
+        //     color: "rgba(171, 71, 188, 0.5)",
+        //     text: "Liviapoma",
+        //   },
+        // });
         chartRef.current.timeScale().fitContent();
 
         areaSeriesRef.current = chartRef.current.addAreaSeries({
@@ -91,13 +125,15 @@ const ChartWithSwitcher = (props: {
   };
 
   return (
-    <div className="w-full">
-      <div className="switcher">
+    <div className="w-full h-auto">
+      <div className="flex w-min gap-1 border-2 border-gray-600 rounded-md p-[1px]">
         {Object.keys(dataByInterval).map((interval) => (
           <button
             key={interval}
-            className={`switcher-item ${
-              activeInterval === interval ? "switcher-active-item" : ""
+            className={`p-3 rounded-md font-semibold ${
+              activeInterval === interval
+                ? "bg-green-700 text-white"
+                : "hover:bg-green-700"
             }`}
             onClick={() => handleIntervalChange(interval)}
           >
@@ -105,7 +141,7 @@ const ChartWithSwitcher = (props: {
           </button>
         ))}
       </div>
-      <div ref={chartContainerRef} />
+      <div ref={chartContainerRef} className="h-[50%]" />
     </div>
   );
 };

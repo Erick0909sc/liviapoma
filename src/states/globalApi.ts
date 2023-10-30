@@ -10,10 +10,10 @@ import axios from "axios";
 import { Session } from "next-auth";
 
 export const getOffersByApi = () => axios.get(`/api/v1/offers`);
-export const deleteCartByApi = (id: number) =>
-  axios.delete(`/api/v1/cart?cartId=${id}`);
-export const getOrderByApi = (id: number) =>
-  axios.get(`${BASE_URL}/api/v1/orders/${id}`);
+export const deleteCartByApi = (id: string) =>
+  axios.delete(`/api/v1/cart?deleteCartUser=${id}`);
+export const getOrderByApi = (id: number, userId: string) =>
+  axios.get(`${BASE_URL}/api/v1/orders/${id}?userId=${userId}`);
 
 export const postOrder = ({
   userId,
@@ -54,7 +54,7 @@ export const postPayment = async ({
     orderCurrency: "PEN",
     products: cart,
   });
-  const res = await axios.post(`/api/createPayment`, {
+  const res = await axios.post(`/api/v1/izipay/createPayment`, {
     paymentConf: {
       amount: totalCentimos,
       currency: "PEN",
@@ -82,8 +82,53 @@ export const postPayment = async ({
   });
 };
 
+export const updateTokenFormPayment = async ({
+  cart,
+  session,
+  orderId,
+}: {
+  cart: IProductCart[];
+  session: Session;
+  orderId: number;
+}) => {
+  const subtotalTotal = calcularSubtotal(cart);
+  const descuentoTotal = calcularDescuento(cart);
+  const total = subtotalTotal - descuentoTotal;
+  const totalCentimos = calcularTotalCentimos(total);
+
+  const res = await axios.post(`/api/v1/izipay/createPayment`, {
+    paymentConf: {
+      amount: totalCentimos,
+      currency: "PEN",
+      customer: {
+        email: session.user.email,
+        shoppingCart: {
+          cartItemInfo: cart.map((e) => ({
+            productLabel: e.product.name,
+            productQty: e.quantity,
+            productAmount: `${calcularTotalCentimos(calcularSubtotalItem(e))}`,
+            productRef: `https://liviapoma.vercel.app/products/${e.productCode}`,
+          })),
+        },
+        billingDetails: {
+          firstName: session.user.name,
+        },
+        reference: session.user.id,
+      },
+      orderId: orderId,
+    },
+  });
+  return axios.patch(`/api/v1/orders`, {
+    id: orderId,
+    formToken: res.data.formToken,
+  });
+};
+
 export const postPaymentValidate = ({
   paymentData,
 }: {
   paymentData: KRPaymentResponse;
-}) => axios.post(`/api/validatePayment`, paymentData);
+}) => axios.post(`/api/v1/izipay/validatePayment`, paymentData);
+
+export const getDetailsOrderByApi = (id: number) =>
+  axios.get(`/api/v1/orders/${id}?detail=true`);

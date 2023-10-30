@@ -160,8 +160,21 @@ CREATE TABLE "Order" (
     "formToken" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "productCode" TEXT,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrderItem" (
+    "id" SERIAL NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "productCode" TEXT NOT NULL,
+    "orderId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -178,9 +191,22 @@ CREATE TABLE "Review" (
 );
 
 -- CreateTable
-CREATE TABLE "_OrderToProduct" (
-    "A" INTEGER NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "DailyData" (
+    "id" SERIAL NOT NULL,
+    "time" TEXT NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "DailyData_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CategoryData" (
+    "id" SERIAL NOT NULL,
+    "time" JSONB NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+    "categoryId" INTEGER NOT NULL,
+
+    CONSTRAINT "CategoryData_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -205,10 +231,13 @@ CREATE UNIQUE INDEX "CartItem_productCode_cartId_key" ON "CartItem"("productCode
 CREATE UNIQUE INDEX "Order_checkoutUuid_key" ON "Order"("checkoutUuid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_OrderToProduct_AB_unique" ON "_OrderToProduct"("A", "B");
+CREATE UNIQUE INDEX "OrderItem_productCode_orderId_key" ON "OrderItem"("productCode", "orderId");
 
 -- CreateIndex
-CREATE INDEX "_OrderToProduct_B_index" ON "_OrderToProduct"("B");
+CREATE UNIQUE INDEX "DailyData_time_key" ON "DailyData"("time");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CategoryData_time_categoryId_key" ON "CategoryData"("time", "categoryId");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -253,13 +282,16 @@ ALTER TABLE "BrandDiscount" ADD CONSTRAINT "BrandDiscount_brandId_fkey" FOREIGN 
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_productCode_fkey" FOREIGN KEY ("productCode") REFERENCES "Product"("code") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_productCode_fkey" FOREIGN KEY ("productCode") REFERENCES "Product"("code") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_OrderToProduct" ADD CONSTRAINT "_OrderToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_OrderToProduct" ADD CONSTRAINT "_OrderToProduct_B_fkey" FOREIGN KEY ("B") REFERENCES "Product"("code") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CategoryData" ADD CONSTRAINT "CategoryData_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;

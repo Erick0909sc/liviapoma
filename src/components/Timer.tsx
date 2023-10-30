@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-interface TimerProps {
-  minutes: number;
+interface Props {
+  time: number;
+  isProcessing?: boolean;
+  customFunction?: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ minutes }) => {
-  const [seconds, setSeconds] = useState(minutes * 60);
+const Timer = ({ time, isProcessing, customFunction }: Props) => {
+  const [seconds, setSeconds] = useState(time > 0 ? time : 0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,8 +30,36 @@ const Timer: React.FC<TimerProps> = ({ minutes }) => {
 
   return (
     <div>
-      <h2>Temporizador</h2>
-      <p>{displayTime()}</p>
+      <div className="flex flex-col items-center">
+        {seconds > 0 && (
+          <div className="">
+            <h2 className="text-lg font-semibold">
+              Temporizador {displayTime()}
+            </h2>
+            <p>
+              Una vez pasado el tiempo, puede que la transacción no se complete
+            </p>
+          </div>
+        )}
+        {!seconds && (
+          <>
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={customFunction}
+                disabled={isProcessing}
+                className="px-4 py-2 ml-4 bg-red-500 hover:bg-red-600 text-white rounded cursor-pointer"
+              >
+                {!isProcessing ? "Recargar Token" : "Cargando..."}
+              </button>
+            </div>
+            <p className="text-red-500 text-sm mt-2 text-center">
+              Recuerda recargar para generar un token para una transacción
+              exitosa.
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

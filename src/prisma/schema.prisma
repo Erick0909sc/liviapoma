@@ -62,10 +62,11 @@ model PasswordResetToken {
 }
 
 model Category {
-  id        Int                @id @default(autoincrement())
-  name      String
-  products  Product[]
-  discounts CategoryDiscount[]
+  id           Int                @id @default(autoincrement())
+  name         String
+  products     Product[]
+  discounts    CategoryDiscount[]
+  categoryData CategoryData[]
 }
 
 model Brand {
@@ -92,7 +93,7 @@ model Product {
   unitOfMeasure   UnitOfMeasure @relation(fields: [unitOfMeasureId], references: [id])
   unitOfMeasureId Int
   reviews         Review[]
-  orders          Order[]
+  orders          OrderItem[]
 }
 
 model UnitOfMeasure {
@@ -163,12 +164,26 @@ model Order {
   checkoutUuid     String?     @unique
   orderTotalAmount Int
   user             User        @relation(fields: [userId], references: [id])
-  products         Product[]
+  products         OrderItem[]
   orderStatus      OrderStatus @default(PROCESS)
   orderCurrency    String
   formToken        String?
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+  productCode      String?
+}
+
+model OrderItem {
+  id          Int      @id @default(autoincrement())
+  quantity    Int
+  product     Product  @relation(fields: [productCode], references: [code], onDelete: Cascade)
+  productCode String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([productCode, orderId])
 }
 
 enum OrderStatus {
@@ -186,6 +201,22 @@ model Review {
   updatedAt   DateTime @updatedAt
   product     Product  @relation(fields: [productCode], references: [code], onDelete: Cascade)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DailyData {
+  id    Int    @id @default(autoincrement())
+  time  String @unique
+  value Float
+}
+
+model CategoryData {
+  id         Int      @id @default(autoincrement())
+  time       Json
+  value      Float
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int
+
+  @@unique([time, categoryId])
 }
 
 // enum Role {

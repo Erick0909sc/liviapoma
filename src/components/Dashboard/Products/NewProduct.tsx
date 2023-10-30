@@ -58,7 +58,6 @@ const NewProduct = (props: Props) => {
     onSubmit: async (values, { resetForm }) => {
       7;
       try {
-        console.log(values);
         const brandId = parseInt(values.brandId as string);
         const categoryId = parseInt(values.categoryId as string);
         const unitOfMeasureId = parseInt(values.categoryId as string);
