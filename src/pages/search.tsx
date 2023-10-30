@@ -96,8 +96,8 @@ const SearchResult = () => {
 
   return (
     <Layout title="Productos">
-      <div className="flex flex-col items-center ">
-        <h1 className="font-bold size-xl">
+      <div className="flex flex-col items-center mt-8">
+        <h1 className="font-serif text-2xl">
           Resultados de la búsqueda para: {searchTerm}
         </h1>
         <FilterByCategory

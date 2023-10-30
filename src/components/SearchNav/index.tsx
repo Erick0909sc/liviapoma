@@ -112,7 +112,7 @@ const SearchNav = (props: Props) => {
                     <div
                       key={index}
                       onClick={() => handleProductClick(product.code)}
-                      className="product-item flex items-center p-2 text-gray-700"
+                      className="product-item flex items-center p-2 text-gray-700 hover:bg-slate-200"
                     >
                       <Image
                         src={product.image}
@@ -124,21 +124,21 @@ const SearchNav = (props: Props) => {
                       {product.name}
                     </div>
                   ))}
-                <div className="category-list max-h-[300px] overflow-y-auto w-full">
+                <div className="category-list max-h-[300px] overflow-y-auto w-full bg-gray-300">
                   <span className="flex items-center justify-center text-sm font-medium text-black">
-                    categorias
+                    Categorias:
                   </span>
                   {filteredCategories.map((category, index) => (
                     <div
                       key={index}
-                      className="category-item p-2 text-gray-700 hover:bg-gray-300"
+                      className="category-item p-2 text-gray-700 hover:bg-gray-400"
                     >
                       <Categorysearch key={index} name={category} />
                     </div>
                   ))}
                 </div>
                 {filteredProducts.length > visibleProducts && (
-                  <button className="w-full text-center py-2 bg-gray-500 text-white">
+                  <button  onClick={handleSearchClick} className="w-full text-center py-2 bg-gray-600 text-white">
                     Ver más
                   </button>
                 )}
