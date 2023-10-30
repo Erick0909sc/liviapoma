@@ -151,7 +151,8 @@ export default async function handler(
         // Obtiene el valor del último mes
         const lastMonth = monthData[monthData.length - 1].value;
         // Obtiene el valor del penúltimo mes
-        const penultimateMonth = monthData[monthData.length - 2].value;
+        const penultimateMonth =
+          monthData[monthData.length - 2]?.value || lastMonth;
         // Calcula el ingreso total desde el último mes
         const totalRevenue = lastMonth.toFixed(2);
         // Calcula el porcentaje de cambio en las ventas desde el último mes
@@ -199,22 +200,6 @@ export default async function handler(
             numberOfUsers,
           },
         });
-        // return res.status(200).json({
-        //   dayData,
-        //   monthData,
-        //   yearData,
-        //   category1,
-        //   category2,
-        //   category3,
-        //   category4,
-        //   category5,
-        //   summary: {
-        //     totalRevenue,
-        //     percentageChange,
-        //     numberOfTransactions,
-        //     numberOfUsers,
-        //   },
-        // });
       } catch (error) {
         res.status(500).json(error);
       }
