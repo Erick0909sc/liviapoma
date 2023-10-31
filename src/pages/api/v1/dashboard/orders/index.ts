@@ -9,7 +9,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { page, count, search, date, paid } = req.query;
+        const { page, count, search, paid } = req.query;
         const countInt = parseInt(count as string) || 10;
         const itemsPerPage = Math.min(100, Math.max(10, countInt)); // min 10 max 100 items per page
         if (parseInt(page as string) < 1) {

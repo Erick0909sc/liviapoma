@@ -1,6 +1,4 @@
-import { dayData, monthData, weekData, yearData } from "@/shared/test";
 import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
-import ChartComponent from "@/components/Dashboard/ChartComponent";
 import ChartWithSwitcher from "@/components/Dashboard/ChartWithSwitcher";
 import { useAppDispatch } from "@/states/store";
 import { useSelector } from "react-redux";
