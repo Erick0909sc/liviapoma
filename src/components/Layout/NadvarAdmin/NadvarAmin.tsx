@@ -86,13 +86,10 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
       <div className="flex justify-end text-4xl"></div>
 
       <div className="justify-end gap-3 hidden sm:flex   lg:flex">
-        <button
-          className="text-2xl relative"
-          onClick={() => setNotifications(!notifications)}
-        >
-          <GoBellFill />
+        <div className="text-2xl relative">
+          <GoBellFill onClick={() => setNotifications(!notifications)} />
           {notifications && <Notifications />}
-        </button>
+        </div>
         <div className="flex items-center ">
           <button className="flex gap-2 items-center" onClick={toggleModal}>
             {session && (

@@ -27,7 +27,7 @@ const actualizarTiempo = async (notificacion: Notificacion) => {
     });
   } else if (horas > 0) {
     notificacion.time = `Hace ${horas} hora${horas > 1 ? "s" : ""}`;
-  } else if (minutos > 15) {
+  } else if (minutos > 1) {
     notificacion.time = `Hace ${minutos} minutos`;
   } else {
     notificacion.time = "Hace un momento";
@@ -51,50 +51,6 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const data = [
-          {
-            id: 1,
-            message: "¡Nueva compra realizada por liviapoma 1!",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 2,
-            message: "Compra exitosa de liviapoma 2",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 3,
-            message: "Confirmación de compra de liviapoma 3",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 4,
-            message: "¡Tienes una nueva orden de compra de liviapoma 4!",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 5,
-            message: "Notificación de compra de liviapoma 5",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 6,
-            message: "Compra completada por liviapoma 6: ¡Revisa los detalles!",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-          {
-            id: 7,
-            message: "Nueva compra realizada por liviapoma 7",
-            time: "Hace un momento",
-            createdAt: "2023-10-31T16:04:43.418Z",
-          },
-        ];
         const { count } = req.query;
         const notifications = await prisma.notification.findMany({
           orderBy: {

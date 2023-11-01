@@ -4,6 +4,7 @@ import Hex from "crypto-js/enc-hex";
 import prisma from "@/lib/prismadb";
 import { CategoryData } from "@/shared/types";
 import { categoryData } from "@/shared/test";
+import { pusherBack } from "@/shared/pusherInstance";
 const { PASSWORD_IZIPAY } = process.env;
 
 function groupDataByMonth(
@@ -208,7 +209,7 @@ export default async function handler(
       try {
         const { "kr-answer": clientAnswer, "kr-hash": hash } = req.body;
         const jsonObject = JSON.parse(clientAnswer);
-        const { serverDate, orderDetails } = jsonObject;
+        const { serverDate, orderDetails, customer } = jsonObject;
         const answerHash = Hex.stringify(
           hmacSHA256(clientAnswer, PASSWORD_IZIPAY as string)
         );
@@ -279,6 +280,22 @@ export default async function handler(
               },
             });
           }
+          await prisma.notification.create({
+            data: {
+              message: `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`,
+            },
+          });
+          const notifications = await prisma.notification.findMany({
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 10,
+          });
+          await pusherBack.trigger(
+            "liviapoma",
+            "liviapoma-notification",
+            notifications
+          );
           return res.status(200).json(result);
         } else return res.status(500).send("Payment hash mismatch");
       } catch (error) {
