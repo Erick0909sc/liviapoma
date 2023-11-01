@@ -1,26 +1,25 @@
 import axios from "axios";
-export const getPaidOrdersDashboardByApi = ({
+export const getOrdersDashboardByApi = ({
   page,
+  status,
   count,
   search,
 }: {
   page: number;
+  status: string;
   count?: number;
   search?: string;
 }) =>
   axios.get(
-    `/api/v1/dashboard/orders?page=${page}&count=${count}&paid=true&search=${search}`
+    `/api/v1/dashboard/orders?page=${page}&count=${count}&status=${status}&search=${search}`
   );
-
-export const getUnPaidOrdersDashboardByApi = ({
-  page,
-  count,
-  search,
+export const patchOrderStatusDashboardByApi = ({
+  id,
+  status,
 }: {
-  page: number;
-  count?: number;
-  search?: string;
+  id: number;
+  status: string;
 }) =>
-  axios.get(
-    `/api/v1/dashboard/orders?page=${page}&count=${count}&search=${search}`
-  );
+  axios.patch(`/api/v1/orders/${id}`, {
+    status,
+  });

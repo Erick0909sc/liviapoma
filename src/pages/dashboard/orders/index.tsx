@@ -1,33 +1,17 @@
 import LayoutAdmin from "@/components/Layout/LayoutAdmin/LayoutAdmin";
-import { pusher } from "@/shared/pusherInstance";
-import { useEffect, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useSelector } from "react-redux";
+import { selectSearch } from "@/states/globalSlice";
+import OrdersComponent from "@/components/Dashboard/Orders/Orders";
 
 type Props = {};
 
 const Orders = (props: Props) => {
-  const [notifications, setNotifications] = useState<any>([]);
-
-  useEffect(() => {
-    const channel = pusher.subscribe("liviapoma");
-
-    channel.bind("liviapoma-notification", (data: any) => {
-      console.log(data);
-      setNotifications(data);
-    });
-
-    return () => {
-      pusher.unsubscribe("liviapoma");
-    };
-  }, [notifications]);
+  const search = useDebounce(useSelector(selectSearch));
   return (
     <LayoutAdmin title="Orders">
-      <div className="bg-red-500 absolute top-0 right-0 w-96 h-96">
-        <h2>Notifications</h2>
-        <ul>
-          {notifications.map((notification: any) => (
-            <li key={notification.id}>{notification.message}</li>
-          ))}
-        </ul>
+      <div className="w-full h-full">
+        <OrdersComponent search={search} />
       </div>
     </LayoutAdmin>
   );

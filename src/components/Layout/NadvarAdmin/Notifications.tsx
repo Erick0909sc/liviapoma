@@ -23,20 +23,22 @@ enum states {
 const Notifications = (props: Props) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [status, setStatus] = useState(states.Idle);
+  const [count, setCount] = useState(20);
+  const handlerGetNotifications = async () => {
+    try {
+      setStatus(states.Pending);
+      const res = await getNotifications(count);
+      setNotifications(res.data);
+      return setStatus(states.Sucess);
+    } catch (error) {
+      setStatus(states.Failed);
+    } finally {
+      setStatus(states.Sucess);
+    }
+  };
   useEffect(() => {
-    (async () => {
-      try {
-        setStatus(states.Pending);
-        const res = await getNotifications();
-        setNotifications(res.data);
-        return setStatus(states.Sucess);
-      } catch (error) {
-        setStatus(states.Failed);
-      } finally {
-        setStatus(states.Sucess);
-      }
-    })();
-  }, []);
+    handlerGetNotifications();
+  }, [count]);
   useEffect(() => {
     const channel = pusher.subscribe("liviapoma");
     channel.bind("liviapoma-notification", (data: Notification[]) => {
@@ -48,12 +50,12 @@ const Notifications = (props: Props) => {
     };
   }, [notifications]);
   return (
-    <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md max-h-96 overflow-auto">
+    <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md overflow-auto">
       <h2 className="text-gray-800 text-center text-xl font-semibold mb-3">
         Notificaciones
       </h2>
       {status === states.Sucess && (
-        <>
+        <div className="flex flex-col justify-center">
           {!notifications.length && (
             <div className="flex flex-col items-center text-black">
               <MdNotificationsOff className="text-9xl text-gray-500" />
@@ -89,11 +91,17 @@ const Notifications = (props: Props) => {
             ))}
           </div>
           {notifications.length > 0 && (
-            <button type="button" className="bg-red-500">
-              Ver mas
+            <button
+              type="button"
+              className="bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 mt-2"
+              onClick={() => {
+                setCount((prevCount) => prevCount + 20);
+              }}
+            >
+              Ver más
             </button>
           )}
-        </>
+        </div>
       )}
     </div>
   );
