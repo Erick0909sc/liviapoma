@@ -30,7 +30,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  // image:string,
+  image:string,
   role: string;
 }
 
@@ -219,3 +219,15 @@ export interface CategoryData {
   data: Item[];
   sumValue?: number;
 }
+export interface Comment  {
+  user: IUser;
+  id: number;
+  productCode: string;
+  userId: string;
+  description: string; // Asegúrate de que la propiedad 'description' esté definida en el tipo 'Comment'
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  image: string;
+  name:string
+};

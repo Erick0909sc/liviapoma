@@ -124,14 +124,14 @@ const SearchNav = (props: Props) => {
                       {product.name}
                     </div>
                   ))}
-                <div className="category-list max-h-[300px] overflow-y-auto w-full bg-gray-300">
+                <div className="category-list max-h-[300px] overflow-y-auto w-full bg-amber-300">
                   <span className="flex items-center justify-center text-sm font-medium text-black">
                     Categorias:
                   </span>
                   {filteredCategories.map((category, index) => (
                     <div
                       key={index}
-                      className="category-item p-2 text-gray-700 hover:bg-gray-400"
+                      className="category-item p-2 text-gray-700 hover:bg-green-500"
                     >
                       <Categorysearch key={index} name={category} />
                     </div>
