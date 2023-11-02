@@ -2,11 +2,11 @@ import { useAppDispatch } from "@/states/store";
 import { useEffect } from "react";
 import { EStateGeneric } from "@/shared/types";
 import {
-  cleanUpOrders,
-  getAllOrders,
-  selectAllDashboardOrders,
-  selectAllDashboardOrdersStatus,
-} from "@/states/dashboard/orders/ordersSlice";
+  cleanUpTransactions,
+  getAllTransactions,
+  selectAllDashboardTransactions,
+  selectAllDashboardTransactionsStatus,
+} from "@/states/dashboard/transactions/transactionsSlice";
 import { useSelector } from "react-redux";
 import Pending from "@/components/StatesComponents/Pending";
 import Failed from "@/components/StatesComponents/Failed";
@@ -20,8 +20,8 @@ type Props = {
 
 const TransactionsPaid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
-  const status = useSelector(selectAllDashboardOrdersStatus);
-  const data = useSelector(selectAllDashboardOrders);
+  const status = useSelector(selectAllDashboardTransactionsStatus);
+  const data = useSelector(selectAllDashboardTransactions);
   const currentPage = useSelector(selectCurrentPage);
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
@@ -31,20 +31,25 @@ const TransactionsPaid = ({ search }: Props) => {
     (async () => {
       if (status === EStateGeneric.IDLE) {
         await dispatch(
-          getAllOrders({ page: currentPage, count: itemsPerPage, search })
+          getAllTransactions({ page: currentPage, count: itemsPerPage, search })
         );
       }
     })();
     return () => {
       if (status === EStateGeneric.SUCCEEDED) {
-        dispatch(cleanUpOrders());
+        dispatch(cleanUpTransactions());
       }
     };
   }, [dispatch, status, currentPage, search]);
   return (
     <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
-      {status === EStateGeneric.FAILED && <Failed />}
+      {status === EStateGeneric.FAILED && (
+        <Failed
+          text="Las transacciones no pudieron ser cargados correctamente"
+          tittle="Transacciones no encontradas"
+        />
+      )}
       {status === EStateGeneric.SUCCEEDED && (
         <>
           {search && !data.orders?.length && (
@@ -54,7 +59,7 @@ const TransactionsPaid = ({ search }: Props) => {
             />
           )}
           <div
-            className={`flex flex-wrap gap-4 justify-center w-full h-auto bg-gray-100 ${
+            className={`flex flex-wrap gap-4 justify-center w-full h-auto ${
               data.orders?.length ? "p-6" : ""
             }`}
           >

@@ -19,10 +19,10 @@ type DataItem = {
 
 type Props = {
   category1: DataItem[];
-  category2: DataItem[];
-  category3: DataItem[];
-  category4: DataItem[];
-  category5: DataItem[];
+  category2?: DataItem[];
+  category3?: DataItem[];
+  category4?: DataItem[];
+  category5?: DataItem[];
 };
 
 const ChartComponentCategories = ({
@@ -32,44 +32,63 @@ const ChartComponentCategories = ({
   category4,
   category5,
 }: Props) => {
+  const initialCategoriesToShow: string[] = [];
+  const categories = [category1, category2, category3, category4, category5];
+  for (const category of categories) {
+    if (category) {
+      initialCategoriesToShow.push(category[0].category.name);
+    }
+  }
+  const [categoriesToShow, setCategoriesToShow] = useState<string[]>(
+    initialCategoriesToShow
+  );
+
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
-  const [categoriesToShow, setCategoriesToShow] = useState([
-    category1[0].category.name,
-    category2[0].category.name,
-    category3[0].category.name,
-    category4[0].category.name,
-    category5[0].category.name,
-  ]);
 
   const getSeriesColors = (index: string) => {
-    const colors = {
-      [category1[0].category.name]: {
+    const colors: {
+      [key: string]: {
+        topColor: string;
+        bottomColor: string;
+        lineColor: string;
+      };
+    } = {};
+
+    if (category1 && category1[0]?.category.name) {
+      colors[category1[0].category.name] = {
         topColor: `rgba(255, 99, 71, 0.56)`,
         bottomColor: `rgba(255, 192, 203, 0.56)`,
         lineColor: `#FF0000`, // Rojo claro
-      },
-      [category2[0].category.name]: {
+      };
+    }
+    if (category2 && category2[0]?.category.name) {
+      colors[category2[0].category.name] = {
         topColor: `rgba(144, 238, 144, 0.56)`,
         bottomColor: `rgba(34, 139, 34, 0.56)`,
         lineColor: `#00FF00`, // Verde claro
-      },
-      [category3[0].category.name]: {
+      };
+    }
+    if (category3 && category3[0]?.category.name) {
+      colors[category3[0].category.name] = {
         topColor: `rgba(70, 130, 180, 0.56)`,
         bottomColor: `rgba(100, 149, 237, 0.56)`,
         lineColor: `#0000FF`, // Azul cielo
-      },
-      [category4[0].category.name]: {
+      };
+    }
+    if (category4 && category4[0]?.category.name) {
+      colors[category4[0].category.name] = {
         topColor: `rgba(218, 112, 214, 0.56)`,
         bottomColor: `rgba(199, 21, 133, 0.56)`,
         lineColor: `#FF00FF`, // Rosa
-      },
-      [category5[0].category.name]: {
+      };
+    }
+    if (category5 && category5[0]?.category.name) {
+      colors[category5[0].category.name] = {
         topColor: `rgba(255, 215, 0, 0.56)`,
         bottomColor: `rgba(255, 223, 186, 0.56)`,
         lineColor: `#FFB400`, // Amarillo
-      },
-    };
-
+      };
+    }
     return colors[index];
   };
   const handleCategories = (e: ChangeEvent<HTMLInputElement>) => {
@@ -127,28 +146,22 @@ const ChartComponentCategories = ({
         },
       });
 
-      const seriesData = {
-        [category1[0].category.name]: category1.map((item) => ({
-          time: item.time as { year: number; month: number; day: number },
-          value: item.value,
-        })),
-        [category2[0].category.name]: category2.map((item) => ({
-          time: item.time as { year: number; month: number; day: number },
-          value: item.value,
-        })),
-        [category3[0].category.name]: category3.map((item) => ({
-          time: item.time as { year: number; month: number; day: number },
-          value: item.value,
-        })),
-        [category4[0].category.name]: category4.map((item) => ({
-          time: item.time as { year: number; month: number; day: number },
-          value: item.value,
-        })),
-        [category5[0].category.name]: category5.map((item) => ({
-          time: item.time as { year: number; month: number; day: number },
-          value: item.value,
-        })),
-      };
+      const seriesData: {
+        [key: string]: {
+          time: { year: number; month: number; day: number };
+          value: number;
+        }[];
+      } = {};
+      for (const category of categories) {
+        if (category && category[0]?.category?.name) {
+          const categoryName = category[0].category.name;
+          seriesData[categoryName] = category.map((item) => ({
+            time: item.time as { year: number; month: number; day: number },
+            value: item.value,
+          }));
+        }
+      }
+
       categoriesToShow.filter((category, index) => {
         const seriesColors = getSeriesColors(category);
         const series = chart?.addAreaSeries({
@@ -171,13 +184,7 @@ const ChartComponentCategories = ({
     <div className="w-full h-auto">
       <div className="flex flex-col w-full">
         <div className="inline-flex flex-wrap gap-4 justify-center">
-          {[
-            category1[0].category.name,
-            category2[0].category.name,
-            category3[0].category.name,
-            category4[0].category.name,
-            category5[0].category.name,
-          ].map((item) => (
+          {initialCategoriesToShow.map((item) => (
             <label
               key={item}
               className={`flex items-center gap-1`}

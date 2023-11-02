@@ -134,9 +134,10 @@ export interface Order {
   orderCurrency: string;
   formToken: string;
   createdAt: string;
-  // createdAt: Date;
+  productsStatus: string;
   updatedAt: string;
-  // updatedAt: Date;
+  user: IOneUser;
+  products: IProductCart[];
 }
 
 export interface paymentConf {

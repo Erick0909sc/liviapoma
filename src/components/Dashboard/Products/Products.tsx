@@ -57,7 +57,7 @@ const Products = () => {
   }, [dispatch, productsStatus]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full ">
       {productsStatus === EStateGeneric.PENDING && <Pending />}
       {productsStatus === EStateGeneric.FAILED && <Failed />}
       {productsStatus === EStateGeneric.SUCCEEDED && (
@@ -65,9 +65,9 @@ const Products = () => {
           {search && !items.length && (
             <Failed text="No encontramos productos relacionados con tu búsqueda" />
           )}
-          <div className="grid grid-cols-1 pt-6  sm:grid-cols-2 lg:grid-cols-3 justify-center lg:p-6">
+          <div className="grid grid-cols-1 pt-6 grid- sm:grid-cols-2 lg:grid-cols-3  lg:p-6">
             {items.map((product, index) => (
-              <div key={index}>
+              <div key={index} className="grid place-content-center">
                 <Card
                   code={product.code}
                   name={product.name}

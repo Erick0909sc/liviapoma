@@ -77,7 +77,7 @@ function Card({
         <div className="w-[30%] ">
           <button
             onClick={() => setDeleteConfirmation(true)}
-            className="text-white p-2 bg-orange-800 rounded-[10px] flex"
+            className="text-white p-2 bg-orange-800 rounded-[10px] flex items-center"
           >
             <AiFillEye className="inline-block mr-1" />
             Ocultar

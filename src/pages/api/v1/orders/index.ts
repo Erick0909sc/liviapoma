@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { IProductCart } from "@/shared/types";
+import { ProductsStatus } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,11 +30,13 @@ export default async function handler(
       try {
         const {
           userId,
+          productsStatus,
           orderTotalAmount,
           orderCurrency,
           products,
         }: {
           userId: string;
+          productsStatus: ProductsStatus;
           orderTotalAmount: number;
           orderCurrency: string;
           products: IProductCart[];
@@ -41,6 +44,7 @@ export default async function handler(
         const order = await prisma.order.create({
           data: {
             userId,
+            productsStatus,
             orderTotalAmount,
             orderCurrency,
             products: {
@@ -53,7 +57,6 @@ export default async function handler(
             },
           },
         });
-
         res.status(201).json({ order });
       } catch (error) {
         res.status(500).json({ error: "Error al crear la orden" });

@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { getAllCartByUser } from "@/controllers/cartController";
 import { getTransactionApiIziPay } from "@/controllers/paymentController";
+import { ProductsStatus } from "@prisma/client";
+import { updateOrdersForAdmins } from "@/controllers/notificationsController";
 
 export default async function handler(
   req: NextApiRequest,
@@ -57,6 +59,22 @@ export default async function handler(
         res.status(500).json(error);
       }
       break;
+    case "PATCH":
+      try {
+        const { id } = req.query;
+        const { status } = req.body;
+        const order = await prisma.order.update({
+          where: { id: parseInt(id as string) },
+          data: {
+            productsStatus: status as ProductsStatus,
+          },
+        });
+        await updateOrdersForAdmins()
+        res.status(200).json(order);
+      } catch (error) {
+        res.status(500).json(error);
+      }
+
     default:
       res.status(405).json({ message: `HTTP METHOD ${method} NOT SUPPORTED` });
       break;

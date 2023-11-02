@@ -57,28 +57,6 @@ const Index: React.FC = () => {
   };
 
 
-  // const formik = useFormik({
-  //   initialValues,
-  //   onSubmit: async (values) => {
-  //     try {
-  //       console.log(values);
-  //       dispatch(
-  //         putUser({
-  //           id: editedUser.id,
-  //           name: editedUser.name,
-  //           email: editedUser.email,
-  //           password: editedUser.password,
-  //           image: values.image,
-  //         })
-  //       );
-
-  //       alert("¡Se editó correctamente!, recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   },
-  // });
-
 
 
   const formik = useFormik({
@@ -123,14 +101,10 @@ const Index: React.FC = () => {
   };
 
 
-  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   setEditedUser((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
 
+  const handleImageChange = (changed: boolean) => {
+    setHasChanges(changed); 
+  };
 
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -163,6 +137,7 @@ const Index: React.FC = () => {
               fieldName="image"
               fieldNameTranslate={"imagen"}
               initialPhoto={dataoneuser.image}
+              onImageChange={handleImageChange}
             />
 
           </div>

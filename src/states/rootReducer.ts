@@ -8,6 +8,7 @@ import dashboardusersSlice from "./dashboard/users/usersSlice";
 import dashboardOffersSlice from "./dashboard/offers/offersSlice";
 import dashboardOrdersSlice from "./dashboard/orders/ordersSlice";
 import dashboardSlice from "./dashboard/dashboardSlice";
+import dashboardTransactionsSlice from "./dashboard/transactions/transactionsSlice";
 
 export const rootReducer = combineReducers({
   products: productsSlice,
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers({
     users: dashboardusersSlice,
     offers: dashboardOffersSlice,
     orders: dashboardOrdersSlice,
+    transactions: dashboardTransactionsSlice,
     dashboard: dashboardSlice,
     // reviews: reviewsSlice,
   }),
