@@ -40,7 +40,7 @@ const LayoutAdmin = ({ children, title }: Props) => {
 
   if (!session) return null;
   return (
-    <div className={`flex w-full h-screen ${containerClass}`}>
+    <div className={`flex w-full h-screen fixed ${containerClass}`}>
       <Head>
         <title>{`Liviapoma - ${title}`}</title>
       </Head>
@@ -48,7 +48,7 @@ const LayoutAdmin = ({ children, title }: Props) => {
       {visibleSidebar && <Sidebar session={session} />}
       <div className="max-h-screen flex-grow flex flex-col">
         <NadvarAmin toggleSidebar={toggleSidebar} session={session} />
-        <div className="overflow-y-auto h-screen flex-grow">{children}</div>
+        <div className="overflow-y-auto h-screen flex-grow ">{children}</div>
         <FooterAdmin />
       </div>
     </div>

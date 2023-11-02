@@ -12,7 +12,7 @@ const ProductsPage = () => {
   const [component, setComponent] = useState({ ...states, products: true });
   return (
     <LayoutAdmin title="Productos">
-      <div className="w-full h-full">
+      <div className="w-full h-full  ">
         <div className="flex justify-between">
           <button
             onClick={() =>
