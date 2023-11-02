@@ -15,6 +15,8 @@ export const getAllOffers = createAsyncThunk(
   }
 );
 interface IGlobalState {
+  sorts: { name: string; value: string }[];
+  filters: { name: string; value: string }[];
   search: string;
   currentPage: number;
   offers: IOffer[];
@@ -22,6 +24,8 @@ interface IGlobalState {
 }
 
 const initialState: IGlobalState = {
+  sorts: [],
+  filters: [],
   search: "",
   currentPage: 1,
   offers: [],
@@ -43,6 +47,64 @@ export const globalSlice = createSlice({
         ...state,
         search: action.payload,
       };
+    },
+    setOrders: (
+      state,
+      action: PayloadAction<{ name: string; value: string }>
+    ) => {
+      const existingFilter = state.sorts[0];
+
+      if (
+        existingFilter &&
+        existingFilter.name === action.payload.name &&
+        existingFilter.value === action.payload.value
+      ) {
+        return {
+          ...state,
+          sorts: [],
+        };
+      } else {
+        return {
+          ...state,
+          sorts: [action.payload],
+        };
+      }
+    },
+    setFilters: (
+      state,
+      action: { payload: { name: string; value: string } }
+    ) => {
+      const { name, value } = action.payload;
+
+      // Verificar si el filtro ya existe en el array
+      const existingFilterIndex = state.filters.findIndex(
+        (filter) => filter.name === name
+      );
+
+      if (existingFilterIndex !== -1) {
+        // Si el filtro ya existe y el valor es diferente, actualiza su valor
+        if (state.filters[existingFilterIndex].value !== value) {
+          const updatedFilters = [...state.filters];
+          updatedFilters[existingFilterIndex] = { name, value };
+          return {
+            ...state,
+            filters: updatedFilters,
+          };
+        } else {
+          // Si el valor es el mismo, elimina el filtro del array
+          const updatedFilters = [...state.filters];
+          updatedFilters.splice(existingFilterIndex, 1);
+          return {
+            ...state,
+            filters: updatedFilters,
+          };
+        }
+      } else {
+        return {
+          ...state,
+          filters: [...state.filters, { name, value }],
+        };
+      }
     },
     cleanUpOfferts: (state) => {
       return {
@@ -66,9 +128,16 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setCurrentPage, setSearch, cleanUpOfferts } =
-  globalSlice.actions;
+export const {
+  setCurrentPage,
+  setSearch,
+  setOrders,
+  setFilters,
+  cleanUpOfferts,
+} = globalSlice.actions;
 
+export const selectAllSorts = (state: RootState) => state.global.sorts;
+export const selectAllFilters = (state: RootState) => state.global.filters;
 export const selectCurrentPage = (state: RootState) => state.global.currentPage;
 export const selectAllOffers = (state: RootState) => state.global.offers;
 export const selectAllOffersStatus = (state: RootState) =>

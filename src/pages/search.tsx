@@ -20,7 +20,7 @@ import Layout from "@/components/Layout/Layout";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Pagination from "@/components/pagination";
-import FilterByCategory from "@/components/Filtros/FilterByCategory";
+import FiltersAndSorts from "@/components/Filtros/FiltersAndSorts";
 
 const SearchResult = () => {
   const router = useRouter();
@@ -103,7 +103,7 @@ const SearchResult = () => {
         </h1>
       </div>
       <div className="flex flex-col items-center mt-8">
-        <FilterByCategory
+        <FiltersAndSorts
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}
         />

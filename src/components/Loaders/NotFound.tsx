@@ -9,7 +9,7 @@ import {
 } from "@/states/products/productsSlice";
 import Card from "@/components/card";
 import { useAppDispatch } from "@/states/store";
-import FilterByCategory from "@/components/Filtros/FilterByCategory";
+import FiltersAndSorts from "@/components/Filtros/FiltersAndSorts";
 import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import { calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
@@ -53,7 +53,7 @@ const CategoryPage = () => {
   return (
     <Layout title={`Productos de la categoría ${urlCategory}`}>
       <h1>Productos de la categoría {urlCategory}</h1>
-      <FilterByCategory
+      <FiltersAndSorts
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
