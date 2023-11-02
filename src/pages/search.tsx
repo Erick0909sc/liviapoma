@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Card from "@/components/card";
@@ -72,7 +73,6 @@ const SearchResult = () => {
     setCurrentPageRedux(1);
   }, [searchTerm]);
 
-
   //pruebas
   useEffect(() => {
     const fetchData = async () => {
@@ -96,10 +96,13 @@ const SearchResult = () => {
 
   return (
     <Layout title="Productos">
-      <div className="flex flex-col items-center mt-8">
+      <div className="flex items-star mt-5">
+        {" "}
         <h1 className="font-serif text-2xl">
-          Resultados de la búsqueda para: {searchTerm}
+          Resultados de la búsqueda para: "{searchTerm}"
         </h1>
+      </div>
+      <div className="flex flex-col items-center mt-8">
         <FilterByCategory
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}

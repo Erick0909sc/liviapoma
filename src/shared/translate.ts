@@ -21,5 +21,11 @@ export const ProductTranslation: { [key: string]: string } = {
 
 export const codeStatusOrderTranslation: { [key: string]: string } = {
   PAID: "COMPLETADO",
-  PROCESS: "PENDIENTE",
+  PROCESS: "EN PROCESO",
+};
+
+export const codeStatusOrdersTranslation: { [key: string]: string } = {
+  PENDIENTE: "PENDIENTE",
+  ENTREGADO: "ENTREGADO",
+  CANCELADO: "CANCELADO",
 };

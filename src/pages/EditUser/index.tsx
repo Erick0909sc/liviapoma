@@ -1,27 +1,25 @@
-
-import EditUser from '@/components/Modals/EditUser';
+import EditUser from "@/components/Modals/EditUser";
 // import { useAppDispatch } from '@/states/store';
-import { getOneUser, getoneUser, putUser } from '@/states/users/usersSlice';
+import { getOneUser, getoneUser, putUser } from "@/states/users/usersSlice";
 // import { getOneUser, putUser } from '@/states/users/usersSlice';
-import { useSession } from 'next-auth/react';
-import React, { useState, ChangeEvent, useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useSession } from "next-auth/react";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { useFormik } from "formik";
 // import * as Yup from "yup";
-import CustomImagePerfile from '@/components/Custom/CustomImagePerfile';
-import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
-import { useRouter } from 'next/router';
-import { useAppDispatch } from '@/states/store';
-
+import CustomImagePerfile from "@/components/Custom/CustomImagePerfile";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "@/states/store";
+import toast from "react-hot-toast";
 
 const Index: React.FC = () => {
   const dataoneuser = useSelector(getOneUser);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [editedUser, setEditedUser] = useState(dataoneuser);
 
   const [hasChanges, setHasChanges] = useState(false);
-
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
@@ -44,42 +42,14 @@ const Index: React.FC = () => {
     }
   }, [dataoneuser]);
 
-
-
   const handleStartEdit = (field: string) => {
     setFieldToEdit(field);
     setIsEditMode(true);
   };
 
-
   const initialValues = {
     image: null as File | null,
   };
-
-
-  // const formik = useFormik({
-  //   initialValues,
-  //   onSubmit: async (values) => {
-  //     try {
-  //       console.log(values);
-  //       dispatch(
-  //         putUser({
-  //           id: editedUser.id,
-  //           name: editedUser.name,
-  //           email: editedUser.email,
-  //           password: editedUser.password,
-  //           image: values.image,
-  //         })
-  //       );
-
-  //       alert("¡Se editó correctamente!, recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   },
-  // });
-
-
 
   const formik = useFormik({
     initialValues,
@@ -87,7 +57,7 @@ const Index: React.FC = () => {
       try {
         console.log(values);
         if (!hasChanges) {
-          alert("No se han realizado cambios. No se puede guardar.");
+          toast.error("No se han realizado cambios. No se puede guardar.");
           return; // No se envía la solicitud si no hay cambios
         }
 
@@ -100,38 +70,31 @@ const Index: React.FC = () => {
             image: values.image,
           })
         );
-        router.push('/');
+        router.push("/");
 
-        alert("¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión");
+        toast.error(
+          "¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión"
+        );
       } catch (error) {
         console.log(error);
       }
     },
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleCancel = () => {
     setIsEditMode(false);
     setFieldToEdit(null);
-
   };
-
 
   const handleGoBack = () => {
     router.back();
   };
 
-
-  // const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   setEditedUser((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
-
+  const handleImageChange = (changed: boolean) => {
+    setHasChanges(changed);
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -143,32 +106,40 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className='  h-screen flex flex-col justify-center items-center p-5'>
-      <div className='w-full  pl-3 '>
-        <button className='flex absolute  top-3  lg:top-5  text-[30px] lg:text-[35px] items-center' onClick={handleGoBack}>
+    <div className="  h-screen flex flex-col justify-center items-center p-5">
+      <div className="w-full  pl-3 ">
+        <button
+          className="flex absolute  top-3  lg:top-5  text-[30px] lg:text-[35px] items-center"
+          onClick={handleGoBack}
+        >
           <BsFillArrowLeftCircleFill />
         </button>
       </div>
 
-      <div className=' bg-white shadow-lg w-full lg:w-[60vw] rounded-lg'>
-        <div >
+      <div className=" bg-white shadow-lg w-full lg:w-[60vw] rounded-lg">
+        <div>
           <EditUser />
         </div>
         <hr />
-        <form className="mx-auto  p-6 rounded-lg  text-center" onSubmit={formik.handleSubmit}>
+        <form
+          className="mx-auto  p-6 rounded-lg  text-center"
+          onSubmit={formik.handleSubmit}
+        >
           <h2 className="text-2xl font-bold mb-4">Editar Datos de Usuario</h2>
-          <div className='relative mb-4'>
+          <div className="relative mb-4">
             <CustomImagePerfile
               formik={formik}
               fieldName="image"
               fieldNameTranslate={"imagen"}
               initialPhoto={dataoneuser.image}
+              onImageChange={handleImageChange}
             />
-
           </div>
           <hr />
           <div className="mb-4">
-            <label className="block text-gray-600 font-bold mb-2">Nombre del usuario:</label>
+            <label className="block text-gray-600 font-bold mb-2">
+              Nombre del usuario:
+            </label>
             <input
               type="text"
               name="name"
@@ -178,7 +149,9 @@ const Index: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-600 font-bold mb-2">Correo electrónico:</label>
+            <label className="block text-gray-600 font-bold mb-2">
+              Correo electrónico:
+            </label>
             <input
               type="text"
               name="email"
@@ -189,16 +162,21 @@ const Index: React.FC = () => {
           </div>
 
           <div>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" type='submit'>
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+              type="submit"
+            >
               Guardar
             </button>
-            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 ml-2" onClick={handleCancel}>
+            <button
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 ml-2"
+              onClick={handleCancel}
+            >
               Cancelar
             </button>
           </div>
         </form>
       </div>
-
     </div>
   );
 };

@@ -4,6 +4,11 @@ import Hex from "crypto-js/enc-hex";
 import prisma from "@/lib/prismadb";
 import { CategoryData } from "@/shared/types";
 import { categoryData } from "@/shared/test";
+import {
+  postNotification,
+  updateOrdersForAdmins,
+} from "@/controllers/notificationsController";
+import { formatDate } from "@/shared/ultis";
 const { PASSWORD_IZIPAY } = process.env;
 
 function groupDataByMonth(
@@ -161,7 +166,8 @@ export default async function handler(
           100
         ).toFixed(2);
         // Obtén la fecha actual
-        const currentDate = new Date();
+        const currentDate = formatDate(new Date());
+
         // Calcula la fecha de inicio del mes actual
         const firstDayOfMonth = new Date(
           currentDate.getFullYear(),
@@ -208,12 +214,15 @@ export default async function handler(
       try {
         const { "kr-answer": clientAnswer, "kr-hash": hash } = req.body;
         const jsonObject = JSON.parse(clientAnswer);
-        const { serverDate, orderDetails } = jsonObject;
+        const { serverDate, orderDetails, customer } = jsonObject;
+        const dateUTC = new Date(serverDate);
+        dateUTC.setUTCHours(dateUTC.getUTCHours() - 5);
+        const datePeru = dateUTC.toISOString();
         const answerHash = Hex.stringify(
           hmacSHA256(clientAnswer, PASSWORD_IZIPAY as string)
         );
         if (hash === answerHash) {
-          const time: string = serverDate.split("T")[0];
+          const time: string = datePeru.split("T")[0];
           const value: number = orderDetails.orderTotalAmount / 100;
           const result = await prisma.dailyData.upsert({
             where: {
@@ -279,6 +288,10 @@ export default async function handler(
               },
             });
           }
+          await postNotification(
+            `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`
+          );
+          await updateOrdersForAdmins();
           return res.status(200).json(result);
         } else return res.status(500).send("Payment hash mismatch");
       } catch (error) {

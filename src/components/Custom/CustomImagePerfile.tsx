@@ -10,6 +10,7 @@ type Props<FormValues> = {
     fieldName: keyof FormValues;
     fieldNameTranslate: string;
     initialPhoto: string;
+    onImageChange: (changed: boolean) => void; 
 };
 
 
@@ -19,6 +20,7 @@ const CustomImagePerfile = <FormValues,>({
     fieldName,
     fieldNameTranslate,
     initialPhoto,
+    onImageChange
 }: Props<FormValues>) => {
     const imagePreview = formik.values[fieldName]
         ? URL.createObjectURL(formik.values[fieldName] as File)
@@ -26,6 +28,7 @@ const CustomImagePerfile = <FormValues,>({
     const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         formik.setFieldValue("image", file);
+        onImageChange(!!file);
     };
     return (
         <>

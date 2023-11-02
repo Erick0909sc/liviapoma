@@ -2,11 +2,11 @@ import { useAppDispatch } from "@/states/store";
 import { useEffect } from "react";
 import { EStateGeneric } from "@/shared/types";
 import {
-  cleanUpUnPaidOrders,
-  getAllUnPaidOrders,
-  selectAllDashboardUnPaidOrders,
-  selectAllDashboardUnPaidOrdersStatus,
-} from "@/states/dashboard/orders/ordersSlice";
+  cleanUpUnPaidTransactions,
+  getAllUnPaidTransactions,
+  selectAllDashboardUnPaidTransactions,
+  selectAllDashboardUnPaidTransactionsStatus,
+} from "@/states/dashboard/transactions/transactionsSlice";
 import { useSelector } from "react-redux";
 import Pending from "@/components/StatesComponents/Pending";
 import Failed from "@/components/StatesComponents/Failed";
@@ -19,8 +19,8 @@ type Props = {
 
 const TransactionsUnPaid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
-  const status = useSelector(selectAllDashboardUnPaidOrdersStatus);
-  const data = useSelector(selectAllDashboardUnPaidOrders);
+  const status = useSelector(selectAllDashboardUnPaidTransactionsStatus);
+  const data = useSelector(selectAllDashboardUnPaidTransactions);
   const currentPage = useSelector(selectCurrentPage);
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
@@ -30,20 +30,25 @@ const TransactionsUnPaid = ({ search }: Props) => {
     (async () => {
       if (status === EStateGeneric.IDLE) {
         await dispatch(
-          getAllUnPaidOrders({ page: currentPage, count: itemsPerPage, search })
+          getAllUnPaidTransactions({ page: currentPage, count: itemsPerPage, search })
         );
       }
     })();
     return () => {
       if (status === EStateGeneric.SUCCEEDED) {
-        dispatch(cleanUpUnPaidOrders());
+        dispatch(cleanUpUnPaidTransactions());
       }
     };
   }, [dispatch, status, currentPage, search]);
   return (
     <div className="flex flex-col justify-between h-full">
       {status === EStateGeneric.PENDING && <Pending />}
-      {status === EStateGeneric.FAILED && <Failed />}
+      {status === EStateGeneric.FAILED && (
+        <Failed
+          text="Las transacciones no pudieron ser cargados correctamente"
+          tittle="Transacciones no encontradas"
+        />
+      )}
       {status === EStateGeneric.SUCCEEDED && (
         <>
           {search && !data.orders?.length && (

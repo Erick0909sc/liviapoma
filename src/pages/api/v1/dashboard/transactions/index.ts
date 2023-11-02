@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
-import { ProductsStatus } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +9,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { page, count, search, status } = req.query;
+        const { page, count, search, paid } = req.query;
         const countInt = parseInt(count as string) || 10;
         const itemsPerPage = Math.min(100, Math.max(10, countInt)); // min 10 max 100 items per page
         if (parseInt(page as string) < 1) {
@@ -22,7 +21,7 @@ export default async function handler(
           const isNumericSearch = !isNaN(searchValue);
           const totalOrdersCount = await prisma.order.count({
             where: {
-              productsStatus: status as ProductsStatus,
+              orderStatus: paid ? "PAID" : "PROCESS",
               OR: [
                 { id: isNumericSearch ? searchValue : undefined },
                 {
@@ -34,7 +33,7 @@ export default async function handler(
           });
           const orders = await prisma.order.findMany({
             where: {
-              productsStatus: status as ProductsStatus,
+              orderStatus: paid ? "PAID" : "PROCESS",
               OR: [
                 { id: isNumericSearch ? searchValue : undefined },
                 {
@@ -42,9 +41,6 @@ export default async function handler(
                 },
                 { userId: search as string },
               ].filter(Boolean),
-            },
-            include: {
-              user: true,
             },
             orderBy: {
               createdAt: "desc",
@@ -58,20 +54,17 @@ export default async function handler(
         }
         const totalOrdersCount = await prisma.order.count({
           where: {
-            productsStatus: status as ProductsStatus,
+            orderStatus: paid ? "PAID" : "PROCESS",
           },
         });
         const orders = await prisma.order.findMany({
           where: {
-            productsStatus: status as ProductsStatus,
+            orderStatus: paid ? "PAID" : "PROCESS",
           },
           orderBy: {
             createdAt: "desc",
           },
           skip,
-          include: {
-            user: true,
-          },
           take: itemsPerPage,
         });
         orders.length > 0

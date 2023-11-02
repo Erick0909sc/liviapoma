@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import hmacSHA256 from "crypto-js/hmac-sha256";
 import Hex from "crypto-js/enc-hex";
 import prisma from "@/lib/prismadb";
+import { ProductsStatus } from "@prisma/client";
 const { HASH_IZIPAY } = process.env;
 
 export default async function handler(
@@ -23,6 +24,7 @@ export default async function handler(
             data: {
               checkoutUuid: transactions[0].uuid,
               orderStatus: transactions[0].status,
+              productsStatus: ProductsStatus.PENDIENTE
             },
           });
           return res.status(200).send("Valid payment");
