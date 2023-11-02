@@ -1,3 +1,4 @@
+import { runFireworks } from "@/components/Confeti/confeti";
 import Layout from "@/components/Layout/Layout";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,6 +9,9 @@ type Props = {};
 
 const SuccessPayment = (props: Props) => {
   const router = useRouter();
+  useEffect(() => {
+    runFireworks(); // Activa el efecto de confeti cuando el componente se monta
+  }, []);
   const replaceUrlInHistory = () => {
     const newUrl = "/";
     window.history.replaceState({}, document.title, newUrl);

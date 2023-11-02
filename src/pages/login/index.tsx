@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type Props = {
   style: string;
@@ -18,6 +19,11 @@ interface FormValues {
 
 const Login = (props: Props) => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword); // Cambia el estado para alternar entre mostrar y ocultar
+  };
   const backgroundImageStyle: React.CSSProperties = {
     backgroundImage:
       "url(https://6430607.fs1.hubspotusercontent-na1.net/hubfs/6430607/articulos%20indispensables%20para%20una%20ferreteria.jpg)",
@@ -127,7 +133,7 @@ const Login = (props: Props) => {
                   }}
                 />
               </div>
-              <div className="pb-2 pt-4">
+              <div className="pb-2 pt-4 relative">
                 <input
                   className={`block w-full p-4 text-lg rounded-sm bg-black ${
                     formik.touched.password && formik.errors.password
@@ -139,7 +145,7 @@ const Login = (props: Props) => {
                       ? formik.errors.password
                       : "Contraseña"
                   }
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   {...formik.getFieldProps("password")}
                   onBlur={(e) => {
                     formik.handleBlur(e);
@@ -147,6 +153,17 @@ const Login = (props: Props) => {
                       return toast.error(formik.errors.password);
                   }}
                 />
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <FaEyeSlash className="text-white text-xl cursor-pointer" />
+                  ) : (
+                    <FaEye className="text-white text-xl cursor-pointer" />
+                  )}
+                </button>
               </div>
               <div className="text-right text-gray-100 hover:underline hover:text-gray-100">
                 <Link href="/resetpassword">¿Olvidaste tu contraseña?</Link>
