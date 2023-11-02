@@ -7,6 +7,7 @@ import {
   FiCheckCircle,
 } from "react-icons/fi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaTruck } from "react-icons/fa";
 
 export const dashboardRoutes = [
   {
@@ -28,6 +29,10 @@ export const dashboardRoutes = [
   {
     name: "Offers",
     route: "/dashboard/offers",
+  },
+  {
+    name: "Orders",
+    route: "/dashboard/orders",
   },
   {
     name: "Transactions",
@@ -65,6 +70,10 @@ export const sidebarItems = [
     icon: <FiCheckCircle className="text-2xl" />,
   },
   {
+    text: "Orders",
+    icon: <FaTruck className="text-2xl" />,
+  },
+  {
     text: "Transactions",
     icon: <FaMoneyBillTransfer className="text-2xl" />,
   },
@@ -77,4 +86,5 @@ export const translate: { [key: string]: string } = {
   Disabled: "Productos Deshabilitados",
   Offers: "Ofertas",
   Transactions: "Transacciones",
+  Orders: "Pedidos",
 };

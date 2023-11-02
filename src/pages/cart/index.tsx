@@ -1,6 +1,7 @@
 import Card from "@/components/Cart/Card";
 import Summary from "@/components/Cart/Summary";
 import Layout from "@/components/Layout/Layout";
+import Pending from "@/components/StatesComponents/Pending";
 import { EStateGeneric } from "@/shared/types";
 import {
   selectAllCartStatus,
@@ -84,11 +85,7 @@ const Cart = (props: Props) => {
             )}
           </div>
         )}
-        {status === "loading" && (
-          <div className="md:flex gap-4">
-            <p>Loading...</p>
-          </div>
-        )}
+        {status === "loading" && <Pending />}
         {status === "unauthenticated" && (
           <div className="md:p-10 max-w-screen-2xl w-full">
             <div className="md:flex">

@@ -38,9 +38,6 @@ const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
   const subtotalTotal = calcularSubtotal(cart);
   const descuentoTotal = calcularDescuento(cart);
   const total = subtotalTotal - descuentoTotal;
-  // console.log(cart[0]);
-  // console.log(cart[0].cartId);
-  // console.log(cart);
 
   useEffect(() => {
     async function setupPaymentForm() {

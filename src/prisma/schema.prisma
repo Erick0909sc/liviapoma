@@ -159,17 +159,18 @@ model BrandDiscount {
 }
 
 model Order {
-  id               Int         @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   userId           String
-  checkoutUuid     String?     @unique
+  checkoutUuid     String?         @unique
   orderTotalAmount Int
-  user             User        @relation(fields: [userId], references: [id])
+  user             User            @relation(fields: [userId], references: [id])
   products         OrderItem[]
-  orderStatus      OrderStatus @default(PROCESS)
+  orderStatus      OrderStatus     @default(PROCESS)
+  productsStatus   ProductsStatus?
   orderCurrency    String
   formToken        String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
   productCode      String?
 }
 
@@ -219,12 +220,15 @@ model CategoryData {
   @@unique([time, categoryId])
 }
 
-// enum Role {
-//   User, // Cliente (acceso limitado, principalmente para compras)
-//   Salesperson, // Representante de Ventas (puede gestionar pedidos y atender consultas)
-//   WarehouseManager, // Gerente de Almacén (gestiona el inventario y envíos)
-//   Admin, // Administrador (acceso completo al dashboard, gestiona empleados y configuración)
-//   FinanceManager, // Gerente de Finanzas (gestiona las transacciones y las finanzas)
-//   CustomerSupport, // Soporte al Cliente (responde a preguntas y problemas de los clientes)
-//   DeliveryManager, // Encargado de Entrega (gestiona las entregas y conductores)
-// }
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  time      String   @default("Hace un momento")
+  createdAt DateTime @default(now())
+}
+
+enum ProductsStatus {
+  PENDIENTE
+  ENTREGADO
+  CANCELADO
+}

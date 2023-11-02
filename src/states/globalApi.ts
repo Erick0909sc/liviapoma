@@ -132,3 +132,6 @@ export const postPaymentValidate = ({
 
 export const getDetailsOrderByApi = (id: number) =>
   axios.get(`/api/v1/orders/${id}?detail=true`);
+
+export const getNotifications = (count?: number) =>
+  axios.get(`/api/pusher?count=${count}`);
