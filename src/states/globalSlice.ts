@@ -75,23 +75,13 @@ export const globalSlice = createSlice({
       action: { payload: { name: string; value: string } }
     ) => {
       const { name, value } = action.payload;
-
       // Verificar si el filtro ya existe en el array
       const existingFilterIndex = state.filters.findIndex(
         (filter) => filter.name === name
       );
 
       if (existingFilterIndex !== -1) {
-        // Si el filtro ya existe y el valor es diferente, actualiza su valor
-        if (state.filters[existingFilterIndex].value !== value) {
-          const updatedFilters = [...state.filters];
-          updatedFilters[existingFilterIndex] = { name, value };
-          return {
-            ...state,
-            filters: updatedFilters,
-          };
-        } else {
-          // Si el valor es el mismo, elimina el filtro del array
+        if (!value) {
           const updatedFilters = [...state.filters];
           updatedFilters.splice(existingFilterIndex, 1);
           return {
@@ -99,6 +89,12 @@ export const globalSlice = createSlice({
             filters: updatedFilters,
           };
         }
+        const updatedFilters = [...state.filters];
+        updatedFilters[existingFilterIndex] = { name, value };
+        return {
+          ...state,
+          filters: updatedFilters,
+        };
       } else {
         return {
           ...state,

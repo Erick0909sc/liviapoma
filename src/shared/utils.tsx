@@ -41,39 +41,47 @@ export const dashboardRoutes = [
 ];
 export const sidebarItems = [
   {
+    roles: ["Admin", "Manager"],
     text: "Dashboard",
     icon: <FiBarChart2 className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Interacción del Cliente",
     icon: null,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Products",
     icon: <FiShoppingBag className="text-2xl" />,
   },
   {
+    roles: ["Admin"],
     text: "Users",
     icon: <FiUsers className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Administración",
     icon: null,
-    // icon: <FiSettings className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Disabled",
     icon: <FiX className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Offers",
     icon: <FiCheckCircle className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Orders",
     icon: <FaTruck className="text-2xl" />,
   },
   {
+    roles: ["Admin", "Manager"],
     text: "Transactions",
     icon: <FaMoneyBillTransfer className="text-2xl" />,
   },

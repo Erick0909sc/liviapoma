@@ -29,7 +29,7 @@
 //             className={`p-2 lg:text-[15px] rounded-lg font-semibold`}
 //             onClick={() => handleMenuOptionClick('Datos Personales')}
 //           >
-//             <Link href="/EditUser">
+//             <Link href="/editUser">
 //               <h2>Datos Personales</h2>
 //             </Link>
 //           </button>
@@ -37,7 +37,7 @@
 //             className={`p-2 lg:text-[15px] font-semibold`}
 //             onClick={() => handleMenuOptionClick('Cambio de Contraseña')}
 //           >
-//             <Link href="/EditPassword">
+//             <Link href="/editPassword">
 //               <h2>Cambio de Contraseña</h2>
 //             </Link>
 //           </button>
@@ -103,21 +103,21 @@ const MenuEditUser = (props: Props) => {
           <h2 className="text-2xl font-semibold mb-4">Menu de Opciones</h2>
           <button
             className={`p-2 lg:text-[15px] rounded-lg font-semibold ${
-              router.pathname === '/EditUser' ? 'bg-sky-900 text-white' : ''
+              router.pathname === '/editUser' ? 'bg-sky-900 text-white' : ''
             }`}
             onClick={() => handleMenuOptionClick('Datos Personales')}
           >
-            <Link href="/EditUser">
+            <Link href="/editUser">
               <h2>Datos Personales</h2>
             </Link>
           </button>
           <button
             className={`p-2 lg:text-[15px] font-semibold ${
-              router.pathname === '/EditPassword' ? 'bg-sky-900 text-white' : ''
+              router.pathname === '/editPassword' ? 'bg-sky-900 text-white' : ''
             }`}
             onClick={() => handleMenuOptionClick('Cambio de Contraseña')}
           >
-            <Link href="/EditPassword">
+            <Link href="/editPassword">
               <h2>Cambio de Contraseña</h2>
             </Link>
           </button>

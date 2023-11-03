@@ -21,5 +21,9 @@ export const postNotification = async (message: string) => {
 };
 
 export const updateOrdersForAdmins = async () => {
-  await pusherBack.trigger("liviapoma", "liviapoma-orders", "liviapoma-orders");
+  await pusherBack.trigger(
+    "liviapoma-orders",
+    "update-orders",
+    "message"
+  );
 };

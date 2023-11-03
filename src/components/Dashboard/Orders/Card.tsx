@@ -52,7 +52,7 @@ const Card = ({ order }: Props) => {
     }
   };
   return (
-    <div className="bg-white rounded-md p-4 mb-4 shadow-md max-w-[380px] w-[380px]">
+    <div className="bg-white rounded-md p-4 mb-4 shadow-md max-w-[380px] w-[380px] hover:shadow-green-800 hover:shadow-lg">
       <div className="flex justify-between items-center">
         <span className="text-xl font-semibold">Pedido ID: {order.id}</span>
         <span className="text-gray-600">{formatFechaISO(order.updatedAt)}</span>

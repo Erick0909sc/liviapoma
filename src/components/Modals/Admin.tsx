@@ -1,4 +1,3 @@
-
 // import React from 'react';
 // import Link from 'next/link';
 // import { signIn, signOut, useSession } from 'next-auth/react';
@@ -86,63 +85,64 @@
 
 // export default AdminModal;
 
-
-import React from 'react';
-import Link from 'next/link';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import React from "react";
+import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface AdminModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
+  const handleLogout = async () => {
+    await signOut();
+  };
 
-
-    const handleLogout = async () => {
-        await signOut();
-    };
-
-    const renderContent = () => {
-        return (
-            <>
-                <ul className="space-y-3 text-center font-semibold">
-                    {/* <li className='hover:bg-crema-400 p-2 hover-text-white rounded-[10px]'>
+  const renderContent = () => {
+    return (
+      <>
+        <ul className="space-y-3 text-center font-semibold">
+          {/* <li className='hover:bg-crema-400 p-2 hover-text-white rounded-[10px]'>
                         <Link href="#">
                             <a>Notificaciones</a>
                         </Link>
                     </li> */}
 
-                    <Link href="/">
-                        <li className='hover:bg-crema-400 p-2 hover-text-white border-b border-white cursor-pointer'>
-                            <a>Mi pagina</a>
-                        </li>
-                    </Link>
-
-                    <Link href="/dashboard">
-                        <li className='hover:bg-crema-400 p-2 hover-text-white  border-b border-white cursor-pointer'>
-                            <a onClick={onClose}>dashboard</a>
-                        </li>
-                    </Link>
-                    <li className='hover:bg-crema-400 p-2 hover-text-white cursor-pointer '>
-                        <a onClick={handleLogout}>Cerrar Sesión</a>
-                    </li>
-                </ul>
-            </>
-        );
-    };
-
-    if (!isOpen) {
-        return null;
-    }
-
-    return (
-        <div className="absolute top-16 right-0 z-50 pr-1">
-            <div className="bg-green-800 rounded-lg p-4 text-white text-[15px] text-center">
-                {renderContent()}
-            </div>
-        </div>
+          <Link href="/">
+            <li className="hover:bg-crema-400 p-2 hover-text-white border-b border-white cursor-pointer">
+              <a>Mi pagina</a>
+            </li>
+          </Link>
+          <Link href="/editUser">
+            <li className=" hover:bg-crema-400 p-2 hover-text-white border-b border-white cursor-pointer">
+              <a onClick={onClose}> Perfil del Usuario</a>
+            </li>
+          </Link>
+          <Link href="/dashboard">
+            <li className="hover:bg-crema-400 p-2 hover-text-white  border-b border-white cursor-pointer">
+              <a onClick={onClose}>dashboard</a>
+            </li>
+          </Link>
+          <li className="hover:bg-crema-400 p-2 hover-text-white cursor-pointer ">
+            <a onClick={handleLogout}>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </>
     );
+  };
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="absolute top-16 right-0 z-50 pr-1">
+      <div className="bg-green-800 rounded-lg p-4 text-white text-[15px] text-center">
+        {renderContent()}
+      </div>
+    </div>
+  );
 };
 
 export default AdminModal;

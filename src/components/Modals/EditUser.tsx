@@ -12,9 +12,9 @@ const EditUser = () => {
 
   useEffect(() => {
     const currentPath = router.pathname;
-    if (currentPath === '/EditUser') {
+    if (currentPath === '/editUser') {
       setActiveButton('Datos Personales');
-    } else if (currentPath === '/EditPassword') {
+    } else if (currentPath === '/editPassword') {
       setActiveButton('Cambio de Contraseña');
     }
   }, [router.pathname]);
@@ -48,7 +48,7 @@ const EditUser = () => {
             }`}
           onClick={() => handleButtonClick('Datos Personales')}
         >
-          <Link href={'/EditUser'}>
+          <Link href={'/editUser'}>
             <h2>Datos Personales</h2>
           </Link>
         </button>
@@ -57,7 +57,7 @@ const EditUser = () => {
             }`}
           onClick={() => handleButtonClick('Cambio de Contraseña')}
         >
-          <Link href={'/EditPassword'}>
+          <Link href={'/editPassword'}>
             <h2>Cambio de Contraseña</h2>
           </Link>
         </button>
