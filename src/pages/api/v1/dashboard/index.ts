@@ -4,10 +4,6 @@ import Hex from "crypto-js/enc-hex";
 import prisma from "@/lib/prismadb";
 import { CategoryData } from "@/shared/types";
 import { categoryData } from "@/shared/test";
-import {
-  postNotification,
-  updateOrdersForAdmins,
-} from "@/controllers/notificationsController";
 import { formatDate } from "@/shared/ultis";
 const { PASSWORD_IZIPAY } = process.env;
 
@@ -256,6 +252,7 @@ export default async function handler(
               },
             },
           });
+          console.log(order);
           if (!order) return;
           const partesFecha = time.split("-");
           const fechaObj = {
@@ -288,10 +285,6 @@ export default async function handler(
               },
             });
           }
-          await postNotification(
-            `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`
-          );
-          await updateOrdersForAdmins();
           return res.status(200).json(result);
         } else return res.status(500).send("Payment hash mismatch");
       } catch (error) {

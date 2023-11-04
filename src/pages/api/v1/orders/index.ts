@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { IProductCart } from "@/shared/types";
 import { ProductsStatus } from "@prisma/client";
-import { postNotification, updateOrdersForAdmins } from "@/controllers/notificationsController";
 
 export default async function handler(
   req: NextApiRequest,
@@ -58,10 +57,6 @@ export default async function handler(
             },
           },
         });
-        await postNotification(
-          `¡Juan ha realizado una nueva compra!`
-        );
-        await updateOrdersForAdmins();
         res.status(201).json({ order });
       } catch (error) {
         res.status(500).json({ error: "Error al crear la orden" });
