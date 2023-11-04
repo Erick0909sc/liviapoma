@@ -70,7 +70,6 @@ const FiltersAndSorts = (props: Props) => {
     { name: "sortByPrice", value: "asc", title: "Menor a Mayor Precio" },
     { name: "sortByPrice", value: "desc", title: "Mayor a Menor Precio" },
   ];
-
   return (
     <>
       <div className="flex justify-center  gap-4 mt-4 flex-wrap">
@@ -135,7 +134,7 @@ const FiltersAndSorts = (props: Props) => {
                     <input
                       type="checkbox"
                       className="h-5 w-5 rounded border-gray-300"
-                      onClick={() =>
+                      onChange={() =>
                         handleFilters({ name: e.name, value: e.value })
                       }
                       checked={isFilterActive({ name: e.name, value: e.value })}
