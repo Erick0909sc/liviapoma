@@ -54,6 +54,7 @@ const Detail = (props: Props) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [showMore, setShowMore] = useState(false);
   const limitedComments = showMore ? comments : comments.slice(0, 10);
+  const [averageRating, setAverageRating] = useState<number>(0);
 
   const { code } = router.query;
   useEffect(() => {
@@ -67,8 +68,21 @@ const Detail = (props: Props) => {
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );
           });
-          console.log("Comentarios recibidos:", comments);
+          // console.log("Comentarios recibidos:", comments);
+
+          // Calcular el promedio de los ratings
+          const totalRatings = comments.length;
+          const sumRatings = comments.reduce(
+            (sum, comment) => sum + comment.rating,
+            0
+          );
+          const averageRating =
+            totalRatings > 0 ? sumRatings / totalRatings : 0;
+
+          // console.log("Promedio de ratings:", averageRating);
+
           setComments(comments);
+          setAverageRating(averageRating); // Guardar el promedio en el estado
         } else {
           console.error("Error al obtener los comentarios");
         }
@@ -78,7 +92,7 @@ const Detail = (props: Props) => {
     };
 
     fetchComments();
-  }, [code]);
+  }, [code, comments, setComments, Comment]); // No es necesario incluir 'comments' como dependencia aquí
 
   const propsForFunctions = {
     code: product.code,
@@ -132,7 +146,7 @@ const Detail = (props: Props) => {
     if (session) dispatch(getCartUser(session.user.id));
   };
   return (
-    <Layout title={product.name || "Product not found"}>
+    <Layout title={ status===EStateGeneric.SUCCEEDED ? product.name : "cargando"}>
       <div>
         {status === EStateGeneric.SUCCEEDED && (
           <section className="py-5 overflow-hidden bg-white font-poppins ">
@@ -160,18 +174,22 @@ const Detail = (props: Props) => {
                         <h2 className="max-w-xl mt-2 mb-6 text-xl font-bold text-gray-900 md:text-4xl">
                           {product.name}
                         </h2>
+
                         <div className="flex flex-wrap items-center mb-6">
                           <ul className="flex mb-4 mr-2 lg:mb-0">
                             <Rating
                               name="size-large"
-                              defaultValue={2}
+                              value={averageRating}
                               size="large"
+                              readOnly
+                              precision={0.1}
                             />
                           </ul>
                           <a className="mb-4 text-xs underline lg:mb-0">
                             Productos de calidad
                           </a>
                         </div>
+
                         <p className="max-w-md mb-8 text-xl text-gray-700">
                           {product.description}
                         </p>
@@ -389,8 +407,16 @@ const Detail = (props: Props) => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="flex justify-center items-center pb-1">
+        {" "}
         {comments.length > 10 && !showMore && (
-          <button onClick={() => setShowMore(true)}>Ver más comentarios</button>
+          <button
+            onClick={() => setShowMore(true)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
+          >
+            Ver más comentarios
+          </button>
         )}
       </div>
 
