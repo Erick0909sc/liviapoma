@@ -9,11 +9,13 @@ import dashboardOffersSlice from "./dashboard/offers/offersSlice";
 import dashboardOrdersSlice from "./dashboard/orders/ordersSlice";
 import dashboardSlice from "./dashboard/dashboardSlice";
 import dashboardTransactionsSlice from "./dashboard/transactions/transactionsSlice";
+import reviewsSlice from "./reviews/reviewsSlice";
 
 export const rootReducer = combineReducers({
   products: productsSlice,
   users: usersSlice,
   cart: cartSlice,
+  reviews: reviewsSlice,
   dashboard: combineReducers({
     products: dashboardProductsSlice,
     users: dashboardusersSlice,
