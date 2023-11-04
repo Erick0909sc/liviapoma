@@ -378,7 +378,7 @@ const Detail = (props: Props) => {
           </section>
         )}
       </div>
-      <div className=" bg-white p-2 flex flex-col justify-center pb-7">
+      <div className="bg-white p-2 flex flex-col justify-center pb-7">
         <div className=" flex justify-center">
           <ReviewUser />
         </div>
