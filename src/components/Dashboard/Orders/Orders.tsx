@@ -46,18 +46,6 @@ const OrdersComponent = ({ search }: Props) => {
         );
       }
     })();
-    const channel = pusher.subscribe("liviapoma");
-    channel.bind("liviapoma-orders", (message: string) => {
-      console.log(message);
-      // await dispatch(
-      //   getAllOrders({
-      //     page: currentPage,
-      //     count: itemsPerPage,
-      //     search,
-      //     status,
-      //   })
-      // );
-    });
     return () => {
       if (
         ordersStatus === EStateGeneric.SUCCEEDED ||
@@ -65,13 +53,12 @@ const OrdersComponent = ({ search }: Props) => {
       ) {
         dispatch(cleanUpOrders());
       }
-      pusher.unsubscribe("liviapoma");
     };
   }, [dispatch, ordersStatus, currentPage, search, status]);
 
   useEffect(() => {
-    const channel = pusher.subscribe("liviapoma");
-    channel.bind("liviapoma-orders", async() => {
+    const channel = pusher.subscribe("liviapoma-orders");
+    channel.bind("update-orders", async () => {
       await dispatch(
         getAllOrders({
           page: currentPage,
@@ -82,7 +69,7 @@ const OrdersComponent = ({ search }: Props) => {
       );
     });
     return () => {
-      pusher.unsubscribe("liviapoma");
+      pusher.unsubscribe("liviapoma-orders");
     };
   }, [data]);
   return (

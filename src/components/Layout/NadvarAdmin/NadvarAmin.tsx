@@ -11,6 +11,7 @@ import { selectSearch, setSearch } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import { useSelector } from "react-redux";
 import Notifications from "./Notifications";
+import { pusher } from "@/shared/pusherInstance";
 
 interface NadvarProps {
   toggleSidebar: () => void;
@@ -22,16 +23,14 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
   const dispatch = useAppDispatch();
   const search = useSelector(selectSearch);
   const [visibleSidebar, setVisibleSidebar] = useState(true);
-  const [notifications, setNotifications] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [category, setCategory] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newNotification, setNewNotification] = useState(false);
   const toggleSidebarVisibility = () => {
     setVisibleSidebar(!visibleSidebar);
     toggleSidebar();
   };
-
-
-  const [showModal, setShowModal] = useState(false);
-
   const toggleModal = () => {
     setShowModal(!showModal);
   };
@@ -45,12 +44,26 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
     }
   };
   const { pathname } = router;
+  const playNotificationSound = () => {
+    const audio = new Audio("/Notificación.mp3"); // Ruta al archivo de sonido de notificación
+    audio.play();
+  };
+  useEffect(() => {
+    const channel = pusher.subscribe("liviapoma");
+    channel.bind("liviapoma-notification", () => {
+      setNewNotification(true);
+      playNotificationSound();
+    });
+
+    return () => {
+      pusher.unsubscribe("liviapoma");
+    };
+  }, [newNotification]);
   useEffect(() => {
     const parts = pathname.split("/");
     const category = parts[parts.length - 1];
     setCategory(category.charAt(0).toUpperCase() + category.slice(1));
   }, [pathname]);
-
   return (
     <nav
       className={`flex items-center text-white justify-between h-16 bg-emerald-900  `}
@@ -87,9 +100,22 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
       <div className="flex justify-end text-4xl"></div>
 
       <div className="justify-end gap-3 hidden sm:flex   lg:flex">
-        <div className="text-2xl relative">
-          <GoBellFill onClick={() => setNotifications(!notifications)} />
-          {notifications && <Notifications />}
+        <div
+          className="text-2xl relative cursor-pointer"
+          onClick={() => {
+            setNewNotification(false);
+            setShowNotifications(!showNotifications);
+          }}
+        >
+          {newNotification && (
+            <span className="absolute -top-1 right-0 flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+            </span>
+          )}
+          <audio id="notificationSound" src="/Notificación.mp3" />
+          <GoBellFill />
+          {showNotifications && <Notifications />}
         </div>
         <div className="flex items-center ">
           <button className="flex gap-2 items-center" onClick={toggleModal}>

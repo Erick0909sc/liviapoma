@@ -44,10 +44,6 @@ const Notifications = (props: Props) => {
     channel.bind("liviapoma-notification", (data: Notification[]) => {
       setNotifications(data);
     });
-
-    return () => {
-      pusher.unsubscribe("liviapoma");
-    };
   }, [notifications]);
   return (
     <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md overflow-auto">

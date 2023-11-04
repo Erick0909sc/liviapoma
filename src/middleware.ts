@@ -2,7 +2,14 @@ import { Role } from "@prisma/client";
 import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-const MANAGER_DASHBOARD_ROUTES = ["/dashboard/users", "/dashboard/products"];
+const MANAGER_DASHBOARD_ROUTES = [
+  "/dashboard",
+  "/dashboard/products",
+  "/dashboard/disabled",
+  "/dashboard/offers",
+  "/dashboard/orders",
+  "/dashboard/transactions",
+];
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.

@@ -70,9 +70,9 @@ const Index: React.FC = () => {
             image: values.image,
           })
         );
-        router.push("/");
+        router.reload();
 
-        toast.error(
+        toast.success(
           "¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión"
         );
       } catch (error) {
