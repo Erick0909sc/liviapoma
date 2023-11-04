@@ -3,14 +3,17 @@ import { useSession } from "next-auth/react";
 import { Rating } from "@mui/material";
 import router, { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import Pending from "../StatesComponents/Pending";
 
 type Props = {};
 
 const ReviewUser = (props: Props) => {
-  const { data: userSession } = useSession();
+  const { data: userSession, status } = useSession();
   const [isReviewing, setReviewing] = useState(false);
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<Comment[]>([]);
+
   const router = useRouter();
   const { code } = router.query;
   const handleRatingChange = (
@@ -63,39 +66,45 @@ const ReviewUser = (props: Props) => {
       console.error("Error de red:", error);
     }
   };
+  
+
+  if (status === "loading") {
+    return <Pending />;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Debes estar autenticado para realizar una revisión.</p>;
+  }
 
   return (
     <div className="p-4 flex flex-col  border-2 w-full sm:w-[65%] lg:w-[45%] rounded-lg shadow-lg">
-      {userSession ? (
-        <div className="flex items-center justify-between pl-2">
-          <div className=" flex items-center gap-2">
-            <img
-              src={userSession.user.image}
-              alt={userSession.user.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div className="text-xl font-semibold">{userSession.user.name}</div>
-          </div>
-
-          {!isReviewing ? (
-            <button
-              onClick={startReview}
-              className="bg-green-700 text-white p-1 rounded"
-            >
-              Realizar Comentario
-            </button>
-          ) : null}
+      <div className="flex items-center justify-between pl-2">
+        <div className=" flex items-center gap-2">
+          <img
+            src={userSession?.user.image}
+            alt={userSession?.user.name}
+            className="w-12 h-12 rounded-full"
+          />
+          <div className="text-xl font-semibold">{userSession?.user.name}</div>
         </div>
-      ) : (
-        <p>Debes estar autenticado para realizar una revisión.</p>
-      )}
+
+        {!isReviewing ? (
+          <button
+            onClick={startReview}
+            className="bg-green-700 text-white p-1 rounded"
+          >
+            Realizar Comentario
+          </button>
+        ) : null}
+      </div>
+
       {isReviewing ? (
         <div className=" rounded p-4 space-y-2  ">
           <Rating
             name="rating"
             value={rating}
             onChange={handleRatingChange}
-            precision={0.5} // Puedes ajustar la precisión de las estrellas según tus necesidades
+            // Puedes ajustar la precisión de las estrellas según tus necesidades
           />
           <label className="block">
             Comentario:

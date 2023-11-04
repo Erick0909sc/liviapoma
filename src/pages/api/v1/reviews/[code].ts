@@ -97,12 +97,7 @@ export default async function handler(
   }
 }
 
- //prueba 2dsadsadasdsadsadsadsadsadasdsadcxzcxzcsdasdsad
- //dadsadsa
-
-
-
-//  import { NextApiRequest, NextApiResponse } from "next";
+// import { NextApiRequest, NextApiResponse } from "next";
 // import prisma from "@/lib/prismadb";
 
 // export default async function handler(
@@ -115,7 +110,17 @@ export default async function handler(
 //   switch (method) {
 //     case "GET":
 //       try {
-//         // ... código para obtener reseñas ...
+//         const reviews = await prisma.review.findMany({
+//           where: { productCode: code as string },
+//           include: {
+//             user: true // Esto incluirá los datos del usuario asociado a cada revisión
+//           }
+//         });
+//         reviews.length > 0
+//           ? res.status(200).json(reviews)
+//           : res.status(404).json({
+//               message: "Este producto aún no ha recibido reseñas",
+//             });
 //       } catch (error) {
 //         res.status(500).json(error);
 //       }
@@ -123,23 +128,47 @@ export default async function handler(
 
 //     case "POST":
 //       try {
+//         const productCode = code as string;
 //         const { userId, description, rating } = req.body;
 
-//         if (!userId) {
-//           return res.status(400).json({ message: "El campo userId es obligatorio" });
-//         }
-
-//         // Crea el comentario con el userId proporcionado
 //         const newReview = await prisma.review.create({
 //           data: {
-//             productCode: code as string,
+//             productCode,
 //             userId,
 //             description,
 //             rating,
+//           },
+//           include: {
+//             user: true // Esto asegura que el usuario asociado a la revisión sea incluido en la respuesta
 //           }
 //         });
 
 //         res.status(201).json(newReview);
+//       } catch (error) {
+//         res.status(500).json(error);
+//       }
+//       break;
+
+//     case "GET":
+//       try {
+//         const product = await prisma.product.findUnique({
+//           where: { code: code as string },
+//           include: {
+//             reviews: true,
+//           }
+//         });
+
+//         if (product) {
+//           const totalRatings = product.reviews.length;
+//           const averageRating =
+//             totalRatings > 0
+//               ? product.reviews.reduce((sum, review) => sum + review.rating, 0) / totalRatings
+//               : 0;
+
+//           res.status(200).json({ averageRating, totalRatings });
+//         } else {
+//           res.status(404).json({ message: 'Producto no encontrado' });
+//         }
 //       } catch (error) {
 //         res.status(500).json(error);
 //       }
@@ -150,6 +179,3 @@ export default async function handler(
 //       break;
 //   }
 // }
-
-
-
