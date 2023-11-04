@@ -3,6 +3,10 @@ import hmacSHA256 from "crypto-js/hmac-sha256";
 import Hex from "crypto-js/enc-hex";
 import prisma from "@/lib/prismadb";
 import { ProductsStatus } from "@prisma/client";
+import {
+  postNotification,
+  updateOrdersForAdmins,
+} from "@/controllers/notificationsController";
 const { HASH_IZIPAY } = process.env;
 
 export default async function handler(
@@ -14,7 +18,7 @@ export default async function handler(
     case "POST":
       try {
         const { clientAnswer, hash } = req.body;
-        const { transactions, orderDetails } = clientAnswer;
+        const { transactions, orderDetails, customer } = clientAnswer;
         const answerHash = Hex.stringify(
           hmacSHA256(JSON.stringify(clientAnswer), HASH_IZIPAY as string)
         );
@@ -24,9 +28,13 @@ export default async function handler(
             data: {
               checkoutUuid: transactions[0].uuid,
               orderStatus: transactions[0].status,
-              productsStatus: ProductsStatus.PENDIENTE
+              productsStatus: ProductsStatus.PENDIENTE,
             },
           });
+          await postNotification(
+            `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`
+          );
+          await updateOrdersForAdmins();
           return res.status(200).send("Valid payment");
         } else return res.status(500).send("Payment hash mismatch");
       } catch (error) {
