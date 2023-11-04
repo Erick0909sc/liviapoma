@@ -17,10 +17,17 @@ import {
 } from "@/shared/ultis";
 import { useSession } from "next-auth/react";
 import Layout from "@/components/Layout/Layout";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
+import {
+  selectAllFilters,
+  selectAllSorts,
+  selectCurrentPage,
+  setCurrentPage,
+} from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import Pagination from "@/components/pagination";
-import FilterByCategory from "@/components/Filtros/FilterByCategory";
+import FiltersAndSorts from "@/components/Filtros/FiltersAndSorts";
+import useProductsSorts from "@/hooks/useProductsSorts";
+import useProductsWithFilters from "@/hooks/useProductsWithFilters";
 
 const SearchResult = () => {
   const router = useRouter();
@@ -28,20 +35,18 @@ const SearchResult = () => {
   const { query } = router.query;
   const dispatch = useAppDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const filteredProducts = useSelector(selectAllProducts);
   const productsStatus = useSelector(selectAllProductsStatus);
   const searchTerm = query ? query.toString() : ""; // Obtén el término de búsqueda de la URL
-
+  const sorts = useSelector(selectAllSorts);
+  const filters = useSelector(selectAllFilters);
+  const filteredProducts = useProductsSorts(
+    useProductsWithFilters(useSelector(selectAllProducts), filters),
+    sorts
+  );
   // ↓↓↓↓↓↓↓↓↓↓↓ Paginación ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
   const maxItems = currentPage * itemsPerPage;
-
-  //   const searchFilteredProducts = searchTerm
-  //     ? filteredProducts.filter((product) =>
-  //         product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //       )
-  //     : filteredProducts;
   const searchFilteredProducts = filteredProducts.filter(
     (product) =>
       (!searchTerm ||
@@ -103,7 +108,7 @@ const SearchResult = () => {
         </h1>
       </div>
       <div className="flex flex-col items-center mt-8">
-        <FilterByCategory
+        <FiltersAndSorts
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}
         />

@@ -10,25 +10,35 @@ import {
 import { EStateGeneric, IProduct } from "@/shared/types";
 import { useAppDispatch } from "@/states/store";
 import Layout from "@/components/Layout/Layout";
-import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
-import { calcularDescuentoItemCart, calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
+import {
+  selectAllFilters,
+  selectAllSorts,
+  selectCurrentPage,
+  setCurrentPage,
+} from "@/states/globalSlice";
+import { calcularPrecioConDescuento, itemsPerPage } from "@/shared/ultis";
 
 import { useSession } from "next-auth/react";
 
 import Pagination from "@/components/pagination";
-import FilterByCategory from "@/components/Filtros/FilterByCategory";
+import FiltersAndSorts from "@/components/Filtros/FiltersAndSorts";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader/loader";
-
+import useProductsSorts from "@/hooks/useProductsSorts";
+import useProductsWithFilters from "@/hooks/useProductsWithFilters";
 
 const Products: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const productsStatus = useSelector(selectAllProductsStatus);
-  const products = useSelector(selectAllProducts);
+  const sorts = useSelector(selectAllSorts);
+  const filters = useSelector(selectAllFilters);
+  const products = useProductsSorts(
+    useProductsWithFilters(useSelector(selectAllProducts), filters),
+    sorts
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
@@ -48,7 +58,7 @@ const Products: React.FC = () => {
     if (categoryFromURL) {
       // Si hay una categoría en la URL, seleccionarla
       setSelectedCategory(categoryFromURL);
-    } 
+    }
   }, [router]);
 
   // Almacenar el filtro de categoría seleccionado en LocalStorage cuando cambia
@@ -84,7 +94,7 @@ const Products: React.FC = () => {
   return (
     <Layout title="Productos">
       <>
-        <FilterByCategory
+        <FiltersAndSorts
           selectedCategory={selectedCategory}
           setSelectedCategory={handleCategoryChange}
         />
@@ -94,9 +104,9 @@ const Products: React.FC = () => {
             <p>Failed to load products</p>
           )}
           {productsStatus === EStateGeneric.SUCCEEDED && (
-            <div className="flex flex-col gap-8 py-8" >
+            <div className="flex flex-col gap-8 py-8">
               {items.map((product, index) => (
-                <Card 
+                <Card
                   key={index}
                   session={session}
                   code={product.code}
@@ -106,7 +116,7 @@ const Products: React.FC = () => {
                   brand={product.brand?.name}
                   image={product.image}
                   category={product.category.name}
-                  discount={product.discount} 
+                  discount={product.discount}
                   discountedPrice={calcularPrecioConDescuento(product)}
                 />
               ))}

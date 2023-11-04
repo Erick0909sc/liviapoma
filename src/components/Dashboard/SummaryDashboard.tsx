@@ -38,7 +38,7 @@ const SummaryDashboard = ({ summary }: Props) => {
             Número de Transacciones Mensuales:
           </h3>
           <p className="text-2xl sm:text-4xl text-yellow-600 font-bold inline-flex items-center gap-4 justify-center">
-            <FaExchangeAlt /> {summary.numberOfUsers}
+            <FaExchangeAlt /> {summary.numberOfTransactions}
           </p>
         </div>
         <div className="w-full sm:max-w-[300px] flex flex-col gap-1 sm:gap-4 justify-between text-center bg-purple-200 p-1 sm:p-4 rounded-lg drop-shadow-lg border-b-4 border-b-purple-600">
