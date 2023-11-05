@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import ReviewUser from "@/components/ReviewUser/ReviewUser";
-import { EStateGeneric, Comment } from "@/shared/types";
+import { EStateGeneric } from "@/shared/types";
 import {
   calcularPrecioConDescuento,
   formatPrice,
@@ -21,6 +21,12 @@ import {
   selectOneProduct,
   selectOneProductStatus,
 } from "@/states/products/productsSlice";
+import {
+  cleanUpReviews,
+  getAllReviews,
+  selectAllReviews,
+  selectAllReviewsStatus,
+} from "@/states/reviews/reviewsSlice";
 import { useAppDispatch } from "@/states/store";
 import { Rating } from "@mui/material";
 import { Session } from "next-auth";
@@ -35,9 +41,11 @@ type Props = {};
 
 const Detail = (props: Props) => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const status = useSelector(selectOneProductStatus);
+  const { data: session, status } = useSession();
+  const productStatus = useSelector(selectOneProductStatus);
   const product = useSelector(selectOneProduct);
+  const reviewsStatus = useSelector(selectAllReviewsStatus);
+  const reviews = useSelector(selectAllReviews);
   const cartStatus = useSelector(selectAllCartStatus);
   const cart = useSelector(selectAllCart);
   const productFind = cart.products?.find(
@@ -49,51 +57,7 @@ const Detail = (props: Props) => {
 
   const [checkout, setCheckout] = useState(false);
   const [input, setInput] = useState<number | null>(null);
-
-  ////////
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [showMore, setShowMore] = useState(false);
-  const limitedComments = showMore ? comments : comments.slice(0, 10);
-  const [averageRating, setAverageRating] = useState<number>(0);
-
-  const { code } = router.query;
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch(`/api/v1/reviews/${code}`);
-        if (response.ok) {
-          const comments: Comment[] = await response.json();
-          comments.sort((a: Comment, b: Comment) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          });
-          // console.log("Comentarios recibidos:", comments);
-
-          // Calcular el promedio de los ratings
-          const totalRatings = comments.length;
-          const sumRatings = comments.reduce(
-            (sum, comment) => sum + comment.rating,
-            0
-          );
-          const averageRating =
-            totalRatings > 0 ? sumRatings / totalRatings : 0;
-
-          // console.log("Promedio de ratings:", averageRating);
-
-          setComments(comments);
-          setAverageRating(averageRating); // Guardar el promedio en el estado
-        } else {
-          console.error("Error al obtener los comentarios");
-        }
-      } catch (error) {
-        console.error("Error de red:", error);
-      }
-    };
-
-    fetchComments();
-  }, [code, comments, setComments, Comment]); // No es necesario incluir 'comments' como dependencia aquí
-
+  useEffect(() => {}, []);
   const propsForFunctions = {
     code: product.code,
     session: session as Session,
@@ -111,6 +75,7 @@ const Detail = (props: Props) => {
         if (currentCode !== code) {
           setCurrentCode(code as string);
           await dispatch(getOneProduct(code as string));
+          await dispatch(getAllReviews(code as string));
         }
         if (cartStatus === EStateGeneric.IDLE && session) {
           dispatch(getCartUser(session.user.id));
@@ -121,6 +86,18 @@ const Detail = (props: Props) => {
       dispatch(cleanUpProduct());
     }
   }, [router.query.code, session]);
+
+  useEffect(() => {
+    (async () => {
+      if (router.isReady) {
+        const { code } = router.query;
+        await dispatch(getAllReviews(code as string));
+      }
+    })();
+    return () => {
+      dispatch(cleanUpReviews());
+    };
+  }, [router.query.code]);
 
   useEffect(() => {
     if (productFind) {
@@ -146,9 +123,13 @@ const Detail = (props: Props) => {
     if (session) dispatch(getCartUser(session.user.id));
   };
   return (
-    <Layout title={ status===EStateGeneric.SUCCEEDED ? product.name : "cargando"}>
+    <Layout
+      title={
+        productStatus === EStateGeneric.SUCCEEDED ? product.name : "cargando"
+      }
+    >
       <div>
-        {status === EStateGeneric.SUCCEEDED && (
+        {productStatus === EStateGeneric.SUCCEEDED && (
           <section className="py-5 overflow-hidden bg-white font-poppins ">
             {product && (
               <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
@@ -179,7 +160,7 @@ const Detail = (props: Props) => {
                           <ul className="flex mb-4 mr-2 lg:mb-0">
                             <Rating
                               name="size-large"
-                              value={averageRating}
+                              value={product.rating}
                               size="large"
                               readOnly
                               precision={0.1}
@@ -380,44 +361,42 @@ const Detail = (props: Props) => {
       </div>
       <div className="bg-white p-2 flex flex-col justify-center pb-7">
         <div className=" flex justify-center">
-          <ReviewUser />
+          <ReviewUser
+            session={session as Session}
+            productCode={product.code}
+            status={status}
+            getAllReviews={() => {
+              dispatch(getAllReviews(product.code as string));
+            }}
+          />
         </div>
 
         {/* maqueta para review */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          {limitedComments.map((commentData) => (
-            <div key={commentData.id} className="border p-4 rounded shadow-md">
+          {reviews.map((review) => (
+            <div key={review.id} className="border p-4 rounded shadow-md">
               <div className="flex items-center gap-3">
                 <img
-                  src={commentData.user.image}
-                  alt={commentData.name}
+                  src={review.user.image}
+                  alt={review.user.name}
                   className="w-12 h-12 rounded-full"
                 />
 
-                <div className="text-xl font-semibold">
-                  {commentData.user.name}
-                </div>
+                <div className="text-xl font-semibold">{review.user.name}</div>
               </div>
-              <Rating
-                name="simple-controlled"
-                value={commentData.rating}
-                readOnly // Hacer el rating de solo lectura para mostrar el valor del comentario
-              />
-              <p>{commentData.description}</p>
+              <Rating value={review.rating} readOnly />
+              <p>{review.description}</p>
             </div>
           ))}
         </div>
       </div>
       <div className="flex justify-center items-center pb-1">
-        {" "}
-        {comments.length > 10 && !showMore && (
-          <button
-            onClick={() => setShowMore(true)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
-          >
-            Ver más comentarios
-          </button>
-        )}
+        <button
+          // onClick={() => setShowMore(true)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
+        >
+          Ver más comentarios
+        </button>
       </div>
 
       {deleteConfirmation && (

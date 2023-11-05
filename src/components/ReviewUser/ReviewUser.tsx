@@ -1,21 +1,22 @@
 import React, { ChangeEvent, useState } from "react";
-import { useSession } from "next-auth/react";
 import { Rating } from "@mui/material";
-import router, { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Pending from "../StatesComponents/Pending";
+import { postOneReviewByApi } from "@/states/reviews/reviewsApi";
+import { Session } from "next-auth";
 
-type Props = {};
+type Props = {
+  session: Session;
+  productCode: string;
+  status: string;
+  getAllReviews: () => void;
+};
 
-const ReviewUser = (props: Props) => {
-  const { data: userSession, status } = useSession();
+const ReviewUser = ({ session, productCode, getAllReviews, status }: Props) => {
   const [isReviewing, setReviewing] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
-
-  const router = useRouter();
-  const { code } = router.query;
   const handleRatingChange = (
     event: ChangeEvent<{}>,
     newValue: number | null
@@ -39,21 +40,17 @@ const ReviewUser = (props: Props) => {
 
   const saveReview = async () => {
     try {
-      const response = await fetch(`/api/v1/reviews/${code}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userSession?.user.id,
-          description: comment,
-          rating: rating,
-        }),
+      const response = await postOneReviewByApi({
+        productCode: productCode,
+        userId: session.user.id,
+        description: comment,
+        rating: rating,
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         // El comentario se guardó exitosamente
         toast.success("Comentario guardado exitosamente");
+        getAllReviews();
         cancelReview(); // Limpia el estado del formulario
       } else {
         // Si la solicitud no fue exitosa, muestra un mensaje de error
@@ -66,7 +63,6 @@ const ReviewUser = (props: Props) => {
       console.error("Error de red:", error);
     }
   };
-  
 
   if (status === "loading") {
     return <Pending />;
@@ -81,11 +77,11 @@ const ReviewUser = (props: Props) => {
       <div className="flex items-center justify-between pl-2">
         <div className=" flex items-center gap-2">
           <img
-            src={userSession?.user.image}
-            alt={userSession?.user.name}
+            src={session.user.image}
+            alt={session.user.name}
             className="w-12 h-12 rounded-full"
           />
-          <div className="text-xl font-semibold">{userSession?.user.name}</div>
+          <div className="text-xl font-semibold">{session.user.name}</div>
         </div>
 
         {!isReviewing ? (

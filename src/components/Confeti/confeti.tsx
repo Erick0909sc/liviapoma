@@ -1,21 +1,21 @@
 import confetti from "canvas-confetti";
 export const runFireworks = () => {
-  var duration = 7 * 1000;
-  var animationEnd = Date.now() + duration;
-  var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+  const duration = 7 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
   function randomInRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
   }
 
-  var interval: any = setInterval(function () {
-    var timeLeft = animationEnd - Date.now();
+  const interval: ReturnType<typeof setInterval> = setInterval(function () {
+    const timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
       return clearInterval(interval);
     }
 
-    var particleCount = 70 * (timeLeft / duration);
+    const particleCount = 70 * (timeLeft / duration);
     // since particles fall down, start a bit higher than random
     confetti(
       Object.assign({}, defaults, {
