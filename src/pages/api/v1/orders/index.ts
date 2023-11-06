@@ -11,17 +11,36 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { userId } = req.query;
+        const { userId, history } = req.query;
+        if (history) {
+          const orders = await prisma.order.findMany({
+            where: {
+              userId: userId as string,
+              productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
+              orderStatus: "PAID",
+            },
+            include: {
+              products: true,
+              user: true,
+            },
+          });
+          return orders.length > 0
+            ? res.status(200).json(orders)
+            : res.status(400).json({ message: "orders not found" });
+        }
         const orders = await prisma.order.findMany({
           where: {
             userId: userId as string,
+            productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
           },
           include: {
             products: true,
             user: true,
           },
         });
-        res.status(200).json(orders);
+        orders.length > 0
+          ? res.status(200).json(orders)
+          : res.status(400).json({ message: "orders not found" });
       } catch (error) {
         res.status(500).json(error);
       }
