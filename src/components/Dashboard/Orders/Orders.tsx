@@ -89,6 +89,16 @@ const OrdersComponent = ({ search }: Props) => {
         <label className="flex items-center">
           <input
             type="checkbox"
+            value="POR_RECOGER"
+            checked={status === "POR_RECOGER"}
+            onChange={() => handleEstadoChange("POR_RECOGER")}
+            className="form-checkbox h-5 w-5 text-indigo-600"
+          />
+          <span className="ml-2 text-gray-700">POR_RECOGER</span>
+        </label>
+        <label className="flex items-center">
+          <input
+            type="checkbox"
             value="ENTREGADO"
             checked={status === "ENTREGADO"}
             onChange={() => handleEstadoChange("ENTREGADO")}

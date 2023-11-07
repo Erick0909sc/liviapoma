@@ -100,13 +100,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
       <div className="flex justify-end text-4xl"></div>
 
       <div className="justify-end gap-3 hidden sm:flex   lg:flex">
-        <div
-          className="text-2xl relative cursor-pointer"
-          onClick={() => {
-            setNewNotification(false);
-            setShowNotifications(!showNotifications);
-          }}
-        >
+        <div className="relative">
           {newNotification && (
             <span className="absolute -top-1 right-0 flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
@@ -114,7 +108,13 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
             </span>
           )}
           <audio id="notificationSound" src="/Notificación.mp3" />
-          <GoBellFill />
+          <GoBellFill
+            className="text-2xl cursor-pointer"
+            onClick={() => {
+              setNewNotification(false);
+              setShowNotifications(!showNotifications);
+            }}
+          />
           {showNotifications && <Notifications />}
         </div>
         <div className="flex items-center ">

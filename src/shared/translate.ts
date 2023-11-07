@@ -28,4 +28,5 @@ export const codeStatusOrdersTranslation: { [key: string]: string } = {
   PENDIENTE: "PENDIENTE",
   ENTREGADO: "ENTREGADO",
   CANCELADO: "CANCELADO",
+  POR_RECOGER: "POR RECOGER",
 };

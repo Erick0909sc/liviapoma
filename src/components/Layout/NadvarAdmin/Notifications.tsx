@@ -1,5 +1,6 @@
 import { pusher } from "@/shared/pusherInstance";
 import { getNotifications } from "@/states/globalApi";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import { MdNotificationsOff } from "react-icons/md";
@@ -60,30 +61,31 @@ const Notifications = (props: Props) => {
           )}
           <div className="flex flex-col gap-2">
             {notifications.map((notification) => (
-              <div
-                key={notification.id}
-                className={`flex items-center rounded-lg p-2 ${
-                  notification.time === "Hace un momento"
-                    ? "bg-green-100 animate-fade-down"
-                    : "bg-slate-100 animate-fade"
-                }`}
-              >
-                <FaBell className="text-green-500" />
-                <div className="flex-1">
-                  <p className="text-justify text-base text-gray-800 p-1 line-clamp-3">
-                    {notification.message}
-                  </p>
-                  <p
-                    className={`text-sm font-bold ${
-                      notification.time === "Hace un momento"
-                        ? "text-green-500"
-                        : "text-gray-600"
-                    }`}
-                  >
-                    {notification.time}
-                  </p>
+              <Link href={"/dashboard/orders"} key={notification.id}>
+                <div
+                  className={`flex hover:cursor-pointer items-center rounded-lg p-2 ${
+                    notification.time === "Hace un momento"
+                      ? "bg-green-100 animate-fade-down"
+                      : "bg-slate-100 animate-fade"
+                  }`}
+                >
+                  <FaBell className="text-green-500 text-2xl" />
+                  <div className="flex-1">
+                    <p className="text-justify text-base text-gray-800 p-1 line-clamp-3">
+                      {notification.message}
+                    </p>
+                    <p
+                      className={`text-sm font-bold ${
+                        notification.time === "Hace un momento"
+                          ? "text-green-500"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {notification.time}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           {notifications.length > 0 && (
