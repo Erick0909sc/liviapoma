@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { IProductCart } from "@/shared/types";
-import { ProductsStatus } from "@prisma/client";
+import { OrderStatus, ProductsStatus } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,17 +11,45 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { userId } = req.query;
+        const { userId, history } = req.query;
+        if (history) {
+          const orders = await prisma.order.findMany({
+            where: {
+              userId: userId as string,
+              productsStatus: "ENTREGADO", // agregar ESTATUS POR_RECOGER
+              orderStatus: "PAID",
+            },
+            include: {
+              products: {
+                include: {
+                  product: true,
+                },
+              },
+              user: true,
+
+            },
+          });
+          return orders.length > 0
+            ? res.status(200).json(orders)
+            : res.status(400).json({ message: "orders not found" });
+        }
         const orders = await prisma.order.findMany({
           where: {
             userId: userId as string,
+            productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
           },
           include: {
-            products: true,
+            products: {
+              include: {
+                product: true,
+              },
+            },
             user: true,
           },
         });
-        res.status(200).json(orders);
+        orders.length > 0
+          ? res.status(200).json(orders)
+          : res.status(400).json({ message: "orders not found" });
       } catch (error) {
         res.status(500).json(error);
       }
@@ -31,20 +59,26 @@ export default async function handler(
         const {
           userId,
           productsStatus,
+          orderStatus,
           orderTotalAmount,
           orderCurrency,
           products,
         }: {
           userId: string;
           productsStatus: ProductsStatus;
+          orderStatus: OrderStatus;
           orderTotalAmount: number;
           orderCurrency: string;
           products: IProductCart[];
         } = req.body;
+
+        // console.log(req.body);
+
         const order = await prisma.order.create({
           data: {
             userId,
             productsStatus,
+            orderStatus,
             orderTotalAmount,
             orderCurrency,
             products: {

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import { EStateGeneric, ICategory, IEditUser, IOneUser, } from '@/shared/types'
-import { postUserApi, putUserDataApi } from './usersApi';
+import { EStateGeneric, ICategory, IEditUser, IOneUser, IOrders, } from '@/shared/types'
+import { getorderAPI, orderUserHistoryAPI, postUserApi, putUserDataApi } from './usersApi';
 import { processImage } from '@/shared/ultis';
 import { getoneUserApi } from '../dashboard/users/usersApi';
 
@@ -65,17 +65,55 @@ export const getoneUser = createAsyncThunk(
 
 
 
+export const getOrdersPending = createAsyncThunk(
+  "users/getOrdersPending",
+  async (userId: string, { rejectWithValue }) => {
+    console.log(userId);
+    try {
+      const response = await getorderAPI(userId)
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+export const getOrdersHistory = createAsyncThunk(
+  "users/getOrdersHistory",
+  async (userId: string, { rejectWithValue }) => {
+    console.log(userId);
+    try {
+      const response = await orderUserHistoryAPI(userId)
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+
+
 
 interface IUsersState {
   userStatus: EStateGeneric,
+  orderStatus: EStateGeneric,
   OneUser: IOneUser
   EditUser: IEditUser
+  ordersPending: IOrders[]
+  orderHistory: IOrders[]
 }
 
 const initialState: IUsersState = {
   userStatus: EStateGeneric.IDLE,
   EditUser: {} as IEditUser,
-  OneUser: {} as IOneUser
+  OneUser: {} as IOneUser,
+  ordersPending: [],
+  orderHistory: [],
+  orderStatus: EStateGeneric.IDLE
 }
 
 export const usersSlice = createSlice({
@@ -122,6 +160,31 @@ export const usersSlice = createSlice({
       state.userStatus = EStateGeneric.FAILED;
     });
 
+
+    builder.addCase(getOrdersPending.fulfilled, (state, action) => {
+      state.ordersPending = action.payload
+      state.orderStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getOrdersPending.pending, (state, action) => {
+      state.orderStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getOrdersPending.rejected, (state, action) => {
+      state.orderStatus = EStateGeneric.FAILED;
+    });
+
+
+    builder.addCase(getOrdersHistory.fulfilled, (state, action) => {
+      state.orderHistory = action.payload
+      state.orderStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getOrdersHistory.pending, (state, action) => {
+      state.orderStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getOrdersHistory.rejected, (state, action) => {
+      state.orderStatus = EStateGeneric.FAILED;
+    });
+
+
   },
 
 })
@@ -133,5 +196,8 @@ export const UserEdit = (state: RootState) => state.users.EditUser;
 
 export const getOneUser = (state: RootState) => state.users.OneUser
 
+export const getordersPendint = (state: RootState) => state.users.ordersPending
+
+export const getordersHistory = (state: RootState) => state.users.orderHistory
 
 export default usersSlice.reducer

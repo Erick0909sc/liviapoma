@@ -7,6 +7,42 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
+
+
+export interface productsorders {
+  id: number;
+  quantity:number;
+  product: {
+    code: string;
+    name: string;
+    description: string;
+    price: number;
+    image: string
+    discount: number;
+    categoryId: number;
+    // deletedAt: ;
+    // brandId: ;
+    unitOfMeasureId: number
+
+  }
+}
+
+export interface IOrders {
+  id: number;
+  userId: string;
+  checkoutUuid: null,
+  orderTotalAmount: number,
+  orderStatus: string,
+  productsStatus: string,
+  orderCurrency: string,
+  formToken: null,
+  createdAt: string,
+  updatedAt: string,
+  productCode: null,
+  products: productsorders[]
+}
+
+
 export interface IEditUser {
   id: string;
   name: string;
