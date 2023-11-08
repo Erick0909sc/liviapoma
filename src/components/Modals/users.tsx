@@ -30,7 +30,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
 
   const renderContent = () => {
     if (session?.user) {
-      const isAdmin = session.user.role === "Admin" || "Manager";
+      const isAdminormanager = session.user.role === ("Admin" || "Manager");
       return (
         <>
           <ul className="space-y-3 text-center font-semibold">
@@ -55,7 +55,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
               </li>
             </Link>
 
-            {isAdmin && ( // Verifica si el usuario es administrador
+            {isAdminormanager && ( // Verifica si el usuario es administrador
               <Link href="/dashboard">
                 <li className="hover:bg-green-800 p-2 hover:text-white  cursor-pointer">
                   <a onClick={onClose}>dashboard</a>

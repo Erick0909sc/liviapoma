@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 import { IProductCart } from "@/shared/types";
-import { ProductsStatus } from "@prisma/client";
+import { OrderStatus, ProductsStatus } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,12 +16,17 @@ export default async function handler(
           const orders = await prisma.order.findMany({
             where: {
               userId: userId as string,
-              productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
+              productsStatus: "ENTREGADO", // agregar ESTATUS POR_RECOGER
               orderStatus: "PAID",
             },
             include: {
-              products: true,
+              products: {
+                include: {
+                  product: true,
+                },
+              },
               user: true,
+
             },
           });
           return orders.length > 0
@@ -34,7 +39,11 @@ export default async function handler(
             productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
           },
           include: {
-            products: true,
+            products: {
+              include: {
+                product: true,
+              },
+            },
             user: true,
           },
         });
@@ -50,20 +59,26 @@ export default async function handler(
         const {
           userId,
           productsStatus,
+          orderStatus,
           orderTotalAmount,
           orderCurrency,
           products,
         }: {
           userId: string;
           productsStatus: ProductsStatus;
+          orderStatus: OrderStatus;
           orderTotalAmount: number;
           orderCurrency: string;
           products: IProductCart[];
         } = req.body;
+
+        // console.log(req.body);
+
         const order = await prisma.order.create({
           data: {
             userId,
             productsStatus,
+            orderStatus,
             orderTotalAmount,
             orderCurrency,
             products: {
