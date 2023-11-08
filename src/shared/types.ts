@@ -7,6 +7,42 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
+
+
+export interface productsorders {
+  id: number;
+  quantity:number;
+  product: {
+    code: string;
+    name: string;
+    description: string;
+    price: number;
+    image: string
+    discount: number;
+    categoryId: number;
+    // deletedAt: ;
+    // brandId: ;
+    unitOfMeasureId: number
+
+  }
+}
+
+export interface IOrders {
+  id: number;
+  userId: string;
+  checkoutUuid: null,
+  orderTotalAmount: number,
+  orderStatus: string,
+  productsStatus: string,
+  orderCurrency: string,
+  formToken: null,
+  createdAt: string,
+  updatedAt: string,
+  productCode: null,
+  products: productsorders[]
+}
+
+
 export interface IEditUser {
   id: string;
   name: string;
@@ -30,7 +66,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  image:string,
+  image: string;
   role: string;
 }
 
@@ -219,15 +255,14 @@ export interface CategoryData {
   data: Item[];
   sumValue?: number;
 }
-export interface Comment  {
-  user: IUser;
+
+export interface IReview {
   id: number;
   productCode: string;
   userId: string;
-  description: string; // Asegúrate de que la propiedad 'description' esté definida en el tipo 'Comment'
+  description: string;
   rating: number;
   createdAt: string;
   updatedAt: string;
-  image: string;
-  name:string
-};
+  user: IUser;
+}

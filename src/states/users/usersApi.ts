@@ -37,7 +37,9 @@ export const changePasswordApi = async (id: string, oldPassword: string, newPass
 };
 
 
-
+export const getorderAPI =async (id:string) => axios.get (`/api/v1/orders?userId=${id}`)
+ 
+export const orderUserHistoryAPI = async(id:string) => axios.get (`/api/v1/orders?userId=${id}&history=true`)
 
 export const getusername = (id: string) => axios.get(`api/v1/user/${id}`)
 

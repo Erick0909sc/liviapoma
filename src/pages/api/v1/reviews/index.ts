@@ -19,8 +19,138 @@ export default async function handler(
       break;
     case "POST":
       try {
-        const reviews = await prisma.review.findMany();
-        res.status(200).json(reviews);
+        const {
+          productCode,
+          userId,
+          description,
+          rating,
+        }: {
+          productCode: string;
+          userId: string;
+          description: string;
+          rating: number;
+        } = req.body;
+
+        const review = await prisma.review.create({
+          data: {
+            productCode,
+            userId,
+            description,
+            rating,
+          },
+        });
+        let newRating = 0;
+        const product = await prisma.product.findUnique({
+          where: { code: productCode },
+          include: { reviews: true },
+        });
+        if (!product) return;
+        const numReviews = product.reviews.length;
+        if (numReviews > 0) {
+          const totalRating = product.reviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          newRating = totalRating / numReviews;
+        }
+        // Update the corresponding product record with the new review and rating
+        const updatedProduct = await prisma.product.update({
+          where: { code: productCode },
+          data: {
+            rating: parseFloat(newRating.toFixed(1)),
+          },
+          include: { reviews: true },
+        });
+
+        res.status(201).json({ review, updatedProduct });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+      break;
+    case "PUT":
+      try {
+        const {
+          userId,
+          productCode,
+          id,
+          description,
+          rating,
+        }: {
+          userId: string;
+          productCode: string;
+          id: number;
+          description: string;
+          rating: number;
+        } = req.body;
+        const editReview = await prisma.review.update({
+          where: { id },
+          data: {
+            productCode,
+            userId,
+            description,
+            rating,
+          },
+        });
+        let newRating = 0;
+        const product = await prisma.product.findUnique({
+          where: { code: productCode },
+          include: { reviews: true },
+        });
+        if (!product) return;
+        const numReviews = product.reviews.length;
+        if (numReviews > 0) {
+          const totalRating = product.reviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          newRating = totalRating / numReviews;
+        }
+        // Update the corresponding product record with the new review and rating
+        const updatedProduct = await prisma.product.update({
+          where: { code: productCode },
+          data: {
+            rating: parseFloat(newRating.toFixed(1)),
+          },
+          include: { reviews: true },
+        });
+
+        res.status(200).json({ editReview, updatedProduct });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+      break;
+    case "DELETE":
+      try {
+        const { id } = req.query;
+        const deleteReview = await prisma.review.delete({
+          where: {
+            id: parseInt(id as string),
+          },
+        });
+        let newRating = 0;
+        const product = await prisma.product.findUnique({
+          where: { code: deleteReview.productCode },
+          include: { reviews: true },
+        });
+        if (!product) return;
+        const numReviews = product.reviews.length;
+        if (numReviews > 0) {
+          const totalRating = product.reviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          newRating = totalRating / numReviews;
+        }
+        // Update the corresponding product record with the new review and rating
+        const updatedProduct = await prisma.product.update({
+          where: { code: deleteReview.productCode },
+          data: {
+            rating: parseFloat(newRating.toFixed(1)),
+          },
+          include: { reviews: true },
+        });
+
+        res.status(200).json({ deleteReview, updatedProduct });
       } catch (error) {
         res.status(500).json(error);
       }
@@ -30,6 +160,3 @@ export default async function handler(
       break;
   }
 }
-
-
-

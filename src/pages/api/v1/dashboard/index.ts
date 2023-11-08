@@ -252,7 +252,6 @@ export default async function handler(
               },
             },
           });
-          console.log(order);
           if (!order) return;
           const partesFecha = time.split("-");
           const fechaObj = {

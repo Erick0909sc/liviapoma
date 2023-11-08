@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { EStateGeneric } from "@/shared/types";
+import { EStateGeneric, IReview } from "@/shared/types";
 import { getAllReviewsByApi } from "./reviewsApi";
 
 export const getAllReviews = createAsyncThunk(
   "reviews/getAllReviews",
-  async (code: string, { rejectWithValue }) => {
+  async (productCode: string, { rejectWithValue }) => {
     try {
-      const response = await getAllReviewsByApi(code);
+      const response = await getAllReviewsByApi(productCode);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -16,7 +16,7 @@ export const getAllReviews = createAsyncThunk(
 );
 
 interface IReviewsState {
-  reviews: [];
+  reviews: IReview[];
   reviewsStatus: EStateGeneric;
 }
 
@@ -28,11 +28,18 @@ const initialState: IReviewsState = {
 export const reviewsSlice = createSlice({
   name: "reviews",
   initialState,
-  reducers: {},
-
+  reducers: {
+    cleanUpReviews: (state) => {
+      return {
+        ...state,
+        reviews: [],
+        reviewsStatus: EStateGeneric.IDLE,
+      };
+    },
+  },
   extraReducers(builder) {
     builder.addCase(getAllReviews.fulfilled, (state, action) => {
-      state.reviewsStatus = action.payload;
+      state.reviews = action.payload;
       state.reviewsStatus = EStateGeneric.SUCCEEDED;
     });
     builder.addCase(getAllReviews.pending, (state, action) => {
@@ -44,10 +51,11 @@ export const reviewsSlice = createSlice({
   },
 });
 
-// export const {  } = reviewsSlice.actions
+export const { cleanUpReviews } = reviewsSlice.actions;
 
 export const selectAllReviews = (state: RootState) => state.reviews.reviews;
 
-export const selectAllReviewsStatus = (state: RootState) => state.reviews.reviewsStatus;
+export const selectAllReviewsStatus = (state: RootState) =>
+  state.reviews.reviewsStatus;
 
 export default reviewsSlice.reducer;

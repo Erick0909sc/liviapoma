@@ -231,4 +231,5 @@ enum ProductsStatus {
   PENDIENTE
   ENTREGADO
   CANCELADO
+  POR_RECOGER
 }
