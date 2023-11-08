@@ -72,7 +72,7 @@ const OrdersComponent = ({ search }: Props) => {
       pusher.unsubscribe("liviapoma-orders");
     };
   }, [data, ordersStatus]);
-  console.log(ordersStatus);
+  
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="p-2 flex flex-wrap gap-4 items-center justify-center">

@@ -49,6 +49,7 @@ export default async function handler(
                 },
               },
             },
+            user: true,
           },
         });
         if (!order) {
@@ -69,7 +70,7 @@ export default async function handler(
             productsStatus: status as ProductsStatus,
           },
         });
-        await updateOrdersForAdmins()
+        await updateOrdersForAdmins();
         res.status(200).json(order);
       } catch (error) {
         res.status(500).json(error);

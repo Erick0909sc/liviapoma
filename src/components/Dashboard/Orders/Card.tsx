@@ -1,3 +1,4 @@
+import { generatePDF } from "@/shared/generatePDF";
 import { codeStatusOrdersTranslation } from "@/shared/translate";
 import { IOrderDetail, Order } from "@/shared/types";
 import { formatFechaISO, formatPrice } from "@/shared/ultis";
@@ -55,6 +56,18 @@ const Card = ({ order }: Props) => {
       toast.error("Intente nuevamente");
     } finally {
       setIsProcessing(false);
+    }
+  };
+  const handleDataForPDF = async () => {
+    try {
+      if (data) {
+        generatePDF(data as Order);
+      } else {
+        const res = await getOrderByApi(order.id, order.userId);
+        generatePDF(res.data);
+      }
+    } catch (error) {
+      toast.error("Intente nuevamente");
     }
   };
   return (
@@ -213,6 +226,16 @@ const Card = ({ order }: Props) => {
             }}
           >
             Cerrar
+          </button>
+        )}
+        {order.checkoutUuid && (
+          <button
+            type="button"
+            className={`mt-2 ml-2 px-3 py-1 font-bold bg-blue-500 text-white border border-blue-600 rounded-md focus:outline-none focus:ring focus:border-blue-400 hover:bg-blue-600`}
+            onClick={handleDataForPDF}
+            disabled={isProcessing}
+          >
+            Imprimir orden
           </button>
         )}
       </div>
