@@ -4,12 +4,13 @@ import React, { useEffect } from 'react'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 import { useSession } from "next-auth/react";
-import { useAppDispatch } from '@/states/store';
+// import { useAppDispatch } from '@/states/store';
 import EditUser from '@/components/Modals/EditUser';
+import { useAppDispatch } from '@/states/store';
 
 type Props = {}
 
-const index = (props: Props) => {
+const Index = (props: Props) => {
 
     const dispatch = useAppDispatch();
     const { data: session } = useSession();
@@ -75,4 +76,4 @@ const index = (props: Props) => {
     )
 }
 
-export default index
+export default Index
