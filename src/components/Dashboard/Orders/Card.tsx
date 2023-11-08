@@ -1,3 +1,4 @@
+import { generatePDF } from "@/shared/generatePDF";
 import { codeStatusOrdersTranslation } from "@/shared/translate";
 import { IOrderDetail, Order } from "@/shared/types";
 import { formatFechaISO, formatPrice } from "@/shared/ultis";
@@ -19,6 +20,12 @@ const Card = ({ order }: Props) => {
   const [data, setData] = useState<Order | null>();
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
   const [selectedOption, setSelectedOption] = useState(order.productsStatus); // Aquí puedes almacenar la opción seleccionada
+  const statusStyles = {
+    PENDIENTE: "bg-orange-200 text-orange-600",
+    ENTREGADO: "bg-green-200 text-green-600",
+    CANCELADO: "bg-red-200 text-red-600",
+    POR_RECOGER: "bg-blue-200 text-blue-600",
+  };
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
@@ -51,6 +58,18 @@ const Card = ({ order }: Props) => {
       setIsProcessing(false);
     }
   };
+  const handleDataForPDF = async () => {
+    try {
+      if (data) {
+        generatePDF(data as Order);
+      } else {
+        const res = await getOrderByApi(order.id, order.userId);
+        generatePDF(res.data);
+      }
+    } catch (error) {
+      toast.error("Intente nuevamente");
+    }
+  };
   return (
     <div className="bg-white rounded-md p-4 mb-4 shadow-md max-w-[380px] w-[380px] hover:shadow-green-800 hover:shadow-lg">
       <div className="flex justify-between items-center">
@@ -80,29 +99,39 @@ const Card = ({ order }: Props) => {
         <div className="flex justify-between items-center gap-4">
           <label className="text-xl font-semibold">Estado:</label>
           <span
-            className={`text-lg px-3 py-1 rounded-full ${
-              selectedOption === ProductsStatus.PENDIENTE
-                ? "bg-orange-200 text-orange-600"
-                : "bg-green-200 text-green-600"
+            className={`text-lg px-3 py-1 rounded-full hover:cursor-pointer ${
+              statusStyles[selectedOption as ProductsStatus]
             } font-bold`}
-            onDoubleClick={() => setShowOptionsMenu(!showOptionsMenu)}
+            onClick={() => setShowOptionsMenu(!showOptionsMenu)}
           >
             {codeStatusOrdersTranslation[selectedOption]}
           </span>
         </div>
         {showOptionsMenu && (
-          <div className="flex flex-col justify-center items-center">
+          <div className="mt-2 flex flex-col gap-1 justify-center items-center">
             <button
               onClick={() => handleOptionClick(ProductsStatus.PENDIENTE)}
-              className="text-orange-600 font-bold rounded"
+              className={`rounded-3xl px-3 ${
+                statusStyles[ProductsStatus.PENDIENTE]
+              }`}
             >
               - {ProductsStatus.PENDIENTE}
             </button>
             <button
               onClick={() => handleOptionClick(ProductsStatus.ENTREGADO)}
-              className="text-green-600 font-bold rounded"
+              className={`rounded-3xl px-3 ${
+                statusStyles[ProductsStatus.ENTREGADO]
+              }`}
             >
               - {ProductsStatus.ENTREGADO}
+            </button>
+            <button
+              onClick={() => handleOptionClick(ProductsStatus.POR_RECOGER)}
+              className={`rounded-3xl px-3 ${
+                statusStyles[ProductsStatus.POR_RECOGER]
+              }`}
+            >
+              - {codeStatusOrdersTranslation[ProductsStatus.POR_RECOGER]}
             </button>
             <div className="flex gap-4">
               <button
@@ -197,6 +226,16 @@ const Card = ({ order }: Props) => {
             }}
           >
             Cerrar
+          </button>
+        )}
+        {order.checkoutUuid && (
+          <button
+            type="button"
+            className={`mt-2 ml-2 px-3 py-1 font-bold bg-blue-500 text-white border border-blue-600 rounded-md focus:outline-none focus:ring focus:border-blue-400 hover:bg-blue-600`}
+            onClick={handleDataForPDF}
+            disabled={isProcessing}
+          >
+            Imprimir orden
           </button>
         )}
       </div>

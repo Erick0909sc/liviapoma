@@ -72,7 +72,7 @@ const OrdersComponent = ({ search }: Props) => {
       pusher.unsubscribe("liviapoma-orders");
     };
   }, [data, ordersStatus]);
-  console.log(ordersStatus);
+  
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="p-2 flex flex-wrap gap-4 items-center justify-center">
@@ -85,6 +85,16 @@ const OrdersComponent = ({ search }: Props) => {
             className="form-checkbox h-5 w-5 text-indigo-600"
           />
           <span className="ml-2 text-gray-700">PENDIENTE</span>
+        </label>
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            value="POR_RECOGER"
+            checked={status === "POR_RECOGER"}
+            onChange={() => handleEstadoChange("POR_RECOGER")}
+            className="form-checkbox h-5 w-5 text-indigo-600"
+          />
+          <span className="ml-2 text-gray-700">POR_RECOGER</span>
         </label>
         <label className="flex items-center">
           <input
