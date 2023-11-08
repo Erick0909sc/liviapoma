@@ -54,6 +54,7 @@ const Detail = (props: Props) => {
   const [currentCode, setCurrentCode] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [visibleReviews, setVisibleReviews] = useState(10); // Inicialmente, muestra 10 reseñas
 
   const [checkout, setCheckout] = useState(false);
   const [input, setInput] = useState<number | null>(null);
@@ -67,6 +68,9 @@ const Detail = (props: Props) => {
     getCart: () => dispatch(getCartUser(session?.user.id as string)),
   };
   const dispatch = useAppDispatch();
+  const handleShowMoreReviews = () => {
+    setVisibleReviews(visibleReviews + 10); // Muestra 10 reseñas adicionales al hacer clic en "Ver más comentarios"
+  };
 
   useEffect(() => {
     (async () => {
@@ -122,6 +126,7 @@ const Detail = (props: Props) => {
     });
     if (session) dispatch(getCartUser(session.user.id));
   };
+  console.log(product);
   return (
     <Layout
       title={
@@ -368,12 +373,15 @@ const Detail = (props: Props) => {
             getAllReviews={() => {
               dispatch(getAllReviews(product.code as string));
             }}
+            getOneProduct={() => {
+              dispatch(getOneProduct(product.code as string));
+            }}
           />
         </div>
 
         {/* maqueta para review */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          {reviews.map((review) => (
+          {reviews.slice(0, visibleReviews).map((review) => (
             <div key={review.id} className="border p-4 rounded shadow-md">
               <div className="flex items-center gap-3">
                 <img
@@ -390,14 +398,16 @@ const Detail = (props: Props) => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center items-center pb-1">
-        <button
-          // onClick={() => setShowMore(true)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
-        >
-          Ver más comentarios
-        </button>
-      </div>
+      {reviews.length > visibleReviews && (
+        <div className="flex justify-center items-center pb-1">
+          <button
+            onClick={handleShowMoreReviews}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
+          >
+            Ver más comentarios
+          </button>
+        </div>
+      )}
 
       {deleteConfirmation && (
         <DeleteConfirmation

@@ -54,6 +54,9 @@ export default async function handler(
           include: {
             user: true, // Esto incluirá los datos del usuario asociado a cada revisión
           },
+          orderBy: {
+            createdAt: 'desc', // Ordenar las reseñas por createdAt de manera descendente
+          },
         });
         reviews.length > 0
           ? res.status(200).json(reviews)
