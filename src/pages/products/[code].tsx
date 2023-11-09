@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
-import ReviewUser from "@/components/ReviewUser/ReviewUser";
+import Reviews from "@/components/Reviews/Reviews";
 import { EStateGeneric } from "@/shared/types";
 import {
   calcularPrecioConDescuento,
@@ -363,52 +363,8 @@ const Detail = (props: Props) => {
             )}
           </section>
         )}
+        <Reviews session={session} productCode={product.code} status={status}/>
       </div>
-      <div className="bg-white p-2 flex flex-col justify-center pb-7">
-        <div className=" flex justify-center">
-          <ReviewUser
-            session={session as Session}
-            productCode={product.code}
-            status={status}
-            getAllReviews={() => {
-              dispatch(getAllReviews(product.code as string));
-            }}
-            getOneProduct={() => {
-              dispatch(getOneProduct(product.code as string));
-            }}
-          />
-        </div>
-
-        {/* maqueta para review */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          {reviews.slice(0, visibleReviews).map((review) => (
-            <div key={review.id} className="border p-4 rounded shadow-md">
-              <div className="flex items-center gap-3">
-                <img
-                  src={review.user.image}
-                  alt={review.user.name}
-                  className="w-12 h-12 rounded-full"
-                />
-
-                <div className="text-xl font-semibold">{review.user.name}</div>
-              </div>
-              <Rating value={review.rating} readOnly />
-              <p>{review.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-      {reviews.length > visibleReviews && (
-        <div className="flex justify-center items-center pb-1">
-          <button
-            onClick={handleShowMoreReviews}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200 "
-          >
-            Ver más comentarios
-          </button>
-        </div>
-      )}
-
       {deleteConfirmation && (
         <DeleteConfirmation
           title="Eliminar Producto"
