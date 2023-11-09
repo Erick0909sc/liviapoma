@@ -81,7 +81,6 @@ const FiltersAndSorts = (props: Props) => {
     { name: "sortByPrice", value: "asc", title: "Menor a Mayor Precio" },
     { name: "sortByPrice", value: "desc", title: "Mayor a Menor Precio" },
   ];
-  console.log(filters);
   return (
     <>
       <div className="flex justify-center  gap-4 mt-4 flex-wrap">

@@ -74,8 +74,6 @@ export default async function handler(
           products: IProductCart[];
         } = req.body;
 
-        // console.log(req.body);
-
         const order = await prisma.order.create({
           data: {
             userId,
