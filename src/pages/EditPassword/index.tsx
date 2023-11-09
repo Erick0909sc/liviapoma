@@ -4,8 +4,11 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { changePasswordApi } from '@/states/users/usersApi';
 import EditUser from '@/components/Modals/EditUser';
 import { useSession } from 'next-auth/react';
+import MenuEditUser from '@/components/Modals/MenuEditUser';
 
 const ChangePassword = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const router = useRouter();
   const [formData, setFormData] = useState({
     oldPassword: '',
@@ -14,6 +17,15 @@ const ChangePassword = () => {
 
   const handleGoBack = () => {
     router.back();
+  };
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,48 +72,60 @@ const ChangePassword = () => {
         </button>
       </div>
 
-      <div className='bg-white shadow-lg lg:w-[60vw]  rounded-lg'>
+      <div className=' sm:flex lg:flex gap-3 sm:h-[50%] lg:h-[70%]'>
         <div >
           <EditUser />
         </div>
-        <hr />
-        <div className='flex flex-col justify-center items-center p-4 gap-2'>
-          <div className='text-[25px] pb-5 font-semibold'>
-            <h2>Edición de contraseña</h2>
+        <div className='bg-white shadow-lg sm:w-[70vw] lg:w-[60vw]  rounded-b-lg lg:flex items-center justify-center sm:border-b-[20px]  lg:border-b-[20px] sm:border-t-[40px]  lg:border-t-[40px] border-green-700'>
+
+          <div className='bg-green-700'>
+            <button className='sm:hidden lg:text-[18px] flex items-center font-semibold text-white bg-black p-2' onClick={openModal}>
+              <h2>Menu de opciones</h2>
+            </button>
           </div>
 
-          <div className='mb-4'>
-            <label className='block text-gray-600 font-bold mb-2'>Contraseña antigua:</label>
-            <input
-              type='password'
-              name='oldPassword'
-              value={formData.oldPassword}
-              onChange={handleChange}
-              className='lg:w-80 p-2 border rounded'
-              placeholder='Ingrese su antigua contraseña'
-            />
-          </div>
-          <div className='mb-4'>
-            <label className='block text-gray-600 font-bold mb-2'>Contraseña nueva:</label>
-            <input
-              type='password'
-              name='newPassword'
-              value={formData.newPassword}
-              onChange={handleChange}
-              className='lg:w-80 p-2 border rounded'
-              placeholder='Ingrese su nueva contraseña'
-            />
-          </div>
-          <div>
-            <button className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700' onClick={handleSave}>
-              Guardar
-            </button>
-            <button className='bg-red-500 text-white py-2 px-4 rounded hover-bg-red-700 ml-2'>
-              Cancelar
-            </button>
+          <hr />
+          <div className='flex flex-col justify-center items-center p-4 gap-2'>
+            <div className='text-[25px] pb-5 font-semibold'>
+              <h2>Edición de contraseña</h2>
+            </div>
+
+            <div className='mb-4'>
+              <label className='block text-gray-600 font-bold mb-2'>Contraseña antigua:</label>
+              <input
+                type='password'
+                name='oldPassword'
+                value={formData.oldPassword}
+                onChange={handleChange}
+                className='lg:w-80 p-2 border rounded'
+                placeholder='Ingrese su antigua contraseña'
+              />
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-600 font-bold mb-2'>Contraseña nueva:</label>
+              <input
+                type='password'
+                name='newPassword'
+                value={formData.newPassword}
+                onChange={handleChange}
+                className='lg:w-80 p-2 border rounded'
+                placeholder='Ingrese su nueva contraseña'
+              />
+            </div>
+            <div>
+              <button className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700' onClick={handleSave}>
+                Guardar
+              </button>
+              <button className='bg-red-500 text-white py-2 px-4 rounded hover-bg-red-700 ml-2'>
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
+
+
       </div>
+      {isModalOpen && <MenuEditUser isOpen={isModalOpen} onClose={closeModal} />}
     </div>
   );
 };
