@@ -128,7 +128,7 @@ const Index: React.FC = () => {
         </button>
       </div>
 
-      <div className=' sm:flex  lg:flex gap-3  sm:h-[60%]  lg:h-[90%]'>
+      <div className=' sm:flex  lg:flex gap-3  sm:h-[60%]  lg:h-full'>
         <div>
           <EditUser />
         </div>
