@@ -24,6 +24,11 @@ const useProductsWithFilters = (
           (product) => product.price >= min && product.price <= max
         );
       }
+      if (name === "filterByDiscount") {
+        result = [...arr].filter(
+          (product) => product.discount > 0 && product.discount <= 100
+        );
+      }
     }
 
     dispatch(setCurrentPage(1));
