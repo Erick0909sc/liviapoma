@@ -13,11 +13,14 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@/states/store";
 import toast from "react-hot-toast";
+import MenuEditUser from "@/components/Modals/MenuEditUser";
 
 const Index: React.FC = () => {
   const dataoneuser = useSelector(getOneUser);
   const dispatch = useAppDispatch();
   const [editedUser, setEditedUser] = useState(dataoneuser);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -49,6 +52,15 @@ const Index: React.FC = () => {
 
   const initialValues = {
     image: null as File | null,
+  };
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const formik = useFormik({
@@ -116,67 +128,80 @@ const Index: React.FC = () => {
         </button>
       </div>
 
-      <div className=" bg-white shadow-lg w-full lg:w-[60vw] rounded-lg">
+      <div className=' sm:flex  lg:flex gap-3  sm:h-[60%]  lg:h-full'>
         <div>
           <EditUser />
         </div>
-        <hr />
-        <form
-          className="mx-auto  p-6 rounded-lg  text-center"
-          onSubmit={formik.handleSubmit}
-        >
-          <h2 className="text-2xl font-bold mb-4">Editar Datos de Usuario</h2>
-          <div className="relative mb-4">
-            <CustomImagePerfile
-              formik={formik}
-              fieldName="image"
-              fieldNameTranslate={"imagen"}
-              initialPhoto={dataoneuser.image}
-              onImageChange={handleImageChange}
-            />
-          </div>
-          <hr />
-          <div className="mb-4">
-            <label className="block text-gray-600 font-bold mb-2">
-              Nombre del usuario:
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={editedUser.name}
-              onChange={handleInputChange}
-              className="lg:w-80 p-2 border rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-600 font-bold mb-2">
-              Correo electrónico:
-            </label>
-            <input
-              type="text"
-              name="email"
-              value={editedUser.email}
-              onChange={handleInputChange}
-              className="lg:w-80 p-2 border rounded"
-            />
+
+        <div className=" bg-white shadow-lg w-full sm:w-[70vw]  lg:w-[60vw] rounded-b-lg lg:border-b-[20px] sm:border-t-[40px] lg:border-t-[40px] sm:border-b-[20px]  border-green-700">
+
+          <div className='bg-green-700'>
+            <button className='sm:hidden lg:text-[18px] flex items-center font-semibold text-white bg-black p-2' onClick={openModal}>
+              <h2>Menu de opciones</h2>
+            </button>
           </div>
 
-          <div>
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-              type="submit"
-            >
-              Guardar
-            </button>
-            <button
-              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 ml-2"
-              onClick={handleCancel}
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
+
+          <hr />
+          <form
+            className="mx-auto  p-6 rounded-lg  text-center"
+            onSubmit={formik.handleSubmit}
+          >
+            <h2 className="text-2xl font-bold mb-4">Editar Datos de Usuario</h2>
+            <div className="relative mb-4">
+              <CustomImagePerfile
+                formik={formik}
+                fieldName="image"
+                fieldNameTranslate={"imagen"}
+                initialPhoto={dataoneuser.image}
+                onImageChange={handleImageChange}
+              />
+            </div>
+            <hr />
+            <div className="mb-4">
+              <label className="block text-gray-600 font-bold mb-2">
+                Nombre del usuario:
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={editedUser.name}
+                onChange={handleInputChange}
+                className="lg:w-80 p-2 border rounded"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-600 font-bold mb-2">
+                Correo electrónico:
+              </label>
+              <input
+                type="text"
+                name="email"
+                value={editedUser.email}
+                onChange={handleInputChange}
+                className="lg:w-80 p-2 border rounded"
+              />
+            </div>
+
+            <div>
+              <button
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                type="submit"
+              >
+                Guardar
+              </button>
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 ml-2"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+
+      {isModalOpen && <MenuEditUser isOpen={isModalOpen} onClose={closeModal} />}
     </div>
   );
 };

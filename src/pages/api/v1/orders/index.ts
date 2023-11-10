@@ -16,7 +16,7 @@ export default async function handler(
           const orders = await prisma.order.findMany({
             where: {
               userId: userId as string,
-              productsStatus: "ENTREGADO", // agregar ESTATUS POR_RECOGER
+              productsStatus: "ENTREGADO",
               orderStatus: "PAID",
             },
             include: {
@@ -26,7 +26,6 @@ export default async function handler(
                 },
               },
               user: true,
-
             },
           });
           return orders.length > 0
@@ -36,7 +35,10 @@ export default async function handler(
         const orders = await prisma.order.findMany({
           where: {
             userId: userId as string,
-            productsStatus: "PENDIENTE", // agregar ESTATUS POR_RECOGER
+            OR: [
+              { productsStatus: "PENDIENTE" },
+              { productsStatus: "POR_RECOGER" },
+            ],
           },
           include: {
             products: {
@@ -71,8 +73,6 @@ export default async function handler(
           orderCurrency: string;
           products: IProductCart[];
         } = req.body;
-
-        // console.log(req.body);
 
         const order = await prisma.order.create({
           data: {

@@ -13,6 +13,7 @@ import {
   setOrders,
 } from "@/states/globalSlice";
 import { FaAngleDown } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 type Props = {
   selectedCategory: string;
@@ -45,6 +46,16 @@ const FiltersAndSorts = (props: Props) => {
     dispatch(setOrders(filter));
   };
   const handleFilterByRange = () => {
+    const firstValue = parseFloat(input.first);
+    const secondValue = parseFloat(input.second);
+
+    if (
+      !isNaN(firstValue) &&
+      !isNaN(secondValue) &&
+      secondValue <= firstValue
+    ) {
+      return toast.error("El segundo valor debe ser mayor que el primero");
+    }
     const value = `${input.first}-${input.second}`;
     const filterByRange = { name: "filterByRange", value };
     dispatch(setFilters(filterByRange));
@@ -163,7 +174,6 @@ const FiltersAndSorts = (props: Props) => {
               <div className="flex flex-col gap-4">
                 <label className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">S/.</span>
-
                   <input
                     type="text"
                     placeholder="De "
@@ -177,10 +187,8 @@ const FiltersAndSorts = (props: Props) => {
                     }
                   />
                 </label>
-
                 <label className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">S/.</span>
-
                   <input
                     type="text"
                     placeholder="A"
@@ -192,6 +200,20 @@ const FiltersAndSorts = (props: Props) => {
                         second: e.target.value,
                       }))
                     }
+                    onBlur={(e) => {
+                      const firstValue = parseFloat(input.first);
+                      const secondValue = parseFloat(e.target.value);
+
+                      if (
+                        !isNaN(firstValue) &&
+                        !isNaN(secondValue) &&
+                        secondValue <= firstValue
+                      ) {
+                        toast.error(
+                          "El segundo valor debe ser mayor que el primero"
+                        );
+                      }
+                    }}
                   />
                 </label>
               </div>
@@ -206,14 +228,31 @@ const FiltersAndSorts = (props: Props) => {
               </button>
               <button
                 type="button"
-                className="text-sm text-gray-900 underline underline-offset-4"
+                className="text-sm text-gray-900 underline underline-offset-4 disabled:opacity-50"
                 onClick={handleFilterByRangeClear}
+                disabled={!filters.some((f) => f.name === "filterByRange")}
               >
                 Limpiar
               </button>
             </div>
           </div>
         </details>
+        <label className="flex border-gray-200 bg-white p-4 h-min">
+          <input
+            type="checkbox"
+            value="PENDIENTE"
+            // checked={filters.some((f) => f.name === "filterByDiscount")}
+            onChange={() => {
+              const filterByDiscount = {
+                name: "filterByDiscount",
+                value: "",
+              };
+              dispatch(setFilters(filterByDiscount));
+            }}
+            className="form-checkbox h-5 w-5 text-indigo-600"
+          />
+          <span className="ml-2 text-gray-700">Productos con descuento</span>
+        </label>
       </div>
     </>
   );

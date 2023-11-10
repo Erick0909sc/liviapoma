@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/Loader/loader";
 import useProductsSorts from "@/hooks/useProductsSorts";
 import useProductsWithFilters from "@/hooks/useProductsWithFilters";
+import Failed from "@/components/StatesComponents/Failed";
 
 const Products: React.FC = () => {
   const { data: session } = useSession();
@@ -104,23 +105,32 @@ const Products: React.FC = () => {
             <p>Failed to load products</p>
           )}
           {productsStatus === EStateGeneric.SUCCEEDED && (
-            <div className="flex flex-col gap-8 py-8">
-              {items.map((product, index) => (
-                <Card
-                  key={index}
-                  session={session}
-                  code={product.code}
-                  title={product.name}
-                  description={product.description}
-                  price={product.price}
-                  brand={product.brand?.name}
-                  image={product.image}
-                  category={product.category.name}
-                  discount={product.discount}
-                  discountedPrice={calcularPrecioConDescuento(product)}
-                />
-              ))}
-            </div>
+            <>
+              {items.length === 0 && (
+                <div className="h-[50vh]">
+                  <Failed
+                    text="No se encontraron productos con esas características"
+                  />
+                </div>
+              )}
+              <div className="flex flex-col gap-8 py-8">
+                {items.map((product, index) => (
+                  <Card
+                    key={index}
+                    session={session}
+                    code={product.code}
+                    title={product.name}
+                    description={product.description}
+                    price={product.price}
+                    brand={product.brand?.name}
+                    image={product.image}
+                    category={product.category.name}
+                    discount={product.discount}
+                    discountedPrice={calcularPrecioConDescuento(product)}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
         <Pagination

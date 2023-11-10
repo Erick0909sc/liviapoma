@@ -14,6 +14,7 @@ import Pagination from "@/components/pagination";
 import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import Card from "./Card";
 import { pusher } from "@/shared/pusherInstance";
+import { codeStatusOrdersTranslation } from "@/shared/translate";
 
 type Props = {
   search: string;
@@ -72,7 +73,7 @@ const OrdersComponent = ({ search }: Props) => {
       pusher.unsubscribe("liviapoma-orders");
     };
   }, [data, ordersStatus]);
-  
+
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="p-2 flex flex-wrap gap-4 items-center justify-center">
@@ -94,7 +95,9 @@ const OrdersComponent = ({ search }: Props) => {
             onChange={() => handleEstadoChange("POR_RECOGER")}
             className="form-checkbox h-5 w-5 text-indigo-600"
           />
-          <span className="ml-2 text-gray-700">POR_RECOGER</span>
+          <span className="ml-2 text-gray-700">
+            {codeStatusOrdersTranslation["POR_RECOGER"]}
+          </span>
         </label>
         <label className="flex items-center">
           <input
