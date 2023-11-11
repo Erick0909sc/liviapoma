@@ -25,9 +25,12 @@ const FiltersAndSorts = (props: Props) => {
   const categories = useCategoriesData();
   const arrSorts = useSelector(selectAllSorts);
   const filters = useSelector(selectAllFilters);
+  const findFilterByRange = filters
+    .find((filter) => filter.name === "filterByRange")
+    ?.value.split("-");
   const [input, setInput] = useState({
-    first: "",
-    second: "",
+    first: findFilterByRange ? findFilterByRange[0] : "",
+    second: findFilterByRange ? findFilterByRange[1] : "",
   });
   const isFilterActive = (filter: { name: string; value: string }) =>
     arrSorts.some((f) => f.name === filter.name && f.value === filter.value);
@@ -55,7 +58,8 @@ const FiltersAndSorts = (props: Props) => {
       secondValue <= firstValue
     ) {
       return toast.error("El segundo valor debe ser mayor que el primero");
-    }
+    } else if (!firstValue || !secondValue)
+      return toast.error("Por favor, ingresa ambos valores para continuar.");
     const value = `${input.first}-${input.second}`;
     const filterByRange = { name: "filterByRange", value };
     dispatch(setFilters(filterByRange));
@@ -81,6 +85,7 @@ const FiltersAndSorts = (props: Props) => {
     { name: "sortByPrice", value: "asc", title: "Menor a Mayor Precio" },
     { name: "sortByPrice", value: "desc", title: "Mayor a Menor Precio" },
   ];
+  console.log(filters);
   return (
     <>
       <div className="flex justify-center  gap-4 mt-4 flex-wrap">
@@ -241,7 +246,7 @@ const FiltersAndSorts = (props: Props) => {
           <input
             type="checkbox"
             value="PENDIENTE"
-            // checked={filters.some((f) => f.name === "filterByDiscount")}
+            checked={filters.some((f) => f.name === "filterByDiscount")}
             onChange={() => {
               const filterByDiscount = {
                 name: "filterByDiscount",
