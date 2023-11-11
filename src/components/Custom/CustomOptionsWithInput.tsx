@@ -102,8 +102,8 @@ const CustomOptionsWithInput = <FormValues,>({
                   }
                   onBlur={() => {
                     const newValue = category.discount;
-                    if (isNaN(newValue) || newValue < 1 || newValue > 100) {
-                      toast.error("El descuento debe estar entre 1% y 100%");
+                    if (isNaN(newValue) || newValue < 1 || newValue > 99) {
+                      toast.error("El descuento debe estar entre 1% y 99%");
                     }
                   }}
                   required

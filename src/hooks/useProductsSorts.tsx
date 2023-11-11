@@ -1,4 +1,5 @@
 import { IProduct } from "@/shared/types";
+import { calcularPrecioConDescuento } from "@/shared/ultis";
 import { setCurrentPage } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
 import { useMemo } from "react";
@@ -32,9 +33,15 @@ const useProductsSorts = (
       }
       if (name === "sortByPrice") {
         if (value === "asc") {
-          result = [...arr].sort((a, b) => a.price - b.price);
+          result = [...arr].sort(
+            (a, b) =>
+              calcularPrecioConDescuento(a) - calcularPrecioConDescuento(b)
+          );
         } else if (value === "desc") {
-          result = [...arr].sort((a, b) => b.price - a.price);
+          result = [...arr].sort(
+            (a, b) =>
+              calcularPrecioConDescuento(b) - calcularPrecioConDescuento(a)
+          );
         }
       }
     }

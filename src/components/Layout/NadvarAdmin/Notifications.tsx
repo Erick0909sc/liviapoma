@@ -1,6 +1,9 @@
 import { pusher } from "@/shared/pusherInstance";
 import { getNotifications } from "@/states/globalApi";
+import { setSearch } from "@/states/globalSlice";
+import { useAppDispatch } from "@/states/store";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import { MdNotificationsOff } from "react-icons/md";
@@ -22,6 +25,8 @@ enum states {
 }
 
 const Notifications = (props: Props) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [status, setStatus] = useState(states.Idle);
   const [count, setCount] = useState(20);
@@ -46,6 +51,11 @@ const Notifications = (props: Props) => {
       setNotifications(data);
     });
   }, [notifications]);
+
+  const handleOrder = async (id: number) => {
+    await dispatch(setSearch(`${id}`));
+    router.push("/dashboard/orders");
+  };
   return (
     <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md overflow-auto">
       <h2 className="text-gray-800 text-center text-xl font-semibold mb-3">
@@ -61,7 +71,10 @@ const Notifications = (props: Props) => {
           )}
           <div className="flex flex-col gap-2">
             {notifications.map((notification) => (
-              <Link href={"/dashboard/orders"} key={notification.id}>
+              <div
+                onClick={() => handleOrder(notification.id)}
+                key={notification.id}
+              >
                 <div
                   className={`flex hover:cursor-pointer items-center rounded-lg p-2 ${
                     notification.time === "Hace un momento"
@@ -85,7 +98,7 @@ const Notifications = (props: Props) => {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
           {notifications.length > 0 && (
