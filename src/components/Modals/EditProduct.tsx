@@ -64,7 +64,7 @@ const EditProduct = ({ productData, closeModal }: Props) => {
     discount: Yup.number()
       .typeError("El descuento debe ser un número")
       .min(0, "El descuento no puede ser menor que 0")
-      .max(100, "El descuento no puede ser mayor que 100")
+      .max(99, "El descuento no puede ser mayor que 99")
       .optional(),
     categoryId: Yup.number().required("El ID de la categoría es requerido"),
     unitOfMeasureId: Yup.number().required("El ID de la medida es requerido"),
