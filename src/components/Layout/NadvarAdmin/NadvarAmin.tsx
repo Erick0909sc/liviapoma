@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/states/store";
 import { useSelector } from "react-redux";
 import Notifications from "./Notifications";
 import { pusher } from "@/shared/pusherInstance";
+import { BsTrashFill } from "react-icons/bs";
 
 interface NadvarProps {
   toggleSidebar: () => void;
@@ -75,11 +76,15 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
       </div>
 
       <div className="flex justify-center">
-        <div className="inline-flex bg-transparent border-white border rounded-[10px] w-full">
+        <div
+          className={`inline-flex bg-transparent border rounded-xl overflow-hidden w-full ${
+            search ? "border-2 border-green-500" : "border-white"
+          }`}
+        >
           <select
             value={category}
             onChange={handleCategory}
-            className="bg-transparent rounded-[10px] p-2 focus:outline-none max-w-[100px]"
+            className="bg-transparent rounded-[10px] p-2 focus:outline-none max-w-[100px] cursor-pointer"
           >
             {dashboardRoutes.map(({ name }, index) => (
               <option key={index} value={name} className="text-black">
@@ -94,6 +99,14 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
             className="bg-transparent rounded-[10px] p-2 focus:outline-none placeholder-white"
             placeholder="Escriba su búsqueda 🔎"
           />
+          {search && (
+            <button
+              className="bg-green-500 px-2"
+              onClick={() => dispatch(setSearch(""))}
+            >
+              <BsTrashFill className="text-xl" />
+            </button>
+          )}
         </div>
       </div>
 
