@@ -11,11 +11,11 @@ const EditUser = () => {
 
   useEffect(() => {
     const currentPath = router.pathname;
-    if (currentPath === '/editUser') {
+    if (currentPath === '/profile/editUser') {
       setActiveButton('Datos Personales');
-    } else if (currentPath === '/editPassword') {
+    } else if (currentPath === '/profile/editPassword') {
       setActiveButton('Cambio de Contraseña');
-    } else if (currentPath === '/ordersPending') {
+    } else if (currentPath === '/profile/ordersPending') {
       setActiveButton('Productos pendientes');
     } else {
       setActiveButton('Historial de compra');
@@ -34,7 +34,7 @@ const EditUser = () => {
 
       <div className='hidden sm:block lg:block p-2  flex-col'>
         <div className='flex flex-col'>
-          <Link href='/editUser'>
+          <Link href='/profile/editUser'>
             <button
               className={`p-2 lg:text-[15px] rounded-lg font-semibold ${activeButton === 'Datos Personales' ? 'bg-sky-900 text-white' : ''}`}
               onClick={() => handleButtonClick('Datos Personales')}
@@ -44,7 +44,7 @@ const EditUser = () => {
           </Link>
 
 
-          <Link href='/editPassword'>
+          <Link href='/profile/editPassword'>
             <button
               className={`p-2 lg:text-[15px] font-semibold rounded-lg ${activeButton === 'Cambio de Contraseña' ? 'bg-sky-900 text-white' : ''}`}
               onClick={() => handleButtonClick('Cambio de Contraseña')}
@@ -54,7 +54,7 @@ const EditUser = () => {
           </Link>
 
 
-          <Link href='/ordersPending'>
+          <Link href='/profile/ordersPending'>
             <button
               className={`p-2 lg:text-[15px] font-semibold rounded-lg ${activeButton === 'Productos pendientes' ? 'bg-sky-900 text-white' : ''}`}
               onClick={() => handleButtonClick('Productos pendientes')}
@@ -64,7 +64,7 @@ const EditUser = () => {
           </Link>
 
 
-          <Link href='/historyOrders'>
+          <Link href='/profile/historyOrders'>
             <button
               className={`p-2 lg:text-[15px] font-semibold rounded-lg ${activeButton === 'Historial de compra' ? 'bg-sky-900 text-white' : ''}`}
               onClick={() => handleButtonClick('Historial de compra')}

@@ -37,7 +37,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
             <li className="border-b-2 border-black">
               <h2 className="text-lg font-bold  pt-1">{renderUserName()}</h2>
             </li>
-            <Link href="/editUser">
+            <Link href="/profile/editUser">
               <li className="  hover:bg-green-800 p-2 hover:text-white  cursor-pointer ">
                 <a onClick={onClose}> Perfil del Usuario</a>
               </li>
@@ -49,7 +49,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose }) => {
               </li>
             </Link>
 
-            <Link href="/Contactanos">
+            <Link href="/contactanos">
               <li className="  hover:bg-green-800 p-2 hover:text-white  cursor-pointer ">
                 <a onClick={onClose}> Contactanos</a>
               </li>

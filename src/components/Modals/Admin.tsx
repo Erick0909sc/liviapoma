@@ -114,7 +114,7 @@ const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
               <a>Mi pagina</a>
             </li>
           </Link>
-          <Link href="/editUser">
+          <Link href="/profile/editUser">
             <li className=" hover:bg-crema-400 p-2 hover-text-white border-b border-white cursor-pointer">
               <a onClick={onClose}> Perfil del Usuario</a>
             </li>
