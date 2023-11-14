@@ -41,7 +41,7 @@ const CardReview = ({
   const isEdited = review.createdAt !== review.updatedAt;
 
   return (
-    <div className="border p-4 rounded shadow-md bg-white">
+    <div className="relative border p-4 rounded shadow-md bg-white ">
       <div className="flex items-center gap-3">
         <img
           src={review.user.image}
@@ -51,34 +51,41 @@ const CardReview = ({
 
         <div className="text-xl font-semibold">{review.user.name}</div>
       </div>
+      <div className="flex flex-row gap-2 justify-end">
+        {/* Muestra información sobre la creación o edición de la revisión */}
+        {isEdited ? (
+          <p>Editado: {formatFechaISO(review.updatedAt)}</p>
+        ) : (
+          <p>Creado: {formatFechaISO(review.createdAt)}</p>
+        )}
+      </div>
       <Rating value={review.rating} readOnly />
       <p>{review.description}</p>
       {status === "authenticated" && session?.user.id === review.userId && (
         <div className="flex flex-row gap-2 justify-end">
-          {/* Muestra información sobre la creación o edición de la revisión */}
-          {isEdited ? (
-            <p>Última edición: {formatFechaISO(review.updatedAt)}</p>
-          ) : (
-            <p>Creado el: {formatFechaISO(review.createdAt)}</p>
-          )}
-          <button
-            className="bg-yellow-500 text-white px-2 py-2 rounded w-10 flex justify-center"
-            onClick={() => setIsUpdating(!isUpdating)}
-          >
-            <FaEdit /> {/* Ícono de editar */}
-          </button>
+          {!isUpdating && (
+            <>
+              <button
+                className="bg-yellow-500 text-white px-2 py-2 rounded w-10 flex justify-center"
+                onClick={() => setIsUpdating(!isUpdating)}
+              >
+                <FaEdit /> {/* Ícono de editar */}
+              </button>
 
-          {/* Utiliza el ícono FaTrash para el botón de eliminar */}
-          <button
-            onClick={() => setIsDeleteModalOpen(true)}
-            className="bg-red-500 text-white px-2 py-2 rounded w-10 flex justify-center"
-            type="submit"
-          >
-            <FaTrash /> {/* Ícono de eliminar */}
-          </button>
+              {/* Utiliza el ícono FaTrash para el botón de eliminar */}
+              <button
+                onClick={() => setIsDeleteModalOpen(true)}
+                className="bg-red-500 text-white px-2 py-2 rounded w-10 flex justify-center"
+                type="submit"
+              >
+                <FaTrash /> {/* Ícono de eliminar */}
+              </button>
+            </>
+          )}
         </div>
       )}
       {session && isUpdating && (
+        <div className="w-full">
         <FormReview
           session={session}
           productCode={review.productCode}
@@ -91,11 +98,12 @@ const CardReview = ({
           setIsOpen={() => setIsUpdating(false)}
           idReview={review.id}
         />
+        </div>
       )}
       {isDeleteModalOpen && (
         <DeleteConfirmation
           title="Eliminar Review"
-          message="¿Estás seguro de que deseas eliminar esta revisión?"
+          message="¿Estás seguro de que deseas eliminar esta reseña?"
           confirmText="Eliminar"
           cancelText="Cancelar"
           onConfirm={handleDeleteReview}

@@ -129,6 +129,9 @@ const SearchResult = () => {
                   category={product.category.name}
                   discount={product.discount}
                   discountedPrice={calcularPrecioConDescuento(product)}
+                  rating={product.rating}
+                  reviews={product.reviews}
+                  unitOfMeasure={product.unitOfMeasure}
                 />
               ))}
           </div>

@@ -84,6 +84,7 @@ export interface IProduct {
   category: Category;
   brand: Brand;
   unitOfMeasure: UnitOfMeasure;
+  reviews: IReview[];
 }
 
 export interface UnitOfMeasure {

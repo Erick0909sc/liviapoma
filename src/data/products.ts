@@ -8,7 +8,7 @@ const productsData = [
     brandId: 1,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
-    rating: 5,
+    rating: 0,
     discount: 0,
     categoryId: 1,
     unitOfMeasureId: 3,
@@ -22,7 +22,7 @@ const productsData = [
     brandId: 1,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/02.webp",
-    rating: 3,
+    rating: 0,
     discount: 0,
     categoryId: 1,
     unitOfMeasureId: 3,
@@ -36,7 +36,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/03.webp",
-    rating: 2,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -50,7 +50,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
-    rating: 4,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -64,7 +64,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/05.webp",
-    rating: 4.5,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -78,7 +78,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/06.webp",
-    rating: 3.5,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -92,7 +92,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/07.webp",
-    rating: 4,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -106,7 +106,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/08.webp",
-    rating: 1,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -120,7 +120,7 @@ const productsData = [
     brandId: 2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/09.webp",
-    rating: 3,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     unitOfMeasureId: 3,
@@ -481,7 +481,7 @@ export const dataTest = [
     price: 30.4,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
-    rating: 5,
+    rating: 0,
     discount: 0,
     categoryId: 1,
     deletedAt: null,
@@ -509,7 +509,7 @@ export const dataTest = [
     price: 33.7,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/02.webp",
-    rating: 3,
+    rating: 0,
     discount: 0,
     categoryId: 1,
     deletedAt: null,
@@ -537,7 +537,7 @@ export const dataTest = [
     price: 38,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/03.webp",
-    rating: 2,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     deletedAt: null,
@@ -565,7 +565,7 @@ export const dataTest = [
     price: 21.2,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
-    rating: 4,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     deletedAt: null,
@@ -593,7 +593,7 @@ export const dataTest = [
     price: 34,
     image:
       "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/05.webp",
-    rating: 4.5,
+    rating: 0,
     discount: 0,
     categoryId: 2,
     deletedAt: null,
