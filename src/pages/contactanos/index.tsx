@@ -8,12 +8,11 @@ import Foto3 from "@/assets/pictures/3o.jpg";
 import Foto4 from "@/assets/pictures/4o.jpg";
 import Image from "next/image";
 
-
 type Props = {
   frameborder: string;
 };
 
-const index = (props: Props) => {
+const Contactanos = (props: Props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     AOS.init({
@@ -47,11 +46,7 @@ const index = (props: Props) => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8">
-              <Image
-                className="w-full rounded-lg"
-                src={Foto1}
-                alt="1"
-              />
+              <Image className="w-full rounded-lg" src={Foto1} alt="1" />
               <Image
                 className="mt-4 w-full lg:mt-10 rounded-lg"
                 src={Foto4}
@@ -67,11 +62,7 @@ const index = (props: Props) => {
       >
         <div className="block max-w-[24rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
           <div className="relative overflow-hidden bg-cover bg-no-repeat">
-            <Image
-              className="rounded-t-lg"
-              src={Foto2}
-              alt=""
-            />
+            <Image className="rounded-t-lg" src={Foto2} alt="" />
           </div>
           <div className="p-6">
             <p className="text-base text-black font-bold">Vison</p>
@@ -87,11 +78,7 @@ const index = (props: Props) => {
         </div>
         <div className="block max-w-[24rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
           <div className="relative overflow-hidden bg-cover bg-no-repeat">
-            <Image
-              className="rounded-t-lg"
-              src={Foto3}
-              alt=""
-            />
+            <Image className="rounded-t-lg" src={Foto3} alt="" />
           </div>
           <div className="p-6">
             <p className="text-base text-black font-bold">Mision</p>
@@ -244,4 +231,4 @@ const index = (props: Props) => {
   );
 };
 
-export default index;
+export default Contactanos;

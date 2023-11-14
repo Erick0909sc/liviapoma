@@ -39,6 +39,7 @@ const Products: React.FC = () => {
     useProductsWithFilters(useSelector(selectAllProducts), filters),
     sorts
   );
+  const productsss = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
   const currentPage = useSelector(selectCurrentPage);
@@ -91,7 +92,7 @@ const Products: React.FC = () => {
     setSelectedCategory(newCategory);
     router.push(`/products?category=${newCategory}`);
   };
-
+console.log(items)
   return (
     <Layout title="Productos">
       <>
@@ -108,9 +109,7 @@ const Products: React.FC = () => {
             <>
               {items.length === 0 && (
                 <div className="h-[50vh]">
-                  <Failed
-                    text="No se encontraron productos con esas características"
-                  />
+                  <Failed text="No se encontraron productos con esas características" />
                 </div>
               )}
               <div className="flex flex-col gap-8 py-8">
@@ -123,10 +122,13 @@ const Products: React.FC = () => {
                     description={product.description}
                     price={product.price}
                     brand={product.brand?.name}
+                    rating={product.rating}
                     image={product.image}
                     category={product.category.name}
                     discount={product.discount}
                     discountedPrice={calcularPrecioConDescuento(product)}
+                    reviews={product.reviews}
+                    unitOfMeasure={product.unitOfMeasure}
                   />
                 ))}
               </div>

@@ -23,6 +23,8 @@ const Index = (props: Props) => {
     const router = useRouter();
 
 
+
+
     const handleGoBack = () => {
         router.back();
     };
@@ -42,7 +44,6 @@ const Index = (props: Props) => {
             dispatch(getOrdersHistory(userID));
         }
     })
-
 
     return (
         <div className="h-screen flex flex-col justify-center items-center p-5">
@@ -71,8 +72,14 @@ const Index = (props: Props) => {
 
 
                     <div className='overflow-y-hidden'>
-                        {orderhistory.map((order, i) => (
+                        {orderhistory.flatMap((order, i) => (
                             <div key={i} >
+
+                                {i === 0 || order.createdAt !== orderhistory[i - 1].createdAt ? (
+                                    <div className="text-center mt-3 mb-1 text-lg font-semibold border-t-2 border-gray-500">
+                                        {new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+                                    </div>
+                                ) : null}
                                 {order.products.map((product, j) => (
                                     <div key={j} className='flex flex-col gap-3 items-center p-2'>
                                         <div className='border-2 w-[90%] p-2 gap-3'>

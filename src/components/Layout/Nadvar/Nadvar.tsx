@@ -33,7 +33,7 @@ const Nadvar = (props: Props) => {
     <nav className="relative">
       <div className="bg-green-700 flex text-white h-16 w-ful ">
         <div className="title flex items-center font-serif w-[32%] sm:w-[20%] lg:w-[32%] text-[15px] pl-1 justify-start md:pl-4 lg:pl-4  sm:text-[20px] font-bold">
-          <Link href={"#"}>
+          <Link href={"/"}>
             <h2 className="cursor-pointer">Ferreteria Liviapoma</h2>
           </Link>
         </div>
@@ -88,7 +88,7 @@ const Nadvar = (props: Props) => {
             </div>
           </Link>
 
-          <Link href={"/Contactanos"}>
+          <Link href={"/contactanos"}>
             <div className="flex gap-2 items-center cursor-pointer hover:text-crema-300">
               <MdContactPhone />
               <h2>Contacto</h2>

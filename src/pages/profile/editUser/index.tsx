@@ -70,7 +70,7 @@ const Index: React.FC = () => {
         console.log(values);
         if (!hasChanges) {
           toast.error("No se han realizado cambios. No se puede guardar.");
-          return; // No se envía la solicitud si no hay cambios
+          return; 
         }
 
         dispatch(

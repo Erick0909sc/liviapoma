@@ -64,7 +64,7 @@ const Index = () => {
           <div className="overflow-y-hidden">
             {ordersPending.map((order, i) => (
               <div key={i} className="overflow-y-auto snap-y">
-                {order.products.map((product, j) => (
+                {order.products.flatMap((product, j) => (
                   <div
                     key={j}
                     className="flex flex-col gap-3  items-center p-2"

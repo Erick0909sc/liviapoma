@@ -102,7 +102,6 @@ const FormReview = ({
         });
 
         if (response.status === 201) {
-          console.log(response.data);
           // El comentario se guardó exitosamente
           toast.success("Comentario guardado exitosamente");
           getAllReviews();
@@ -116,7 +115,6 @@ const FormReview = ({
       } catch (error) {
         // Si hay un error de red, muestra un mensaje de error
         toast.error("Error de red");
-        console.error("Error de red:", error);
       }
     }
   };
@@ -130,61 +128,65 @@ const FormReview = ({
   }
 
   return (
-    <div className="p-4 flex flex-col  border-2 w-full sm:w-[65%] lg:w-[45%] rounded-lg shadow-lg bg-white">
-      <div className="flex items-center justify-between pl-2">
-        <div className=" flex items-center gap-2">
-          <img
-            src={session.user.image}
-            alt={session.user.name}
-            className="w-12 h-12 rounded-full"
-          />
-          <div className="text-xl font-semibold">{session.user.name}</div>
+    <div className="w-full sm:w-[65%] lg:w-[full]">
+      <div className="p-4 flex flex-col border-2  rounded-lg shadow-lg bg-white">
+        <div className="flex items-center justify-between pl-2">
+          <div className=" flex items-center gap-2">
+            <img
+              src={session.user.image}
+              alt={session.user.name}
+              className="w-12 h-12 rounded-full"
+            />
+            <div className="text-xl font-semibold">{session.user.name}</div>
+          </div>
+
+          {!isReviewing ? (
+            <button
+              onClick={startReview}
+              className="bg-green-700 text-white p-1 rounded"
+            >
+              Realizar Comentario
+            </button>
+          ) : null}
         </div>
 
-        {!isReviewing ? (
-          <button
-            onClick={startReview}
-            className="bg-green-700 text-white p-1 rounded"
-          >
-            Realizar Comentario
-          </button>
+        {isReviewing ? (
+          <div className="">
+            <div className=" rounded p-4 space-y-2 ">
+              <Rating
+                name="rating"
+                value={rating}
+                onChange={handleRatingChange}
+                // Puedes ajustar la precisión de las estrellas según tus necesidades
+              />
+              <label className="block">
+                Comentario:
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className="block border p-2 rounded w-[100%] h-[15vh]"
+                />
+              </label>
+              <div className="flex space-x-4">
+                <button
+                  onClick={saveReview}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Guardar
+                </button>
+
+                <button
+                  onClick={cancelReview}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  type="submit"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
         ) : null}
       </div>
-
-      {isReviewing ? (
-        <div className=" rounded p-4 space-y-2  ">
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={handleRatingChange}
-            // Puedes ajustar la precisión de las estrellas según tus necesidades
-          />
-          <label className="block">
-            Comentario:
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              className="block border p-2 rounded w-[100%] h-[15vh]"
-            />
-          </label>
-          <div className="flex space-x-4">
-            <button
-              onClick={saveReview}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Guardar
-            </button>
-
-            <button
-              onClick={cancelReview}
-              className="bg-red-500 text-white px-4 py-2 rounded"
-              type="submit"
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 };

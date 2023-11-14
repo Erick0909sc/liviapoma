@@ -28,38 +28,38 @@ const MenuEditUser = (props: Props) => {
         <div className="p-4 flex flex-col">
           <h2 className="text-2xl font-semibold mb-4">Menu de Opciones</h2>
           <button
-            className={`p-2 lg:text-[15px] rounded-lg font-semibold ${router.pathname === '/editUser' ? 'bg-sky-900 text-white' : ''
+            className={`p-2 lg:text-[15px] rounded-lg font-semibold ${router.pathname === '/profile/editUser' ? 'bg-sky-900 text-white' : ''
               }`}
             onClick={() => handleMenuOptionClick('Datos Personales')}
           >
-            <Link href="/editUser">
+            <Link href="/profile/editUser">
               <h2>Datos Personales</h2>
             </Link>
           </button>
           <button
-            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/editPassword' ? 'bg-sky-900 text-white' : ''
+            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/profile/editPassword' ? 'bg-sky-900 text-white' : ''
               }`}
             onClick={() => handleMenuOptionClick('Cambio de Contraseña')}
           >
-            <Link href="/editPassword">
+            <Link href="/profile/editPassword">
               <h2>Cambio de Contraseña</h2>
             </Link>
           </button>
           <button
-            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/ordersPending' ? 'bg-sky-900 text-white' : ''
+            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/profile/ordersPending' ? 'bg-sky-900 text-white' : ''
               }`}
             onClick={() => handleMenuOptionClick('Productos pendientes')}
           >
-            <Link href="/ordersPending">
+            <Link href="/profile/ordersPending">
               <h2>Productos pendientes</h2>
             </Link>
           </button>
           <button
-            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/historyOrders' ? 'bg-sky-900 text-white' : ''
+            className={`p-2 lg:text-[15px] font-semibold ${router.pathname === '/profile/historyOrders' ? 'bg-sky-900 text-white' : ''
               }`}
             onClick={() => handleMenuOptionClick('Historial de compra')}
           >
-            <Link href="/historyOrders">
+            <Link href="/profile/historyOrders">
               <h2>Historial de compra</h2>
             </Link>
           </button>
