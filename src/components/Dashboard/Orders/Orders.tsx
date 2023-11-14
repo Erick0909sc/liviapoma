@@ -76,55 +76,43 @@ const OrdersComponent = ({ search }: Props) => {
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <div className="p-2 flex flex-wrap gap-4 items-center justify-center">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            value="PENDIENTE"
-            checked={status === "PENDIENTE"}
-            onChange={() => handleEstadoChange("PENDIENTE")}
-            className="form-checkbox h-5 w-5 text-indigo-600"
-          />
-          <span className="ml-2 text-gray-700">PENDIENTE</span>
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            value="POR_RECOGER"
-            checked={status === "POR_RECOGER"}
-            onChange={() => handleEstadoChange("POR_RECOGER")}
-            className="form-checkbox h-5 w-5 text-indigo-600"
-          />
-          <span className="ml-2 text-gray-700">
-            {codeStatusOrdersTranslation["POR_RECOGER"]}
-          </span>
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            value="ENTREGADO"
-            checked={status === "ENTREGADO"}
-            onChange={() => handleEstadoChange("ENTREGADO")}
-            className="form-checkbox h-5 w-5 text-indigo-600"
-          />
-          <span className="ml-2 text-gray-700">ENTREGADO</span>
-        </label>
-        {/* <label className="flex items-center">
-          <input
-            type="checkbox"
-            value="CANCELADO"
-            checked={status === "CANCELADO"}
-            onChange={() => handleEstadoChange("CANCELADO")}
-            className="form-checkbox h-5 w-5 text-indigo-600"
-          />
-          <span className="ml-2 text-gray-700">CANCELADO</span>
-        </label> */}
+      <div className="flex justify-between">
+        <button
+          onClick={() => handleEstadoChange("PENDIENTE")}
+          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+            status === "PENDIENTE"
+              ? "text-white font-bold bg-crema-500"
+              : "text-black"
+          }`}
+        >
+          PENDIENTE
+        </button>
+        <button
+          onClick={() => handleEstadoChange("POR_RECOGER")}
+          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+            status === "POR_RECOGER"
+              ? "text-white font-bold bg-crema-500"
+              : "text-black"
+          }`}
+        >
+          {codeStatusOrdersTranslation["POR_RECOGER"]}
+        </button>
+        <button
+          onClick={() => handleEstadoChange("ENTREGADO")}
+          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+            status === "ENTREGADO"
+              ? "text-white font-bold bg-crema-500"
+              : "text-black"
+          }`}
+        >
+          ENTREGADO
+        </button>
       </div>
       {ordersStatus === EStateGeneric.PENDING && <Pending />}
       {ordersStatus === EStateGeneric.FAILED && (
         <Failed
           text="Los pedidos no pudieron ser cargados correctamente"
-          tittle="Pedidos no encontrados"
+          title="Pedidos no encontrados"
         />
       )}
       {ordersStatus === EStateGeneric.SUCCEEDED && (
@@ -132,7 +120,7 @@ const OrdersComponent = ({ search }: Props) => {
           {search && !data.orders?.length && (
             <Failed
               text="No encontramos pedidos relacionados con tu búsqueda"
-              tittle="Pedidos no encontrados"
+              title="Pedidos no encontrados"
             />
           )}
           <div

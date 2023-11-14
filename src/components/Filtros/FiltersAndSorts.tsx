@@ -182,7 +182,7 @@ const FiltersAndSorts = (props: Props) => {
                   <input
                     type="text"
                     placeholder="De "
-                    className="w-full rounded-md border-black shadow-sm sm:text-sm"
+                    className="w-full border-b-2 border-gray-200 sm:text-sm focus:outline-none"
                     value={input.first}
                     onChange={(e) =>
                       setInput((prev) => ({
@@ -197,7 +197,7 @@ const FiltersAndSorts = (props: Props) => {
                   <input
                     type="text"
                     placeholder="A"
-                    className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+                    className="w-full border-b-2 border-gray-200 sm:text-sm focus:outline-none"
                     value={input.second}
                     onChange={(e) =>
                       setInput((prev) => ({

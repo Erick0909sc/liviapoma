@@ -12,6 +12,7 @@ type Props = {};
 
 interface Notification {
   id: number;
+  orderId: number;
   message: string;
   time: string;
   createdAt: string;
@@ -72,7 +73,7 @@ const Notifications = (props: Props) => {
           <div className="flex flex-col gap-2">
             {notifications.map((notification) => (
               <div
-                onClick={() => handleOrder(notification.id)}
+                onClick={() => handleOrder(notification.orderId)}
                 key={notification.id}
               >
                 <div
