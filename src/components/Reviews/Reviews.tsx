@@ -50,7 +50,6 @@ const Reviews = ({ session, productCode, status }: Props) => {
       return 0;
     }
   });
-  console.log(reviews);
 
   return (
     <>

@@ -132,6 +132,8 @@ export default async function handler(
             category: true,
             brand: true,
             unitOfMeasure: true,
+            reviews: true,
+
           },
         });
         products.length

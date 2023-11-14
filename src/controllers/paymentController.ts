@@ -24,7 +24,6 @@ export const createFormToken = async (paymentConf: paymentConf) => {
     const responseData = response.data;
 
     if (!responseData.answer || !responseData.answer.formToken) {
-      console.log(responseData);
       throw new Error("No formToken found in the response data");
     }
     return responseData.answer.formToken;

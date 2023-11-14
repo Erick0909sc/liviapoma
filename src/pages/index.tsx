@@ -27,6 +27,7 @@ import Product from "@/components/Offerts/Product";
 import Card from "@/components/card";
 import {
   getAllProductsDiscount,
+  selectAllProducts,
   selectAllProductsDiscount,
   selectAllProductsDiscountStatus,
 } from "@/states/products/productsSlice";
@@ -39,6 +40,8 @@ export default function Home() {
   const productsDiscountStatus = useSelector(selectAllProductsDiscountStatus);
   const productsDiscount = useSelector(selectAllProductsDiscount);
   const slidesPerView = 1;
+  const productsss = useSelector(selectAllProducts);
+
 
   useEffect(() => {
     (async () => {
@@ -100,7 +103,7 @@ export default function Home() {
               disableOnInteraction: false,
             }}
           >
-            {dataTest.map((product, index) => (
+            {productsss.map((product, index) => (
               <SwiperSlide key={index}>
                 <Card
                   session={session}
@@ -113,6 +116,9 @@ export default function Home() {
                   category={product.category.name}
                   discount={product.discount}
                   discountedPrice={calcularPrecioConDescuento(product)}
+                  rating={product.rating}
+                  reviews={product.reviews}
+                  unitOfMeasure={product.unitOfMeasure}
                 />
               </SwiperSlide>
             ))}
