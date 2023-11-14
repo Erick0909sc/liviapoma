@@ -171,7 +171,9 @@ model Order {
   formToken        String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
-  productCode      String?
+  notification     Notification?
+  dailyData        DailyData?      @relation(fields: [dailyDataId], references: [id])
+  dailyDataId      Int?
 }
 
 model OrderItem {
@@ -205,9 +207,10 @@ model Review {
 }
 
 model DailyData {
-  id    Int    @id @default(autoincrement())
-  time  String @unique
-  value Float
+  id     Int     @id @default(autoincrement())
+  time   String  @unique
+  value  Float
+  orders Order[]
 }
 
 model CategoryData {
@@ -225,6 +228,8 @@ model Notification {
   message   String
   time      String   @default("Hace un momento")
   createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int      @unique
 }
 
 enum ProductsStatus {
