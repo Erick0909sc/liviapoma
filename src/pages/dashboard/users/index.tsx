@@ -55,7 +55,7 @@ const UsersPage = (props: Props) => {
         {usersStatus === EStateGeneric.PENDING && <Pending />}
         {usersStatus === EStateGeneric.FAILED && (
           <Failed
-            tittle="Usuarios no encontrados"
+            title="Usuarios no encontrados"
             text="Los usuarios no pudieron ser cargados correctamente"
           />
         )}
@@ -63,7 +63,7 @@ const UsersPage = (props: Props) => {
           <>
             {search && !items.length && (
               <Failed
-                tittle="Usuarios no encontrados"
+                title="Usuarios no encontrados"
                 text="No encontramos usuarios relacionados con tu búsqueda"
               />
             )}

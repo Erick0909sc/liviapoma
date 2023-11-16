@@ -66,9 +66,16 @@ export default async function handler(
       break;
     case "POST":
       try {
-        const { message } = req.body;
+        const {
+          message,
+          orderId,
+        }: {
+          message: string;
+          orderId: number;
+        } = req.body;
         const notification = await prisma.notification.create({
           data: {
+            orderId: orderId,
             message,
           },
         });

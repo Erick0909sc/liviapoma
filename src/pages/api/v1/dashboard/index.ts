@@ -220,20 +220,6 @@ export default async function handler(
         if (hash === answerHash) {
           const time: string = datePeru.split("T")[0];
           const value: number = orderDetails.orderTotalAmount / 100;
-          const result = await prisma.dailyData.upsert({
-            where: {
-              time,
-            },
-            update: {
-              value: {
-                increment: value,
-              },
-            },
-            create: {
-              time,
-              value: value,
-            },
-          });
           const order = await prisma.order.findUnique({
             where: {
               id: parseInt(orderDetails.orderId as string),
@@ -253,6 +239,25 @@ export default async function handler(
             },
           });
           if (!order) return;
+          const result = await prisma.dailyData.upsert({
+            where: {
+              time,
+            },
+            update: {
+              value: {
+                increment: value,
+              },
+            },
+            create: {
+              time,
+              value: value,
+              orders: {
+                connect: {
+                  id: order.id,
+                },
+              },
+            },
+          });
           const partesFecha = time.split("-");
           const fechaObj = {
             year: parseInt(partesFecha[0]),

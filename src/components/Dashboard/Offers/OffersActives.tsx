@@ -34,7 +34,7 @@ const OffersActives = (props: Props) => {
         <>
           {!offers.length && (
             <Failed
-              tittle="Ofertas"
+              title="Ofertas"
               text="No hay ofertas activas en este momento"
             />
           )}
