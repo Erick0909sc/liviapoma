@@ -1,13 +1,9 @@
 import EditUser from "@/components/Modals/EditUser";
-// import { useAppDispatch } from '@/states/store';
 import { getOneUser, getoneUser, putUser } from "@/states/users/usersSlice";
-// import { getOneUser, putUser } from '@/states/users/usersSlice';
 import { useSession } from "next-auth/react";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import { useFormik } from "formik";
-// import * as Yup from "yup";
 import CustomImagePerfile from "@/components/Custom/CustomImagePerfile";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
@@ -20,12 +16,10 @@ const Index: React.FC = () => {
   const dispatch = useAppDispatch();
   const [editedUser, setEditedUser] = useState(dataoneuser);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-
   const [hasChanges, setHasChanges] = useState(false);
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
+
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -45,15 +39,9 @@ const Index: React.FC = () => {
     }
   }, [dataoneuser]);
 
-  const handleStartEdit = (field: string) => {
-    setFieldToEdit(field);
-    setIsEditMode(true);
-  };
-
   const initialValues = {
     image: null as File | null,
   };
-
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -67,13 +55,11 @@ const Index: React.FC = () => {
     initialValues,
     onSubmit: async (values) => {
       try {
-        console.log(values);
         if (!hasChanges) {
           toast.error("No se han realizado cambios. No se puede guardar.");
-          return; 
+          return;
         }
-
-        dispatch(
+        const response = await dispatch(
           putUser({
             id: editedUser.id,
             name: editedUser.name,
@@ -82,17 +68,23 @@ const Index: React.FC = () => {
             image: values.image,
           })
         );
-        router.reload();
-
-        toast.success(
-          "¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión"
-        );
+        if (response.meta.requestStatus === "fulfilled") {
+          toast.success(
+            "¡Se editó correctamente! Recuerde que para que este cambio se haga visible tendrá que volver a iniciar sesión"
+          );
+          setTimeout(() => {
+            router.reload();
+          }, 1500)
+        } else {
+          toast.error(
+            "Ups! ocurrio un error porfavor intentar denuevo"
+          );
+        }
       } catch (error) {
         console.log(error);
       }
     },
   });
-
   const router = useRouter();
 
   const handleCancel = () => {
@@ -103,18 +95,16 @@ const Index: React.FC = () => {
   const handleGoBack = () => {
     router.back();
   };
-
   const handleImageChange = (changed: boolean) => {
     setHasChanges(changed);
   };
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setEditedUser((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    setHasChanges(true); // Establece que se han realizado cambios
+    setHasChanges(true);
   };
 
   return (
@@ -140,7 +130,7 @@ const Index: React.FC = () => {
               <h2>Menu de opciones</h2>
             </button>
           </div>
-
+  
 
           <hr />
           <form

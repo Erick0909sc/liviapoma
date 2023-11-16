@@ -9,16 +9,20 @@ export const postUserApi = ({ name, email, password, image }: { name: string, em
 
 
 
-export const putUserDataApi = ({ id, name, email, password, image }: { id: string, name: string, email: string, password: string, image: string }) => {
-  console.log("Datos que se enviarán a la API:", { id, name, email, password, image });
+export const putUserDataApi = async ({ id, name, email, password, image }: { id: string, name: string, email: string, password: string, image: string }) => {
+  try {
+    const response = await axios.put(`/api/v1/user/${id}`, {
+      name,
+      id,
+      email,
+      password,
+      image,
+    })
+    return response;
+  } catch (error) {
+    throw error;
+  }
 
-  return axios.put(`api/v1/user/${id}`, {
-    name,
-    id,
-    email,
-    password,
-    image,
-  });
 };
 
 
@@ -29,7 +33,7 @@ export const changePasswordApi = async (id: string, oldPassword: string, newPass
       password: oldPassword,
       newPassword: newPassword,
     });
-  
+
     return response;
   } catch (error) {
     throw error;
@@ -37,9 +41,9 @@ export const changePasswordApi = async (id: string, oldPassword: string, newPass
 };
 
 
-export const getorderAPI =async (id:string) => axios.get (`/api/v1/orders?userId=${id}`)
- 
-export const orderUserHistoryAPI = async(id:string) => axios.get (`/api/v1/orders?userId=${id}&history=true`)
+export const getorderAPI = async (id: string) => axios.get(`/api/v1/orders?userId=${id}`)
+
+export const orderUserHistoryAPI = async (id: string) => axios.get(`/api/v1/orders?userId=${id}&history=true`)
 
 export const getusername = (id: string) => axios.get(`api/v1/user/${id}`)
 
