@@ -53,7 +53,7 @@ const Reviews = ({ session, productCode, status }: Props) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2 flex flex-col justify-center pb-7">
+      <div className="bg-slate-100 p-2 flex flex-col pb-7 ">
         <div className=" flex justify-center">
           <FormReview
             session={session as Session}
@@ -69,7 +69,7 @@ const Reviews = ({ session, productCode, status }: Props) => {
         </div>
 
         {/* maqueta para review */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="flex justify-center flex-wrap gap-4 mt-4">
           {sortedReviews.map((review) => (
             <CardReview
               review={review}

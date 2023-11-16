@@ -41,7 +41,7 @@ const CardReview = ({
   const isEdited = review.createdAt !== review.updatedAt;
 
   return (
-    <div className="relative border p-4 rounded shadow-md bg-white ">
+    <div className="relative border p-4 rounded shadow-md bg-white w-6/12">
       <div className="flex items-center gap-3">
         <img
           src={review.user.image}
@@ -86,18 +86,18 @@ const CardReview = ({
       )}
       {session && isUpdating && (
         <div className="w-full">
-        <FormReview
-          session={session}
-          productCode={review.productCode}
-          status={status}
-          getAllReviews={getAllReviews}
-          getOneProduct={getOneProduct}
-          existComment={review.description}
-          existRating={review.rating}
-          isOpen={isUpdating}
-          setIsOpen={() => setIsUpdating(false)}
-          idReview={review.id}
-        />
+          <FormReview
+            session={session}
+            productCode={review.productCode}
+            status={status}
+            getAllReviews={getAllReviews}
+            getOneProduct={getOneProduct}
+            existComment={review.description}
+            existRating={review.rating}
+            isOpen={isUpdating}
+            setIsOpen={() => setIsUpdating(false)}
+            idReview={review.id}
+          />
         </div>
       )}
       {isDeleteModalOpen && (

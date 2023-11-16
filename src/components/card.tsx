@@ -60,7 +60,7 @@ const Card: React.FC<Props> = ({
   useEffect(() => {
     AOS.init({
       duration: 1000, // Duración de las animaciones en milisegundos
-      offset: 200, // Desplazamiento en píxeles desde el borde superior del elemento para activar la animación
+      offset: 100, // Desplazamiento en píxeles desde el borde superior del elemento para activar la animación
     });
   }, []); // Asegúrate de ejecutar esto solo una vez después del montaje del componente
 
