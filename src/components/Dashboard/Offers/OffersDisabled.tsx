@@ -30,7 +30,7 @@ const OffersDisabled = (props: Props) => {
         <>
           {!offersDisabled.length && (
             <Failed
-              tittle="Ofertas"
+              title="Ofertas"
               text="No hay ofertas desactivadas en este momento"
             />
           )}

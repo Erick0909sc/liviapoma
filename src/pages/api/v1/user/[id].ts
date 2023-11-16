@@ -21,9 +21,6 @@ export default async function handler(
       }
       break;
 
-
-
-
     case "PUT":
       try {
         const { id, passwordChange } = req.query;
@@ -32,17 +29,15 @@ export default async function handler(
         });
         if (!findUser)
           return res.status(404).json({ message: "user not found" });
-
-
         if (passwordChange) {
           const {
             password,
             newPassword
           }: {
             password: string;
-            newPassword:string
+            newPassword: string
           } = req.body;
-          
+
           const verifyPassword = await compare(
             password ?? "",
             findUser.password ?? ""
@@ -54,7 +49,7 @@ export default async function handler(
                 "La contraseña es incorrecta. Para cambiarla es necesario ingresar la contraseña actual.",
             });
           }
-          const passwordhash = await  hash(newPassword, 5);
+          const passwordhash = await hash(newPassword, 5);
 
           const userUpdate = await prisma.user.update({
             where: {
@@ -68,10 +63,6 @@ export default async function handler(
             .status(200)
             .json({ messag: "Contraseña Cambiada correctamente!", userUpdate });
         }
-
-
-
-
         const {
           name,
           email,
@@ -81,6 +72,7 @@ export default async function handler(
           email: string;
           image: string;
         } = req.body;
+
 
         const user = await prisma.user.update({
           where: {

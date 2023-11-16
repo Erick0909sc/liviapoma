@@ -36,10 +36,9 @@ export const putUser = createAsyncThunk(
       if (image) {
         responseImage = await processImage(image);
       }
-
       const response = await putUserDataApi({ id, name, email, password, image: responseImage?.data })
       const statusCode = response.status;
-      if (statusCode === 201) {
+      if (statusCode === 200) {
         return response.data;
       } else {
         return rejectWithValue(response.data);

@@ -32,7 +32,8 @@ export default async function handler(
             },
           });
           await postNotification(
-            `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`
+            `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`,
+            orderDetails.orderId
           );
           await updateOrdersForAdmins();
           return res.status(200).send("Valid payment");

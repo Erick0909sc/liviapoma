@@ -30,7 +30,39 @@ export default async function handler(
           description: string;
           rating: number;
         } = req.body;
+        const order = await prisma.order.findFirst({
+          where: {
+            userId: userId,
+            productsStatus: "ENTREGADO",
+            orderStatus: "PAID",
+          },
+          include: {
+            products: {
+              include: {
+                product: true,
+              },
+            },
+            user: true,
+          },
+        });
 
+        if (!order) {
+          return res.status(400).json({
+            message:
+              "Antes de dejar una reseña, asegúrate de haber realizado una compra del producto.",
+          });
+        }
+
+        const productInOrder = order.products.find(
+          (orderItem) => orderItem.productCode === productCode
+        );
+
+        if (!productInOrder) {
+          return res.status(400).json({
+            message:
+              "Antes de dejar una reseña, asegúrate de haber realizado una compra del producto.",
+          });
+        }
         const review = await prisma.review.create({
           data: {
             productCode,

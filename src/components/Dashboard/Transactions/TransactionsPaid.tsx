@@ -47,7 +47,7 @@ const TransactionsPaid = ({ search }: Props) => {
       {status === EStateGeneric.FAILED && (
         <Failed
           text="Las transacciones no pudieron ser cargados correctamente"
-          tittle="Transacciones no encontradas"
+          title="Transacciones no encontradas"
         />
       )}
       {status === EStateGeneric.SUCCEEDED && (
@@ -55,7 +55,7 @@ const TransactionsPaid = ({ search }: Props) => {
           {search && !data.orders?.length && (
             <Failed
               text="No encontramos transacciones relacionados con tu búsqueda"
-              tittle="Transacciones no encontradas"
+              title="Transacciones no encontradas"
             />
           )}
           <div

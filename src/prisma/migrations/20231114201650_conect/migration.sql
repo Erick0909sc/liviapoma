@@ -4,6 +4,9 @@ CREATE TYPE "Role" AS ENUM ('User', 'Admin', 'Manager');
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('PAID', 'PROCESS');
 
+-- CreateEnum
+CREATE TYPE "ProductsStatus" AS ENUM ('PENDIENTE', 'ENTREGADO', 'CANCELADO', 'POR_RECOGER');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -156,11 +159,12 @@ CREATE TABLE "Order" (
     "checkoutUuid" TEXT,
     "orderTotalAmount" INTEGER NOT NULL,
     "orderStatus" "OrderStatus" NOT NULL DEFAULT 'PROCESS',
+    "productsStatus" "ProductsStatus",
     "orderCurrency" TEXT NOT NULL,
     "formToken" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "productCode" TEXT,
+    "dailyDataId" INTEGER,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -209,6 +213,17 @@ CREATE TABLE "CategoryData" (
     CONSTRAINT "CategoryData_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Notification" (
+    "id" SERIAL NOT NULL,
+    "message" TEXT NOT NULL,
+    "time" TEXT NOT NULL DEFAULT 'Hace un momento',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "orderId" INTEGER NOT NULL,
+
+    CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -238,6 +253,9 @@ CREATE UNIQUE INDEX "DailyData_time_key" ON "DailyData"("time");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CategoryData_time_categoryId_key" ON "CategoryData"("time", "categoryId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Notification_orderId_key" ON "Notification"("orderId");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -282,6 +300,9 @@ ALTER TABLE "BrandDiscount" ADD CONSTRAINT "BrandDiscount_brandId_fkey" FOREIGN 
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_dailyDataId_fkey" FOREIGN KEY ("dailyDataId") REFERENCES "DailyData"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_productCode_fkey" FOREIGN KEY ("productCode") REFERENCES "Product"("code") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -295,3 +316,6 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") 
 
 -- AddForeignKey
 ALTER TABLE "CategoryData" ADD CONSTRAINT "CategoryData_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
