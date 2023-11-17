@@ -85,7 +85,7 @@ const CardReview = ({
         </div>
       )}
       {session && isUpdating && (
-        <div className="w-full">
+        <div className="w-[full] ">
           <FormReview
             session={session}
             productCode={review.productCode}

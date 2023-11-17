@@ -53,23 +53,25 @@ const Reviews = ({ session, productCode, status }: Props) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2 flex flex-col pb-7 ">
-        <div className=" flex justify-center">
-          <FormReview
-            session={session as Session}
-            productCode={productCode}
-            status={status}
-            getAllReviews={() => {
-              dispatch(getAllReviews(productCode));
-            }}
-            getOneProduct={() => {
-              dispatch(getOneProduct(productCode));
-            }}
-          />
+      <div className="bg-slate-100 p-2 flex flex-col pb-7">
+        <div className=" flex justify-center ">
+          <div className="w-[50%]">
+            <FormReview
+              session={session as Session}
+              productCode={productCode}
+              status={status}
+              getAllReviews={() => {
+                dispatch(getAllReviews(productCode));
+              }}
+              getOneProduct={() => {
+                dispatch(getOneProduct(productCode));
+              }}
+            />
+          </div>
         </div>
 
         {/* maqueta para review */}
-        <div className="flex justify-center flex-wrap gap-4 mt-4">
+        <div className=" flex justify-center w-[full] gap-4 mt-4">
           {sortedReviews.map((review) => (
             <CardReview
               review={review}
