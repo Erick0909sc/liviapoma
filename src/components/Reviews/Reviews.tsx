@@ -71,7 +71,7 @@ const Reviews = ({ session, productCode, status }: Props) => {
         </div>
 
         {/* maqueta para review */}
-        <div className=" flex justify-center w-[full] gap-4 mt-4">
+        <div className=" flex justify-center w-[full] gap-4 mt-4 ">
           {sortedReviews.map((review) => (
             <CardReview
               review={review}
