@@ -1,4 +1,5 @@
 import { pusher } from "@/shared/pusherInstance";
+import { Order } from "@/shared/types";
 import { getNotifications } from "@/states/globalApi";
 import { setSearch } from "@/states/globalSlice";
 import { useAppDispatch } from "@/states/store";
@@ -16,6 +17,7 @@ interface Notification {
   message: string;
   time: string;
   createdAt: string;
+  order: Order;
 }
 
 enum states {
@@ -53,9 +55,9 @@ const Notifications = (props: Props) => {
     });
   }, [notifications]);
 
-  const handleOrder = async (id: number) => {
-    await dispatch(setSearch(`${id}`));
-    router.push("/dashboard/orders");
+  const handleOrder = async (notification: Notification) => {
+    await dispatch(setSearch(`${notification.orderId}`));
+    router.push(`/dashboard/orders`);
   };
   return (
     <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md overflow-auto">
@@ -73,7 +75,7 @@ const Notifications = (props: Props) => {
           <div className="flex flex-col gap-2">
             {notifications.map((notification) => (
               <div
-                onClick={() => handleOrder(notification.orderId)}
+                onClick={() => handleOrder(notification)}
                 key={notification.id}
               >
                 <div
