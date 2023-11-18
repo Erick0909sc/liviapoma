@@ -6,6 +6,7 @@ import {
   selectAllProducts,
   selectAllProductsStatus,
   getAllProductsByCategory,
+  cleanUpProducts,
 } from "@/states/products/productsSlice";
 import { EStateGeneric, IProduct } from "@/shared/types";
 import { useAppDispatch } from "@/states/store";
@@ -27,6 +28,7 @@ import Loader from "@/components/Loader/loader";
 import useProductsSorts from "@/hooks/useProductsSorts";
 import useProductsWithFilters from "@/hooks/useProductsWithFilters";
 import Failed from "@/components/StatesComponents/Failed";
+import { getAllReviews } from "@/states/reviews/reviewsSlice";
 
 const Products: React.FC = () => {
   const { data: session } = useSession();
@@ -87,12 +89,12 @@ const Products: React.FC = () => {
     };
 
     fetchData();
-  }, [dispatch, productsStatus, session, selectedCategory]);
+  }, [dispatch, productsStatus, session, selectedCategory, cleanUpProducts]);
   const handleCategoryChange = (newCategory: string) => {
     setSelectedCategory(newCategory);
     router.push(`/products?category=${newCategory}`);
   };
-console.log(items)
+
   return (
     <Layout title="Productos">
       <>

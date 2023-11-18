@@ -128,8 +128,8 @@ const FormReview = ({
   }
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="p-4 flex flex-col border-2 w-full sm:w-[65%] lg:w-[full] rounded-lg shadow-lg bg-white">
+    <div className="w-full">
+      <div className="p-4 flex flex-col border-2 rounded-lg shadow-lg bg-white">
         <div className="flex items-center justify-between pl-2">
           <div className=" flex items-center gap-2">
             <img
