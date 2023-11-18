@@ -23,7 +23,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { name, category, discount } = req.query;
+        const { name, category, discount, code } = req.query;
         if (discount) {
           const now = formatDate(new Date());
           const offers = await prisma.offer.findMany({
@@ -92,6 +92,9 @@ export default async function handler(
                 contains: name as string,
                 mode: "insensitive",
               },
+              NOT: {
+                code: code as string,
+              },
               deletedAt: null,
             },
             include: {
@@ -133,7 +136,6 @@ export default async function handler(
             brand: true,
             unitOfMeasure: true,
             reviews: true,
-
           },
         });
         products.length
