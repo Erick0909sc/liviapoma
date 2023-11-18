@@ -57,7 +57,7 @@ const Notifications = (props: Props) => {
 
   const handleOrder = async (notification: Notification) => {
     await dispatch(setSearch(`${notification.orderId}`));
-    router.push(`/dashboard/orders`);
+    router.push(`/dashboard/orders?state=${notification.order.productsStatus}`);
   };
   return (
     <div className="absolute top-6 right-0 z-10 bg-white w-96 h-96 p-2 rounded-lg shadow-md overflow-auto">
