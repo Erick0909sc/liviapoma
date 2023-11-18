@@ -17,6 +17,7 @@ type Props = {
 const Card = ({ order }: Props) => {
   const [open, setOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<Order | null>();
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
   const [selectedOption, setSelectedOption] = useState(order.productsStatus); // Aquí puedes almacenar la opción seleccionada
@@ -34,6 +35,7 @@ const Card = ({ order }: Props) => {
 
   const handleSaveButtonClick = async () => {
     try {
+      setIsLoading(true);
       const res = await patchOrderStatusDashboardByApi({
         id: order.id,
         status: selectedOption,
@@ -44,6 +46,8 @@ const Card = ({ order }: Props) => {
         );
     } catch (error) {
       toast.error("Intente nuevamente");
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleData = async () => {
@@ -118,14 +122,6 @@ const Card = ({ order }: Props) => {
               - {ProductsStatus.PENDIENTE}
             </button>
             <button
-              onClick={() => handleOptionClick(ProductsStatus.ENTREGADO)}
-              className={`rounded-3xl px-3 ${
-                statusStyles[ProductsStatus.ENTREGADO]
-              }`}
-            >
-              - {ProductsStatus.ENTREGADO}
-            </button>
-            <button
               onClick={() => handleOptionClick(ProductsStatus.POR_RECOGER)}
               className={`rounded-3xl px-3 ${
                 statusStyles[ProductsStatus.POR_RECOGER]
@@ -133,10 +129,19 @@ const Card = ({ order }: Props) => {
             >
               - {codeStatusOrdersTranslation[ProductsStatus.POR_RECOGER]}
             </button>
+            <button
+              onClick={() => handleOptionClick(ProductsStatus.ENTREGADO)}
+              className={`rounded-3xl px-3 ${
+                statusStyles[ProductsStatus.ENTREGADO]
+              }`}
+            >
+              - {ProductsStatus.ENTREGADO}
+            </button>
             <div className="flex gap-4">
               <button
                 onClick={handleSaveButtonClick}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                disabled={isLoading}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
               >
                 Guardar
               </button>

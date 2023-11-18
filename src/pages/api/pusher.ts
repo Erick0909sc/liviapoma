@@ -53,6 +53,9 @@ export default async function handler(
       try {
         const { count } = req.query;
         const notifications = await prisma.notification.findMany({
+          include: {
+            order: true,
+          },
           orderBy: {
             createdAt: "desc",
           },

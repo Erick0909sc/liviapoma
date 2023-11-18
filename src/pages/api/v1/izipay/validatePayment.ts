@@ -33,12 +33,13 @@ export default async function handler(
           });
           await postNotification(
             `¡${customer.billingDetails.firstName} ha realizado una nueva compra!`,
-            orderDetails.orderId
+            parseInt(orderDetails.orderId)
           );
           await updateOrdersForAdmins();
           return res.status(200).send("Valid payment");
         } else return res.status(500).send("Payment hash mismatch");
       } catch (error) {
+        console.error(error);
         res.status(500).json(error);
       }
       break;
