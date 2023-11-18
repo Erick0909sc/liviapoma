@@ -102,7 +102,7 @@ const Card: React.FC<Props> = ({
                 </div>
 
                 <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden sm:block">
-                  {brand}
+                  {brand ? brand : category}
                 </div>
               </div>
               <h3 className="font-black text-gray-800 sm:text-3xl text-xl">

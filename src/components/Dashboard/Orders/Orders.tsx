@@ -15,25 +15,34 @@ import { selectCurrentPage, setCurrentPage } from "@/states/globalSlice";
 import Card from "./Card";
 import { pusher } from "@/shared/pusherInstance";
 import { codeStatusOrdersTranslation } from "@/shared/translate";
+import { useRouter } from "next/router";
 
 type Props = {
   search: string;
+  state: string;
 };
 
-const OrdersComponent = ({ search }: Props) => {
+const OrdersComponent = ({ search, state }: Props) => {
   const dispatch = useAppDispatch();
   const ordersStatus = useSelector(selectAllDashboardOrdersStatus);
   const data = useSelector(selectAllDashboardOrders);
   const currentPage = useSelector(selectCurrentPage);
-  const [status, setStatus] = useState("PENDIENTE");
+  const [status, setStatus] = useState(state);
+  const router = useRouter();
 
   const handleEstadoChange = (estado: string) => {
     setStatus(estado);
+    router.replace("/dashboard/orders");
   };
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
     dispatch(setCurrentPage(page));
   };
+
+  useEffect(() => {
+    setStatus(state);
+  }, [state]);
+
   useEffect(() => {
     (async () => {
       if (ordersStatus === EStateGeneric.IDLE) {

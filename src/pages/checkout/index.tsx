@@ -31,9 +31,7 @@ type Props = {
 };
 
 const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
-  const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-
   const router = useRouter();
   const subtotalTotal = calcularSubtotal(cart);
   const descuentoTotal = calcularDescuento(cart);
@@ -60,12 +58,11 @@ const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
           if (response.status === 200) {
             await deleteCartByApi(session.user.id);
             router.push("/successPayment");
-            setMessage("Payment successful!");
           }
           return false; // Return false to prevent the redirection
         });
       } catch (error) {
-        setMessage(error + " (see console for more details)");
+        console.error(error);
       }
     }
 
@@ -140,7 +137,6 @@ const Checkout = ({ formToken, timestamp, cart, session, orderId }: Props) => {
                       kr-card-form-expanded="true"
                     /> */}
                   </div>
-                  <div data-test="payment-message">{message}</div>
                   <Timer
                     time={timestamp}
                     customFunction={handleCheckout}

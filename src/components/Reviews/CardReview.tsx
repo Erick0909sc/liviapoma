@@ -41,7 +41,7 @@ const CardReview = ({
   const isEdited = review.createdAt !== review.updatedAt;
 
   return (
-    <div className="relative border p-4 rounded shadow-md bg-white w-6/12">
+    <div className="relative border p-4 rounded shadow-md bg-white w-6/12 h-min">
       <div className="flex items-center gap-3">
         <img
           src={review.user.image}
@@ -85,7 +85,7 @@ const CardReview = ({
         </div>
       )}
       {session && isUpdating && (
-        <div className="w-full">
+        <div className="w-[full] ">
           <FormReview
             session={session}
             productCode={review.productCode}

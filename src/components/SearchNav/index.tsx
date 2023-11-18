@@ -30,8 +30,9 @@ const SearchNav = (props: Props) => {
   };
 
   const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  product.name.toLowerCase().includes(searchQuery.toLowerCase()) && product.code !== router.query.code
+);
+
   const filteredCategories = categories.filter((category) =>
     category.toLowerCase().includes(searchQuery.toLowerCase())
   );
