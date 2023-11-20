@@ -124,7 +124,11 @@ const FormReview = ({
   }
 
   if (status === "unauthenticated") {
-    return <p>Debes estar autenticado para realizar una revisión.</p>;
+    return (
+      <p className="flex justify-center text-red-500 text-lg mt-10">
+        Debes estar autenticado para realizar una revisión.
+      </p>
+    );
   }
 
   return (
@@ -151,38 +155,36 @@ const FormReview = ({
         </div>
 
         {isReviewing ? (
-          <div className="">
-            <div className=" rounded p-4 space-y-2 ">
-              <Rating
-                name="rating"
-                value={rating}
-                onChange={handleRatingChange}
-                // Puedes ajustar la precisión de las estrellas según tus necesidades
+          <div className=" rounded p-4 space-y-2 ">
+            <Rating
+              name="rating"
+              value={rating}
+              onChange={handleRatingChange}
+              // Puedes ajustar la precisión de las estrellas según tus necesidades
+            />
+            <label className="block">
+              Comentario:
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="block border p-2 rounded w-[100%] h-[15vh]"
               />
-              <label className="block">
-                Comentario:
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  className="block border p-2 rounded w-[100%] h-[15vh]"
-                />
-              </label>
-              <div className="flex space-x-4">
-                <button
-                  onClick={saveReview}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Guardar
-                </button>
+            </label>
+            <div className="flex space-x-4">
+              <button
+                onClick={saveReview}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Guardar
+              </button>
 
-                <button
-                  onClick={cancelReview}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                  type="submit"
-                >
-                  Cancelar
-                </button>
-              </div>
+              <button
+                onClick={cancelReview}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                type="submit"
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         ) : null}
