@@ -5,9 +5,12 @@ import { changePasswordApi } from '@/states/users/usersApi';
 import EditUser from '@/components/Modals/EditUser';
 import { useSession } from 'next-auth/react';
 import MenuEditUser from '@/components/Modals/MenuEditUser';
+import LoaderBtn from '@/components/Cart/LoaderBtn';
+import toast from 'react-hot-toast';
 
 const ChangePassword = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -40,7 +43,7 @@ const ChangePassword = () => {
   const handleSave = async () => {
     const { oldPassword, newPassword } = formData;
 
-
+    setIsLoading(true);
 
     if (session) {
       const userId = session.user.id;
@@ -49,13 +52,17 @@ const ChangePassword = () => {
         const response = await changePasswordApi(userId, oldPassword, newPassword);
 
         if (response.status === 200) {
-          alert('Contraseña cambiada con éxito');
-          router.push('/');
+          toast.success('Contraseña cambiada con éxito');
+          setTimeout(() => {
+            router.reload();
+          }, 1500)
         } else {
-          alert('Error al cambiar la contraseña');
+          toast.error('Error al cambiar la contraseña');
+          setIsLoading(false);
         }
       } catch (error) {
-        alert('Error al cambiar la contraseña');
+        toast.error('Error al cambiar la contraseña');
+        setIsLoading(false);
       }
     } else {
       console.error('El usuario no ha iniciado sesión');
@@ -63,7 +70,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className='h-screen flex flex-col justify-center items-center p-3'>
+    <div className='h-screen flex flex-col justify-center   items-center p-3'>
 
 
       <div className='w-full pl-3'>
@@ -72,7 +79,7 @@ const ChangePassword = () => {
         </button>
       </div>
 
-      <div className=' sm:flex lg:flex gap-3 sm:h-[50%] lg:h-[70%]'>
+      <div className=' sm:flex lg:flex gap-3  lg:h-[70%]'>
         <div >
           <EditUser />
         </div>
@@ -85,7 +92,7 @@ const ChangePassword = () => {
           </div>
 
           <hr />
-          <div className='flex flex-col justify-center items-center p-4 gap-2'>
+          <div className='flex flex-col justify-center    items-center p-4 gap-2'>
             <div className='text-[25px] pb-5 font-semibold'>
               <h2>Edición de contraseña</h2>
             </div>
@@ -112,9 +119,9 @@ const ChangePassword = () => {
                 placeholder='Ingrese su nueva contraseña'
               />
             </div>
-            <div>
-              <button className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700' onClick={handleSave}>
-                Guardar
+            <div className="flex justify-center">
+              <button className='bg-blue-500 w-auto lg:w-[40%] text-white py-2 px-4 rounded hover:bg-blue-700 flex justify-center' onClick={handleSave} disabled={isLoading}>
+                {isLoading ? (<LoaderBtn />) : ("Guardar")}
               </button>
               <button className='bg-red-500 text-white py-2 px-4 rounded hover-bg-red-700 ml-2'>
                 Cancelar
