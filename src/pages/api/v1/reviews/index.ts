@@ -35,6 +35,11 @@ export default async function handler(
             userId: userId,
             productsStatus: "ENTREGADO",
             orderStatus: "PAID",
+            products: {
+              some: {
+                productCode: productCode,
+              },
+            },
           },
           include: {
             products: {
@@ -45,7 +50,6 @@ export default async function handler(
             user: true,
           },
         });
-
         if (!order) {
           return res.status(400).json({
             message:

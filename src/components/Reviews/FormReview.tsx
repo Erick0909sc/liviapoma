@@ -7,7 +7,7 @@ import {
   putOneReviewByApi,
 } from "@/states/reviews/reviewsApi";
 import { Session } from "next-auth";
-
+import request from "axios";
 import { IReview } from "@/shared/types";
 
 type Props = {
@@ -88,9 +88,7 @@ const FormReview = ({
         getAllReviews();
         getOneProduct();
         cancelReview();
-        return toast.success("Review updated successfully");
-      } else {
-        return toast.error("Review bad");
+        return toast.success("Revisión actualizada exitosamente");
       }
     } else {
       try {
@@ -103,18 +101,21 @@ const FormReview = ({
 
         if (response.status === 201) {
           // El comentario se guardó exitosamente
-          toast.success("Comentario guardado exitosamente");
+          toast.success("¡Comentario guardado con éxito!");
           getAllReviews();
           getOneProduct();
           cancelReview(); // Limpia el estado del formulario
-        } else {
-          // Si la solicitud no fue exitosa, muestra un mensaje de error
-          toast.error("Error al guardar el comentario");
-          console.error("Error al guardar el comentario");
         }
       } catch (error) {
-        // Si hay un error de red, muestra un mensaje de error
-        toast.error("Error de red");
+        if (request.isAxiosError(error) && error.response) {
+          toast.error(
+            (
+              error.response?.data as {
+                message: string;
+              }
+            ).message
+          );
+        }
       }
     }
   };
