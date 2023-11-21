@@ -36,8 +36,8 @@ const FormReview = ({
   existRating = 0,
 }: Props) => {
   const [isReviewing, setReviewing] = useState(isOpen);
-
   const [rating, setRating] = useState(existRating);
+  const [isSaving, setSaving] = useState(false); // Nuevo estado para controlar la desactivación del botón
   const [comment, setComment] = useState(existComment);
   const [comments, setComments] = useState<Comment[]>([]);
   const [selectedReview, setSelectedReview] = useState<IReview | null>(null);
@@ -76,24 +76,28 @@ const FormReview = ({
     if (rating < 1) {
       return toast.error("Debes seleccionar al menos 1 estrella");
     }
-    if (idReview) {
-      const res = await putOneReviewByApi({
-        id: idReview,
-        productCode: productCode,
-        userId: session.user.id,
-        description: comment,
-        rating: rating,
-      });
-      if (res.status === 200) {
-        getAllReviews();
-        getOneProduct();
-        cancelReview();
-        return toast.success("Review updated successfully");
+
+    try {
+      setSaving(true); // Activar el indicador de carga al iniciar la solicitud
+
+      if (idReview) {
+        const res = await putOneReviewByApi({
+          id: idReview,
+          productCode: productCode,
+          userId: session.user.id,
+          description: comment,
+          rating: rating,
+        });
+
+        if (res.status === 200) {
+          getAllReviews();
+          getOneProduct();
+          cancelReview();
+          return toast.success("Reseña creada exitosamente");
+        } else {
+          return toast.error("Hubo un error al crear la reseña");
+        }
       } else {
-        return toast.error("Review bad");
-      }
-    } else {
-      try {
         const response = await postOneReviewByApi({
           productCode: productCode,
           userId: session.user.id,
@@ -112,10 +116,12 @@ const FormReview = ({
           toast.error("Error al guardar el comentario");
           console.error("Error al guardar el comentario");
         }
-      } catch (error) {
-        // Si hay un error de red, muestra un mensaje de error
-        toast.error("Error de red");
       }
+    } catch (error) {
+      // Si hay un error durante la solicitud, muestra un mensaje de error
+      toast.error("Error durante la solicitud");
+    } finally {
+      setSaving(false); // Desactivar el indicador de carga después de la solicitud
     }
   };
 
@@ -173,9 +179,12 @@ const FormReview = ({
             <div className="flex space-x-4">
               <button
                 onClick={saveReview}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className={`bg-blue-500 text-white px-4 py-2 rounded ${
+                  isSaving ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isSaving}
               >
-                Guardar
+                {isSaving ? "Guardando..." : "Guardar"}
               </button>
 
               <button
