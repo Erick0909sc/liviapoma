@@ -1,16 +1,14 @@
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import UserModal from "@/components/Modals/users";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { ImMenu } from "react-icons/im";
 import MenuModal from "@/components/Modals/menu";
 import { AiFillHome } from "react-icons/ai";
 import { MdContactPhone, MdInventory } from "react-icons/md";
 import SearchNav from "@/components/SearchNav";
-import AdminModal from "@/components/Modals/Admin";
-
+import ProfileModal from "@/components/Modals/ProfileModal";
 
 type Props = {};
 
@@ -59,11 +57,7 @@ const Nadvar = (props: Props) => {
               <FaUserCircle />
             </button>
           )}
-          {session?.user?.role === "Admin" ? ( // Verifica si el usuario tiene el rol "Admin"
-            <AdminModal isOpen={userModalOpen} onClose={toggleUserModal} />
-          ) : (
-            <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
-          )}
+          <ProfileModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
 
         <div className="hidden sm:flex w-[40%]  sm:w-[75%]  justify-end items-center sm:gap-3 sm:pr-1  lg:gap-7 lg:pr-6 text-[25px] sm:text-[18px] lg:text-[18px]">
@@ -96,7 +90,7 @@ const Nadvar = (props: Props) => {
           </Link>
 
           {session?.user?.image ? (
-            <button onClick={toggleUserModal} >
+            <button onClick={toggleUserModal}>
               <img
                 src={session.user.image}
                 alt="User"
@@ -108,11 +102,7 @@ const Nadvar = (props: Props) => {
               <FaUserCircle />
             </button>
           )}
-          {session?.user?.role === "Admin" ? ( // Verifica si el usuario tiene el rol "Admin"
-            <AdminModal isOpen={userModalOpen} onClose={toggleUserModal} />
-          ) : (
-            <UserModal isOpen={userModalOpen} onClose={toggleUserModal} />
-          )}
+          <ProfileModal isOpen={userModalOpen} onClose={toggleUserModal} />
         </div>
       </div>
     </nav>
