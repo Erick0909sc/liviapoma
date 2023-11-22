@@ -53,9 +53,9 @@ const Reviews = ({ session, productCode, status }: Props) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2 flex flex-col pb-7">
+      <div className="bg-slate-100 p-2 flex flex-col pb-7 ">
         <div className=" flex justify-center ">
-          <div className="w-[50%]">
+          <div className="w-[100%] sm:w-[50%]">
             <FormReview
               session={session as Session}
               productCode={productCode}
@@ -71,7 +71,7 @@ const Reviews = ({ session, productCode, status }: Props) => {
         </div>
 
         {/* maqueta para review */}
-        <div className=" flex justify-center w-[full] gap-4 mt-4 ">
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 mt-4 ">
           {sortedReviews.map((review) => (
             <CardReview
               review={review}
@@ -88,17 +88,6 @@ const Reviews = ({ session, productCode, status }: Props) => {
           ))}
         </div>
       </div>
-      {/* Resto del código del componente... */}
-      {/* {reviews.length > 10 && visibleReviews < reviews.length && (
-        <div className="flex justify-center items-center pb-1">
-          <button
-            onClick={handleShowMoreReviews}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
-          >
-            Ver más comentarios
-          </button>
-        </div>
-      )} */}
     </>
   );
 };
