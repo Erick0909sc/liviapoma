@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import MenuEditUser from "@/components/Modals/MenuEditUser";
 import { codeStatusOrdersTranslation } from "@/shared/translate";
+import Failed from "@/components/StatesComponents/Failed";
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -62,7 +63,12 @@ const Index = () => {
           </div>
 
           <div className="overflow-y-hidden">
-            {ordersPending.map((order, i) => (
+            {ordersPending.length === 0 ? (
+              <div className="flex  h-[500px] justify-center">
+                <Failed />
+              </div>
+
+            ) : (ordersPending.map((order, i) => (
               <div key={i} className="overflow-y-auto snap-y">
                 {order.products.flatMap((product, j) => (
                   <div
@@ -94,7 +100,7 @@ const Index = () => {
                   </div>
                 ))}
               </div>
-            ))}
+            )))}
           </div>
         </div>
       </div>

@@ -12,35 +12,34 @@ type Props = {
 
 const LayoutAdmin = ({ children, title }: Props) => {
   const { data: session } = useSession();
-  const [visibleSidebar, setVisibleSidebar] = useState(true);
-
+  const [visibleSidebar, setVisibleSidebar] = useState<boolean>(() => {
+    try {
+      const storedValue = localStorage.getItem("visibleSidebar");
+      return storedValue ? JSON.parse(storedValue) : true;
+    } catch (error) {
+      return true;
+    }
+  });
   const toggleSidebar = () => {
-    setVisibleSidebar(!visibleSidebar);
+    const newValue = !visibleSidebar;
+    setVisibleSidebar(newValue);
+    localStorage.setItem("visibleSidebar", JSON.stringify(newValue));
   };
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleSidebar(false); // Ocultar en pantallas pequeñas
-      } else {
-        setVisibleSidebar(true);
+      const storedValue = localStorage.getItem("visibleSidebar");
+      if (window.innerWidth < 768 && !storedValue) {
+        setVisibleSidebar(false);
+        localStorage.setItem("visibleSidebar", JSON.stringify(false));
       }
     };
-
-    handleResize(); // Llamarlo una vez al cargar la página
-
-    window.addEventListener("resize", handleResize); // Escuchar cambios en el tamaño de la pantalla
-
-    return () => {
-      window.removeEventListener("resize", handleResize); // Limpieza al desmontar el componente
-    };
+    handleResize();
   }, []);
-
-  const containerClass = visibleSidebar ? "" : "";
 
   if (!session) return null;
   return (
-    <div className={`flex w-full h-screen fixed ${containerClass}`}>
+    <div className={`flex w-full h-screen fixed`}>
       <Head>
         <title>{`Liviapoma - ${title}`}</title>
       </Head>

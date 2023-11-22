@@ -51,7 +51,7 @@ const UsersPage = (props: Props) => {
 
   return (
     <LayoutAdmin title="Usuarios">
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full justify-between">
         {usersStatus === EStateGeneric.PENDING && <Pending />}
         {usersStatus === EStateGeneric.FAILED && (
           <Failed
@@ -67,15 +67,9 @@ const UsersPage = (props: Props) => {
                 text="No encontramos usuarios relacionados con tu búsqueda"
               />
             )}
-            <div className="overflow-x-auto ">
+            <div className="flex flex-wrap gap-2 p-2">
               {items.map((user, index) => (
-                <User
-                  key={index}
-                  id={user.id}
-                  name={user.name}
-                  email={user.email}
-                  role={user.role}
-                />
+                <User key={index} {...user} />
               ))}
             </div>
           </>

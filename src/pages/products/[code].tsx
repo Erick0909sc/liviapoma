@@ -127,7 +127,6 @@ const Detail = (props: Props) => {
     });
     if (session) dispatch(getCartUser(session.user.id));
   };
-  console.log(reviews);
   return (
     <Layout
       title={

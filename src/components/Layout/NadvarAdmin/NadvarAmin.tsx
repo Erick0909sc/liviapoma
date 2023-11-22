@@ -4,7 +4,6 @@ import { GoBellFill } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
 import { GoTriangleDown } from "react-icons/go";
 import { Session } from "next-auth";
-import AdminModal from "@/components/Modals/Admin";
 import { dashboardRoutes, translate } from "@/shared/utils";
 import { useRouter } from "next/router";
 import { selectSearch, setSearch } from "@/states/globalSlice";
@@ -13,6 +12,7 @@ import { useSelector } from "react-redux";
 import Notifications from "./Notifications";
 import { pusher } from "@/shared/pusherInstance";
 import { BsTrashFill } from "react-icons/bs";
+import ProfileModal from "@/components/Modals/ProfileModal";
 
 interface NadvarProps {
   toggleSidebar: () => void;
@@ -147,7 +147,7 @@ const NadvarAmin: React.FC<NadvarProps> = ({ toggleSidebar, session }) => {
                     className="lg:hidden sm:hidden"
                   />
                   {showModal && (
-                    <AdminModal isOpen={showModal} onClose={toggleModal} />
+                    <ProfileModal isOpen={showModal} onClose={toggleModal} />
                   )}
                 </>
               )}

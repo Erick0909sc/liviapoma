@@ -7,7 +7,7 @@ import {
   putOneReviewByApi,
 } from "@/states/reviews/reviewsApi";
 import { Session } from "next-auth";
-
+import request from "axios";
 import { IReview } from "@/shared/types";
 
 type Props = {
@@ -36,8 +36,8 @@ const FormReview = ({
   existRating = 0,
 }: Props) => {
   const [isReviewing, setReviewing] = useState(isOpen);
-
   const [rating, setRating] = useState(existRating);
+  const [isSaving, setSaving] = useState(false); // Nuevo estado para controlar la desactivación del botón
   const [comment, setComment] = useState(existComment);
   const [comments, setComments] = useState<Comment[]>([]);
   const [selectedReview, setSelectedReview] = useState<IReview | null>(null);
@@ -76,24 +76,25 @@ const FormReview = ({
     if (rating < 1) {
       return toast.error("Debes seleccionar al menos 1 estrella");
     }
-    if (idReview) {
-      const res = await putOneReviewByApi({
-        id: idReview,
-        productCode: productCode,
-        userId: session.user.id,
-        description: comment,
-        rating: rating,
-      });
-      if (res.status === 200) {
-        getAllReviews();
-        getOneProduct();
-        cancelReview();
-        return toast.success("Review updated successfully");
+    try {
+      setSaving(true); // Activar el indicador de carga al iniciar la solicitud
+
+      if (idReview) {
+        const res = await putOneReviewByApi({
+          id: idReview,
+          productCode: productCode,
+          userId: session.user.id,
+          description: comment,
+          rating: rating,
+        });
+
+        if (res.status === 200) {
+          getAllReviews();
+          getOneProduct();
+          cancelReview();
+          return toast.success("Revisión actualizada exitosamente");
+        }
       } else {
-        return toast.error("Review bad");
-      }
-    } else {
-      try {
         const response = await postOneReviewByApi({
           productCode: productCode,
           userId: session.user.id,
@@ -103,19 +104,24 @@ const FormReview = ({
 
         if (response.status === 201) {
           // El comentario se guardó exitosamente
-          toast.success("Comentario guardado exitosamente");
+          toast.success("¡Comentario guardado con éxito!");
           getAllReviews();
           getOneProduct();
           cancelReview(); // Limpia el estado del formulario
-        } else {
-          // Si la solicitud no fue exitosa, muestra un mensaje de error
-          toast.error("Error al guardar el comentario");
-          console.error("Error al guardar el comentario");
         }
-      } catch (error) {
-        // Si hay un error de red, muestra un mensaje de error
-        toast.error("Error de red");
       }
+    } catch (error) {
+      if (request.isAxiosError(error) && error.response) {
+          toast.error(
+            (
+              error.response?.data as {
+                message: string;
+              }
+            ).message
+          );
+        }
+    } finally {
+      setSaving(false); // Desactivar el indicador de carga después de la solicitud
     }
   };
 
@@ -124,7 +130,11 @@ const FormReview = ({
   }
 
   if (status === "unauthenticated") {
-    return <p>Debes estar autenticado para realizar una revisión.</p>;
+    return (
+      <p className="flex justify-center text-red-500 text-lg mt-10">
+        Debes estar autenticado para realizar una revisión.
+      </p>
+    );
   }
 
   return (
@@ -151,38 +161,39 @@ const FormReview = ({
         </div>
 
         {isReviewing ? (
-          <div className="">
-            <div className=" rounded p-4 space-y-2 ">
-              <Rating
-                name="rating"
-                value={rating}
-                onChange={handleRatingChange}
-                // Puedes ajustar la precisión de las estrellas según tus necesidades
+          <div className=" rounded p-4 space-y-2 ">
+            <Rating
+              name="rating"
+              value={rating}
+              onChange={handleRatingChange}
+              // Puedes ajustar la precisión de las estrellas según tus necesidades
+            />
+            <label className="block">
+              Comentario:
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="block border p-2 rounded w-[100%] h-[15vh]"
               />
-              <label className="block">
-                Comentario:
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  className="block border p-2 rounded w-[100%] h-[15vh]"
-                />
-              </label>
-              <div className="flex space-x-4">
-                <button
-                  onClick={saveReview}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Guardar
-                </button>
+            </label>
+            <div className="flex space-x-4">
+              <button
+                onClick={saveReview}
+                className={`bg-blue-500 text-white px-4 py-2 rounded ${
+                  isSaving ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isSaving}
+              >
+                {isSaving ? "Guardando..." : "Guardar"}
+              </button>
 
-                <button
-                  onClick={cancelReview}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                  type="submit"
-                >
-                  Cancelar
-                </button>
-              </div>
+              <button
+                onClick={cancelReview}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                type="submit"
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         ) : null}
