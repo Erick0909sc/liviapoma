@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch } from "@/states/store";
 import toast from "react-hot-toast";
 import MenuEditUser from "@/components/Modals/MenuEditUser";
+import LoaderBtn from "@/components/Cart/LoaderBtn";
 
 const Index: React.FC = () => {
   const dataoneuser = useSelector(getOneUser);
@@ -19,6 +20,8 @@ const Index: React.FC = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data: session } = useSession();
 
@@ -55,8 +58,12 @@ const Index: React.FC = () => {
     initialValues,
     onSubmit: async (values) => {
       try {
+
+        setIsLoading(true);
+
         if (!hasChanges) {
           toast.error("No se han realizado cambios. No se puede guardar.");
+          setIsLoading(false);
           return;
         }
         const response = await dispatch(
@@ -85,6 +92,10 @@ const Index: React.FC = () => {
       }
     },
   });
+
+
+
+
   const router = useRouter();
 
   const handleCancel = () => {
@@ -108,7 +119,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="  h-screen flex flex-col justify-center items-center p-5">
+    <div className="  h-screen flex flex-col justify-center  sm:justify-start  items-center p-5">
       <div className="w-full  pl-3 ">
         <button
           className="flex absolute  top-3  lg:top-5  text-[30px] lg:text-[35px] items-center"
@@ -118,19 +129,19 @@ const Index: React.FC = () => {
         </button>
       </div>
 
-      <div className=' sm:flex  lg:flex gap-3  sm:h-[60%]  lg:h-full'>
+      <div className=' sm:flex  lg:flex gap-3    lg:h-full'>
         <div>
           <EditUser />
         </div>
 
-        <div className=" bg-white shadow-lg w-full sm:w-[70vw]  lg:w-[60vw] rounded-b-lg lg:border-b-[20px] sm:border-t-[40px] lg:border-t-[40px] sm:border-b-[20px]  border-green-700">
+        <div className=" bg-white shadow-lg w-full   sm:w-[70vw] sm:h-auto lg:w-[60vw] rounded-b-lg lg:border-b-[20px] sm:border-t-[40px] lg:border-t-[40px] sm:border-b-[20px]  border-green-700">
 
           <div className='bg-green-700'>
             <button className='sm:hidden lg:text-[18px] flex items-center font-semibold text-white bg-black p-2' onClick={openModal}>
               <h2>Menu de opciones</h2>
             </button>
           </div>
-  
+
 
           <hr />
           <form
@@ -173,12 +184,13 @@ const Index: React.FC = () => {
               />
             </div>
 
-            <div>
+            <div className="flex justify-center">
               <button
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                className="bg-blue-500 w-auto lg:w-[10%] text-white py-2 px-4 rounded hover:bg-blue-700 flex justify-center"
                 type="submit"
+                disabled={isLoading}
               >
-                Guardar
+                {isLoading ? (<LoaderBtn />) : ("Guardar")}
               </button>
               <button
                 className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 ml-2"

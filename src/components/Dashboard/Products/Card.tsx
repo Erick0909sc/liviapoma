@@ -60,19 +60,9 @@ function Card({
     setIsModalOpen(false);
   };
 
-  // const productData ={
-  //   code,
-  //   name,
-  //   description,
-  //   price,
-  //   brandId: brand?.id || null,
-  //   image,
-  //   discount,
-  //   categoryId: category.id,
-  // }
 
   return (
-    <div className="bg-opacity-60 w-80 h-[98%]  hover:bg-opacity-100  md:w-80 md:h-[98%]   lg:w-80 lg:h-[98%]  transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white ">
+    <div className="bg-opacity-60 w-80 h-[98%]  hover:bg-opacity-100  md:w-80 md:h-[98%]   lg:w-80 lg:h-[530px]   transition-transform duration-500 rotate-1.7 rounded-lg border-gray-600 border mb-6 bg-white ">
       <div className=" p-2 bg-slate-800 flex">
         <div className="w-[30%] ">
           <button

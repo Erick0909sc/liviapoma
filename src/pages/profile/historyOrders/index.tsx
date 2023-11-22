@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 import { useSession } from "next-auth/react";
-// import { useAppDispatch } from '@/states/store';
 import EditUser from '@/components/Modals/EditUser';
 import { useAppDispatch } from '@/states/store';
 import MenuEditUser from '@/components/Modals/MenuEditUser';
+import Failed from '@/components/StatesComponents/Failed';
 
 type Props = {}
 
@@ -69,33 +69,40 @@ const Index = (props: Props) => {
                             <h2>Menu de opciones</h2>
                         </button>
                     </div>
-
-
                     <div className='overflow-y-hidden'>
-                        {orderhistory.flatMap((order, i) => (
-                            <div key={i} >
+                        {orderhistory.length === 0 ? (
+                            <div className="flex  h-[500px] justify-center">
+                                <Failed />
+                            </div>
 
-                                {i === 0 || order.createdAt !== orderhistory[i - 1].createdAt ? (
-                                    <div className="text-center mt-3 mb-1 text-lg font-semibold border-t-2 border-gray-500">
-                                        {new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'numeric', day: 'numeric' })}
-                                    </div>
-                                ) : null}
-                                {order.products.map((product, j) => (
-                                    <div key={j} className='flex flex-col gap-3 items-center p-2'>
-                                        <div className='border-2 w-[90%] p-2 gap-3'>
-                                            <div className='font-semibold' >{product.product.name}</div>
-                                            <div className='flex flex-col gap-4 lg:flex-row lg:justify-between items-center'>
-                                                <div className='relative lg:w-[20%]'>
-                                                    <img src={product.product.image} alt="" />
+                        ) : (
+                            orderhistory.flatMap((order, i) => (
+                                <div key={i} >
+                                    {i === 0 || order.createdAt !== orderhistory[i - 1].createdAt ? (
+                                        <div className="text-center mt-3 mb-1 text-lg font-semibold border-t-2 border-gray-500">
+                                            {new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+                                        </div>
+                                    ) : null}
+                                    {order.products.map((product, j) => (
+                                        <div key={j} className='flex flex-col gap-3 items-center p-2'>
+                                            <div className='border-2 w-[90%] p-2 gap-3'>
+                                                <div className='font-semibold' >{product.product.name}</div>
+                                                <div className='flex flex-col gap-4 lg:flex-row lg:justify-between items-center'>
+                                                    <div className='relative lg:w-[20%]'>
+                                                        <img src={product.product.image} alt="" />
+                                                    </div>
+                                                    <div className='lg:w-[50%]'>{product.product.description}</div>
+                                                    <div className='flex justify-end h-4 p-3 items-center rounded-lg bg-green-300'>{order.productsStatus}</div>
                                                 </div>
-                                                <div className='lg:w-[50%]'>{product.product.description}</div>
-                                                <div className='flex justify-end h-4 p-3 items-center rounded-lg bg-green-300'>{order.productsStatus}</div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
+                                    ))}
+                                </div>
+                            ))
+                        )}
+
+
+
                     </div>
 
 
