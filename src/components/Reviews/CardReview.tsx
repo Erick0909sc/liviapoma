@@ -32,16 +32,16 @@ const CardReview = ({
     if (res.status === 200) {
       getAllReviews();
       getOneProduct();
-      return toast.success("Review deleted");
+      return toast.success("Reseña eliminada Correctamente"); 
     } else {
-      return toast.error("Review no deleted");
+      return toast.error("Reseña no eliminada ");
     }
     setIsDeleteModalOpen(false); // Cierra el modal después de confirmar la eliminación
   };
   const isEdited = review.createdAt !== review.updatedAt;
 
   return (
-    <div className="relative border p-4 rounded shadow-md bg-white w-6/12 h-min">
+    <div className="relative border p-4 rounded shadow-md bg-white h-min">
       <div className="flex items-center gap-3">
         <img
           src={review.user.image}
