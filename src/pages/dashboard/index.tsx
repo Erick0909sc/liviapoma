@@ -38,8 +38,10 @@ const Dashboard = (props: Props) => {
       }
     })();
     window.addEventListener("resize", handleResize);
+    window.addEventListener("storage", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("storage", handleResize);
       if (status === EStateGeneric.SUCCEEDED) {
         dispatch(cleanUpDataDashboard());
       }
