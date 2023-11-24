@@ -32,6 +32,7 @@ import {
   selectAllProductsDiscountStatus,
 } from "@/states/products/productsSlice";
 import { calcularPrecioConDescuento } from "@/shared/ultis";
+import Card2 from "@/components/card2";
 export default function Home() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
@@ -105,7 +106,7 @@ export default function Home() {
           >
             {productsss.map((product, index) => (
               <SwiperSlide key={index}>
-                <Card
+                <Card2
                   session={session}
                   code={product.code}
                   title={product.name}
