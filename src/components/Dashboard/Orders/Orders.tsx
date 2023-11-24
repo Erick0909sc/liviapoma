@@ -31,8 +31,7 @@ const OrdersComponent = ({ search, state }: Props) => {
   const router = useRouter();
 
   const handleEstadoChange = (estado: string) => {
-    setStatus(estado);
-    router.replace("/dashboard/orders");
+    router.push(`/dashboard/orders?state=${estado}`);
   };
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {

@@ -51,7 +51,7 @@ const Dashboard = (props: Props) => {
     <LayoutAdmin title="Dashboard">
       {status === EStateGeneric.SUCCEEDED && (
         <div className="flex flex-wrap justify-center bg-white w-full min-h-full">
-          <SummaryDashboard summary={data.summary} />
+          <SummaryDashboard data={data} />
           <div className="w-full max-w-[95%] sm:p-4">
             <h2 className="text-xl sm:text-4xl text-gray-600 my-4">
               Gráfico de Ventas
