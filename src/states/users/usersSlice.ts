@@ -198,5 +198,6 @@ export const getOneUser = (state: RootState) => state.users.OneUser
 export const getordersPendint = (state: RootState) => state.users.ordersPending
 
 export const getordersHistory = (state: RootState) => state.users.orderHistory
+export const  StatusOrders = (state: RootState) => state.users.orderStatus
 
 export default usersSlice.reducer

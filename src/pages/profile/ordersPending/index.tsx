@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getOrdersPending, getordersPendint } from "@/states/users/usersSlice";
+import { StatusOrders, getOrdersPending, getordersPendint } from "@/states/users/usersSlice";
 import EditUser from "@/components/Modals/EditUser";
 import { useAppDispatch } from "@/states/store";
 import { useSession } from "next-auth/react";
@@ -9,11 +9,14 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import MenuEditUser from "@/components/Modals/MenuEditUser";
 import { codeStatusOrdersTranslation } from "@/shared/translate";
 import Failed from "@/components/StatesComponents/Failed";
+import { EStateGeneric } from "@/shared/types";
+import Pending from "@/components/StatesComponents/Pending";
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const { data: session } = useSession();
   const ordersPending = useSelector(getordersPendint);
+  const orderstatus = useSelector(StatusOrders)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -62,45 +65,49 @@ const Index = () => {
             </button>
           </div>
 
-          <div className="overflow-y-hidden">
-            {ordersPending.length === 0 ? (
+          <div className="overflow-y-hidden ">
+            {orderstatus === EStateGeneric.PENDING && <Pending />}
+
+            {orderstatus === EStateGeneric.FAILED && (
               <div className="flex  h-[500px] justify-center">
-                <Failed />
+                <Failed text="No tienes productos pendientes" />
               </div>
-
-            ) : (ordersPending.map((order, i) => (
-              <div key={i} className="overflow-y-auto snap-y">
-                {order.products.flatMap((product, j) => (
-                  <div
-                    key={j}
-                    className="flex flex-col gap-3  items-center p-2"
-                  >
-                    <div className="border-2 w-[90%]  p-2 fon">
-                      <div className="font-semibold">
-                        {product.product.name}
-                      </div>
-
-                      <div className="flex  flex-col lg:flex-row justify-between items-center">
-                        <div className="relative lg:w-[20%]">
-                          <img src={product.product.image} alt="" />
+            )}
+            {orderstatus === EStateGeneric.SUCCEEDED &&
+              ordersPending.map((order, i) => (
+                <div key={i} className="overflow-y-auto snap-y">
+                  {order.products.flatMap((product, j) => (
+                    <div
+                      key={j}
+                      className="flex flex-col gap-3  items-center p-2"
+                    >
+                      <div className="border-2 w-[90%]  p-2 fon">
+                        <div className="font-semibold">
+                          {product.product.name}
                         </div>
-                        <div className="   lg:w-[50%]">
-                          {product.product.description}
-                        </div>
-                        <div className="flex flex-col gap-7">
-                          <div className=" flex justify-end h-4 p-3 items-center rounded-lg bg-orange-300">
-                            {codeStatusOrdersTranslation[order.productsStatus]}
+
+                        <div className="flex  flex-col lg:flex-row justify-between items-center">
+                          <div className="relative lg:w-[20%]">
+                            <img src={product.product.image} alt="" />
                           </div>
-                          <div className=" flex justify-end h-4 p-3 items-center rounded-lg bg-yellow-300">
-                            CANTIDAD: {product.quantity}
+                          <div className="   lg:w-[50%]">
+                            {product.product.description}
+                          </div>
+                          <div className="flex flex-col gap-7">
+                            <div className=" flex justify-end h-4 p-3 items-center rounded-lg bg-orange-300">
+                              {codeStatusOrdersTranslation[order.productsStatus]}
+                            </div>
+                            <div className=" flex justify-end h-4 p-3 items-center rounded-lg bg-yellow-300">
+                              CANTIDAD: {product.quantity}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )))}
+                  ))}
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
