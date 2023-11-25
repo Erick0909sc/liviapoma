@@ -30,15 +30,22 @@ const OrdersComponent = ({ search, state }: Props) => {
   const [status, setStatus] = useState(state);
   const router = useRouter();
 
-  const handleEstadoChange = (estado: string) => {
+  const handleEstadoChange = async (estado: string) => {
     setStatus(estado);
-    router.replace("/dashboard/orders");
+    router.push(`/dashboard/orders?state=${estado}`);
+    await dispatch(
+      getAllOrders({
+        page: currentPage,
+        count: itemsPerPage,
+        search,
+        status: estado,
+      })
+    );
   };
   const itemsPerPage = 12; // min 10 max 100 items per page
   const setCurrentPageRedux = (page: number) => {
     dispatch(setCurrentPage(page));
   };
-
   useEffect(() => {
     setStatus(state);
   }, [state]);
@@ -64,7 +71,7 @@ const OrdersComponent = ({ search, state }: Props) => {
         dispatch(cleanUpOrders());
       }
     };
-  }, [dispatch, ordersStatus, currentPage, search, status]);
+  }, [dispatch, ordersStatus, currentPage, search]);
 
   useEffect(() => {
     const channel = pusher.subscribe("liviapoma-orders");
@@ -88,31 +95,34 @@ const OrdersComponent = ({ search, state }: Props) => {
       <div className="flex justify-between">
         <button
           onClick={() => handleEstadoChange("PENDIENTE")}
-          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+          className={`hover:bg-gray-700 disabled:opacity-70 bg-black p-2 w-full text-center text-white ${
             status === "PENDIENTE"
               ? "text-white font-bold bg-crema-500"
               : "text-black"
           }`}
+          disabled={ordersStatus === EStateGeneric.PENDING}
         >
           PENDIENTE
         </button>
         <button
           onClick={() => handleEstadoChange("POR_RECOGER")}
-          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+          className={`hover:bg-gray-700 disabled:opacity-70 bg-black p-2 w-full text-center text-white ${
             status === "POR_RECOGER"
               ? "text-white font-bold bg-crema-500"
               : "text-black"
           }`}
+          disabled={ordersStatus === EStateGeneric.PENDING}
         >
           {codeStatusOrdersTranslation["POR_RECOGER"]}
         </button>
         <button
           onClick={() => handleEstadoChange("ENTREGADO")}
-          className={`hover:bg-gray-700 bg-black p-2 w-full text-center text-white ${
+          className={`hover:bg-gray-700 disabled:opacity-70 bg-black p-2 w-full text-center text-white ${
             status === "ENTREGADO"
               ? "text-white font-bold bg-crema-500"
               : "text-black"
           }`}
+          disabled={ordersStatus === EStateGeneric.PENDING}
         >
           ENTREGADO
         </button>

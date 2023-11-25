@@ -243,7 +243,7 @@ export interface Datum {
   value: number;
 }
 
-interface Item {
+export interface Item {
   id: number;
   time: Prisma.JsonValue;
   value: number;
