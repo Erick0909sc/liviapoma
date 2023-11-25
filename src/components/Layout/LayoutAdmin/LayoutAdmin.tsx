@@ -24,6 +24,7 @@ const LayoutAdmin = ({ children, title }: Props) => {
     const newValue = !visibleSidebar;
     setVisibleSidebar(newValue);
     localStorage.setItem("visibleSidebar", JSON.stringify(newValue));
+    window.dispatchEvent(new Event("storage"));
   };
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const LayoutAdmin = ({ children, title }: Props) => {
       if (window.innerWidth < 768 && !storedValue) {
         setVisibleSidebar(false);
         localStorage.setItem("visibleSidebar", JSON.stringify(false));
+        window.dispatchEvent(new Event("storage"));
       }
     };
     handleResize();
