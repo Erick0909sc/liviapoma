@@ -16,11 +16,13 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req): Promise<User> {
         const user = await prisma.user.findFirst({
           where: {
-            email: credentials?.email
+            email: credentials?.email,
           },
         });
         if (!user) {
-          throw new Error("No se encontró ningún usuario con ese correo. Por favor, regístrese.");
+          throw new Error(
+            "No se encontró ningún usuario con ese correo. Por favor, regístrese."
+          );
         }
         const checkPassword = await compare(
           credentials?.password ?? "",
@@ -39,14 +41,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
-    })
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   callbacks: {
-
     async session({
       session,
       token,
@@ -62,7 +63,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async jwt(params) {
+    jwt: async (params) => {
       const user = await prisma.user.findUnique({
         where: {
           email: params.token.email as string,

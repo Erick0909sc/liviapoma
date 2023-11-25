@@ -32,7 +32,7 @@ const SummaryDashboard = ({ data }: Props) => {
         <button
           type="button"
           onClick={() => handleDownload()}
-          className="px-4 py-2 text-sm text-gray-700 bg-green-400 hover:bg-green-200 text-left flex items-center"
+          className="rounded-lg px-4 py-2 text-sm text-gray-700 bg-green-400 hover:bg-green-200 text-left flex items-center"
         >
           <FaFilePdf className="mr-2 text-lg" /> Descargar PDF
         </button>
