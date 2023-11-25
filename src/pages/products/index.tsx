@@ -44,6 +44,8 @@ const Products: React.FC = () => {
   const productsss = useSelector(selectAllProducts);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   // ↓↓↓↓↓↓↓↓↓↓↓ const for pagination ↓↓↓↓↓↓↓↓↓↓↓
+  const itemsPerPage = 35; // Set items per page to 35
+
   const currentPage = useSelector(selectCurrentPage);
   const minItems = (currentPage - 1) * itemsPerPage;
   const maxItems = currentPage * itemsPerPage;
@@ -114,7 +116,7 @@ const Products: React.FC = () => {
                   <Failed text="No se encontraron productos con esas características" />
                 </div>
               )}
-              <div className="flex flex-col gap-8 py-8">
+              <div className="flex flex-wrap justify-center mt-8">
                 {items.map((product, index) => (
                   <Card
                     key={index}

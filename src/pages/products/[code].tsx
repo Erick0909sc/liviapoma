@@ -32,6 +32,7 @@ import { Rating } from "@mui/material";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -332,7 +333,28 @@ const Detail = (props: Props) => {
             )}
           </section>
         )}
-        <Reviews session={session} productCode={product.code} status={status} />
+        {productStatus !== EStateGeneric.SUCCEEDED && (
+          <div className="flex flex-col items-center justify-center min-h-screen">
+            <h1 className="text-4xl text-center font-extrabold text-gray-800">
+              404 - Producto no encontrado
+            </h1>
+            <p className="text-gray-600 mt-2">
+              El producto que estas buscando no existe.
+            </p>
+            <Link href="/">
+              <span className="mt-4 text-green-600 hover:underline hover:cursor-pointer">
+                Volver a la página de inicio
+              </span>
+            </Link>
+          </div>
+        )}
+        {productStatus === EStateGeneric.SUCCEEDED && product && (
+          <Reviews
+            session={session}
+            productCode={product.code}
+            status={status}
+          />
+        )}
       </div>
       {deleteConfirmation && (
         <DeleteConfirmation
