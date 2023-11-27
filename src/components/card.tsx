@@ -202,7 +202,7 @@ const Card: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col items-center p-2">
-        <article className="rounded-xl bg-white p-2 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 w-64 ">
+        <article className="group rounded-xl bg-white p-2 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300  w-full sm:w-64">
           <Link href={`products/${code}`}>
             <div className="bg-white flex justify-center">
               <Image
@@ -217,12 +217,13 @@ const Card: React.FC<Props> = ({
           <Link href={`products/${code}`}>
             <div className="mt-1 p-2">
               <h2 className="text-slate-700">{title}</h2>
+              <h2 className="text-slate-400">venta por : {unitOfMeasure.name}</h2>
               <p className="mt-1 text-sm text-slate-400"> {brand ? brand : category}</p>
               <div className="flex items-center">
                 <Rating
-                  name="size-large"
+                  name="size-small"
                   value={rating}
-                  size="large"
+                  size="small"
                   readOnly
                   precision={0.1}
                 />
@@ -246,10 +247,10 @@ const Card: React.FC<Props> = ({
               </div>
             </div>
           </Link>
-          <div className="flex items-center justify-end space-x-1.5">
+          <div className="flex items-center justify-center space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               type="button"
-              className="w-32 bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
+              className="w-48 h-12 bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
               onClick={() =>
                 hanldeItemCart({
                   code,
