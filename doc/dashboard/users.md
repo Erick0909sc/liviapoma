@@ -1,37 +1,45 @@
 # EndPoints
 
-- [Crear nuevo usuario](#nuevo-usuario)
+- [Usuarios](#usuarios)
 
-# Nuevo usuario
+## Usuarios
 
-| Método | Ruta         | Descripción            |
-| :----- | :----------- | :--------------------- |
-| `POST` | `/api/users` | Crea un nuevo usuario. |
+| Método | Ruta                      | Descripción                             |
+| :----- | :------------------------ | :-------------------------------------- |
+| `GET`  | `/api/v1/dashboard/users` | Obtiene todos los usuarios en la tienda |
 
-**Cuerpo de la Solicitud (Request Body):**
+**Ejemplo de Solicitud:**
 
-El cuerpo de la solicitud debe ser un objeto JSON que contenga los siguientes campos:
-| Parámetro | Tipo | Descripción |
-| :--------- | :------- | :------------------------------------ |
-| `name` | `string` | Nombre del nuevo usuario. |
-| `email` | `string` | Correo electrónico del nuevo usuario. |
-| `password` | `string` | Contraseña del nuevo usuario. |
+```
+GET /api/v1/dashboard/users
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 OK:
 
 ```json
-POST /api/users
+[
+  {
+    "id": "clp7246tc0000t3e80c38zf1y",
+    "name": "Brayan Huanca",
+    "email": "brayan_libra1@hotmail.com",
+    "password": "$2a$05$Mzsti.n5AshtBBMYZxu8Ce9lZRT6gM0LDl28VAabt2Z/mG0nVvq4.",
+    "emailVerified": null,
+    "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1694964554/wm1hvbu4znuawf14n6rk.webp",
+    "role": "User",
+    "cart": null
+  }
+  // otros usuarios...
+]
+```
+
+**Ejemplo de Respuesta Fallida:**
+
+Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontraron usuarios:
+
+```json
 {
-  "name": "Ejemplo",
-  "email": "ejemplo@example.com",
-  "password": "contraseña123"
+  "message": "users not found"
 }
 ```
-
-Estos ejemplos muestran cómo se puede documentar una solicitud GET y una solicitud POST utilizando cuadros en formato markdown. Cada cuadro proporciona detalles sobre el método, la ruta, una breve descripción y los parámetros esperados en la solicitud. Además, se incluye un ejemplo de solicitud para ayudar a comprender cómo se debe estructurar la solicitud.
-
-```http
-GET  /api/v1/products
-```
-
-| Parámetro | Tipo      | Descripción                              |
-| :-------- | :-------- | :--------------------------------------- |
-| `ninguno` | `ninguno` | Obtiene todos los productos en la tienda |
