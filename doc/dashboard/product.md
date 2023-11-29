@@ -9,9 +9,9 @@
 
 ## Producto
 
-| Método | Ruta                                 | Descripción                              |
-| :----- | :----------------------------------- | :--------------------------------------- |
-| `GET`  | `/api/v1/dashboard/products/${code}` | Obtiene todos los productos en la tienda |
+| Método | Ruta                                 | Descripción                      |
+| :----- | :----------------------------------- | :------------------------------- |
+| `GET`  | `/api/v1/dashboard/products/${code}` | Obtiene un producto en la tienda |
 
 **Ejemplo de Solicitud:**
 
@@ -126,7 +126,7 @@ Respuesta con código de estado HTTP 201 Created:
 
 **Ejemplo de Respuesta Fallida:**
 
-Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontraron productos:
+Respuesta con código de estado HTTP 400 Bad Request, La solicitud contiene datos no válidos o no cumple con los requisitos:
 
 ```json
 {
@@ -136,9 +136,9 @@ Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontra
 
 ## Modificar producto
 
-| Método | Ruta                                 | Descripción                         |
-| :----- | :----------------------------------- | :---------------------------------- |
-| `POST` | `/api/v1/dashboard/products/${code}` | Crea un nuevo producto en la tienda |
+| Método | Ruta                                 | Descripción                    |
+| :----- | :----------------------------------- | :----------------------------- |
+| `PUT`  | `/api/v1/dashboard/products/${code}` | modifica producto en la tienda |
 
 **Cuerpo de la Solicitud (Request Body):**
 
@@ -158,7 +158,7 @@ El cuerpo de la solicitud debe ser un objeto JSON que contenga los siguientes ca
 **Ejemplo de Solicitud:**
 
 ```
-POST /api/v1/dashboard/products/0104002
+PUT /api/v1/dashboard/products/0104002
 
 {
   "code": "0104002",
@@ -166,10 +166,8 @@ POST /api/v1/dashboard/products/0104002
   "description": "El alambre negro #16 es la pieza que teje tus proyectos con precisión. Con la capacidad de unir y asegurar, este alambre es una herramienta esencial en tu caja de herramientas. Cada vuelta refleja la habilidad y la atención que pones en cada construcción.",
   "price": 4.5,
   "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/18.webp",
-  "rating": 5,
   "discount": 21,
   "categoryId": 4,
-  "deletedAt": null,
   "brandId": null,
   "unitOfMeasureId": 3
 }
@@ -197,7 +195,7 @@ Respuesta con código de estado HTTP 200 Ok:
 
 **Ejemplo de Respuesta Fallida:**
 
-Respuesta con código de estado HTTP 400 Bad request, indicando que no se encontraron productos:
+Respuesta con código de estado HTTP 400 Bad Request, La solicitud contiene datos no válidos o no cumple con los requisitos:
 
 ```json
 {
@@ -207,9 +205,9 @@ Respuesta con código de estado HTTP 400 Bad request, indicando que no se encont
 
 ## Eliminar producto
 
-| Método   | Ruta                                 | Descripción                              |
-| :------- | :----------------------------------- | :--------------------------------------- |
-| `DELETE` | `/api/v1/dashboard/products/${code}` | Obtiene todos los productos en la tienda |
+| Método   | Ruta                                 | Descripción                      |
+| :------- | :----------------------------------- | :------------------------------- |
+| `DELETE` | `/api/v1/dashboard/products/${code}` | Elimina un producto en la tienda |
 
 **Ejemplo de Solicitud:**
 

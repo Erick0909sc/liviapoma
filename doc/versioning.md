@@ -23,6 +23,6 @@ Por lo tanto, al acceder a la URL base de "v1", los usuarios interactuarán con 
 - [Rutas de Categorías](categories.md)
 - [Rutas de Marcas](brands.md)
 
-## Rutas para el Dashboard (Usuarios Autorizados)
+## Rutas para el Dashboard (Área Administrativa)
 
 - [Rutas de Dashboard](dashboard.md)
