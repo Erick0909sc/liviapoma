@@ -5,3 +5,6 @@ Bienvenido a la documentación de la API de nuestro e-commerce. Aquí encontrar�
 - [Rutas de Productos](dashboard/products.md)
 - [Operaciones CRUD en Rutas de Producto](dashboard/product.md)
 - [Rutas de Usuarios](dashboard/users.md)
+- [Rutas de Ofertas](dashboard/offers.md)
+- [Rutas de Ordenes](dashboard/orders.md)
+- [Rutas de Transacciones](dashboard/transactions.md)
