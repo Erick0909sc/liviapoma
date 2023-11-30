@@ -20,6 +20,7 @@ interface FormValues {
 const Login = (props: Props) => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword); // Cambia el estado para alternar entre mostrar y ocultar
@@ -51,6 +52,7 @@ const Login = (props: Props) => {
     { resetForm }: { resetForm: () => void }
   ) {
     try {
+      setIsLoggingIn(true);
       const response = await signIn("credentials", {
         redirect: false,
         email: values.email,
@@ -65,6 +67,8 @@ const Login = (props: Props) => {
       }
     } catch (error) {
       toast.error("Ocurrió un error, por favor intente nuevamente.");
+    } finally {
+      setIsLoggingIn(false); // Establece isLoggingIn en false al finalizar la autenticación
     }
   }
 
@@ -169,8 +173,11 @@ const Login = (props: Props) => {
                 <Link href="/resetpassword">¿Olvidaste tu contraseña?</Link>
               </div>
               <div className="px-4 pb-2 pt-4">
-                <button className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none">
-                  Ingresar
+                <button
+                  className="uppercase block w-full p-4 text-lg rounded-full bg-yellow-500 hover:bg-yellow-600 focus:outline-none"
+                  disabled={isLoggingIn}
+                >
+                  {isLoggingIn ? "Ingresando..." : "Ingresar"}
                 </button>
               </div>
 

@@ -15,8 +15,9 @@ type Props = {};
 const Register = (props: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [isSaving, setIsSaving] = useState(false); 
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña
-  
+
   const handleTogglePassword = () => {
     setShowPassword(!showPassword); // Cambia el estado para alternar entre mostrar y ocultar
   };
@@ -31,7 +32,7 @@ const Register = (props: Props) => {
     email: "",
     password: "",
     photo: null as File | null,
-  }
+  };
   const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[A-Za-z\s]+$/, "Solo se permiten letras")
@@ -49,9 +50,10 @@ const Register = (props: Props) => {
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
+        setIsSaving(true)
         const data = await dispatch(postUser({ ...values }));
         if (data.payload.status === 201) {
-          resetForm()
+          resetForm();
           toast.success("Usuario registrado correctamente.");
           router.push("/login");
         } else {
@@ -60,6 +62,7 @@ const Register = (props: Props) => {
       } catch (error) {
         toast.error("Ocurrió un error, inténtelo nuevamente.");
       } finally {
+        setIsSaving(false)
         setSubmitting(false); // Asegura que el formulario se pueda enviar nuevamente si es necesario
       }
     },
@@ -67,9 +70,11 @@ const Register = (props: Props) => {
 
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
-    formik.setFieldValue('photo', file);
+    formik.setFieldValue("photo", file);
   };
-  const photoPreview = formik.values.photo ? URL.createObjectURL(formik.values.photo) : Foto;
+  const photoPreview = formik.values.photo
+    ? URL.createObjectURL(formik.values.photo)
+    : Foto;
   return (
     <div>
       <section className="bg-gradient-to-t from-green-600 to-emerald-600">
@@ -155,14 +160,22 @@ const Register = (props: Props) => {
                     Nombre Completo
                   </label>
                   <input
-                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.name && formik.errors.name
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
-                    placeholder={formik.touched.name && formik.errors.name ? formik.errors.name : "Example name"}
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${
+                      formik.touched.name && formik.errors.name
+                        ? "border-2 border-red-500 placeholder:text-red-500"
+                        : "border-gray-700 placeholder-gray-400"
+                    }`}
+                    placeholder={
+                      formik.touched.name && formik.errors.name
+                        ? formik.errors.name
+                        : "Example name"
+                    }
                     type="text"
                     {...formik.getFieldProps("name")}
                     onBlur={(e) => {
                       formik.handleBlur(e);
-                      if (formik.touched.name && formik.errors.name) return toast.error(formik.errors.name)
+                      if (formik.touched.name && formik.errors.name)
+                        return toast.error(formik.errors.name);
                     }}
                   />
                 </div>
@@ -172,14 +185,22 @@ const Register = (props: Props) => {
                     Correo Electronico
                   </label>
                   <input
-                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.email && formik.errors.email
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
-                    placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : "Example123@gmail.com"}
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${
+                      formik.touched.email && formik.errors.email
+                        ? "border-2 border-red-500 placeholder:text-red-500"
+                        : "border-gray-700 placeholder-gray-400"
+                    }`}
+                    placeholder={
+                      formik.touched.email && formik.errors.email
+                        ? formik.errors.email
+                        : "Example123@gmail.com"
+                    }
                     type="text"
                     {...formik.getFieldProps("email")}
                     onBlur={(e) => {
                       formik.handleBlur(e);
-                      if (formik.touched.email && formik.errors.email) return toast.error(formik.errors.email)
+                      if (formik.touched.email && formik.errors.email)
+                        return toast.error(formik.errors.email);
                     }}
                   />
                 </div>
@@ -189,18 +210,26 @@ const Register = (props: Props) => {
                     Contraseña
                   </label>
                   <input
-                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${formik.touched.password && formik.errors.password
-                      ? "border-2 border-red-500 placeholder:text-red-500" : "border-gray-700 placeholder-gray-400"}`}
-                    placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : "Contraseña"}
+                    className={`block w-full px-5 py-3 mt-2 text-black bg-white border rounded-lg font-semibold focus:border-blue-400 focus:ring-purple-700 focus:outline-none focus:ring focus:ring-opacity-40 ${
+                      formik.touched.password && formik.errors.password
+                        ? "border-2 border-red-500 placeholder:text-red-500"
+                        : "border-gray-700 placeholder-gray-400"
+                    }`}
+                    placeholder={
+                      formik.touched.password && formik.errors.password
+                        ? formik.errors.password
+                        : "Contraseña"
+                    }
                     type={showPassword ? "text" : "password"}
                     {...formik.getFieldProps("password")}
                     onBlur={(e) => {
                       formik.handleBlur(e);
-                      if (formik.touched.password && formik.errors.password) return toast.error(formik.errors.password)
+                      if (formik.touched.password && formik.errors.password)
+                        return toast.error(formik.errors.password);
                     }}
                   />
                   <button
-                  type="button"
+                    type="button"
                     className="absolute right-2 top-5 mt-8 transform -translate-y-1/2"
                     onClick={handleTogglePassword}
                   >
@@ -211,10 +240,13 @@ const Register = (props: Props) => {
                 </div>
 
                 <button
+                  className={`mt-8 inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 bg-yellow-500 hover:bg-yellow-600 rounded-lg hover:bg-yellow-600 focus:shadow-outline focus:outline-none ${
+                    isSaving ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                   type="submit"
-                  className="mt-8 inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 bg-yellow-500 hover:bg-yellow-600 rounded-lg hover:bg-yellow-600focus:shadow-outline focus:outline-none"
+                  disabled={isSaving}
                 >
-                  Registrar
+                  {isSaving ? "Guardando..." : "Guardar"}
                 </button>
               </form>
               <div className=" justify-center flex pt-2 text-gray-100 gap-2 hover:text-gray-100 w-full">

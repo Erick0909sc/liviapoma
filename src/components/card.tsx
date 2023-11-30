@@ -198,7 +198,6 @@ const Card: React.FC<Props> = ({
   unitOfMeasure,
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const products = useSelector(selectAllProducts);
   return (
     <>
       <div className="flex flex-col items-center p-2">
