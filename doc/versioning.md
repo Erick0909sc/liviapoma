@@ -20,8 +20,11 @@ Por lo tanto, al acceder a la URL base de "v1", los usuarios interactuarán con 
 ## Rutas generales
 
 - [Rutas de Productos](products.md)
-- [Rutas de Categorías](categories.md)
-- [Rutas de Marcas](brands.md)
+- [Rutas de Usuario](user.md)
+- [Rutas de Carrito de compras](cart.md)
+- [Rutas de Reviews](reviews.md)
+- [Rutas de Ordenes](orders.md)
+- [Otras rutas](other.md)
 
 ## Rutas para el Dashboard (Área Administrativa)
 
