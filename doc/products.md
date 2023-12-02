@@ -2,6 +2,7 @@
 
 - [Productos](#productos)
 - [Productos por nombre](#productos-por-nombre)
+- [Productos con descuento](#productos-con-descuento)
 - [Productos por categoria](#productos-por-categoria)
 - [Productos Recomendados](#productos-recomendados)
 - [Detalle de producto](#detalle-de-producto)
@@ -88,6 +89,56 @@ Respuesta con código de estado HTTP 200 OK:
     "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
     "rating": 4,
     "discount": 15,
+    "categoryId": 2,
+    "deletedAt": null,
+    "brandId": 2,
+    "category": {
+      "id": 2,
+      "name": "Varillas"
+    },
+    "brand": {
+      "id": 2,
+      "name": "SIDERPERU"
+    }
+  }
+  // Otros productos...
+]
+```
+
+**Ejemplo de Respuesta Fallida:**
+
+Respuesta con código de estado HTTP 404 Not Found, indicando que no se encontraron productos:
+
+```json
+{ "message": "products not found" }
+```
+
+## Productos con descuento
+
+| Método | Ruta                             | Descripción                                                       |
+| :----- | :------------------------------- | :---------------------------------------------------------------- |
+| `GET`  | `/api/v1/products?discount=true` | Obtiene todos los productos en la tienda que contienen ese nombre |
+
+**Ejemplo de Solicitud:**
+
+```
+GET /api/v1/products?discount=true
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 OK:
+
+```json
+[
+  {
+    "code": "0102002",
+    "name": "VARILLA CORRUGADA 3/8\"",
+    "description": "Las varillas corrugadas de 3/8\" de Siderperú son el reflejo de estabilidad en cada proyecto. Su diseño meticuloso garantiza una unión firme con el concreto, proporcionando el soporte necesario para tus creaciones. En cada curva, se esconde la solidez.",
+    "price": 21.2,
+    "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/04.webp",
+    "rating": 4,
+    "discount": 50,
     "categoryId": 2,
     "deletedAt": null,
     "brandId": 2,
