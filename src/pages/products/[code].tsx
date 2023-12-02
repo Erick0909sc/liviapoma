@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout/Layout";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import Reviews from "@/components/Reviews/Reviews";
+import Pending from "@/components/StatesComponents/Pending";
 import { EStateGeneric } from "@/shared/types";
 import {
   calcularPrecioConDescuento,
@@ -131,11 +132,15 @@ const Detail = (props: Props) => {
   return (
     <Layout
       title={
-        productStatus === EStateGeneric.SUCCEEDED ? product.name : "cargando"
+        productStatus === EStateGeneric.SUCCEEDED
+          ? product.name
+          : productStatus === EStateGeneric.FAILED
+          ? "Producto no encontrado"
+          : "Cargando"
       }
     >
       <div>
-        {productStatus === EStateGeneric.SUCCEEDED && (
+        {productStatus === EStateGeneric.SUCCEEDED ? (
           <section className="py-5 overflow-hidden bg-white font-poppins ">
             {product && (
               <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
@@ -332,8 +337,7 @@ const Detail = (props: Props) => {
               </div>
             )}
           </section>
-        )}
-        {productStatus !== EStateGeneric.SUCCEEDED && (
+        ) : productStatus == EStateGeneric.FAILED ? (
           <div className="flex flex-col items-center justify-center min-h-screen">
             <h1 className="text-4xl text-center font-extrabold text-gray-800">
               404 - Producto no encontrado
@@ -347,6 +351,8 @@ const Detail = (props: Props) => {
               </span>
             </Link>
           </div>
+        ) : (
+          <Pending />
         )}
         {productStatus === EStateGeneric.SUCCEEDED && product && (
           <Reviews

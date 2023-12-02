@@ -10,6 +10,7 @@ import MenuEditUser from '@/components/Modals/MenuEditUser';
 import Failed from '@/components/StatesComponents/Failed';
 import Pending from '@/components/StatesComponents/Pending';
 import { EStateGeneric } from '@/shared/types';
+import { formatPrice } from '@/shared/ultis';
 
 type Props = {}
 
@@ -73,7 +74,7 @@ const Index = (props: Props) => {
                             <h2>Menu de opciones</h2>
                         </button>
                     </div>
-                    <div className='overflow-y-hidden'>
+                    <div className='overflow-y-hidden sm:p-4'>
                         {orderstatus === EStateGeneric.PENDING && <Pending />}
 
                         {orderstatus === EStateGeneric.FAILED && (
@@ -84,25 +85,50 @@ const Index = (props: Props) => {
 
                         {orderstatus === EStateGeneric.SUCCEEDED && orderhistory.flatMap((order, i) => (
                             <div key={i} >
-                                {i === 0 || order.createdAt !== orderhistory[i - 1].createdAt ? (
-                                    <div className="text-center mt-3 mb-1 text-lg font-semibold border-t-2 border-gray-500">
-                                        {new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'numeric', day: 'numeric' })}
-                                    </div>
-                                ) : null}
-                                {order.products.map((product, j) => (
-                                    <div key={j} className='flex flex-col gap-3 items-center p-2'>
-                                        <div className='border-2 w-[90%] p-2 gap-3'>
-                                            <div className='font-semibold' >{product.product.name}</div>
-                                            <div className='flex flex-col gap-4 lg:flex-row lg:justify-between items-center'>
-                                                <div className='relative lg:w-[20%]'>
-                                                    <img src={product.product.image} alt="" />
-                                                </div>
-                                                <div className='lg:w-[50%]'>{product.product.description}</div>
-                                                <div className='flex justify-end h-4 p-3 items-center rounded-lg bg-green-300'>{order.productsStatus}</div>
-                                            </div>
+                                <div className="border-2 border-gray-600 ">
+                                    {i === 0 || order.createdAt !== orderhistory[i - 1].createdAt ? (
+                                        <div className="justify-center flex items-center mb-1 text-lg font-semibold border-t-2 border-gray-500 h-10 bg-slate-300">
+                                            Fecha de pedido:  {new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'numeric', day: 'numeric' })}
                                         </div>
+                                    ) : null}
+                                    <div className=" grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 p-4 ">
+
+                                        {order.products.map((product, j) => (
+                                            <div key={j} className="flex flex-col gap-3  items-center p-2 ">
+                                                <div className=" border-2 border-slate-600 shadow-md rounded-md h-full  lg:h-[300px] justify-between flex flex-col items-center  p-3 fon">
+                                                    <div className="font-semibold h-[15%]  flex justify-center items-center">
+                                                        {product.product.name}
+                                                    </div>
+                                                    <div className="flex flex-col  items-center">
+                                                        <div className="relative lg:w-[60%]">
+                                                            <img src={product.product.image} alt="" />
+                                                        </div>
+                                                        <div className=" flex  h-4 p-3 items-center rounded-lg font-semibold">
+                                                            CANTIDAD: {product.quantity}
+                                                        </div>
+                                                        <div className="flex  h-4 p-3 items-center rounded-lg font-semibold">
+                                                            Precio:{formatPrice(product.product.price)}
+                                                        </div>
+                                                        <div className="flex flex-col gap-7">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                    <div className="flex gap-8 justify-center p-2 items-center bg-slate-300 text-lg font-bold">
+                                        <div className=" flex  h-4 p-3 items-center justify-center rounded-lg bg-green-600 text-white">
+                                            {order.productsStatus}
+                                        </div>
+                                        <div>
+                                            Total cancelado: {formatPrice(order.orderTotalAmount)}
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         ))}
 

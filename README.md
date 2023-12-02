@@ -14,6 +14,23 @@ Nuestro e-commerce de materiales de construcción es una solución completa para
 
 - **Seguridad:** Implementamos tecnologías de seguridad avanzadas para proteger la información de los clientes y garantizar transacciones seguras.
 
+## Tecnologías Utilizadas
+
+Aquí están algunas de las tecnologías clave que utilizamos en el desarrollo de Liviapoma:
+
+###
+
+<div align="center">
+<a href="https://nextjs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original-wordmark.svg" height="100" alt="nextjs logo"  /></a>
+  <img width="25" />
+<a href="https://reactjs.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original-wordmark.svg" height="100" alt="react logo"  /></a>  
+ <img width="25" />
+<a href="https://www.typescriptlang.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="100" alt="typescript logo"  /></a>  
+ <img width="25" />
+<a href="https://redux.js.org/" target="_blank"><img src="https://cdn.simpleicons.org/redux/764ABC" height="100" alt="redux logo"  /></a>  
+ <img width="25" />
+<a href="https://www.tailwindcss.com/" target="_blank"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" height="100" alt="tailwindcss logo"  /></a>
+</div>
 
 ## Secciones Principales
 
