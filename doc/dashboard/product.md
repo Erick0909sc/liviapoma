@@ -262,6 +262,26 @@ Respuesta con código de estado HTTP 500 Internal Server Error, indicando que no
 PATCH /api/v1/dashboard/products/0101001
 ```
 
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 OK:
+
+```json
+{
+  "code": "0101001",
+  "name": "CEMENTO PACAS ROJO EXTRAFORTE 42.5 KG",
+  "description": "Descubre la fuerza y durabilidad del cemento Pacasmayo en su variante roja. Diseñado para brindar una base sólida en cada construcción, este cemento representa pasión y excelencia. Tu proyecto encontrará su cimiento en la confiabilidad de Pacasmayo.",
+  "price": 30.4,
+  "image": "https://res.cloudinary.com/dsofguadj/image/upload/v1692652693/01.webp",
+  "rating": 0,
+  "discount": 0,
+  "categoryId": 1,
+  "deletedAt": "2023-10-10T16:51:50.601Z",
+  "brandId": 1,
+  "unitOfMeasureId": 3
+}
+```
+
 **Ejemplo de Respuesta Fallida:**
 
 Respuesta con código de estado HTTP 500 Internal Server Error, indicando que no se encontro el producto:
