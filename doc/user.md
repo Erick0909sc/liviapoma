@@ -213,4 +213,88 @@ Respuesta con código de estado HTTP 500 Internal Server Error, indicando que el
 
 ## Generar token para cambiar contraseña
 
+| Método | Ruta                      | Descripción                                                                              |
+| :----- | :------------------------ | :--------------------------------------------------------------------------------------- |
+| `POST` | `/api/auth/resetPassword` | Genera un token para poder restablecer la contraseña del usuario y se le envia un email. |
+
+**Cuerpo de la Solicitud (Request Body):**
+
+El cuerpo de la solicitud debe ser un objeto JSON que contenga los siguientes campos:
+| Parámetro | Tipo | Descripción |
+| :--------- | :------- | :------------------------------------ |
+| `email` | `string` | Correo electronico del usuario para restablecer la contraseña. |
+
+**Ejemplo de Solicitud:**
+
+```
+POST /api/auth/resetPassword
+
+{
+  "email":"rasena7743@vinthao.com"
+}
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 Ok:
+
+```json
+{
+  "message": "Se ha generado con éxito el token para restablecer la contraseña."
+}
+```
+
+**Ejemplo de Respuesta Fallida:**
+
+Respuesta con código de estado HTTP 400 Bad Request, La solicitud contiene datos no válidos o no cumple con los requisitos:
+
+```json
+{
+  "message": "El correo electrónico no está registrado."
+}
+```
+
 ## Cambiar contraseña con el token
+
+| Método | Ruta                       | Descripción                                                       |
+| :----- | :------------------------- | :---------------------------------------------------------------- |
+| `POST` | `/api/auth/changePassword` | Cambia la contraseña del usuario en caso de que la haya olvidado. |
+
+**Cuerpo de la Solicitud (Request Body):**
+
+El cuerpo de la solicitud debe ser un objeto JSON que contenga los siguientes campos:
+| Parámetro | Tipo | Descripción |
+| :--------- | :------- | :------------------------------------ |
+| `token` | `string` | token generado anteriormente. |
+| `password` | `string` | Nueva contraseña de usuario. |
+
+**Ejemplo de Solicitud:**
+
+```
+POST /api/auth/changePassword
+
+{
+  "token":"c9edc3a351c36b5fa536dee98920e7e9d966ad8d100df32512cb7c953b15daed",
+  "password": "newPassword"
+}
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 Ok:
+
+```json
+{
+  "message": "Contraseña cambiada para el usuario"
+}
+```
+
+**Ejemplo de Respuesta Fallida:**
+
+Respuesta con código de estado HTTP 400 Bad Request, La solicitud contiene datos no válidos o no cumple con los requisitos:
+
+```json
+{
+  "message": "El token de restablecimiento de contraseña es inválido o ya ha sido utilizado."
+}
+```
