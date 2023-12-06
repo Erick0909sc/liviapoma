@@ -10,7 +10,7 @@ import MenuEditUser from '@/components/Modals/MenuEditUser';
 import Failed from '@/components/StatesComponents/Failed';
 import Pending from '@/components/StatesComponents/Pending';
 import { EStateGeneric } from '@/shared/types';
-import { formatPrice } from '@/shared/ultis';
+import { CalcularTotalSoles, formatPrice } from '@/shared/ultis';
 
 type Props = {}
 
@@ -123,7 +123,7 @@ const Index = (props: Props) => {
                                             {order.productsStatus}
                                         </div>
                                         <div>
-                                            Total cancelado: {formatPrice(order.orderTotalAmount)}
+                                            Total cancelado: {formatPrice(CalcularTotalSoles(order.orderTotalAmount))}
                                         </div>
 
                                     </div>

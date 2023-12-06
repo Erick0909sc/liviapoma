@@ -11,7 +11,7 @@ import { codeStatusOrdersTranslation } from "@/shared/translate";
 import Failed from "@/components/StatesComponents/Failed";
 import { EStateGeneric } from "@/shared/types";
 import Pending from "@/components/StatesComponents/Pending";
-import { formatPrice } from "@/shared/ultis";
+import { CalcularTotalSoles, formatPrice } from "@/shared/ultis";
 import { IoLogoWhatsapp } from "react-icons/io";
 
 
@@ -119,7 +119,7 @@ const Index = () => {
                         {codeStatusOrdersTranslation[order.productsStatus]}
                       </div>
                       <div>
-                        Total a Pagar: {formatPrice(order.orderTotalAmount)}
+                        Total a Pagar: {formatPrice(CalcularTotalSoles(order.orderTotalAmount))}
                       </div>
                       <div className="flex items-center gap-3">
                         consulta disponible de delivery:
