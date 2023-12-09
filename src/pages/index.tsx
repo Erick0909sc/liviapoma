@@ -125,7 +125,7 @@ export default function Home() {
             ))}
           </Swiper>
         </div>
-        <div className="flex mb-4 gap-4 justify-center flex-wrap w-full">
+        <div className="flex p-1 mb-4 gap-4 justify-center flex-wrap w-full">
           {productsDiscount.map((e, index: number) => (
             <Product key={index} oferta={e} />
           ))}
