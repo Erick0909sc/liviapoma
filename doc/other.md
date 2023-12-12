@@ -6,6 +6,7 @@ Aquí podrás encontrar endpoints con alguna información que no tiene una clasi
 - [Primera Inyección de Datos](#primera-inyección-de-datos)
 - [Notificaciones](#notificaciones)
 - [Categorías](#categorías)
+- [Ofertas](#ofertas)
 
 ## Datos
 
@@ -180,4 +181,24 @@ Respuesta con código de estado HTTP 200 OK:
     "name": "Cumbreras"
   }
 ]
+```
+
+## Ofertas
+
+| Método | Ruta             | Descripción                            |
+| :----- | :--------------- | :------------------------------------- |
+| `GET`  | `/api/v1/offers` | Obtiene todas las ofertas en la tienda |
+
+**Ejemplo de Solicitud:**
+
+```
+GET /api/v1/offers
+```
+
+**Ejemplo de Respuesta Exitosa:**
+
+Respuesta con código de estado HTTP 200 OK:
+
+```json
+[{}]
 ```

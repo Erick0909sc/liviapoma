@@ -97,6 +97,11 @@ export const calcularTotalCentimos = (numero: number) => {
   return resultado;
 };
 
+export const CalcularTotalSoles = (number: number) => {
+  var resultado = (number / 100).toFixed(2);
+  return parseFloat(resultado);
+}
+
 export const calcularSubtotal = (items: IProductCart[]): number => {
   let subtotalTotal = 0;
   for (const producto of items) {
