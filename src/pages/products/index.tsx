@@ -29,6 +29,7 @@ import useProductsSorts from "@/hooks/useProductsSorts";
 import useProductsWithFilters from "@/hooks/useProductsWithFilters";
 import Failed from "@/components/StatesComponents/Failed";
 import { getAllReviews } from "@/states/reviews/reviewsSlice";
+import Pending from "@/components/StatesComponents/Pending";
 
 const Products: React.FC = () => {
   const { data: session } = useSession();
@@ -105,7 +106,7 @@ const Products: React.FC = () => {
           setSelectedCategory={handleCategoryChange}
         />
         <div className="flex flex-col justify-center">
-          {productsStatus === EStateGeneric.PENDING && <Loader />}
+          {productsStatus === EStateGeneric.PENDING && <Pending />}
           {productsStatus === EStateGeneric.FAILED && (
             <p>Failed to load products</p>
           )}

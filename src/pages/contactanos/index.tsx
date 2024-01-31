@@ -105,12 +105,12 @@ const Contactanos = (props: Props) => {
                 Ferreteria Liviapoma
               </h1>
 
-              <p className="mt-3 text-gray-800 ">
+              {/* <p className="mt-3 text-gray-800 ">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
                 molestias praesentium, aliquam ex eaque provident laudantium
                 voluptatem doloribus, accusamus architecto amet. Dignissimos
                 molestiae mollitia praesentium saepe atque illum quae laborum!.
-              </p>
+              </p> */}
             </div>
 
             <div className="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-3">
@@ -140,7 +140,7 @@ const Contactanos = (props: Props) => {
                     Envias tus dudas y sugerencias
                   </p>
                   <p className="mt-2 text-sm text-blue-500 ">
-                    ferretería@gmail.com
+                    <a href="mailto:liviapoma@gmail.com">liviapoma@gmail.com</a>
                   </p>
                 </div>
 
@@ -203,10 +203,10 @@ const Contactanos = (props: Props) => {
                     Telefono
                   </h2>
                   <p className="mt-2 text-sm text-gray-500 ">
-                    Lun-Vier de 8am a 5pm.
+                    Lun-Vier de 8 a.m. a 5 p.m.
                   </p>
                   <p className="mt-2 text-sm text-blue-500 ">
-                    +(51) 999 999 999
+                    +(51) 950 804 484
                   </p>
                 </div>
               </div>

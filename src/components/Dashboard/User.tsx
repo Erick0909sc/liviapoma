@@ -74,7 +74,7 @@ const User = (props: Props) => {
                 className="border rounded p-1"
               >
                 <option value="Admin">Admin</option>
-                <option value="Manager">Manager</option>
+                {/* { <option value="Manager">Manager</option>} */}
                 <option value="User">User</option>
               </select>
             ) : (
