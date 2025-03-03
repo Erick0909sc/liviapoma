@@ -65,7 +65,7 @@ export const postPayment = async ({
             productLabel: e.product.name,
             productQty: e.quantity,
             productAmount: `${calcularTotalCentimos(calcularSubtotalItem(e))}`,
-            productRef: `https://liviapoma.vercel.app/products/${e.productCode}`,
+            productRef: `https://liviapoma-pi.vercel.app/products/${e.productCode}`,
           })),
         },
         billingDetails: {
@@ -107,7 +107,7 @@ export const updateTokenFormPayment = async ({
             productLabel: e.product.name,
             productQty: e.quantity,
             productAmount: `${calcularTotalCentimos(calcularSubtotalItem(e))}`,
-            productRef: `https://liviapoma.vercel.app/products/${e.productCode}`,
+            productRef: `https://liviapoma-pi.vercel.app/products/${e.productCode}`,
           })),
         },
         billingDetails: {
