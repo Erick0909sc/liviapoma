@@ -226,6 +226,9 @@ const Login = (props: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
+
+  console.log("Sesión en el servidor:", session); 
+
   if (session) {
     return {
       redirect: {
