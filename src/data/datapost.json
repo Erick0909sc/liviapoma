@@ -70,7 +70,7 @@
         {
           "productLabel": "VARILLA CORRUGADA 3/4\"",
           "productType": null,
-          "productRef": "https://liviapoma.vercel.app/products/0102005",
+          "productRef": "https://liviapoma-pi.vercel.app/products/0102005",
           "productQty": 10,
           "productAmount": "87000",
           "productVat": null,
@@ -79,7 +79,7 @@
         {
           "productLabel": "VARILLA CORRUGADA 5/8\"",
           "productType": null,
-          "productRef": "https://liviapoma.vercel.app/products/0102004",
+          "productRef": "https://liviapoma-pi.vercel.app/products/0102004",
           "productQty": 1,
           "productAmount": "5880",
           "productVat": null,
@@ -88,7 +88,7 @@
         {
           "productLabel": "VARILLA CORRUGADA 1/2\"",
           "productType": null,
-          "productRef": "https://liviapoma.vercel.app/products/0102001",
+          "productRef": "https://liviapoma-pi.vercel.app/products/0102001",
           "productQty": 1,
           "productAmount": "3800",
           "productVat": null,
@@ -97,7 +97,7 @@
         {
           "productLabel": "CLAVO P/MADERA 2 1/2\"",
           "productType": null,
-          "productRef": "https://liviapoma.vercel.app/products/0201005",
+          "productRef": "https://liviapoma-pi.vercel.app/products/0201005",
           "productQty": 1,
           "productAmount": "450",
           "productVat": null,
@@ -106,7 +106,7 @@
         {
           "productLabel": "CLAVO P/MADERA 4\"",
           "productType": null,
-          "productRef": "https://liviapoma.vercel.app/products/0201007",
+          "productRef": "https://liviapoma-pi.vercel.app/products/0201007",
           "productQty": 1,
           "productAmount": "450",
           "productVat": null,
